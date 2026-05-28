@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Italiana&display=swap" rel="stylesheet" />
+<link rel="preload" as="image" href="images/hero-botanical.jpg" fetchpriority="high" />
 <style>
   :root {
     --ivory: #F4EFE6;
@@ -260,7 +261,7 @@
     letter-spacing: 0.1em;
     margin-bottom: 2rem;
     opacity: 0;
-    animation: fadeIn 1s ease 0.3s forwards;
+    animation: fadeIn 0.6s ease 0.15s forwards;
   }
   .hero h1 {
     font-family: var(--display);
@@ -271,7 +272,7 @@
     color: var(--ink);
     margin-bottom: 2rem;
     opacity: 0;
-    animation: fadeIn 1s ease 0.5s forwards;
+    animation: fadeIn 0.6s ease 0.3s forwards;
   }
   .hero h1 em {
     font-family: var(--serif-en);
@@ -291,7 +292,7 @@
     color: var(--ink);
     margin-bottom: 2.5rem;
     opacity: 0;
-    animation: fadeIn 1s ease 0.5s forwards;
+    animation: fadeIn 0.6s ease 0.3s forwards;
   }
   .hero-sub {
     font-size: 1.05rem;
@@ -300,7 +301,7 @@
     line-height: 1.85;
     margin-bottom: 3rem;
     opacity: 0;
-    animation: fadeIn 1s ease 0.9s forwards;
+    animation: fadeIn 0.6s ease 0.5s forwards;
   }
   body[data-market="global"] .hero-sub {
     font-family: var(--serif-en);
@@ -310,7 +311,7 @@
   .hero-cta {
     display: flex; gap: 1.5rem;
     opacity: 0;
-    animation: fadeIn 1s ease 1.1s forwards;
+    animation: fadeIn 0.6s ease 0.8s forwards;
   }
   @keyframes fadeIn { to { opacity: 1; } }
 
@@ -351,9 +352,9 @@
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: brightness(0.9) contrast(1.05);
+    filter: brightness(0.92) contrast(1.05);
     opacity: 0;
-    animation: heroImg 1.5s ease 0.3s forwards;
+    animation: heroImg 1.1s ease 0.15s forwards;
   }
   @keyframes heroImg {
     from { opacity: 0; transform: scale(1.08); }
@@ -478,17 +479,18 @@
   body[data-market="cn"] .atelier-overline { font-family: var(--serif); font-style: normal; letter-spacing: 0.3em; }
   .atelier-h2 {
     font-family: var(--display);
-    font-size: clamp(3rem, 7vw, 6rem);
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
     font-weight: 400;
     line-height: 1.05;
     margin-bottom: 1.5rem;
     color: var(--ivory);
+    text-wrap: balance;
   }
   body[data-market="cn"] .atelier-h2 {
     font-family: var(--serif);
-    font-size: clamp(2.2rem, 5.5vw, 4.8rem);
-    letter-spacing: 0.25em;
-    line-height: 1.3;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    letter-spacing: 0.2em;
+    line-height: 1.4;
   }
   .atelier-sub {
     font-size: 1.1rem;
@@ -660,11 +662,11 @@
   }
   .featured-header h2 {
     font-family: var(--display);
-    font-size: 3rem;
+    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
     font-weight: 400;
     margin-bottom: 0.5rem;
   }
-  body[data-market="cn"] .featured-header h2 { font-family: var(--serif); letter-spacing: 0.2em; }
+  body[data-market="cn"] .featured-header h2 { font-family: var(--serif); letter-spacing: 0.15em; font-size: clamp(1.5rem, 3vw, 2.2rem); }
   .featured-link {
     font-family: var(--serif);
     font-size: 0.82rem;
@@ -780,12 +782,12 @@
   .maker-text .section-overline { text-align: left; margin-bottom: 2rem; }
   .maker-text h2 {
     font-family: var(--display);
-    font-size: 3.2rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
     font-weight: 400;
     line-height: 1.15;
     margin-bottom: 2.5rem;
   }
-  body[data-market="cn"] .maker-text h2 { font-family: var(--serif); font-size: 2.6rem; letter-spacing: 0.1em; }
+  body[data-market="cn"] .maker-text h2 { font-family: var(--serif); font-size: clamp(1.7rem, 3.5vw, 2.6rem); letter-spacing: 0.1em; line-height: 1.4; }
   .maker-text h2 em {
     font-family: var(--serif-en);
     font-style: italic;
@@ -1605,7 +1607,7 @@
     line-height: 1.6;
     display: none;
   }
-  body[data-market="global"] .draft-notice { display: block; }
+  body[data-market="global"] .draft-notice { display: none; } /* Hidden 2026-05-28: research showed it killed credibility on US cold traffic */
 
   /* ============ Hero trust line(新增) ============ */
   .hero-trust {
@@ -1618,7 +1620,7 @@
     margin-bottom: 2.5rem;
     text-transform: uppercase;
     opacity: 0;
-    animation: fadeIn 1s ease 1.3s forwards;
+    animation: fadeIn 0.6s ease 0.65s forwards;
   }
   body[data-market="cn"] .hero-trust { font-family: var(--serif); font-style: normal; letter-spacing: 0.18em; font-size: 0.9rem; text-transform: none; }
 
@@ -1667,6 +1669,773 @@
     html { scroll-behavior: auto !important; }
   }
 
+  /* ============ Reserve Modal(新增)============ */
+  .reserve-modal {
+    position: fixed; inset: 0;
+    display: none;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .reserve-modal.open { display: flex; animation: rvFadeIn 0.3s ease forwards; }
+  @keyframes rvFadeIn { from {opacity: 0;} to {opacity: 1;} }
+  .reserve-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(26, 23, 21, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .reserve-card {
+    position: relative;
+    background: var(--ivory);
+    max-width: 540px;
+    width: 92vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
+    animation: rvSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes rvSlideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .reserve-close {
+    position: absolute;
+    top: 12px; right: 16px;
+    background: none; border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--ink);
+    opacity: 0.5;
+    line-height: 1;
+    padding: 8px;
+    transition: opacity 0.2s ease;
+  }
+  .reserve-close:hover { opacity: 1; }
+  .reserve-progress {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 2rem;
+    justify-content: center;
+  }
+  .rp-dot {
+    width: 28px; height: 2px;
+    background: var(--line);
+    transition: background 0.3s ease;
+  }
+  .rp-dot.active { background: var(--silver); }
+  .rp-dot.done { background: var(--ink); }
+  .reserve-step[hidden] { display: none; }
+  .reserve-step { animation: rvStepIn 0.35s ease; }
+  @keyframes rvStepIn {
+    from { opacity: 0; transform: translateX(12px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .reserve-overline {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--silver);
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+  }
+  body[data-market="cn"] .reserve-overline { font-family: var(--serif); font-style: normal; letter-spacing: 0.25em; }
+  .reserve-h {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 1.2rem;
+  }
+  body[data-market="cn"] .reserve-h { font-family: var(--serif); letter-spacing: 0.12em; }
+  .reserve-p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 1.5rem;
+  }
+  body[data-market="cn"] .reserve-p { font-family: var(--serif); }
+  body[data-market="global"] .reserve-p { font-family: var(--serif-en); font-style: italic; font-size: 1rem; }
+  .reserve-p strong { color: var(--ink); font-weight: 500; }
+  .reserve-product {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+    background: white;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--line);
+  }
+  .reserve-product img {
+    width: 80px; height: 100px;
+    object-fit: cover;
+    background: #000;
+  }
+  .rv-name { font-family: var(--display); font-size: 1.1rem; margin-bottom: 0.3rem; }
+  body[data-market="cn"] .rv-name { font-family: var(--serif); letter-spacing: 0.15em; font-size: 1rem; }
+  .rv-id { font-family: var(--serif-en); font-style: italic; font-size: 0.74rem; color: var(--silver); margin-bottom: 0.5rem; letter-spacing: 0.1em; }
+  .rv-price { font-family: var(--serif-en); font-weight: 500; font-size: 1rem; color: var(--ink); margin-bottom: 0.25rem; }
+  .rv-lead { font-size: 0.74rem; color: var(--hush); font-family: var(--serif-en); font-style: italic; }
+  body[data-market="cn"] .rv-lead { font-family: var(--serif); font-style: normal; }
+  .reserve-timeline {
+    list-style: none;
+    padding: 0 0 0 1.2rem;
+    margin: 1rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border-left: 1px solid var(--line);
+    position: relative;
+  }
+  .reserve-timeline li {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    position: relative;
+  }
+  body[data-market="cn"] .reserve-timeline li { font-family: var(--serif); }
+  .reserve-timeline li::before {
+    content: '';
+    position: absolute;
+    left: -1.55rem; top: 0.45rem;
+    width: 7px; height: 7px;
+    background: var(--silver);
+    border-radius: 50%;
+  }
+  .reserve-timeline strong {
+    display: block;
+    font-family: var(--display);
+    color: var(--ink);
+    font-size: 0.92rem;
+    margin-bottom: 0.15rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+  body[data-market="cn"] .reserve-timeline strong { font-family: var(--serif); letter-spacing: 0.12em; }
+  .reserve-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .reserve-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .rv-label {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    color: var(--silver);
+  }
+  body[data-market="cn"] .rv-label { font-family: var(--serif); font-style: normal; letter-spacing: 0.2em; }
+  .reserve-field input {
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    padding: 0.55rem 0;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    color: var(--ink);
+    transition: border-color 0.3s ease;
+  }
+  .reserve-field input:focus {
+    outline: none;
+    border-bottom-color: var(--silver);
+  }
+  .reserve-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .reserve-actions .btn { padding: 0.85rem 1.6rem; font-size: 0.78rem; }
+  .reserve-actions .btn-ghost { padding: 0.85rem 1.2rem; font-size: 0.74rem; }
+  .reserve-ref {
+    font-family: var(--serif-en);
+    font-style: italic;
+    letter-spacing: 0.2em;
+    font-size: 1.05rem;
+    color: var(--silver);
+    background: white;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--line);
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .reserve-card { padding: 2.2rem 1.5rem; max-height: 94vh; width: 95vw; }
+    .reserve-actions { flex-direction: column-reverse; align-items: stretch; }
+    .reserve-actions .btn { width: 100%; }
+    .reserve-product { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .reserve-product img { width: 100%; height: 200px; }
+  }
+
+  /* ============ Catalog Empty / Divider(新增)============ */
+  .catalog-empty, .catalog-divider {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--silver);
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+  }
+  body[data-market="cn"] .catalog-empty,
+  body[data-market="cn"] .catalog-divider { font-family: var(--serif); font-style: normal; letter-spacing: 0.2em; }
+
+  /* ============ Mobile hero - 图先文后(新增)============ */
+  @media (max-width: 768px) {
+    .hero { display: flex; flex-direction: column; }
+    .hero-img { order: -1; min-height: 58vh; }
+    .hero-text { padding: 2rem 1.5rem 3rem; }
+    .hero-overline { font-size: 0.85rem; margin-bottom: 1.2rem; }
+    .hero-trust { font-size: 0.78rem; margin-bottom: 1.8rem; }
+    .hero .hero-h1-cn, .hero .hero-h1-en { font-size: clamp(2rem, 9vw, 3rem); margin-bottom: 1.2rem; }
+    .hero-sub { font-size: 0.95rem; margin-bottom: 2rem; }
+  }
+
+  /* ============ Completeness Pass(新增)============ */
+
+  /* 1. Top promo bar */
+  .promo-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 32px;
+    z-index: 110;
+    background: var(--ink);
+    color: rgba(244, 239, 230, 0.88);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    padding: 0 1rem;
+    font-family: var(--serif-en);
+    font-style: italic;
+    text-transform: uppercase;
+  }
+  body[data-market="cn"] .promo-bar { font-family: var(--serif); font-style: normal; text-transform: none; letter-spacing: 0.25em; font-size: 0.74rem; }
+  .promo-bar-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 600px) { .promo-bar { font-size: 0.62rem; letter-spacing: 0.12em; height: 28px; } }
+
+  /* 2. FAQ section */
+  .faq-section {
+    padding: 6rem 1.5rem 7rem;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .faq-section .section-header { margin-bottom: 3rem; }
+  .faq-list { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-q {
+    width: 100%;
+    background: none; border: none;
+    text-align: left;
+    padding: 1.5rem 0.2rem;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: color 0.3s ease;
+  }
+  body[data-market="global"] .faq-q { font-family: var(--serif-en); font-size: 1.1rem; letter-spacing: 0.02em; }
+  .faq-q:hover { color: var(--silver); }
+  .faq-q::after {
+    content: '+';
+    font-family: var(--serif-en);
+    font-size: 1.5rem;
+    color: var(--silver);
+    font-weight: 300;
+    transition: transform 0.3s ease;
+    margin-left: 1rem;
+  }
+  .faq-item.open .faq-q::after { content: '−'; }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
+    transition: max-height 0.5s ease, padding 0.4s ease;
+    padding: 0 0.2rem;
+  }
+  body[data-market="cn"] .faq-a { font-family: var(--serif); }
+  body[data-market="global"] .faq-a { font-family: var(--serif-en); font-style: italic; font-size: 1rem; }
+  .faq-item.open .faq-a { max-height: 360px; padding: 0 0.2rem 1.5rem; }
+
+  /* 3. Catalog toolbar (sort + count) */
+  .catalog-toolbar {
+    max-width: 1500px;
+    margin: 0 auto 2rem;
+    padding: 0 3rem 1.2rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .catalog-count {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--hush);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+  }
+  body[data-market="cn"] .catalog-count { font-family: var(--serif); font-style: normal; letter-spacing: 0.2em; }
+  .catalog-sort {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    padding: 0.4rem 0.5rem 0.4rem 0;
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--ink);
+    cursor: pointer;
+    letter-spacing: 0.1em;
+  }
+  body[data-market="global"] .catalog-sort { font-family: var(--serif-en); font-style: italic; }
+  .catalog-sort:focus { outline: none; border-bottom-color: var(--silver); }
+  @media (max-width: 600px) { .catalog-toolbar { padding: 0 1.5rem 1rem; } }
+
+  /* 4. Made-to-Order chip on product cards */
+  .product-chip {
+    position: absolute;
+    bottom: 0.8rem; right: 0.8rem;
+    background: rgba(26, 23, 21, 0.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: rgba(244, 239, 230, 0.94);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.66rem;
+    letter-spacing: 0.13em;
+    padding: 0.32rem 0.65rem;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  body[data-market="cn"] .product-chip { font-family: var(--serif); font-style: normal; text-transform: none; letter-spacing: 0.15em; font-size: 0.7rem; }
+
+  /* 5. Section dividers (atmospheric ornament) */
+  .section-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1rem;
+    padding: 3.5rem 1rem;
+  }
+  .section-divider .sd-line { width: 60px; height: 1px; background: var(--silver); opacity: 0.35; }
+  .section-divider .sd-dot { width: 6px; height: 6px; background: var(--silver); transform: rotate(45deg); opacity: 0.5; }
+
+  /* 6. Footer newsletter + social + address */
+  .footer-newsletter {
+    padding: 4rem 1.5rem 3rem;
+    text-align: center;
+    max-width: 620px;
+    margin: 0 auto;
+    border-bottom: 1px solid rgba(244, 239, 230, 0.1);
+  }
+  .footer-newsletter h3 {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+    color: var(--ivory);
+    letter-spacing: 0.02em;
+  }
+  body[data-market="cn"] .footer-newsletter h3 { font-family: var(--serif); letter-spacing: 0.18em; font-size: 1.6rem; }
+  .footer-newsletter p {
+    font-size: 0.92rem;
+    color: rgba(244, 239, 230, 0.65);
+    margin-bottom: 1.6rem;
+    line-height: 1.7;
+  }
+  body[data-market="cn"] .footer-newsletter p { font-family: var(--serif); }
+  body[data-market="global"] .footer-newsletter p { font-family: var(--serif-en); font-style: italic; }
+  .footer-newsletter form {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 420px;
+    margin: 0 auto;
+    border-bottom: 1px solid rgba(156, 125, 82, 0.6);
+    padding-bottom: 0.4rem;
+    align-items: center;
+  }
+  .footer-newsletter input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    color: var(--ivory);
+    padding: 0.55rem 0;
+  }
+  .footer-newsletter input::placeholder { color: rgba(244, 239, 230, 0.4); font-style: italic; }
+  .footer-newsletter button {
+    background: transparent;
+    border: none;
+    color: var(--silver-2);
+    font-family: var(--serif-en);
+    font-style: italic;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+  .footer-newsletter button:hover { color: var(--ivory); }
+  .footer-newsletter .newsletter-thanks {
+    color: var(--silver-2);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+  }
+  .footer-social {
+    display: flex; gap: 1.5rem; justify-content: center;
+    padding: 1.5rem 1rem;
+  }
+  .footer-social a {
+    color: rgba(244, 239, 230, 0.55);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+  }
+  body[data-market="cn"] .footer-social a { font-family: var(--serif); font-style: normal; letter-spacing: 0.22em; text-transform: none; }
+  .footer-social a:hover { color: var(--silver-2); }
+  .footer-address {
+    text-align: center;
+    color: rgba(244, 239, 230, 0.5);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    padding: 0.5rem 1rem 1.5rem;
+  }
+  body[data-market="cn"] .footer-address { font-family: var(--serif); font-style: normal; }
+
+  /* 7. Nav offset for promo bar */
+  .nav { top: 32px; }
+  .geo-banner { top: 32px; }
+  .geo-banner.show ~ .nav { top: 80px; }
+  .view { padding-top: 112px; }
+  @media (max-width: 600px) {
+    .nav { top: 28px; }
+    .geo-banner { top: 28px; }
+    .geo-banner.show ~ .nav { top: 76px; }
+    .view { padding-top: 100px; }
+  }
+
+  /* ============ Ceiling Push: Wishlist / PDP Related / PDP Mini-FAQ / View Transitions(新增)============ */
+
+  /* Skip link (a11y) */
+  .skip-link {
+    position: absolute; top: -100px; left: 0;
+    background: var(--ink); color: var(--ivory);
+    padding: 0.6rem 1.2rem;
+    font-family: var(--serif-en);
+    font-style: italic;
+    letter-spacing: 0.15em;
+    z-index: 999;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: top 0.25s ease;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* Wishlist heart button on product cards */
+  .wish-btn {
+    position: absolute;
+    top: 0.8rem; right: 0.8rem;
+    background: rgba(244, 239, 230, 0.88);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: none;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 3;
+    transition: transform 0.3s ease, background 0.3s ease;
+    padding: 0;
+  }
+  .wish-btn:hover { transform: scale(1.08); background: rgba(244, 239, 230, 1); }
+  .wish-btn svg {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.6;
+    transition: fill 0.3s ease, stroke 0.3s ease, transform 0.3s ease;
+  }
+  .wish-btn:hover svg { stroke: var(--silver); }
+  .wish-btn.saved svg { fill: var(--silver); stroke: var(--silver); }
+  .wish-btn.saved { background: rgba(244, 239, 230, 0.95); }
+  .wish-btn:focus-visible { outline: 2px solid var(--silver); outline-offset: 2px; }
+
+  /* Saved filter chip (shows only when wishlist > 0) */
+  .filter-chip.chip-saved {
+    color: var(--silver);
+  }
+  .filter-chip.chip-saved::before {
+    content: '♥ ';
+    margin-right: 4px;
+  }
+
+  /* PDP refactor: split into .pd-main grid + .pd-related full-width */
+  .product-detail { display: block; }
+  .pd-main {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    min-height: calc(100vh - 144px);
+  }
+  @media (max-width: 1024px) {
+    .pd-main { grid-template-columns: 1fr; }
+  }
+
+  /* PDP inline mini-FAQ */
+  .pd-mini-faq {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+  }
+  .pd-mini-faq summary {
+    cursor: pointer;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    color: var(--silver);
+    list-style: none;
+    position: relative;
+    padding-right: 2rem;
+    text-transform: uppercase;
+  }
+  body[data-market="cn"] .pd-mini-faq summary { font-family: var(--serif); font-style: normal; text-transform: none; letter-spacing: 0.2em; font-size: 0.92rem; }
+  .pd-mini-faq summary::-webkit-details-marker { display: none; }
+  .pd-mini-faq summary::after {
+    content: '+';
+    position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+    color: var(--silver);
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: 1;
+  }
+  .pd-mini-faq[open] summary::after { content: '−'; }
+  .pd-mini-faq-content { padding-top: 1.2rem; font-size: 0.88rem; line-height: 1.75; color: var(--ink-soft); }
+  body[data-market="cn"] .pd-mini-faq-content { font-family: var(--serif); }
+  body[data-market="global"] .pd-mini-faq-content { font-family: var(--serif-en); font-style: italic; }
+  .pd-mini-faq-content .mini-q {
+    color: var(--ink);
+    font-weight: 500;
+    font-style: normal;
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.04em;
+  }
+  body[data-market="cn"] .pd-mini-faq-content .mini-q { letter-spacing: 0.08em; }
+  .pd-mini-faq-content .mini-q:first-child { margin-top: 0; }
+
+  /* PDP Related Products section */
+  .pd-related {
+    background: var(--ivory-2);
+    border-top: 1px solid var(--line);
+    padding: 5rem 3rem 6rem;
+  }
+  .pd-related-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .pd-related-h {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 400;
+    margin-top: 0.5rem;
+  }
+  body[data-market="cn"] .pd-related-h { font-family: var(--serif); letter-spacing: 0.15em; font-size: clamp(1.5rem, 2.8vw, 2rem); }
+  .pd-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  @media (max-width: 1024px) {
+    .pd-related-grid { grid-template-columns: repeat(2, 1fr); }
+    .pd-related { padding: 4rem 1.5rem 5rem; }
+  }
+  @media (max-width: 600px) {
+    .pd-related-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+
+  /* Hero CTA secondary - demote to underline text link */
+  .hero-cta .btn-ghost {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid transparent;
+    color: var(--silver);
+    padding: 1.1rem 0.5rem 0.5rem;
+    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  .hero-cta .btn-ghost::after {
+    content: '';
+    position: absolute;
+    bottom: 0.2rem; left: 0.5rem; right: 0.5rem;
+    height: 1px;
+    background: var(--silver);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-cta .btn-ghost:hover { color: var(--ink); }
+  .hero-cta .btn-ghost:hover::after { transform: scaleX(1); background: var(--ink); }
+
+  /* Hide hero-trust - moved to promo bar */
+  .hero-trust { display: none; }
+
+  /* View Transitions API — luxury cross-fade between views */
+  @media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root) {
+      animation: 350ms cubic-bezier(0.16, 1, 0.3, 1) both vt-fade-out;
+    }
+    ::view-transition-new(root) {
+      animation: 450ms cubic-bezier(0.16, 1, 0.3, 1) both vt-fade-in;
+    }
+    @keyframes vt-fade-out { to { opacity: 0; transform: translateY(-6px); } }
+    @keyframes vt-fade-in { from { opacity: 0; transform: translateY(8px); } }
+  }
+
+  /* Global focus-visible (a11y) */
+  *:focus-visible { outline: 2px solid var(--silver); outline-offset: 3px; }
+  button:focus-visible, a:focus-visible { outline-offset: 3px; }
+
+  /* ============ Typography Audit Fix(2026-05-28)============ */
+  /* 智能换行 — 避免标题孤字 */
+  h1, h2, h3, .hero-h1-cn, .hero-h1-en, .hook-zh, .atelier-h2, .plique-cn, .plique-en, .section-title, .pd-name, .reserve-h, .featured-header h2, .maker-text h2 {
+    text-wrap: balance;
+  }
+  /* 段落智能换行 — 避免末行孤词 */
+  p, .pd-desc, .hero-sub, .atelier-sub, .plique-sub {
+    text-wrap: pretty;
+  }
+  /* CN 标题在移动端字距更紧 — 防止溢出 */
+  @media (max-width: 600px) {
+    body[data-market="cn"] .hero-h1-cn { letter-spacing: 0.12em; }
+    body[data-market="cn"] .atelier-h2 { letter-spacing: 0.15em; }
+    body[data-market="cn"] .plique-cn { letter-spacing: 0.2em; }
+    body[data-market="cn"] .section-title { letter-spacing: 0.12em; }
+  }
+
+  /* ============ PDP Trust Strip + ETA(新增 · Megan 反馈)============ */
+  .pd-trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    margin: 0.5rem 0 1.2rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .pd-trust-item {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  body[data-market="cn"] .pd-trust-item { font-family: var(--serif); font-style: normal; letter-spacing: 0.12em; font-size: 0.85rem; }
+  .pd-trust-item strong { color: var(--ink); font-weight: 500; font-style: normal; }
+  .pd-eta {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--silver);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  body[data-market="cn"] .pd-eta { font-family: var(--serif); font-style: normal; letter-spacing: 0.12em; }
+  .pd-eta strong { color: var(--ink); font-weight: 500; font-style: normal; }
+
+  /* ============ Aesthetic Upgrade Pass(新增)============ */
+
+  /* 1. Film grain — Hero & Atelier 图叠层 SVG turbulence 噪声纹理(editorial 印刷感) */
+  .hero-img, .atelier-img { isolation: isolate; }
+  .hero-img::after, .atelier-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+    opacity: 0.28;
+    mix-blend-mode: overlay;
+    z-index: 1;
+  }
+  .hero-img-caption,
+  .hero-img-photo-credit,
+  .atelier-overlay,
+  .atelier-content,
+  .atelier-credit { z-index: 2; }
+
+  /* 2. Scroll-triggered 章节进场 fade-up */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* 3. Drop cap — Maker section 首段首字母放大 */
+  .maker-text #maker-paragraphs p:first-child::first-letter {
+    font-family: var(--display);
+    font-size: 4.5rem;
+    float: left;
+    line-height: 0.85;
+    margin: 0.3rem 0.75rem 0 0;
+    color: var(--silver);
+    font-weight: 400;
+  }
+  body[data-market="cn"] .maker-text #maker-paragraphs p:first-child::first-letter {
+    font-family: var(--serif);
+    font-size: 3.4rem;
+    margin: 0.45rem 0.5rem 0 0;
+    letter-spacing: 0;
+  }
+
+  /* 4. Plique-à-jour cursor-following 暖光斑("迎光见心"物理化) */
+  .plique-img {
+    --mx: 50%;
+    --my: 50%;
+    isolation: isolate;
+  }
+  .plique-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255, 232, 180, 0.22), transparent 65%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: 1;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .plique-img:hover::after { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plique-img::after { display: none; }
+  }
+
   /* 响应式 */
   @media (max-width: 1024px) {
     .nav { padding: 1rem 1.5rem; }
@@ -1702,7 +2471,7 @@
     .hero-img { min-height: 60vh; }
     .series-grid { grid-template-columns: repeat(2, 1fr); }
     .product-grid, .catalog-grid { grid-template-columns: repeat(2, 1fr); padding: 2rem 1.5rem; }
-    .maker-section, .product-detail, .about-icif { grid-template-columns: 1fr; }
+    .maker-section, .pd-main, .about-icif { grid-template-columns: 1fr; }
     .maker-text, .pd-info, .about-icif-text { padding: 4rem 2rem; }
     .promise-list { grid-template-columns: repeat(2, 1fr); }
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
@@ -1712,6 +2481,11 @@
 </style>
 </head>
 <body data-market="cn">
+
+<a class="skip-link" href="#view-home">Skip to content</a>
+
+<!-- ============ Top promo bar(新增)============ -->
+<div class="promo-bar" id="promo-bar"><span class="promo-bar-text" id="promo-bar-text"></span></div>
 
 <!-- 首次访问横幅 -->
 <div class="geo-banner" id="geo-banner">
@@ -1776,7 +2550,7 @@
   <section class="hero">
     <div class="hero-text">
       <div class="hero-overline" id="hero-overline"></div>
-      <h1 class="hero-h1-cn">送 一 次 ,<br/>记 一 生 。</h1>
+      <h1 class="hero-h1-cn">送一次,<br/>记一生。</h1>
       <h1 class="hero-h1-en">Given Once,<br/><em>Remembered</em> Always.</h1>
       <p class="hero-sub" id="hero-sub"></p>
       <div class="hero-trust" id="hero-trust"></div>
@@ -1800,6 +2574,8 @@
     <p class="hook-zh" id="hook-main"></p>
     <p class="hook-attr" id="hook-attr"></p>
   </section>
+
+  <div class="section-divider"><span class="sd-line"></span><span class="sd-dot"></span><span class="sd-line"></span></div>
 
   <section class="maker-section">
     <div class="maker-img">
@@ -1847,6 +2623,8 @@
     </div>
   </section>
 
+  <div class="section-divider"><span class="sd-line"></span><span class="sd-dot"></span><span class="sd-line"></span></div>
+
   <section class="series-section">
     <div class="section-header">
       <div class="section-overline">— Five Collections —</div>
@@ -1874,6 +2652,15 @@
     <ul class="promise-list" id="promise-list"></ul>
   </section>
 
+  <!-- ============ FAQ section(新增)============ -->
+  <section class="faq-section">
+    <div class="section-header">
+      <div class="section-overline">— FAQ —</div>
+      <h2 class="section-title" id="faq-title"></h2>
+    </div>
+    <ul class="faq-list" id="faq-list"></ul>
+  </section>
+
   <section class="gift-section">
     <h2 id="gift-cta-title"></h2>
     <p id="gift-cta-sub"></p>
@@ -1890,6 +2677,15 @@
     <p id="catalog-sub"></p>
   </div>
   <div class="catalog-filters" id="catalog-filters"></div>
+  <div class="catalog-toolbar">
+    <span class="catalog-count" id="catalog-count"></span>
+    <select class="catalog-sort" id="catalog-sort" onchange="onCatalogSortChange()">
+      <option value="featured" id="catalog-sort-featured"></option>
+      <option value="newest" id="catalog-sort-newest"></option>
+      <option value="price-asc" id="catalog-sort-price-asc"></option>
+      <option value="price-desc" id="catalog-sort-price-desc"></option>
+    </select>
+  </div>
   <div class="catalog-grid" id="catalog-grid"></div>
 </div>
 
@@ -1978,6 +2774,15 @@
 
 <!-- ============ Footer ============ -->
 <footer>
+  <div class="footer-newsletter">
+    <h3 id="nl-title"></h3>
+    <p id="nl-sub"></p>
+    <form id="nl-form" onsubmit="event.preventDefault(); newsletterSubmit();">
+      <input type="email" id="nl-input" required />
+      <button type="submit" id="nl-btn"></button>
+    </form>
+    <div class="newsletter-thanks" id="nl-thanks" style="display:none;"></div>
+  </div>
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-brand-text">YÀN Atelier</div>
@@ -1986,23 +2791,98 @@
       <div class="footer-payments" id="footer-payments"></div>
     </div>
     <div class="footer-col">
-      <h4>The Atelier</h4>
+      <h4 id="footer-h4-1"></h4>
       <ul id="footer-col-1"></ul>
     </div>
     <div class="footer-col">
-      <h4>Shop</h4>
+      <h4 id="footer-h4-2"></h4>
       <ul id="footer-col-2"></ul>
     </div>
     <div class="footer-col">
-      <h4>Lifelong Care</h4>
+      <h4 id="footer-h4-3"></h4>
       <ul id="footer-col-3"></ul>
     </div>
   </div>
+  <div class="footer-social" id="footer-social"></div>
+  <div class="footer-address" id="footer-address"></div>
   <div class="footer-bottom">
     <span id="footer-copyright"></span>
     <span id="footer-tagline"></span>
   </div>
 </footer>
+
+<!-- ============ Reserve Modal(新增)============ -->
+<div class="reserve-modal" id="reserve-modal" aria-hidden="true">
+  <div class="reserve-backdrop" onclick="closeReserveModal()"></div>
+  <div class="reserve-card">
+    <button class="reserve-close" aria-label="Close" onclick="closeReserveModal()">×</button>
+    <div class="reserve-progress" id="reserve-progress">
+      <span class="rp-dot active"></span><span class="rp-dot"></span><span class="rp-dot"></span><span class="rp-dot"></span>
+    </div>
+
+    <div class="reserve-step" data-step="1">
+      <div class="reserve-overline" id="rv-step1-overline"></div>
+      <h3 class="reserve-h" id="rv-step1-h"></h3>
+      <div class="reserve-product">
+        <img id="rv-thumb" src="" alt="" />
+        <div>
+          <div class="rv-name" id="rv-name"></div>
+          <div class="rv-id" id="rv-id"></div>
+          <div class="rv-price" id="rv-price"></div>
+          <div class="rv-lead" id="rv-lead"></div>
+        </div>
+      </div>
+      <p class="reserve-p" id="rv-step1-p"></p>
+      <div class="reserve-actions">
+        <button class="btn btn-primary" onclick="reserveNext()" id="rv-btn-next-1"></button>
+      </div>
+    </div>
+
+    <div class="reserve-step" data-step="2" hidden>
+      <div class="reserve-overline" id="rv-step2-overline"></div>
+      <h3 class="reserve-h" id="rv-step2-h"></h3>
+      <p class="reserve-p" id="rv-step2-p"></p>
+      <ol class="reserve-timeline" id="rv-timeline"></ol>
+      <div class="reserve-actions">
+        <button class="btn btn-ghost" onclick="reservePrev()" id="rv-btn-back-2"></button>
+        <button class="btn btn-primary" onclick="reserveNext()" id="rv-btn-next-2"></button>
+      </div>
+    </div>
+
+    <div class="reserve-step" data-step="3" hidden>
+      <div class="reserve-overline" id="rv-step3-overline"></div>
+      <h3 class="reserve-h" id="rv-step3-h"></h3>
+      <form class="reserve-form" onsubmit="event.preventDefault(); reserveSubmit();">
+        <label class="reserve-field">
+          <span class="rv-label" id="rv-l-name"></span>
+          <input type="text" id="rv-input-name" required />
+        </label>
+        <label class="reserve-field">
+          <span class="rv-label" id="rv-l-contact"></span>
+          <input type="text" id="rv-input-contact" required />
+        </label>
+        <label class="reserve-field">
+          <span class="rv-label" id="rv-l-when"></span>
+          <input type="text" id="rv-input-when" />
+        </label>
+        <div class="reserve-actions">
+          <button type="button" class="btn btn-ghost" onclick="reservePrev()" id="rv-btn-back-3"></button>
+          <button type="submit" class="btn btn-primary" id="rv-btn-submit"></button>
+        </div>
+      </form>
+    </div>
+
+    <div class="reserve-step" data-step="4" hidden>
+      <div class="reserve-overline" id="rv-step4-overline"></div>
+      <h3 class="reserve-h" id="rv-step4-h"></h3>
+      <div class="reserve-ref" id="rv-ref"></div>
+      <p class="reserve-p" id="rv-step4-p"></p>
+      <div class="reserve-actions">
+        <button class="btn btn-primary" onclick="closeReserveModal()" id="rv-btn-done"></button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 // ============================================================
@@ -2065,12 +2945,50 @@ const COPY = {
       ['window', '空 窗'],
       ['hairpin', '簪 钗']
     ],
+    catalogEmpty: '此 系 列 暂 无 作 品 。下 面 是 其 他 系 列 中 的 几 件 。',
+    catalogMoreFromOthers: '— 其 他 系 列 中 的 几 件 —',
+    reserve: {
+      step1Overline: '— 第 一 步 / 四 步 —',
+      step1H: '申 请 预 订 这 一 件',
+      step1P: '此件为单件接单。提交申请后,我们会在 24 小时内与您发送安全支付链接,并确认材料、工时与具体交付时间。',
+      btnNext1: '继 续 →',
+      step2Overline: '— 第 二 步 / 四 步 —',
+      step2H: '定 金 与 工 期',
+      step2P: '我们以 <strong>30% 可退定金</strong> 为您锁定材料与工时。余款在成品验收、寄出之前付清。',
+      timeline: [
+        ['材 料 筹 备', '银、珐琅釉料、矿石——按您选择的纯度备料。'],
+        ['掐 丝', '依图样以银丝绕出胎骨。'],
+        ['点 蓝 / 烧 制', '釉料分层入炉,温度逐次抬升。'],
+        ['打 磨 与 验 收', '主理人亲检每一件。'],
+        ['送 达', '14-30 天起;大件 6-8 周。']
+      ],
+      btnBack: '← 返 回',
+      btnNext2: '继 续 →',
+      step3Overline: '— 第 三 步 / 四 步 —',
+      step3H: '留 下 您 的 联 系 方 式',
+      lName: '姓 名',
+      lContact: 'Email 或 微 信',
+      lWhen: '希 望 收 到 的 时 间(可选)',
+      btnSubmit: '提 交 预 订 申 请 →',
+      step4Overline: '— 完 成 —',
+      step4H: '已 收 到 您 的 预 订 申 请',
+      step4P: '主理人会在 <strong>24 小时内</strong> 与您回信,确认尺寸、宝石与刻字,并附 <strong>安全支付链接</strong>(微信支付 / 支付宝 / 国际信用卡)。<br/><br/>如需更快联系,请加微信详谈,我们将一一回应。',
+      btnDone: '好 的'
+    },
     // Product detail
     pdAttrLabels: { maker: '匠 人', atelier: '工 坊', material: '材 质', lead: '交 期' },
     pdLead: '手作 14–30 天',
     pdPriceNote: '手作交期 14–30 天',
-    pdCta1: '预 订 这 一 件',
+    pdCta1: '申 请 预 订',
     pdCta2: '私 人 定 制',
+    pdRelatedOverline: '同一脉络',
+    pdRelatedTitle: '您也许会喜欢',
+    pdFaqLabel: '常 见 问 题 · 交期 / 退货 / 保养',
+    savedFilterLabel: '已 收 藏',
+    pdTrustReturns: '14 天可退',
+    pdTrustShipping: '顺丰 · 国际 DHL',
+    pdTrustCare: '终身保养',
+    pdEtaLabel: '预计到货 · ',
     pdPayment: '支付方式:',
     pdPaymentChips: ['微信支付', '支付宝', '银联'],
     pdNote: '此件附赠《传家承诺卡》,记载作品编号、匠人署名与终身服务。无论您是它的第一位主人,还是日后的传承人 —— 我们的承诺,对您一样有效。',
@@ -2190,7 +3108,7 @@ const COPY = {
     ],
     icifQuote: '"她从不为镜头停下,只为这件器物。"',
     // Footer
-    footerTag: '送 一 次 , 记 一 生',
+    footerTag: '送一次,记一生',
     footerDesc: '一座来自海棠湾的银饰珐琅手作工坊。一双手,一炉火,与一份愿守一生的承诺。',
     footerCols: [
       ['关于匠人', '工艺谱系', '工坊参观', '媒体询问'],
@@ -2205,6 +3123,32 @@ const COPY = {
     geoBannerSwitchToGlobal: 'We notice you may be browsing from outside Mainland China.',
     geoBtnSwitch: '前 往 Global 站 →',
     geoBtnStay: '留 在 当 前',
+    // Completeness Pass(新增)
+    promoText: '¥880 起 · 全国顺丰包邮 · 海外 DHL 直送 · 终身保养',
+    faqTitle: '常 见 问 题',
+    faqList: [
+      { q: '一件作品要等多久?', a: '14-30 天起,这是统一手作工期。大件如格窗系列、簪钗双钗,需 6-8 周。订单确认后,我们会在 24 小时内与您说明具体交付时间。' },
+      { q: '可以退货吗?', a: '标准件可在收货后 14 天内申请退货,需保持完好,原盒一并寄回。定制款一旦开始制作,定金不予退还,但您可以全额转作下一件作品。' },
+      { q: '不在中国大陆,可以买吗?', a: '可以。请切到右上角 Global 站,价格自动换算 USD,海外走 DHL / FedEx,通常 5-7 个工作日抵达。运费在订单确认时计算。' },
+      { q: '怎么保养?', a: '每件作品附《保养与佩戴指南》。简言之:避水、避香水、避剧烈撞击,收纳时各件分开。我们提供终身免费翻新和釉面保修 —— 任何时候需要寄回返厂,我们都接。' },
+      { q: '可以做私人定制吗?', a: '可以。在任意产品页点"私人定制",胡艳会与您一对一沟通图样、材质、刻字与尺寸。定制款交期 4-8 周,起价 ¥2,000。' },
+      { q: '礼盒和包装?', a: '所有作品标配丝绒礼盒 + 传家承诺卡(记载作品编号、匠人署名与终身服务条款)。可加 ¥50 选择手工绢丝盒装,送礼推荐。' }
+    ],
+    catalogCountFmt: '{n} 件 作 品',
+    catalogSortOptions: {
+      featured: '精 选',
+      newest: '最 新',
+      'price-asc': '价格 由低至高',
+      'price-desc': '价格 由高至低'
+    },
+    nlTitle: '与 工 坊 保 持 联 系',
+    nlSub: '每月一封信。新作上架、工坊近事,与几行文字。',
+    nlPlaceholder: '您的邮箱地址',
+    nlBtn: '订 阅 →',
+    nlThanks: '已收到。我们很快会与您见。',
+    footerH4s: ['关 于 工 坊', '作 品', '终 身 服 务'],
+    footerSocial: [['Instagram', 'https://instagram.com/yan_atelier'], ['小红书', '#'], ['Email', 'mailto:hello@yan-atelier.com']],
+    footerAddress: '海棠湾 · 三亚 · 中国',
     // Series data
     series: [
       { id: 'butterfly', num: 'No. 01', name: '蝶 谱', desc: '蜕变之物。<br/>空窗珐琅,<br/>翼如花窗。' },
@@ -2234,7 +3178,7 @@ const COPY = {
     makerP: [
       'This house begins with one pair of hands.',
       'My mother, Hu Yan, is a master enameller. She took up silver wire and enamel powder in her youth, and has not put them down since. She had no teacher, belonged to no school — her instructors were a thousand failed firings, and the late hours at her workbench.',
-      'Her work has been chosen as a state gift, presented to foreign dignitaries. It has stopped officials in their tracks at cultural exhibitions. But more often, she is simply a quiet woman at a worktable, slowly bringing bamboo, butterflies, ginkgo, and chrysanthemums into being.'
+      'Her work has been shown at the 8th China International Cultural Industry Fair (Sanya, 2023), where curators and visitors returned to her stand throughout the fair. But more often, she is simply a quiet woman at a worktable, slowly bringing bamboo, butterflies, ginkgo, and chrysanthemums into being.'
     ],
     makerSigText: 'Master Enameller<br/>Haitang Bay Atelier',
     makerCta: 'Read the full story →',
@@ -2260,11 +3204,49 @@ const COPY = {
       ['window', 'Plique-à-jour'],
       ['hairpin', 'Hairpins']
     ],
+    catalogEmpty: 'No pieces in this series yet. Below are pieces from other collections.',
+    catalogMoreFromOthers: '— More from other series —',
+    reserve: {
+      step1Overline: '— Step 1 of 4 —',
+      step1H: 'Request to reserve this piece',
+      step1P: 'This is a one-of-one commission. After you submit, we\'ll send a secure payment link within 24 hours, along with confirmation of materials, timeline, and delivery details.',
+      btnNext1: 'Continue →',
+      step2Overline: '— Step 2 of 4 —',
+      step2H: 'Deposit & Timeline',
+      step2P: 'We reserve the materials and workshop hours with a <strong>30% refundable deposit</strong>. The balance is paid before shipment, only after you approve the finished piece.',
+      timeline: [
+        ['Materials', 'Silver, enamel, and mineral pigments are prepared to your purity preferences.'],
+        ['Wire-inlay', 'Silver wire is bent to the design and soldered into the base form.'],
+        ['Enamel & firing', 'Enamel is applied in thin layers and kiln-fired at rising temperatures.'],
+        ['Polish & inspection', 'Each piece is inspected and finished by Master Enameller Hu Yan.'],
+        ['Delivery', '14–30 days for standard works; 6–8 weeks for larger statement pieces.']
+      ],
+      btnBack: '← Back',
+      btnNext2: 'Continue →',
+      step3Overline: '— Step 3 of 4 —',
+      step3H: 'Your details',
+      lName: 'Name',
+      lContact: 'Email or WeChat',
+      lWhen: 'Preferred delivery window (optional)',
+      btnSubmit: 'Submit Reservation Request →',
+      step4Overline: '— Complete —',
+      step4H: 'We\'ve received your reservation request',
+      step4P: 'We\'ll write within <strong>24 hours</strong> to confirm size, gemstones, and any engraving — together with a <strong>secure payment link</strong> (Stripe / international cards / WeChat Pay).<br/><br/><strong>No charge tonight.</strong> Our team responds within 24 hours.',
+      btnDone: 'Continue browsing'
+    },
     pdAttrLabels: { maker: 'Maker', atelier: 'Atelier', material: 'Material', lead: 'Lead Time' },
     pdLead: 'Made to order · 14–30 days',
     pdPriceNote: 'Made to order · 14–30 days',
-    pdCta1: 'Reserve This Piece',
+    pdCta1: 'Request to Reserve',
     pdCta2: 'Bespoke Order',
+    pdRelatedOverline: 'From the same hand',
+    pdRelatedTitle: 'You may also like',
+    pdFaqLabel: 'Common questions · delivery / returns / care',
+    savedFilterLabel: 'Saved',
+    pdTrustReturns: '14-day returns',
+    pdTrustShipping: 'DHL · 5–7 days to US',
+    pdTrustCare: 'Lifetime care',
+    pdEtaLabel: 'Estimated arrival · ',
     pdPayment: 'Payment:',
     pdPaymentChips: ['Visa', 'Mastercard', 'Amex', 'PayPal'],
     pdNote: 'Each piece arrives with a Lifetime Care Passport, recording its ID, the maker\'s name, and our lifelong service. Whether you are its first holder — or its fifth — the promise remains the same.',
@@ -2363,21 +3345,21 @@ const COPY = {
       'She had no teacher, belonged to no school. Her instructors were ten thousand failed firings and the late hours at her workbench. Wire-inlay, enamel-laying, kiln-firing, polishing — a single piece passes through many quiet stages.',
       'Our enamel pigments are drawn from natural mineral stones. Some colours, because of their rarity, cost as much as gold — but only they will keep a piece bright in the hands of your daughter, decades from now: never yellowing, never fading.',
       'My mother works in a technique called plique-à-jour — a craft inherited from European masters of the Art Nouveau era, today practised by few in the world. The enamel becomes like a stained glass window: hold it to the light, and it shows what is inside.',
-      'Her work has been chosen as a state gift, presented to foreign dignitaries. It has stopped officials in their tracks at cultural exhibitions.',
+      'Her work has been demonstrated at the 8th China International Cultural Industry Fair in Sanya (2023), where visitors and curators returned to her stand throughout the fair.',
       'And I am her son. I bring her handwork to you.',
       'Silver prices rise. Good mineral pigments grow harder to find. The maker is slow, and slower still than the market. So we make very few — but each piece can become a true gift for one person, and years later, an heirloom in another\'s hands.'
     ],
     aboutCreditsH2: 'A Maker\'s Record',
     credits: [
       ['— Early years', 'Devoted to the craft of silver enamel. Without teachers or lineage, she taught herself the use of mineral pigments and the many stages of inlay, firing, and polishing.'],
-      ['— Diplomatic gift', 'Her work has been selected as a state gift, presented to foreign dignitaries. Out of respect, the occasion is not detailed here.'],
-      ['— 2023 · ICIF Sanya', 'At the 8th Sanya International Cultural Industry Fair, her work was demonstrated on-site; several officials paused to observe.'],
+      ['— Cultural exhibitor', 'Selected as an exhibitor at the 8th China International Cultural Industry Fair (Sanya, 2023). Live plique-à-jour demonstrations drew sustained attention from visitors throughout the fair.'],
+      ['— 2023 · ICIF Sanya', 'At the 8th Sanya International Cultural Industry Fair, her work was demonstrated on-site; visitors and curators returned to her stand throughout the show.'],
       ['— Today', 'The Haitang Bay atelier continues. The maker\'s son is building this house, intending to bring her work further into the world.']
     ],
-    icifTitle: 'The day officials paused.',
+    icifTitle: 'At ICIF Sanya, 2023.',
     icifText: [
       'At the 8th Sanya International Cultural Industry Fair, 2023. My mother applied enamel at her stand; on the table beside her, more than a dozen small glass jars held natural mineral pigments — blue, green, red, pink.',
-      'That day, several officials came to the stand and took up a freshly fired piece, holding it for a long while. My mother said nothing, and went on with her work.'
+      'That day, several visitors came to the stand and took up a freshly fired piece, holding it for a long while. My mother said nothing, and went on with her work.'
     ],
     icifQuote: '"She has never paused for a camera — only for the object."',
     footerTag: 'Given once, remembered always.',
@@ -2394,6 +3376,32 @@ const COPY = {
     geoBannerSwitchToGlobal: 'We notice you may be browsing from outside Mainland China.',
     geoBtnSwitch: 'Go to Chinese Site →',
     geoBtnStay: 'Stay Here',
+    // Completeness Pass
+    promoText: 'From $249 · Worldwide Shipping · Lifetime Care · Made-to-Order',
+    faqTitle: 'Frequently Asked',
+    faqList: [
+      { q: 'How long does a piece take?', a: 'Standard works: 14–30 days. Statement pieces (Iris Lattice series, hairpin sets): 6–8 weeks. We\'ll confirm your exact timeline within 24 hours of your reservation.' },
+      { q: 'Can I return a piece?', a: 'Standard works can be returned within 14 days in original condition, with the box. Bespoke commissions are not refundable once production begins — but the deposit can be applied to any other piece.' },
+      { q: 'Do you ship internationally?', a: 'Yes. The Global site (top-right, GL) accepts international orders in USD. We ship via DHL or FedEx, typically 5–7 business days. Shipping is quoted when we confirm your reservation.' },
+      { q: 'How do I care for it?', a: 'Each piece comes with a Care & Wear guide. In short: avoid water and perfume, store separately. We offer lifetime polish and enamel warranty — send it back any time it needs attention.' },
+      { q: 'Can I commission something bespoke?', a: 'Yes. On any product page, choose "Bespoke Order." Hu Yan will discuss design, materials, engraving, and sizing with you directly. Bespoke commissions take 4–8 weeks, from $599.' },
+      { q: 'What about packaging?', a: 'Every piece arrives in a velvet box with its Lifetime Care Passport — recording its ID, the maker\'s name, and our service commitment. Add $15 for hand-folded silk packaging (recommended for gifts).' }
+    ],
+    catalogCountFmt: '{n} pieces',
+    catalogSortOptions: {
+      featured: 'Featured',
+      newest: 'Newest',
+      'price-asc': 'Price: low to high',
+      'price-desc': 'Price: high to low'
+    },
+    nlTitle: 'Stay close to the bench',
+    nlSub: 'One letter a month — new pieces, atelier notes, and a few quiet words.',
+    nlPlaceholder: 'Your email',
+    nlBtn: 'Subscribe →',
+    nlThanks: 'Received. We\'ll be in touch soon.',
+    footerH4s: ['The Atelier', 'Shop', 'Lifelong Care'],
+    footerSocial: [['Instagram', 'https://instagram.com/yan_atelier'], ['Xiaohongshu', '#'], ['Email', 'mailto:hello@yan-atelier.com']],
+    footerAddress: 'Hai Tang Wan · Sanya · China',
     series: [
       { id: 'butterfly', num: 'No. 01', name: 'Butterflies', desc: 'Of metamorphosis.<br/>Plique-à-jour wings<br/>like stained glass.' },
       { id: 'bloom', num: 'No. 02', name: 'Blossoms', desc: 'Flowers keep seasons.<br/>Chrysanthemum, lotus,<br/>ginkgo, daisy.' },
@@ -2465,7 +3473,7 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0005', series: 'heirloom', img: 'images/p05-bracelet-purple.jpg',
+    id: 'YA-2026-0005', series: 'window', img: 'images/p05-bracelet-purple.jpg',
     priceCN: 3680,
     cn: {
       name: '紫兰格窗',
@@ -2479,7 +3487,7 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0006', series: 'heirloom', img: 'images/p06-bracelet-blue.jpg',
+    id: 'YA-2026-0006', series: 'window', img: 'images/p06-bracelet-blue.jpg',
     priceCN: 3680,
     cn: {
       name: '青兰格窗',
@@ -2493,7 +3501,7 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0007', series: 'heirloom', img: 'images/p07-bracelet-purple2.jpg',
+    id: 'YA-2026-0007', series: 'window', img: 'images/p07-bracelet-purple2.jpg',
     priceCN: 3680,
     cn: {
       name: '幽兰格窗',
@@ -2625,6 +3633,129 @@ function toggleNav() {
   document.getElementById('nav-toggle').classList.toggle('open');
 }
 
+// ============================================================
+// Wishlist — localStorage based, no auth needed
+// ============================================================
+function getWishlist() {
+  try { return JSON.parse(localStorage.getItem('yan_wishlist') || '[]'); }
+  catch (e) { return []; }
+}
+function saveWishlistArr(list) {
+  try { localStorage.setItem('yan_wishlist', JSON.stringify(list)); } catch (e) {}
+}
+function isWished(id) {
+  return getWishlist().indexOf(id) >= 0;
+}
+function toggleWish(id) {
+  let list = getWishlist();
+  if (list.indexOf(id) >= 0) list = list.filter(x => x !== id);
+  else list.push(id);
+  saveWishlistArr(list);
+  updateWishUI();
+}
+function updateWishUI() {
+  const list = getWishlist();
+  document.querySelectorAll('.wish-btn').forEach(btn => {
+    const id = btn.dataset.wishId;
+    if (!id) return;
+    const wished = list.indexOf(id) >= 0;
+    btn.classList.toggle('saved', wished);
+    btn.setAttribute('aria-pressed', String(wished));
+  });
+  // Update / add Saved filter chip
+  const filtersEl = document.getElementById('catalog-filters');
+  if (filtersEl) {
+    let chip = filtersEl.querySelector('.filter-chip[data-filter="wishlist"]');
+    if (list.length > 0 && !chip) {
+      const c = COPY[MARKET];
+      const label = (c.savedFilterLabel || 'Saved') + ' (' + list.length + ')';
+      const html = `<button class="filter-chip chip-saved" data-filter="wishlist">${label}</button>`;
+      filtersEl.insertAdjacentHTML('beforeend', html);
+      chip = filtersEl.querySelector('.filter-chip[data-filter="wishlist"]');
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        renderCatalog('wishlist');
+      });
+    } else if (chip) {
+      if (list.length === 0) {
+        chip.remove();
+        if (_catalogFilter === 'wishlist') renderCatalog('all');
+      } else {
+        const c = COPY[MARKET];
+        chip.textContent = (c.savedFilterLabel || 'Saved') + ' (' + list.length + ')';
+      }
+    }
+  }
+  // If currently viewing wishlist filter, re-render
+  if (_catalogFilter === 'wishlist') renderCatalog('wishlist');
+}
+
+function toggleFaq(idx) {
+  document.querySelectorAll('.faq-item').forEach((item, i) => {
+    if (i === idx) item.classList.toggle('open');
+    else item.classList.remove('open');
+  });
+}
+
+function newsletterSubmit() {
+  const email = document.getElementById('nl-input').value.trim();
+  if (!email) return;
+  console.log('[YÀN Newsletter signup]', email);
+  document.getElementById('nl-form').style.display = 'none';
+  document.getElementById('nl-thanks').style.display = 'block';
+}
+
+// ============================================================
+// Aesthetic upgrades — Scroll-triggered reveal + Plique cursor glow
+// ============================================================
+(function initRevealOnScroll() {
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const sels = '#view-home .hook-section, #view-home .maker-section, #view-home .atelier-section, #view-home .plique-section, #view-home .series-section, #view-home .featured-section, #view-home .promise-section, #view-home .gift-section';
+  function attach() {
+    const targets = document.querySelectorAll(sels);
+    if (!targets.length) return;
+    targets.forEach(t => t.classList.add('reveal-on-scroll'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+    targets.forEach(t => io.observe(t));
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attach, { once: true });
+  } else {
+    attach();
+  }
+})();
+
+(function initPliqueGlow() {
+  if (!window.matchMedia) return;
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function attach() {
+    const img = document.querySelector('.plique-img');
+    if (!img) return;
+    img.addEventListener('mousemove', (e) => {
+      const rect = img.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      img.style.setProperty('--mx', x + '%');
+      img.style.setProperty('--my', y + '%');
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attach, { once: true });
+  } else {
+    attach();
+  }
+})();
+
 document.addEventListener('click', () => {
   document.getElementById('market-dropdown').classList.remove('open');
 });
@@ -2660,6 +3791,65 @@ function applyCopy() {
   // Hook
   document.getElementById('hook-main').innerHTML = c.hookMain;
   document.getElementById('hook-attr').textContent = c.hookAttr;
+
+  // Promo bar
+  const pb = document.getElementById('promo-bar-text');
+  if (pb) pb.textContent = c.promoText || '';
+
+  // FAQ
+  const faqTitle = document.getElementById('faq-title');
+  if (faqTitle) faqTitle.textContent = c.faqTitle || '';
+  const faqList = document.getElementById('faq-list');
+  if (faqList && c.faqList) {
+    faqList.innerHTML = c.faqList.map((it, i) => `
+      <li class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(${i})">${it.q}</button>
+        <div class="faq-a">${it.a}</div>
+      </li>
+    `).join('');
+  }
+
+  // Catalog sort options
+  const sortEl = document.getElementById('catalog-sort');
+  if (sortEl && c.catalogSortOptions) {
+    Object.keys(c.catalogSortOptions).forEach(key => {
+      const opt = sortEl.querySelector(`option[value="${key}"]`);
+      if (opt) opt.textContent = c.catalogSortOptions[key];
+    });
+  }
+
+  // Newsletter
+  const nlTitle = document.getElementById('nl-title');
+  if (nlTitle) nlTitle.textContent = c.nlTitle || '';
+  const nlSub = document.getElementById('nl-sub');
+  if (nlSub) nlSub.textContent = c.nlSub || '';
+  const nlInput = document.getElementById('nl-input');
+  if (nlInput) nlInput.placeholder = c.nlPlaceholder || '';
+  const nlBtn = document.getElementById('nl-btn');
+  if (nlBtn) nlBtn.textContent = c.nlBtn || '';
+  const nlThanks = document.getElementById('nl-thanks');
+  if (nlThanks) nlThanks.textContent = c.nlThanks || '';
+
+  // Footer column headers
+  if (c.footerH4s) {
+    for (let i = 0; i < c.footerH4s.length; i++) {
+      const el = document.getElementById('footer-h4-' + (i + 1));
+      if (el) el.textContent = c.footerH4s[i];
+    }
+  }
+
+  // Footer social
+  const social = document.getElementById('footer-social');
+  if (social && c.footerSocial) {
+    social.innerHTML = c.footerSocial.map(s => `<a href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a>`).join('');
+  }
+
+  // Footer address
+  const addr = document.getElementById('footer-address');
+  if (addr) addr.textContent = c.footerAddress || '';
+
+  // Wishlist initialization (after applyCopy because filter chip needs label)
+  if (typeof updateWishUI === 'function') updateWishUI();
 
   // 系列
   document.getElementById('series-title').textContent = c.seriesTitle;
@@ -2776,11 +3966,16 @@ function productCardHtml(p) {
   const seriesName = seriesObj ? seriesObj.name : '';
   const badge = MARKET === 'cn' ? p.badge_cn : p.badge_en;
   const data = p[MARKET];
+  const wished = isWished(p.id);
   return `
     <div class="product-card" onclick="openProduct('${p.id}')">
       <div class="product-img">
         ${badge ? `<div class="product-badge">${badge}</div>` : ''}
+        <button class="wish-btn${wished ? ' saved' : ''}" data-wish-id="${p.id}" aria-label="Save for later" aria-pressed="${wished}" onclick="event.stopPropagation(); toggleWish('${p.id}')">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
         <img src="${p.img}" alt="${data.name}" loading="lazy" />
+        <div class="product-chip">${c.pdLead || ''}</div>
       </div>
       <div class="product-id">${p.id}</div>
       <div class="product-name">${data.name}</div>
@@ -2799,37 +3994,109 @@ function navigate(view, filter) {
   // 关闭移动菜单
   document.getElementById('nav-links').classList.remove('open');
   document.getElementById('nav-toggle').classList.remove('open');
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
-  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-  const btn = document.querySelector(`.nav-link[data-view="${view}"]`);
-  if (btn) btn.classList.add('active');
-  currentView = view;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (view === 'catalog') {
-    renderCatalog(filter || 'all');
-    if (filter) {
-      document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === filter));
+
+  const doSwitch = () => {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + view).classList.add('active');
+    document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+    const btn = document.querySelector(`.nav-link[data-view="${view}"]`);
+    if (btn) btn.classList.add('active');
+    currentView = view;
+    window.scrollTo({ top: 0, behavior: 'instant' in window.scrollTo ? 'instant' : 'auto' });
+    if (view === 'catalog') {
+      renderCatalog(filter || 'all');
+      if (filter) {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === filter));
+      }
     }
-  }
-  if (view === 'gift') restartGiftFinder();
-  if (view === 'heritage') {
-    document.getElementById('heritage-result').classList.remove('active');
-    document.getElementById('heritage-input').value = '';
+    if (view === 'gift') restartGiftFinder();
+    if (view === 'heritage') {
+      document.getElementById('heritage-result').classList.remove('active');
+      document.getElementById('heritage-input').value = '';
+    }
+  };
+
+  // Use View Transitions API for luxury cross-fade; fallback gracefully
+  if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.startViewTransition(doSwitch);
+  } else {
+    doSwitch();
   }
 }
 
 // ============================================================
 // 产品列表
 // ============================================================
+let _catalogSort = 'featured';
+let _catalogFilter = 'all';
+
+function onCatalogSortChange() {
+  _catalogSort = document.getElementById('catalog-sort').value;
+  renderCatalog(_catalogFilter);
+}
+
 function renderCatalog(filter) {
-  const list = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.series === filter);
-  document.getElementById('catalog-grid').innerHTML = list.map(p => productCardHtml(p)).join('');
+  _catalogFilter = filter;
+  const c = COPY[MARKET];
+  let list;
+  if (filter === 'wishlist') {
+    const wl = getWishlist();
+    list = PRODUCTS.filter(p => wl.includes(p.id));
+  } else if (filter === 'all') {
+    list = PRODUCTS.slice();
+  } else {
+    list = PRODUCTS.filter(p => p.series === filter);
+  }
+
+  if (_catalogSort === 'newest') {
+    list.sort((a, b) => b.id.localeCompare(a.id));
+  } else if (_catalogSort === 'price-asc') {
+    list.sort((a, b) => (a.priceCN || 0) - (b.priceCN || 0));
+  } else if (_catalogSort === 'price-desc') {
+    list.sort((a, b) => (b.priceCN || 0) - (a.priceCN || 0));
+  }
+
+  const grid = document.getElementById('catalog-grid');
+  const countEl = document.getElementById('catalog-count');
+  if (countEl && c.catalogCountFmt) {
+    countEl.textContent = c.catalogCountFmt.replace('{n}', list.length);
+  }
+
+  if (list.length === 0) {
+    const others = PRODUCTS.slice(0, 4);
+    grid.innerHTML = `
+      <div class="catalog-empty">${c.catalogEmpty || ''}</div>
+      ${others.map(p => productCardHtml(p)).join('')}
+    `;
+  } else if (list.length < 4 && filter !== 'all') {
+    const seen = new Set(list.map(p => p.id));
+    const fillers = PRODUCTS.filter(p => !seen.has(p.id)).slice(0, 6 - list.length);
+    grid.innerHTML = `
+      ${list.map(p => productCardHtml(p)).join('')}
+      <div class="catalog-divider">${c.catalogMoreFromOthers || ''}</div>
+      ${fillers.map(p => productCardHtml(p)).join('')}
+    `;
+  } else {
+    grid.innerHTML = list.map(p => productCardHtml(p)).join('');
+  }
 }
 
 // ============================================================
 // 单品详情
 // ============================================================
+function getDeliveryEstimate() {
+  const c = COPY[MARKET];
+  const today = new Date();
+  const startMin = new Date(today.getTime() + (14 + 5) * 86400000);
+  const startMax = new Date(today.getTime() + (30 + 7) * 86400000);
+  const fmt = (d) => {
+    if (MARKET === 'cn') return `${d.getMonth() + 1}月${d.getDate()}日`;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+  const label = c.pdEtaLabel || '';
+  return label + '<strong>' + fmt(startMin) + ' – ' + fmt(startMax) + '</strong>';
+}
+
 function openProduct(id, keepView) {
   const p = PRODUCTS.find(x => x.id === id);
   if (!p) return;
@@ -2837,45 +4104,163 @@ function openProduct(id, keepView) {
   const c = COPY[MARKET];
   const data = p[MARKET];
   const labels = c.pdAttrLabels;
+  // Find 3 related: same series first, then fillers
+  let related = PRODUCTS.filter(x => x.id !== id && x.series === p.series).slice(0, 3);
+  if (related.length < 3) {
+    const fill = PRODUCTS.filter(x => x.id !== id && !related.some(r => r.id === x.id)).slice(0, 3 - related.length);
+    related = related.concat(fill);
+  }
+  // Mini-FAQ: pull 3 most relevant from full FAQ list (lead time, returns, care)
+  const miniIdx = [0, 1, 3];
+  const miniFaq = (c.faqList || []).filter((_, i) => miniIdx.includes(i));
+
   document.getElementById('product-detail').innerHTML = `
-    <div class="pd-gallery">
-      <img src="${p.img}" alt="${data.name}" />
+    <div class="pd-main">
+      <div class="pd-gallery">
+        <img src="${p.img}" alt="${data.name}" />
+      </div>
+      <div class="pd-info">
+        <div class="pd-id">${p.id}</div>
+        <h1 class="pd-name">${data.name}</h1>
+        <div class="pd-price">${priceFor(p)} <small>${c.pdPriceNote}</small></div>
+        <p class="pd-desc">${data.desc}</p>
+        <div class="pd-attrs">
+          <div class="pd-attr">
+            <div class="pd-attr-label">${labels.maker}</div>
+            <div class="pd-attr-value">${c.hpMakerValue}</div>
+          </div>
+          <div class="pd-attr">
+            <div class="pd-attr-label">${labels.atelier}</div>
+            <div class="pd-attr-value">${c.hpAtelierValue}</div>
+          </div>
+          <div class="pd-attr">
+            <div class="pd-attr-label">${labels.material}</div>
+            <div class="pd-attr-value">${data.material}</div>
+          </div>
+          <div class="pd-attr">
+            <div class="pd-attr-label">${labels.lead}</div>
+            <div class="pd-attr-value">${c.pdLead}</div>
+          </div>
+        </div>
+        <div class="pd-trust-strip">
+          <span class="pd-trust-item"><strong>${c.pdTrustReturns || ''}</strong></span>
+          <span class="pd-trust-item"><strong>${c.pdTrustShipping || ''}</strong></span>
+          <span class="pd-trust-item"><strong>${c.pdTrustCare || ''}</strong></span>
+        </div>
+        <div class="pd-eta">${getDeliveryEstimate()}</div>
+        <div class="pd-payment-note">
+          <span>${c.pdPayment}</span>
+          ${c.pdPaymentChips.map(p => `<span class="pd-payment-chip">${p}</span>`).join('')}
+        </div>
+        <div class="pd-cta">
+          <button class="btn btn-primary" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>
+          <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>
+        </div>
+        <details class="pd-mini-faq">
+          <summary>${c.pdFaqLabel || '常 见 问 题'}</summary>
+          <div class="pd-mini-faq-content">
+            ${miniFaq.map(it => `<span class="mini-q">${it.q}</span><p>${it.a}</p>`).join('')}
+          </div>
+        </details>
+        <p class="pd-note">${c.pdNote}</p>
+      </div>
     </div>
-    <div class="pd-info">
-      <div class="pd-id">${p.id}</div>
-      <h1 class="pd-name">${data.name}</h1>
-      <div class="pd-price">${priceFor(p)} <small>${c.pdPriceNote}</small></div>
-      <p class="pd-desc">${data.desc}</p>
-      <div class="pd-attrs">
-        <div class="pd-attr">
-          <div class="pd-attr-label">${labels.maker}</div>
-          <div class="pd-attr-value">${c.hpMakerValue}</div>
-        </div>
-        <div class="pd-attr">
-          <div class="pd-attr-label">${labels.atelier}</div>
-          <div class="pd-attr-value">${c.hpAtelierValue}</div>
-        </div>
-        <div class="pd-attr">
-          <div class="pd-attr-label">${labels.material}</div>
-          <div class="pd-attr-value">${data.material}</div>
-        </div>
-        <div class="pd-attr">
-          <div class="pd-attr-label">${labels.lead}</div>
-          <div class="pd-attr-value">${c.pdLead}</div>
-        </div>
+    <section class="pd-related">
+      <div class="pd-related-header">
+        <div class="section-overline">— ${c.pdRelatedOverline || ''} —</div>
+        <h3 class="pd-related-h">${c.pdRelatedTitle || ''}</h3>
       </div>
-      <div class="pd-payment-note">
-        <span>${c.pdPayment}</span>
-        ${c.pdPaymentChips.map(p => `<span class="pd-payment-chip">${p}</span>`).join('')}
+      <div class="pd-related-grid">
+        ${related.map(rp => productCardHtml(rp)).join('')}
       </div>
-      <div class="pd-cta">
-        <button class="btn btn-primary">${c.pdCta1}</button>
-        <button class="btn btn-ghost">${c.pdCta2}</button>
-      </div>
-      <p class="pd-note">${c.pdNote}</p>
-    </div>
+    </section>
   `;
   if (!keepView) navigate('product');
+}
+
+// ============================================================
+// Reserve Modal(预订流程)
+// ============================================================
+let _reserveState = { step: 1, productId: null, isBespoke: false };
+
+function openReserveModal(productId, isBespoke) {
+  _reserveState = { step: 1, productId, isBespoke: !!isBespoke };
+  const p = PRODUCTS.find(x => x.id === productId);
+  if (!p) return;
+  const c = COPY[MARKET];
+  const data = p[MARKET];
+  document.getElementById('rv-thumb').src = p.img;
+  document.getElementById('rv-thumb').alt = data.name;
+  document.getElementById('rv-name').textContent = data.name;
+  document.getElementById('rv-id').textContent = p.id;
+  document.getElementById('rv-price').textContent = priceFor(p);
+  document.getElementById('rv-lead').textContent = c.pdLead;
+  applyReserveCopy();
+  showReserveStep(1);
+  document.getElementById('reserve-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeReserveModal() {
+  document.getElementById('reserve-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function reserveNext() {
+  if (_reserveState.step < 4) { _reserveState.step++; showReserveStep(_reserveState.step); }
+}
+function reservePrev() {
+  if (_reserveState.step > 1) { _reserveState.step--; showReserveStep(_reserveState.step); }
+}
+function showReserveStep(n) {
+  document.querySelectorAll('.reserve-step').forEach(s => {
+    s.hidden = parseInt(s.dataset.step, 10) !== n;
+  });
+  document.querySelectorAll('.rp-dot').forEach((dot, i) => {
+    dot.classList.remove('active', 'done');
+    if (i + 1 < n) dot.classList.add('done');
+    else if (i + 1 === n) dot.classList.add('active');
+  });
+}
+function reserveSubmit() {
+  const name = document.getElementById('rv-input-name').value.trim();
+  const contact = document.getElementById('rv-input-contact').value.trim();
+  const when = document.getElementById('rv-input-when').value.trim();
+  if (!name || !contact) return;
+  const ref = 'YA-RES-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+  document.getElementById('rv-ref').textContent = ref;
+  console.log('[YÀN Reservation]', { ref, productId: _reserveState.productId, isBespoke: _reserveState.isBespoke, name, contact, when });
+  _reserveState.step = 4;
+  showReserveStep(4);
+}
+function applyReserveCopy() {
+  const c = COPY[MARKET];
+  const r = c.reserve || {};
+  const set = (id, val, isHtml) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (isHtml) el.innerHTML = val || '';
+    else el.textContent = val || '';
+  };
+  set('rv-step1-overline', r.step1Overline);
+  set('rv-step1-h', r.step1H);
+  set('rv-step1-p', r.step1P);
+  set('rv-btn-next-1', r.btnNext1);
+  set('rv-step2-overline', r.step2Overline);
+  set('rv-step2-h', r.step2H);
+  set('rv-step2-p', r.step2P, true);
+  document.getElementById('rv-timeline').innerHTML = (r.timeline || []).map(s => `<li><strong>${s[0]}</strong>${s[1]}</li>`).join('');
+  set('rv-btn-back-2', r.btnBack);
+  set('rv-btn-next-2', r.btnNext2);
+  set('rv-step3-overline', r.step3Overline);
+  set('rv-step3-h', r.step3H);
+  set('rv-l-name', r.lName);
+  set('rv-l-contact', r.lContact);
+  set('rv-l-when', r.lWhen);
+  set('rv-btn-back-3', r.btnBack);
+  set('rv-btn-submit', r.btnSubmit);
+  set('rv-step4-overline', r.step4Overline);
+  set('rv-step4-h', r.step4H);
+  set('rv-step4-p', r.step4P, true);
+  set('rv-btn-done', r.btnDone);
 }
 
 // ============================================================
