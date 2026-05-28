@@ -3,7 +3,22 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>YÀN Atelier — 送一次,记一生</title>
+<title>YÀN Atelier — Given Once, Remembered Always · 送一次,记一生</title>
+<meta name="description" content="YÀN Atelier — handmade plique-à-jour and cloisonné enamel jewellery by Master Enameller Hu Yan, from her Hai Tang Wan atelier. Given once, remembered always." />
+<meta name="keywords" content="plique-à-jour, enamel jewellery, cloisonné, handmade silver, Chinese craft, heirloom jewelry, gift jewelry" />
+<meta name="author" content="YÀN Atelier" />
+<meta name="theme-color" content="#F4EFE6" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="YÀN Atelier — Given Once, Remembered Always" />
+<meta property="og:description" content="Handmade plique-à-jour and cloisonné enamel jewellery, by Master Enameller Hu Yan. Hai Tang Wan atelier." />
+<meta property="og:image" content="https://yan-atelier-site.pages.dev/images/hero-botanical.jpg" />
+<meta property="og:url" content="https://yan-atelier-site.pages.dev/" />
+<meta property="og:site_name" content="YÀN Atelier" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="YÀN Atelier" />
+<meta name="twitter:description" content="Handmade plique-à-jour jewellery, by Master Enameller Hu Yan." />
+<meta name="twitter:image" content="https://yan-atelier-site.pages.dev/images/hero-botanical.jpg" />
+<link rel="canonical" href="https://yan-atelier-site.pages.dev/" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Italiana&display=swap" rel="stylesheet" />
@@ -406,7 +421,8 @@
     margin: 0 auto 1.5rem;
   }
   .hook-zh { font-family: var(--serif); }
-  .hook-en { font-family: var(--display); letter-spacing: 0.03em; font-style: normal; }
+  .hook-en { font-family: var(--serif-en); letter-spacing: 0.01em; font-style: italic; font-weight: 400; }
+  .hook-en em { font-family: var(--serif-en); font-style: normal; color: var(--silver); }
   .hook-attr {
     font-family: var(--serif-en);
     font-style: italic;
@@ -415,6 +431,149 @@
     letter-spacing: 0.25em;
     margin-top: 2.5rem;
     text-transform: uppercase;
+  }
+
+  /* ============ Atelier(新增) ============ */
+  .atelier-section {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: #0a0a0a;
+  }
+  .atelier-img { position: absolute; inset: 0; }
+  .atelier-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    filter: brightness(0.62) contrast(1.08) saturate(0.95);
+    transform: scale(1.02);
+    animation: atelierZoom 18s ease-out forwards;
+  }
+  @keyframes atelierZoom {
+    from { transform: scale(1.08); }
+    to { transform: scale(1.0); }
+  }
+  .atelier-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.72) 100%);
+    z-index: 1;
+  }
+  .atelier-content {
+    position: absolute; inset: 0;
+    z-index: 2;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 5rem 6rem;
+    color: var(--ivory);
+  }
+  .atelier-overline {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    color: rgba(244, 239, 230, 0.65);
+    margin-bottom: 1.8rem;
+  }
+  body[data-market="cn"] .atelier-overline { font-family: var(--serif); font-style: normal; letter-spacing: 0.3em; }
+  .atelier-h2 {
+    font-family: var(--display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    color: var(--ivory);
+  }
+  body[data-market="cn"] .atelier-h2 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+    letter-spacing: 0.25em;
+    line-height: 1.3;
+  }
+  .atelier-sub {
+    font-size: 1.1rem;
+    max-width: 540px;
+    line-height: 1.75;
+    color: rgba(244, 239, 230, 0.85);
+  }
+  body[data-market="cn"] .atelier-sub { font-family: var(--serif); font-size: 1.15rem; letter-spacing: 0.08em; }
+  body[data-market="global"] .atelier-sub { font-family: var(--serif-en); font-style: italic; font-size: 1.2rem; }
+  .atelier-credit {
+    position: absolute;
+    bottom: 1.5rem; right: 1.8rem;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    color: rgba(244, 239, 230, 0.4);
+    z-index: 3;
+  }
+  body[data-market="cn"] .atelier-h2-en,
+  body[data-market="cn"] .atelier-sub-en,
+  body[data-market="cn"] .atelier-overline-en { display: none; }
+  body[data-market="global"] .atelier-h2-cn,
+  body[data-market="global"] .atelier-sub-cn,
+  body[data-market="global"] .atelier-overline-cn { display: none; }
+
+  /* ============ Plique-à-jour(新增) ============ */
+  .plique-section {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    background: var(--ivory-2);
+    min-height: 85vh;
+  }
+  .plique-img {
+    background: #0a0a0a;
+    overflow: hidden;
+    position: relative;
+  }
+  .plique-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .plique-section:hover .plique-img img { transform: scale(1.02); }
+  .plique-text {
+    padding: 6rem 5rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .plique-overline {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--silver);
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+  }
+  .plique-cn {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    letter-spacing: 0.35em;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .plique-en {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: clamp(2rem, 4.2vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--ink);
+    letter-spacing: 0.005em;
+  }
+  .plique-en em { font-style: normal; color: var(--silver); }
+  body[data-market="cn"] .plique-en { display: none; }
+  body[data-market="global"] .plique-cn { display: none; }
+
+  /* Responsive for new sections */
+  @media (max-width: 900px) {
+    .atelier-content { padding: 3rem 2rem; }
+    .plique-section { grid-template-columns: 1fr; min-height: auto; }
+    .plique-img { min-height: 60vh; }
+    .plique-text { padding: 4rem 2rem; }
   }
 
   /* ============ 系列 ============ */
@@ -707,7 +866,25 @@
     margin: 0 auto 4rem;
     line-height: 1.7;
   }
-  body[data-market="cn"] .promise-section .promise-sub { display: none; }
+  body[data-market="cn"] .promise-section .promise-sub {
+    font-family: var(--serif);
+    font-style: normal;
+    color: rgba(244, 239, 230, 0.72);
+    font-size: 1.05rem;
+    letter-spacing: 0.05em;
+  }
+  /* Hook 段 em 强调 */
+  .hook-zh em { color: var(--silver); font-style: normal; font-weight: 500; }
+  body[data-market="global"] .hook-zh {
+    font-family: var(--serif-en);
+    font-style: italic;
+    letter-spacing: 0.005em;
+  }
+  body[data-market="global"] .hook-zh em {
+    font-family: var(--serif-en);
+    font-style: normal;
+    color: var(--silver);
+  }
   .promise-list {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -1430,10 +1607,96 @@
   }
   body[data-market="global"] .draft-notice { display: block; }
 
+  /* ============ Hero trust line(新增) ============ */
+  .hero-trust {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--silver);
+    letter-spacing: 0.2em;
+    margin-top: -1rem;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.3s forwards;
+  }
+  body[data-market="cn"] .hero-trust { font-family: var(--serif); font-style: normal; letter-spacing: 0.18em; font-size: 0.9rem; text-transform: none; }
+
+  /* ============ Mobile hamburger(新增) ============ */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+    margin-right: -10px;
+  }
+  .nav-toggle span {
+    width: 22px;
+    height: 1.5px;
+    background: var(--ink);
+    display: block;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* ============ Market dropdown 字母前缀(替代 emoji)============ */
+  .market-prefix {
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--silver);
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    min-width: 28px;
+    display: inline-block;
+  }
+
+  /* ============ prefers-reduced-motion(无障碍)============ */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .atelier-img img { animation: none !important; transform: scale(1) !important; }
+    html { scroll-behavior: auto !important; }
+  }
+
   /* 响应式 */
   @media (max-width: 1024px) {
     .nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: flex !important;
+      position: fixed;
+      top: 64px;
+      right: 0;
+      width: min(85vw, 320px);
+      height: calc(100vh - 64px);
+      background: rgba(244, 239, 230, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      flex-direction: column;
+      padding: 3.5rem 2.5rem;
+      gap: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 99;
+      border-left: 1px solid var(--line);
+    }
+    .nav-links.open { transform: translateX(0); }
+    .nav-links .nav-link {
+      text-align: left;
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      padding: 0.6rem 0;
+      border-bottom: none;
+    }
     .hero { grid-template-columns: 1fr; }
     .hero-text { padding: 3rem 2rem; }
     .hero-img { min-height: 60vh; }
@@ -1474,26 +1737,31 @@
     </button>
     <div class="market-dropdown" id="market-dropdown">
       <button class="market-option current" data-market="cn" onclick="switchMarket('cn')">
-        <span class="market-flag">🇨🇳</span>
+        <span class="market-prefix">CN</span>
         <span><span id="opt-cn-label">中国大陆</span><br/><span class="market-meta">CNY · 中文</span></span>
         <span></span>
       </button>
       <button class="market-option" data-market="global" onclick="switchMarket('global')">
-        <span class="market-flag">🌐</span>
+        <span class="market-prefix">GL</span>
         <span><span id="opt-global-label">Global</span><br/><span class="market-meta">USD · English</span></span>
         <span></span>
       </button>
       <button class="market-option" disabled>
-        <span class="market-flag">🇭🇰</span>
+        <span class="market-prefix">HK</span>
         <span><span id="opt-hk-label">香港</span><br/><span class="market-meta">HKD · 中文</span></span>
         <span class="market-soon">Soon</span>
       </button>
       <button class="market-option" disabled>
-        <span class="market-flag">🇯🇵</span>
+        <span class="market-prefix">JP</span>
         <span><span id="opt-jp-label">日本</span><br/><span class="market-meta">JPY · 日本語</span></span>
         <span class="market-soon">Soon</span>
       </button>
     </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" onclick="toggleNav()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
 </nav>
 
@@ -1511,15 +1779,15 @@
       <h1 class="hero-h1-cn">送 一 次 ,<br/>记 一 生 。</h1>
       <h1 class="hero-h1-en">Given Once,<br/><em>Remembered</em> Always.</h1>
       <p class="hero-sub" id="hero-sub"></p>
+      <div class="hero-trust" id="hero-trust"></div>
       <div class="hero-cta">
         <button class="btn btn-primary" id="hero-cta1" onclick="navigate('catalog')"></button>
         <button class="btn btn-ghost" id="hero-cta2" onclick="navigate('gift')"></button>
       </div>
     </div>
     <div class="hero-img">
-      <img src="images/maker-meng.jpg" alt="" />
+      <img src="images/hero-botanical.jpg" alt="A plique-à-jour enamel butterfly-wing pendant resting on orchid petals — YÀN Atelier" />
       <div class="hero-img-caption" id="hero-img-caption"></div>
-      <div class="hero-img-photo-credit">Photographed by 蒙明珠 · 2023.11 · 海棠湾</div>
     </div>
   </section>
 
@@ -1531,6 +1799,52 @@
     </div>
     <p class="hook-zh" id="hook-main"></p>
     <p class="hook-attr" id="hook-attr"></p>
+  </section>
+
+  <section class="maker-section">
+    <div class="maker-img">
+      <img src="images/maker-huyan.jpg" alt="Master Enameller Hu Yan at her workbench, Hai Tang Wan Atelier" />
+      <div class="maker-img-credit">Photographed by 蒙明珠</div>
+    </div>
+    <div class="maker-text">
+      <div class="section-overline">— The Maker —</div>
+      <h2 id="maker-title"></h2>
+      <div id="maker-paragraphs"></div>
+      <div class="maker-signature">
+        <span class="maker-signature-name" id="maker-sig-name">胡 艳</span>
+        <span class="maker-signature-text" id="maker-sig-text"></span>
+      </div>
+      <button class="btn btn-ghost maker-cta" id="maker-cta-btn" onclick="navigate('about')"></button>
+    </div>
+  </section>
+
+  <!-- ============ Atelier(新增) ============ -->
+  <section class="atelier-section">
+    <div class="atelier-img">
+      <img src="images/atelier-bench.jpg" alt="Hand-made pieces resting on the Hai Tang Wan atelier workbench" />
+    </div>
+    <div class="atelier-overlay"></div>
+    <div class="atelier-content">
+      <div class="atelier-overline atelier-overline-en">— Hai Tang Wan · The Atelier —</div>
+      <div class="atelier-overline atelier-overline-cn">— 海棠湾 · 工坊 —</div>
+      <h2 class="atelier-h2 atelier-h2-en">Years of Her Craft.</h2>
+      <h2 class="atelier-h2 atelier-h2-cn">她以年月入器,</h2>
+      <p class="atelier-sub atelier-sub-en">A Lifetime of Your Gift.</p>
+      <p class="atelier-sub atelier-sub-cn">你以心意成礼</p>
+    </div>
+    <div class="atelier-credit">Hu Yan · Master Enameller · Hai Tang Wan</div>
+  </section>
+
+  <!-- ============ Plique-à-jour(新增) ============ -->
+  <section class="plique-section">
+    <div class="plique-img">
+      <img src="images/pliqueajour-ginkgo.jpg" alt="A green plique-à-jour ginkgo wreath — translucent enamel by Master Enameller Hu Yan" />
+    </div>
+    <div class="plique-text">
+      <div class="plique-overline">— Plique-à-jour · 空窗珐琅 —</div>
+      <h2 class="plique-cn">迎光,见心</h2>
+      <h2 class="plique-en">Held to the light, <em>it shows what is inside.</em></h2>
+    </div>
   </section>
 
   <section class="series-section">
@@ -1551,23 +1865,6 @@
       <button class="featured-link" id="featured-link" onclick="navigate('catalog')"></button>
     </div>
     <div class="product-grid" id="featured-products"></div>
-  </section>
-
-  <section class="maker-section">
-    <div class="maker-img">
-      <img src="images/maker-meng.jpg" alt="" />
-      <div class="maker-img-credit">Photographed by 蒙明珠</div>
-    </div>
-    <div class="maker-text">
-      <div class="section-overline">— The Maker —</div>
-      <h2 id="maker-title"></h2>
-      <div id="maker-paragraphs"></div>
-      <div class="maker-signature">
-        <span class="maker-signature-name" id="maker-sig-name">胡 艳</span>
-        <span class="maker-signature-text" id="maker-sig-text"></span>
-      </div>
-      <button class="btn btn-ghost maker-cta" id="maker-cta-btn" onclick="navigate('about')"></button>
-    </div>
   </section>
 
   <section class="promise-section">
@@ -1668,7 +1965,7 @@
   </section>
   <section class="about-icif">
     <div class="about-icif-img">
-      <img src="images/icif-2023.jpg" alt="" />
+      <img src="images/icif-2023.jpg" alt="YÀN Atelier at the 2023 China International Cultural Industries Fair, Sanya" />
       <div class="maker-img-credit" style="color:rgba(255,255,255,0.35);">© ICIF Sanya 2023</div>
     </div>
     <div class="about-icif-text">
@@ -1723,10 +2020,11 @@ const COPY = {
     heroSub: '一座银饰珐琅手作工坊。一双手,一炉火,与一份愿守一生的承诺。',
     heroCta1: '走 进 作 品 谱',
     heroCta2: '为 她 , 寻 一 件',
-    heroImgCaption: '工艺师胡艳,工作台前。<strong>海棠湾工坊</strong>',
-    // Hook
-    hookMain: '迎 光 , 见 心 。',
-    hookAttr: '— 空 窗 珐 琅 —',
+    heroImgCaption: '蝶 翼 · 空 窗 珐 琅<strong>胡 艳 手 作</strong>',
+    heroTrust: '¥880 起 · 手 作 14-30 天',
+    // Hook(改为礼物钩子,迎光见心已下移至 plique-section 视觉化呈现)
+    hookMain: '这 世 上 有 一 类 器 物 ——<br/>她 <em>不 会</em> 为 自 己 挑 ,<br/>你 却 会 想 为 她 挑 。',
+    hookAttr: '— 礼 物 —',
     // 系列
     seriesTitle: '五 谱',
     seriesSub: '工坊出器,分为五脉。',
@@ -1744,6 +2042,7 @@ const COPY = {
     makerCta: '阅 读 完 整 故 事 →',
     // Promise
     promiseTitle: '这是一位匠人手作的器物,<br/>我们愿意用我们的余生,守护它。',
+    promiseSub: '无论你是这件器物的第一位持有人,还是第五位,我们的承诺,始终如一。',
     promiseList: [
       ['I.', '终身翻新<br/>与抛光'],
       ['II.', '终身断链<br/>调链 · 换扣'],
@@ -1870,7 +2169,7 @@ const COPY = {
     aboutSub: '一座工坊。一位母亲。一个儿子。和一句愿意守一辈子的承诺。',
     aboutStory: [
       '很多年前的某一日,我的母亲胡艳拿起第一根银丝、燃起第一炉珐琅。从此,她再没有放下过。',
-      '她没有师承,也不属于任何门派 —— 她的师傅,是一万次失败的炉火,和无数个凌晨还亮着的工作台。掐丝、点蓝、烧制、打磨,一件作品要经过三十多道工序。',
+      '她没有师承,也不属于任何门派 —— 她的师傅,是一万次失败的炉火,和无数个凌晨还亮着的工作台。掐丝、点蓝、烧制、打磨,一件作品要经过数十道工序。',
       '我们用的釉料,是从天然矿石中提纯的珐琅彩。有些颜色因为稀有,价格甚至堪比黄金 —— 但只有它们,才能保证一件首饰在你的下一代手里,依然光彩如新,不发黄、不褪色。',
       '母亲会一种叫"空窗珐琅"的工艺。这是新艺术运动时期的欧洲匠人留下的技艺,如今全世界能做的人不多。釉料像一扇扇透光的彩窗,迎着光看,会让你想起教堂的玻璃花窗,也会让你想起夏天蝉翼上的脉络。',
       '她的作品曾作为国礼,赠予外宾;也曾在文化博览会上,让政要驻足观看。',
@@ -1879,7 +2178,7 @@ const COPY = {
     ],
     aboutCreditsH2: '匠 人 履 历',
     credits: [
-      ['— 起 点', '投身银饰珐琅工艺。无师承,自摸索矿石釉料、掐丝、点蓝、烧制三十余道工序。'],
+      ['— 起 点', '投身银饰珐琅工艺。无师承,自摸索矿石釉料、掐丝、点蓝、烧制等数十道工序。'],
       ['— 国 礼', '作品曾被选作国礼,赠予外宾。出于尊重,场合不予详述。'],
       ['— 2023 · 文 博 会', '第八届三亚国际文化产业博览会,作品现场展示,获多位领导驻足观看。'],
       ['— 今 日', '海棠湾工坊持续创作。第二代正在搭建品牌,试图把母亲的手艺带到更远的地方。']
@@ -1923,9 +2222,10 @@ const COPY = {
     heroSub: 'A house of handmade silver enamel jewellery — born of one mother\'s hands, of fire and patience, and of a promise to keep.',
     heroCta1: 'The Atlas',
     heroCta2: 'Find Her Gift',
-    heroImgCaption: 'Hu Yan, at the workbench.<strong>Haitang Bay Atelier</strong>',
-    hookMain: 'Held to the light,<br/>it shows what is inside.',
-    hookAttr: '— Plique-à-jour Enamel —',
+    heroImgCaption: 'Butterfly Wing · Plique-à-jour<strong>By Hu Yan</strong>',
+    heroTrust: 'From $249 · Made to order · 14–30 days',
+    hookMain: 'Some pieces — <em>she would not choose for herself</em>.<br/>You can choose them, for her.',
+    hookAttr: '— On Gifting —',
     seriesTitle: 'Five Collections',
     seriesSub: 'Five families of work, from one bench.',
     featuredTitle: 'New from the Bench',
@@ -2060,7 +2360,7 @@ const COPY = {
     aboutSub: 'An atelier. A mother. A son. And a promise we intend to keep.',
     aboutStory: [
       'On a day, many years ago, my mother — Hu Yan — picked up her first thread of silver and lit her first furnace of enamel. She has not set them down since.',
-      'She had no teacher, belonged to no school. Her instructors were ten thousand failed firings and the late hours at her workbench. Wire-inlay, enamel-laying, kiln-firing, polishing — a single piece passes through more than thirty stages.',
+      'She had no teacher, belonged to no school. Her instructors were ten thousand failed firings and the late hours at her workbench. Wire-inlay, enamel-laying, kiln-firing, polishing — a single piece passes through many quiet stages.',
       'Our enamel pigments are drawn from natural mineral stones. Some colours, because of their rarity, cost as much as gold — but only they will keep a piece bright in the hands of your daughter, decades from now: never yellowing, never fading.',
       'My mother works in a technique called plique-à-jour — a craft inherited from European masters of the Art Nouveau era, today practised by few in the world. The enamel becomes like a stained glass window: hold it to the light, and it shows what is inside.',
       'Her work has been chosen as a state gift, presented to foreign dignitaries. It has stopped officials in their tracks at cultural exhibitions.',
@@ -2069,7 +2369,7 @@ const COPY = {
     ],
     aboutCreditsH2: 'A Maker\'s Record',
     credits: [
-      ['— Early years', 'Devoted to the craft of silver enamel. Without teachers or lineage, she taught herself the use of mineral pigments and the thirty-plus stages of inlay, firing, and polishing.'],
+      ['— Early years', 'Devoted to the craft of silver enamel. Without teachers or lineage, she taught herself the use of mineral pigments and the many stages of inlay, firing, and polishing.'],
       ['— Diplomatic gift', 'Her work has been selected as a state gift, presented to foreign dignitaries. Out of respect, the occasion is not detailed here.'],
       ['— 2023 · ICIF Sanya', 'At the 8th Sanya International Cultural Industry Fair, her work was demonstrated on-site; several officials paused to observe.'],
       ['— Today', 'The Haitang Bay atelier continues. The maker\'s son is building this house, intending to bring her work further into the world.']
@@ -2320,6 +2620,11 @@ function toggleMarketDropdown(e) {
   document.getElementById('market-dropdown').classList.toggle('open');
 }
 
+function toggleNav() {
+  document.getElementById('nav-links').classList.toggle('open');
+  document.getElementById('nav-toggle').classList.toggle('open');
+}
+
 document.addEventListener('click', () => {
   document.getElementById('market-dropdown').classList.remove('open');
 });
@@ -2349,6 +2654,8 @@ function applyCopy() {
   document.getElementById('hero-cta1').textContent = c.heroCta1;
   document.getElementById('hero-cta2').textContent = c.heroCta2;
   document.getElementById('hero-img-caption').innerHTML = c.heroImgCaption;
+  const heroTrustEl = document.getElementById('hero-trust');
+  if (heroTrustEl) heroTrustEl.textContent = c.heroTrust || '';
 
   // Hook
   document.getElementById('hook-main').innerHTML = c.hookMain;
@@ -2489,6 +2796,9 @@ function productCardHtml(p) {
 // 导航
 // ============================================================
 function navigate(view, filter) {
+  // 关闭移动菜单
+  document.getElementById('nav-links').classList.remove('open');
+  document.getElementById('nav-toggle').classList.remove('open');
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view-' + view).classList.add('active');
   document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
@@ -2657,7 +2967,7 @@ function lookupHeritage(presetId) {
       <div class="hp-title">${c.hpTitle}</div>
       <div class="hp-subtitle">${id}</div>
       <div class="hp-content">
-        <div class="hp-img"><img src="${sample.img}" alt="" /></div>
+        <div class="hp-img"><img src="${sample.img}" alt="${sample.nameEn || sample.nameCn || 'YÀN Atelier piece'}" /></div>
         <div class="hp-rows">
           <div class="hp-row"><span class="hp-row-label">${c.hpLabels.name}</span><span class="hp-row-value">${data.name}</span></div>
           <div class="hp-row"><span class="hp-row-label">${c.hpLabels.series}</span><span class="hp-row-value">${seriesObj.name}</span></div>
