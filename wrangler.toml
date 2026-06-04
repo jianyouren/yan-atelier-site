@@ -1,0 +1,10 @@
+name = "yan-gift-finder"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+# After deploy, your worker is reachable at:
+#   https://yan-gift-finder.<your-cloudflare-subdomain>.workers.dev
+# Copy that URL into gift-finder-ai.html (GIFT_FINDER_ENDPOINT constant).
+
+# ANTHROPIC_API_KEY is added as a Secret, NOT here.
+# Run: npx wrangler secret put ANTHROPIC_API_KEY

@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
+<title>YÀN · 寻 礼 · Gift Finder (POC)</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Italiana&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ivory: #FBF7EE;
+  --ivory-2: #F2EBDC;
+  --ink: #161310;
+  --ink-soft: #2A2622;
+  --silver: rgba(22, 19, 16, 0.55);
+  --line: rgba(22, 19, 16, 0.08);
+  --line-strong: rgba(22, 19, 16, 0.18);
+  --hush: rgba(22, 19, 16, 0.55);
+  --display: 'Italiana', 'Cormorant Garamond', 'Noto Serif SC', serif;
+  --serif-en: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  --serif: 'Noto Serif SC', 'Cormorant Garamond', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { font-size: 16px; }
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--serif);
+  line-height: 1.65;
+  min-height: 100vh;
+  letter-spacing: 0.03em;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 6rem;
+}
+
+.brand-overline {
+  text-align: center;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.82rem;
+  letter-spacing: 0.32em;
+  color: var(--silver);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.brand-title {
+  text-align: center;
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+}
+
+.brand-sub {
+  text-align: center;
+  font-style: italic;
+  font-family: var(--serif-en);
+  color: var(--hush);
+  margin-bottom: 3.5rem;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.progress {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  transition: background 0.3s ease;
+}
+.dot.active { background: var(--ink); }
+.dot.done { background: var(--silver); }
+
+.step { display: none; animation: fade 0.5s ease; }
+.step.active { display: block; }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.step-overline {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  color: var(--silver);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.step-question {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  line-height: 1.4;
+}
+
+.options {
+  display: grid;
+  gap: 0.875rem;
+  margin-bottom: 2.5rem;
+}
+
+.option {
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  padding: 1.125rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  line-height: 1.5;
+}
+.option:hover { background: var(--ivory-2); border-color: var(--ink); }
+.option.selected { background: var(--ink); color: var(--ivory); border-color: var(--ink); }
+
+.option-main { display: block; }
+.option-aux {
+  display: block;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--silver);
+  margin-top: 0.25rem;
+  letter-spacing: 0.04em;
+}
+.option.selected .option-aux { color: rgba(251, 247, 238, 0.65); }
+
+textarea, input[type="text"], input[type="email"] {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  padding: 1rem 1.125rem;
+  font-family: var(--serif);
+  /* iOS Safari auto-zooms on focus when font-size < 16px · keep at 16px to prevent the jump */
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  color: var(--ink);
+  outline: none;
+  resize: vertical;
+}
+textarea { min-height: 100px; }
+textarea:focus, input:focus { border-color: var(--ink); }
+
+.field-label {
+  display: block;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--silver);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.06em;
+}
+
+.field-hint {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--silver);
+  margin-top: 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  border: 1px solid var(--ink);
+  padding: 0.875rem 1.75rem;
+  font-family: var(--serif);
+  font-size: 0.88rem;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink);
+  transition: all 0.2s ease;
+}
+.btn-primary { background: var(--ink); color: var(--ivory); }
+.btn-primary:hover { background: var(--ink-soft); }
+.btn-ghost:hover { background: var(--ivory-2); }
+.btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 4rem 0;
+}
+.loading-text {
+  font-family: var(--serif-en);
+  font-style: italic;
+  color: var(--hush);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+.loading-dots {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+.loading-dots span {
+  width: 6px; height: 6px;
+  background: var(--ink);
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+.loading-dots span:nth-child(3) { animation-delay: 0s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* Results */
+.result-intro {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--ink-soft);
+  padding: 0 1rem;
+}
+body[data-market="cn"] .result-intro {
+  font-family: var(--serif);
+  font-style: normal;
+  letter-spacing: 0.06em;
+}
+
+.picks { display: grid; gap: 2.5rem; margin-bottom: 3rem; }
+
+.pick {
+  border: 1px solid var(--line);
+  padding: 1.75rem;
+  background: var(--ivory);
+  position: relative;
+}
+.pick-rank {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.36em;
+  color: var(--silver);
+  text-align: center;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+.pick-name {
+  font-family: var(--display);
+  font-size: 1.65rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+  margin-bottom: 0.35rem;
+}
+.pick-id {
+  text-align: center;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--silver);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.25rem;
+}
+.pick-reasoning {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  margin-bottom: 1.25rem;
+}
+.pick-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--silver);
+  letter-spacing: 0.06em;
+}
+body[data-market="cn"] .pick-meta {
+  font-family: var(--serif);
+  font-style: normal;
+  letter-spacing: 0.1em;
+}
+
+.result-next {
+  text-align: center;
+  font-style: italic;
+  font-family: var(--serif-en);
+  color: var(--hush);
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+body[data-market="cn"] .result-next {
+  font-family: var(--serif);
+  font-style: normal;
+}
+
+.result-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Demo mode banner */
+.demo-banner {
+  background: var(--ivory-2);
+  border: 1px dashed var(--silver);
+  padding: 0.875rem 1.25rem;
+  text-align: center;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.04em;
+}
+.demo-banner strong { font-style: normal; }
+
+/* Market switch */
+.market-toggle {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--silver);
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-transform: uppercase;
+}
+.market-toggle:hover { color: var(--ink); }
+
+@media (max-width: 640px) {
+  .page { padding: 2.5rem 1.25rem 4rem; }
+  .actions { flex-direction: column-reverse; }
+  .actions .btn { width: 100%; }
+}
+</style>
+</head>
+
+<body data-market="cn">
+
+<button class="market-toggle" onclick="toggleMarket()" id="market-toggle">EN</button>
+
+<div class="page">
+
+  <div class="brand-overline" id="brand-overline">YÀN · Yunnan Studio · Gift Finder</div>
+  <h1 class="brand-title" id="brand-title">为 她 寻 礼</h1>
+  <p class="brand-sub" id="brand-sub">告诉我们一些关于她的事 —— 我们一起,把那一件挑出来。</p>
+
+  <div class="demo-banner" id="demo-banner">
+    <strong>POC demo:</strong> 当前为本地演示模式 · 已使用 Claude API 时回答会个性化 · <span id="demo-status">未连接 API · 使用样例响应</span>
+  </div>
+
+  <!-- progress -->
+  <div class="progress" id="progress"></div>
+
+  <!-- step 1 -->
+  <div class="step active" data-step="1">
+    <div class="step-overline" id="s1-overline">谁 / WHO</div>
+    <div class="step-question" id="s1-q">这一件,送给谁?</div>
+    <div class="options" id="s1-options"></div>
+    <div class="actions">
+      <span></span>
+      <button class="btn btn-primary" onclick="next()" id="s1-next">继 续 →</button>
+    </div>
+  </div>
+
+  <!-- step 2 -->
+  <div class="step" data-step="2">
+    <div class="step-overline" id="s2-overline">什么时刻 / OCCASION</div>
+    <div class="step-question" id="s2-q">是什么时刻让你想到送这一件?</div>
+    <div class="options" id="s2-options"></div>
+    <div class="actions">
+      <button class="btn btn-ghost" onclick="prev()" id="s2-prev">← 返 回</button>
+      <button class="btn btn-primary" onclick="next()" id="s2-next">继 续 →</button>
+    </div>
+  </div>
+
+  <!-- step 3 -->
+  <div class="step" data-step="3">
+    <div class="step-overline" id="s3-overline">她的风格 / HER STYLE</div>
+    <div class="step-question" id="s3-q">她平时穿戴的风格是?</div>
+    <div class="options" id="s3-options"></div>
+    <div class="actions">
+      <button class="btn btn-ghost" onclick="prev()" id="s3-prev">← 返 回</button>
+      <button class="btn btn-primary" onclick="next()" id="s3-next">继 续 →</button>
+    </div>
+  </div>
+
+  <!-- step 4 -->
+  <div class="step" data-step="4">
+    <div class="step-overline" id="s4-overline">预算 / BUDGET</div>
+    <div class="step-question" id="s4-q">这次的预算大致是?</div>
+    <div class="options" id="s4-options"></div>
+    <div class="actions">
+      <button class="btn btn-ghost" onclick="prev()" id="s4-prev">← 返 回</button>
+      <button class="btn btn-primary" onclick="next()" id="s4-next">继 续 →</button>
+    </div>
+  </div>
+
+  <!-- step 5 -->
+  <div class="step" data-step="5">
+    <div class="step-overline" id="s5-overline">关于她 / ABOUT HER</div>
+    <div class="step-question" id="s5-q">关于她,有什么是我们应该知道的?</div>
+    <p class="field-hint" id="s5-hint" style="text-align:center;margin-bottom:1.5rem;">两三句话,她的性格、她近期在经历什么、她平时戴什么 —— 越具体我们挑得越准。</p>
+    <textarea id="s5-input" placeholder="她比较内敛 · 平时戴翡翠手镯 · 60 岁生日 · 不爱招摇 ..."></textarea>
+    <div class="actions">
+      <button class="btn btn-ghost" onclick="prev()" id="s5-prev">← 返 回</button>
+      <button class="btn btn-primary" onclick="submit()" id="s5-submit">让 工 坊 为 我 挑 →</button>
+    </div>
+  </div>
+
+  <!-- loading -->
+  <div class="step" data-step="loading">
+    <div class="loading">
+      <div class="loading-text" id="loading-text">工坊正在为您挑 ——</div>
+      <div class="loading-dots"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <!-- results -->
+  <div class="step" data-step="results">
+    <div class="result-intro" id="result-intro"></div>
+    <div class="picks" id="result-picks"></div>
+    <p class="result-next" id="result-next"></p>
+    <div class="result-actions">
+      <button class="btn btn-ghost" onclick="restart()" id="result-restart">重 新 寻 礼</button>
+      <button class="btn btn-primary" onclick="consult()" id="result-consult">直 接 私 约 →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// CONFIG — change this when worker is deployed
+// ============================================================
+const GIFT_FINDER_ENDPOINT = ''; // e.g. 'https://yan-gift-finder.your-name.workers.dev'
+
+// ============================================================
+// COPY (CN / EN)
+// ============================================================
+const COPY = {
+  cn: {
+    brandOverline: 'YÀN · 滇韵工坊 · 寻礼',
+    brandTitle: '为 她 寻 礼',
+    brandSub: '告诉我们一些关于她的事 —— 我们一起,把那一件挑出来。',
+    demoStatus: '未连接 API · 使用样例响应',
+    s1: {
+      overline: '谁 / 收礼人',
+      q: '这一件,送给谁?',
+      options: [
+        { v: 'mother', label: '送给母亲 / 长辈', aux: '生日、节日、感谢' },
+        { v: 'partner', label: '送给爱人 / 伴侣', aux: '周年、求婚、纪念' },
+        { v: 'friend', label: '送给亲密好友', aux: '生日、特别日子' },
+        { v: 'self', label: '送给自己', aux: '人生节点、自我犒劳' },
+        { v: 'other', label: '送给其他重要的人', aux: '导师、客户、长辈' }
+      ]
+    },
+    s2: {
+      overline: '什么时刻',
+      q: '是什么时刻让你想到送这一件?',
+      options: [
+        { v: 'birthday', label: '生日 / 重要的年纪', aux: '60 岁、30 岁、孩子的第一岁...' },
+        { v: 'anniversary', label: '周年 / 长情纪念', aux: '结婚周年、相识纪念...' },
+        { v: 'milestone', label: '人生 milestone', aux: '升职、毕业、新角色' },
+        { v: 'healing', label: '陪她走过一段时光', aux: '康复、转折、新开始' },
+        { v: 'justbecause', label: '没有理由 · 就是想送', aux: '日常的牵挂' },
+        { v: 'self-celebrate', label: '犒劳自己', aux: '完成了一件大事' }
+      ]
+    },
+    s3: {
+      overline: '她的风格',
+      q: '她平时穿戴的风格是?',
+      options: [
+        { v: 'subtle', label: '内敛安静', aux: '不爱招摇,藏在质地里' },
+        { v: 'classical', label: '古典端庄', aux: '翡翠、珍珠、传家味' },
+        { v: 'modern', label: '现代简约', aux: '极简、几何、当代' },
+        { v: 'bold', label: '有态度 · 有声音', aux: '愿意被看见' },
+        { v: 'mixed', label: '她什么都戴 · 看心情', aux: '风格灵活' }
+      ]
+    },
+    s4: {
+      overline: '预算',
+      q: '这次的预算大致是?',
+      options: [
+        { v: 'low', label: '¥1,200 - ¥2,000', aux: '入门 · 第一件 YÀN' },
+        { v: 'mid', label: '¥2,000 - ¥3,500', aux: '常见送礼区间' },
+        { v: 'high', label: '¥3,500 - ¥5,500', aux: '重要场合 · 收藏级' },
+        { v: 'flex', label: '看作品决定 · 弹性', aux: '为对的那件预算可以调' }
+      ]
+    },
+    s5: {
+      overline: '关于她',
+      q: '关于她,有什么是我们应该知道的?',
+      hint: '两三句话,她的性格、她近期在经历什么、她平时戴什么 —— 越具体我们挑得越准。',
+      placeholder: '她比较内敛 · 平时戴翡翠手镯 · 60 岁生日 · 不爱招摇 ...'
+    },
+    loadingText: '工坊正在为您挑 ——',
+    btnNext: '继 续 →',
+    btnPrev: '← 返 回',
+    btnSubmit: '让 工 坊 为 我 挑 →',
+    btnRestart: '重 新 寻 礼',
+    btnConsult: '直 接 私 约 →',
+    pickRank: ['之 一', '之 二', '之 三'],
+    pickRanks: ['Match 1', 'Match 2', 'Match 3']
+  },
+  en: {
+    brandOverline: 'YÀN · Yunnan Studio · Gift Finder',
+    brandTitle: 'Find <em>Her</em> Gift',
+    brandSub: 'Tell us about her — together, we\'ll find the one piece.',
+    demoStatus: 'API not connected · using sample response',
+    s1: {
+      overline: 'Who · the recipient',
+      q: 'Who is the gift for?',
+      options: [
+        { v: 'mother', label: 'For my mother or an elder', aux: 'birthday, gratitude, holiday' },
+        { v: 'partner', label: 'For my partner or beloved', aux: 'anniversary, proposal, milestone' },
+        { v: 'friend', label: 'For a close friend', aux: 'birthday, a meaningful day' },
+        { v: 'self', label: 'For myself', aux: 'a life marker, a moment to keep' },
+        { v: 'other', label: 'For someone else important', aux: 'mentor, client, elder' }
+      ]
+    },
+    s2: {
+      overline: 'Occasion',
+      q: 'What is the moment that brought you here?',
+      options: [
+        { v: 'birthday', label: 'A meaningful birthday', aux: '60th, 30th, the first year of a child...' },
+        { v: 'anniversary', label: 'An anniversary or long-bond mark', aux: 'wedding, years of friendship...' },
+        { v: 'milestone', label: 'A life milestone', aux: 'promotion, graduation, new role' },
+        { v: 'healing', label: 'Walking her through a passage', aux: 'recovery, transition, beginning' },
+        { v: 'justbecause', label: 'No occasion — just because', aux: 'a quiet thinking-of-you' },
+        { v: 'self-celebrate', label: 'Marking my own moment', aux: 'something I accomplished' }
+      ]
+    },
+    s3: {
+      overline: 'Her style',
+      q: 'How does she usually dress?',
+      options: [
+        { v: 'subtle', label: 'Quiet and considered', aux: 'no logos, held in the material' },
+        { v: 'classical', label: 'Classical, heirloom-leaning', aux: 'jade, pearls, traditional' },
+        { v: 'modern', label: 'Modern minimal', aux: 'geometric, contemporary, clean' },
+        { v: 'bold', label: 'Speaks with presence', aux: 'comfortable being seen' },
+        { v: 'mixed', label: 'She wears it all', aux: 'depends on her mood' }
+      ]
+    },
+    s4: {
+      overline: 'Budget',
+      q: 'What budget feels right for this gift?',
+      options: [
+        { v: 'low', label: '$369 – $579', aux: 'introduction · first YÀN piece' },
+        { v: 'mid', label: '$579 – $999', aux: 'common gift range' },
+        { v: 'high', label: '$999 – $1,479', aux: 'a milestone piece · collectable' },
+        { v: 'flex', label: 'Open · for the right piece', aux: 'budget flexes if the piece is right' }
+      ]
+    },
+    s5: {
+      overline: 'About her',
+      q: 'What should we know about her?',
+      hint: 'Two or three sentences — her character, what she\'s going through, what she usually wears. The more specific, the better we choose.',
+      placeholder: 'She\'s quiet, wears mostly jade · turning 60 next month · prefers things not too loud...'
+    },
+    loadingText: 'The atelier is choosing —',
+    btnNext: 'Continue →',
+    btnPrev: '← Back',
+    btnSubmit: 'Let the atelier choose →',
+    btnRestart: 'Start over',
+    btnConsult: 'Talk to the atelier →',
+    pickRank: ['Match 1', 'Match 2', 'Match 3'],
+    pickRanks: ['Match 1', 'Match 2', 'Match 3']
+  }
+};
+
+// ============================================================
+// PRODUCT CATALOG (subset for matching)
+// ============================================================
+const PRODUCTS = [
+  { id: 'YA-2026-0001', name_cn: '绿野雏菊', name_en: 'Daisy of the Meadow', series: 'bloom', form_cn: '胸针', form_en: 'Brooch', priceCN: 1280, status: 'available' },
+  { id: 'YA-2026-0003', name_cn: '银杏环', name_en: 'Ginkgo Wreath', series: 'bloom', form_cn: '胸针·可作衣饰', form_en: 'Brooch · also worn as ornament', priceCN: 1380, status: 'available' },
+  { id: 'YA-2026-0005', name_cn: '紫兰格窗', name_en: 'Iris Lattice', series: 'season', form_cn: '手镯', form_en: 'Bracelet', priceCN: 5180, status: 'available' },
+  { id: 'YA-2026-0006', name_cn: '青兰格窗', name_en: 'Iris Lattice in Cyan', series: 'season', form_cn: '手镯', form_en: 'Bracelet', priceCN: 5180, status: 'available' },
+  { id: 'YA-2026-0008', name_cn: '鱼戏莲叶 · 长命锁', name_en: 'Koi & Lotus Long-Life Lock', series: 'heirloom', form_cn: '长命锁·项链', form_en: 'Long-life lock · pendant', priceCN: 3180, status: 'available' },
+  { id: 'YA-2026-0010', name_cn: '靛蓝之蝶 · 流苏项链', name_en: 'Indigo Butterfly with Tassels', series: 'butterfly', form_cn: '项链·锁骨链', form_en: 'Necklace · collarbone chain', priceCN: 2380, status: 'available' },
+  { id: 'YA-2026-0012', name_cn: '青莲编织 · 手链', name_en: 'Narcissus on a Cord', series: 'bloom', form_cn: '手链·可调节', form_en: 'Bracelet · adjustable', priceCN: 1280, status: 'available' }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let MARKET = 'cn';
+let currentStep = 1;
+const TOTAL_STEPS = 5;
+const answers = { recipient: null, occasion: null, style: null, budget: null, aboutHer: '' };
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  applyMarket();
+  renderProgress();
+  renderOptions();
+  document.getElementById('s5-input').addEventListener('input', e => { answers.aboutHer = e.target.value; });
+
+  // demo status check
+  if (GIFT_FINDER_ENDPOINT) {
+    document.getElementById('demo-status').textContent = MARKET === 'cn'
+      ? `已连接 API · ${GIFT_FINDER_ENDPOINT}`
+      : `Connected to API · ${GIFT_FINDER_ENDPOINT}`;
+  }
+}
+
+function applyMarket() {
+  document.body.setAttribute('data-market', MARKET);
+  document.documentElement.lang = MARKET === 'cn' ? 'zh-CN' : 'en';
+  const c = COPY[MARKET];
+  document.getElementById('brand-overline').textContent = c.brandOverline;
+  document.getElementById('brand-title').innerHTML = c.brandTitle;
+  document.getElementById('brand-sub').textContent = c.brandSub;
+  document.getElementById('demo-status').textContent = GIFT_FINDER_ENDPOINT
+    ? (MARKET === 'cn' ? '已连接 API' : 'Connected to API')
+    : c.demoStatus;
+
+  for (let i = 1; i <= 5; i++) {
+    const sd = c['s' + i];
+    document.getElementById(`s${i}-overline`).textContent = sd.overline;
+    document.getElementById(`s${i}-q`).textContent = sd.q;
+  }
+  document.getElementById('s5-hint').textContent = c.s5.hint;
+  document.getElementById('s5-input').placeholder = c.s5.placeholder;
+  document.getElementById('loading-text').textContent = c.loadingText;
+
+  for (let i = 1; i <= 4; i++) document.getElementById(`s${i}-next`).textContent = c.btnNext;
+  for (let i = 2; i <= 5; i++) document.getElementById(`s${i}-prev`).textContent = c.btnPrev;
+  document.getElementById('s5-submit').textContent = c.btnSubmit;
+  document.getElementById('result-restart').textContent = c.btnRestart;
+  document.getElementById('result-consult').textContent = c.btnConsult;
+  document.getElementById('market-toggle').textContent = MARKET === 'cn' ? 'EN' : '中';
+  renderOptions();
+}
+
+function toggleMarket() {
+  MARKET = (MARKET === 'cn') ? 'en' : 'cn';
+  applyMarket();
+}
+
+function renderProgress() {
+  const p = document.getElementById('progress');
+  p.innerHTML = '';
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i === currentStep ? ' active' : (i < currentStep ? ' done' : ''));
+    p.appendChild(d);
+  }
+}
+
+function renderOptions() {
+  const c = COPY[MARKET];
+  for (let i = 1; i <= 4; i++) {
+    const sd = c['s' + i];
+    const container = document.getElementById(`s${i}-options`);
+    container.innerHTML = '';
+    sd.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option';
+      const stateKey = ['recipient','occasion','style','budget'][i-1];
+      if (answers[stateKey] === opt.v) btn.classList.add('selected');
+      btn.innerHTML = `<span class="option-main">${opt.label}</span><span class="option-aux">${opt.aux}</span>`;
+      btn.onclick = () => selectOption(i, opt.v, stateKey);
+      container.appendChild(btn);
+    });
+  }
+}
+
+function selectOption(stepNum, value, key) {
+  answers[key] = value;
+  renderOptions();
+}
+
+function showStep(step) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.step[data-step="${step}"]`).classList.add('active');
+  if (typeof step === 'number') {
+    currentStep = step;
+    renderProgress();
+  }
+}
+
+function next() {
+  if (currentStep < TOTAL_STEPS) showStep(currentStep + 1);
+}
+function prev() {
+  if (currentStep > 1) showStep(currentStep - 1);
+}
+
+function restart() {
+  currentStep = 1;
+  Object.keys(answers).forEach(k => { answers[k] = (k === 'aboutHer' ? '' : null); });
+  document.getElementById('s5-input').value = '';
+  showStep(1);
+  renderOptions();
+}
+
+function consult() {
+  window.location.href = 'mailto:hello@yan-atelier.com?subject=' +
+    encodeURIComponent(MARKET === 'cn' ? 'YÀN · 私约咨询' : 'YÀN · Consult inquiry');
+}
+
+// ============================================================
+// SUBMIT — call API or fall back to sample
+// ============================================================
+async function submit() {
+  showStep('loading');
+  let result;
+  if (GIFT_FINDER_ENDPOINT) {
+    try {
+      const r = await fetch(GIFT_FINDER_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers, market: MARKET })
+      });
+      result = await r.json();
+    } catch (e) {
+      console.warn('API call failed, falling back to sample', e);
+      result = sampleResult();
+    }
+  } else {
+    await sleep(2200); // simulate latency for UX
+    result = sampleResult();
+  }
+  renderResults(result);
+  showStep('results');
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ============================================================
+// SAMPLE RESULT (demo mode — used when GIFT_FINDER_ENDPOINT is empty)
+// ============================================================
+function sampleResult() {
+  // Simple keyword-ish matching for demo
+  const isLow = answers.budget === 'low';
+  const isHigh = answers.budget === 'high';
+  const subtle = answers.style === 'subtle' || answers.style === 'classical';
+  const heirloom = answers.recipient === 'mother' || answers.occasion === 'milestone';
+
+  let picks;
+  if (heirloom && !isLow) {
+    picks = ['YA-2026-0008', 'YA-2026-0010', 'YA-2026-0003'];
+  } else if (subtle && isHigh) {
+    picks = ['YA-2026-0006', 'YA-2026-0005', 'YA-2026-0010'];
+  } else if (isLow) {
+    picks = ['YA-2026-0012', 'YA-2026-0001', 'YA-2026-0003'];
+  } else {
+    picks = ['YA-2026-0010', 'YA-2026-0008', 'YA-2026-0003'];
+  }
+
+  const reasoning = {
+    cn: {
+      'YA-2026-0001': '绿野雏菊是 YÀN 入门作之一,十六瓣花配淡水珍珠,绿色珐琅渐变如初夏阳光。她若内敛安静,这件够"她"但不抢话。',
+      'YA-2026-0003': '银杏环以六片银杏叶围成一圈,绿釉由叶尖至叶柄渐深 —— 像秋未深时一棵尚未褪色的树。可作胸针,也可作衣饰,适合常年戴的人。',
+      'YA-2026-0005': '紫兰格窗是 YÀN 最具收藏感的一件:六格镂空银窗 + 紫兰珐琅 + 红石榴扣 + 红玉髓垂坠。重要时刻的重要礼物。',
+      'YA-2026-0006': '青兰格窗是紫兰的姐妹款,蓝色版本,末端缀镂空莲花扣 —— 母亲对"清净"的小小落款。可以姐妹、母女、知己成对赠予。',
+      'YA-2026-0008': '鱼戏莲叶长命锁取中式传统形制 ——"莲"通"连",代代相传;"鱼"通"余",富足之意。绳结手编。婴礼、寿礼、成人礼皆宜。',
+      'YA-2026-0010': '靛蓝之蝶以靛蓝渐变珐琅烧制翼面,翼脉镂空,身后双流苏。锁骨链,蝶停胸前的位置。佩戴时流苏轻晃,有声有色。',
+      'YA-2026-0012': '青莲编织手链可调节,适合从少女到母亲的任意尺寸 —— 因此,也是三代人之间互相赠予最常见的一款。'
+    },
+    en: {
+      'YA-2026-0001': 'Daisy of the Meadow — sixteen petals around a freshwater pearl, the enamel shading green to soft yellow. For a quiet wearer, it is enough to feel "her" without raising its voice.',
+      'YA-2026-0003': 'Ginkgo Wreath — six leaves in a circle, the green deepening from tip to stem. May be worn as brooch or ornament. For someone who likes a single piece that travels with everything.',
+      'YA-2026-0005': 'Iris Lattice — six openwork silver windows holding wire-inlay enamel irises, with red garnet clasps and a carnelian teardrop. A major-occasion piece that becomes a personal heirloom.',
+      'YA-2026-0006': 'Iris Lattice in Cyan — the sister to Iris Lattice, in blue, finished with an openwork lotus clasp — the maker\'s quiet signature for stillness. Paired works for sisters, mother and daughter, close friends.',
+      'YA-2026-0008': 'Koi & Lotus Long-Life Lock — traditional Chinese long-life form. Lián (lotus) for "connecting generations," yú (fish) for "abundance." Hand-braided silk cord. For an infant, an elder, or one\'s own coming-of-age.',
+      'YA-2026-0010': 'Indigo Butterfly — wings fired in indigo enamel with openwork veins, two silver tassels behind. Sits low on the collarbone; the tassels stir as you move. For someone who wears presence quietly.',
+      'YA-2026-0012': 'Narcissus on a Cord — adjustable bracelet sized from a young girl to a mother. For that reason, the piece most often passed between three generations.'
+    }
+  };
+
+  const c = COPY[MARKET];
+  const intro = MARKET === 'cn'
+    ? `根据您说的 —— 我们工坊为您筛了 3 件方向。每一件都标了为什么我们觉得它合 "她"。`
+    : `From what you've shared, the atelier has narrowed it to these three directions. Each comes with why we think it fits her.`;
+
+  const nextLine = MARKET === 'cn'
+    ? `如果其中有让您动心的,可直接点开看作品页 · 或私约工坊详细沟通(刻字、配色、尺寸都可定制)。`
+    : `If one catches your eye, open the piece page to see more — or write to the atelier for engraving, custom colour, or sizing.`;
+
+  return {
+    intro,
+    picks: picks.map(id => {
+      const p = PRODUCTS.find(x => x.id === id);
+      return {
+        id,
+        name: MARKET === 'cn' ? p.name_cn : p.name_en,
+        form: MARKET === 'cn' ? p.form_cn : p.form_en,
+        priceCN: p.priceCN,
+        reasoning: reasoning[MARKET][id]
+      };
+    }),
+    next_step: nextLine
+  };
+}
+
+// ============================================================
+// RENDER RESULTS
+// ============================================================
+function renderResults(r) {
+  const c = COPY[MARKET];
+  document.getElementById('result-intro').textContent = r.intro;
+  document.getElementById('result-next').textContent = r.next_step;
+  const cont = document.getElementById('result-picks');
+  cont.innerHTML = '';
+  r.picks.forEach((p, i) => {
+    const usd = Math.ceil((p.priceCN * 2 / 7) / 10) * 10 - 1;
+    const price = MARKET === 'cn'
+      ? '¥' + p.priceCN.toLocaleString()
+      : '$' + usd.toLocaleString();
+    const form = p.form || '';
+
+    const card = document.createElement('div');
+    card.className = 'pick';
+    card.innerHTML = `
+      <div class="pick-rank">— ${c.pickRank[i]} —</div>
+      <h3 class="pick-name">${p.name}</h3>
+      <div class="pick-id">${p.id}</div>
+      <p class="pick-reasoning">${p.reasoning}</p>
+      <div class="pick-meta">
+        <span>${form}</span>
+        <span>${price}</span>
+      </div>
+    `;
+    cont.appendChild(card);
+  });
+}
+
+// kick off
+init();
+</script>
+
+</body>
+</html>
