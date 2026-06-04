@@ -366,6 +366,8 @@
     opacity: 0;
     animation: fadeIn 0.6s ease 0.15s forwards;
   }
+  /* M1 · empty overline takes no vertical space — keeps Hero 3-tier breathing rhythm */
+  .hero-overline:empty { display: none; margin: 0; }
   .hero h1 {
     font-family: var(--display);
     font-weight: 400;
@@ -437,6 +439,8 @@
   }
   .hero-cta {
     display: flex; gap: 1.5rem;
+    /* M1 · 3-tier breathing — generous margin-top creates the second pause before action */
+    margin-top: 1.25rem;
     opacity: 0;
     animation: fadeIn 0.6s ease 0.8s forwards;
   }
@@ -1761,14 +1765,45 @@
     .pd-customize-summary-text { text-align: left; }
   }
 
+  /* M6 · PDP density · pd-attrs now wrapped in details for progressive disclosure */
+  .pd-spec-details {
+    margin: 1.5rem 0 2.25rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+  }
+  .pd-spec-summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--serif);
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+  }
+  .pd-spec-summary::-webkit-details-marker { display: none; }
+  body[data-market="global"] .pd-spec-summary { font-family: var(--serif-en); font-style: italic; }
+  .pd-spec-toggle {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--silver);
+    flex: 0 0 auto;
+    transition: transform 0.3s ease;
+  }
+  body[data-market="cn"] .pd-spec-toggle { font-family: var(--serif); font-style: normal; letter-spacing: 0.1em; }
+  details[open] .pd-spec-toggle { transform: rotate(90deg); }
+  .pd-spec-details[open] .pd-attrs { margin-top: 1.5rem; }
   .pd-attrs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem 2rem;
-    margin-bottom: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line);
+    padding-top: 0;
+    border-top: 0;
   }
+  .pd-attr-payment { grid-column: 1 / -1; padding-top: 1rem; border-top: 1px dashed var(--line); }
   .pd-attr { font-size: 0.88rem; }
   .pd-attr-label {
     font-family: var(--serif-en);
@@ -3567,9 +3602,44 @@
   /* ============================================================
      At Your Service · 私约 — Pippa Small concierge model
      ============================================================ */
+  /* M7 · Bespoke hero with ceremony — min-height + signature mark backdrop */
   .consult-hero {
-    padding: 6.5rem 3rem 3.75rem;
+    padding: 11rem 3rem 6rem;
     text-align: center;
+    min-height: 72svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    isolation: isolate;
+  }
+  .consult-hero::before {
+    content: 'HY';
+    position: absolute;
+    right: 6rem;
+    bottom: 4rem;
+    font-family: var(--display);
+    font-size: 7rem;
+    color: var(--ink);
+    opacity: 0.06;
+    letter-spacing: -0.02em;
+    transform: rotate(-6deg);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .consult-hero::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 3rem;
+    width: 60px;
+    height: 1px;
+    background: var(--line-strong);
+    transform: translateX(-30px);
+  }
+  @media (max-width: 768px) {
+    .consult-hero { padding: 7rem 1.5rem 4.5rem; min-height: 60svh; }
+    .consult-hero::before { right: 1.5rem; bottom: 2rem; font-size: 5rem; }
   }
   .consult-h1 {
     font-family: var(--display);
@@ -3908,6 +3978,44 @@
     max-width: 760px;
     margin: 0 auto;
     padding: 5.25rem 1.875rem 8rem;
+  }
+  /* M8 · reading progress · hairline at top of view-craft only */
+  .craft-progress {
+    position: sticky;
+    top: 80px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    z-index: 50;
+    pointer-events: none;
+    margin-bottom: -2px;
+  }
+  .craft-progress-bar {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--ink);
+    transition: width 0.15s linear;
+  }
+  /* M8 · pull-quote · used inline within craft sections for visual rhythm */
+  .craft-pull {
+    font-family: var(--display);
+    font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.22;
+    letter-spacing: -0.012em;
+    max-width: 620px;
+    margin: 3.5rem auto;
+    padding: 0 1.5rem 0 2rem;
+    border-left: 2px solid var(--ink);
+    color: var(--ink);
+  }
+  body[data-market="cn"] .craft-pull { font-family: var(--serif); font-weight: 500; letter-spacing: 0.04em; line-height: 1.5; }
+  .craft-pull em { font-family: var(--serif-en); font-style: italic; font-weight: 400; }
+  @media (max-width: 768px) {
+    .craft-progress { top: 60px; }
+    .craft-pull { font-size: clamp(1.5rem, 5vw, 2rem); padding-left: 1.25rem; margin: 2.5rem 0; }
   }
   .craft-hero { text-align: center; margin-bottom: 4.25rem; }
   .craft-h1 {
@@ -4724,7 +4832,7 @@
         <span>Made to order · 14–30 days</span><span class="sep"></span>
         <span>14-day returns</span><span class="sep"></span>
         <span>Lifetime care</span><span class="sep"></span>
-        <span>DHL · 5–7 days</span>
+        <span>International tracked</span>
       </div>
     </div>
     <div class="hero-img">
@@ -4964,6 +5072,8 @@
 <!-- ============ About ============ -->
 <!-- ============ Craft · 工艺 · 中国珐琅简史(SEO + GEO 旗舰) ============ -->
 <div class="view" id="view-craft">
+  <!-- M8 · reading-progress hairline (only visible while view-craft active) -->
+  <div class="craft-progress" id="craft-progress" aria-hidden="true"><span class="craft-progress-bar" id="craft-progress-bar"></span></div>
   <article class="craft-article">
     <header class="craft-hero">
       <div class="section-overline">Craft · 工艺</div>
@@ -5483,6 +5593,8 @@ const COPY = {
     pdPriceNote: '手作交期 14–30 天',
     pdCta1: '申请预订',
     pdCta2: '私人定制',
+    pdSpecToggle: '完整规格 →',
+    pdCtaStripeNow: '立即购买 →',
     pdConfigOverline: '小定制 · Light Customize',
     pdConfigNote: '不进定制流程,也可以挑你想要的版本。',
     pdConfigOptional: '选填',
@@ -6012,6 +6124,8 @@ const COPY = {
     pdPriceNote: 'Made to order · 14–30 days',
     pdCta1: 'Request to Reserve',
     pdCta2: 'Bespoke Order',
+    pdSpecToggle: 'Full specifications →',
+    pdCtaStripeNow: 'Buy now →',
     pdConfigOverline: 'Light Customize',
     pdConfigNote: 'Small adjustments without entering the bespoke flow.',
     pdConfigOptional: 'optional',
@@ -6951,6 +7065,32 @@ const FX_RATE = 7.0;   // ¥ → $ 汇率
 const PRICE_MULT = 2.0; // 海外溢价倍率
 const FIRST_VISIT_KEY = 'yan_visited_v3';
 
+// ============================================================
+// B1 · Stripe Payment Links scaffold · paste real URLs per SKU when ready
+// ============================================================
+// Workflow once user creates Stripe account:
+//   1. Stripe Dashboard → Payment Links → New
+//   2. Create one link per SKU with that SKU's CN price (Stripe handles currency switch)
+//   3. Paste the buylink (e.g. 'https://buy.stripe.com/abc123') keyed by product id below
+//   4. PDP CTA renders a "Pay Now via Stripe →" button INSTEAD OF the Reserve modal
+//      for SKUs that have a link set.
+// Sold/Reserved SKUs always route to Consult regardless of Stripe link.
+const STRIPE_LINKS = {
+  // 'YA-2026-0001': 'https://buy.stripe.com/your_link_here',
+  // 'YA-2026-0003': 'https://buy.stripe.com/your_link_here',
+  // 'YA-2026-0012': 'https://buy.stripe.com/your_link_here',
+};
+
+// ============================================================
+// B2 · Acuity / Cal.com booking URL scaffold
+// ============================================================
+// Once user signs up:
+//   - Acuity ($20/mo): https://acuityscheduling.com → create account → Get scheduling URL
+//   - Cal.com (free tier OK): https://cal.com → create account → Copy event URL
+//   Paste into ACUITY_BOOKING_URL below. The Consult page booking button will
+//   open the calendar instead of mailto when this is set.
+const ACUITY_BOOKING_URL = ''; // e.g. 'https://yanatelier.as.me/' or 'https://cal.com/yan-atelier/15min'
+
 // 价格换算:¥ → 全球售价 USD = (¥价 × 倍率) ÷ 汇率,取整到 9 结尾
 function priceFor(p) {
   if (MARKET === 'cn') return '¥' + p.priceCN.toLocaleString();
@@ -7152,19 +7292,32 @@ function copyMailAddress() {
 
 function openConsultBooking() {
   const c = COPY[MARKET];
+  // B2 · prefer Acuity / Cal.com calendar if configured, fall back to mailto
+  if (ACUITY_BOOKING_URL) {
+    if (window.plausible) plausible('Consult Booking Opened', { props: { method: 'calendar' } });
+    try { sessionStorage.setItem('yan_consult_attempted', '1'); } catch (e) {}
+    window.open(ACUITY_BOOKING_URL, '_blank', 'noopener');
+    setTimeout(showNlInlinePostConsult, 1500);
+    return;
+  }
   const subject = c.consultBookSubject || 'YÀN · Booking a conversation';
   const body = c.consultBookBody || '';
   const mailto = 'mailto:hello@yan-atelier.com'
     + '?subject=' + encodeURIComponent(subject)
     + '&body=' + encodeURIComponent(body);
-  // Plausible — task E
-  if (window.plausible) plausible('Consult Booking Opened');
-  // Mark consult-attempted flag so the inline newsletter banner can show post-consult
+  if (window.plausible) plausible('Consult Booking Opened', { props: { method: 'mailto' } });
   try { sessionStorage.setItem('yan_consult_attempted', '1'); } catch (e) {}
   window.location.href = mailto;
   setTimeout(() => { if (window.showMailFallbackToast) showMailFallbackToast(); }, 600);
-  // After mailto fires, surface inline newsletter if user has not subscribed
   setTimeout(showNlInlinePostConsult, 1500);
+}
+
+// B1 · Stripe checkout opener · invoked from PDP when STRIPE_LINKS[id] is set
+function openStripeCheckout(productId) {
+  const url = STRIPE_LINKS[productId];
+  if (!url) return;
+  if (window.plausible) plausible('Stripe Checkout Opened', { props: { product: productId } });
+  window.open(url, '_blank', 'noopener');
 }
 
 // ============================================================
@@ -7841,6 +7994,28 @@ function applyCopy() {
   document.getElementById('footer-copyright').textContent = c.footerCopyright;
   document.getElementById('footer-tagline').textContent = c.footerTagline;
 
+  // M8 · Craft reading-progress scroll listener (RAF throttled, only ticks while view-craft is active)
+  (function installCraftProgress(){
+    if (window._craftProgressInstalled) return;
+    window._craftProgressInstalled = true;
+    let raf = 0;
+    const bar = document.getElementById('craft-progress-bar');
+    const article = document.querySelector('#view-craft .craft-article');
+    if (!bar || !article) return;
+    const tick = () => {
+      raf = 0;
+      if (currentView !== 'craft') { bar.style.width = '0%'; return; }
+      const rect = article.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const seen = Math.max(0, -rect.top);
+      const pct = Math.max(0, Math.min(100, total > 0 ? (seen / total) * 100 : 0));
+      bar.style.width = pct + '%';
+    };
+    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
+    window.addEventListener('resize', () => { if (!raf) raf = requestAnimationFrame(tick); });
+    tick();
+  })();
+
   // GUARDRAIL · D4 post-flight i18n render invariant
   // Add #audit to URL to scan for textContent that received literal HTML tags
   // (e.g. <strong> showing as visible characters — root cause of the rv-step1-p bug)
@@ -8154,48 +8329,58 @@ function openProduct(id, keepView) {
         </div>
         <p class="pd-desc">${data.desc}</p>
         ${pdRenderCustomize(p, PRODUCT_META[p.id], c)}
-        <div class="pd-attrs">
-          ${formVal ? `<div class="pd-attr">
-            <div class="pd-attr-label">${labels.form || ''}</div>
-            <div class="pd-attr-value">${formVal}</div>
-          </div>` : ''}
-          <div class="pd-attr">
-            <div class="pd-attr-label">${labels.maker}</div>
-            <div class="pd-attr-value">${c.hpMakerValue}</div>
-          </div>
-          <div class="pd-attr">
-            <div class="pd-attr-label">${labels.atelier}</div>
-            <div class="pd-attr-value">${c.hpAtelierValue}</div>
-          </div>
-          <div class="pd-attr">
-            <div class="pd-attr-label">${labels.material}</div>
-            <div class="pd-attr-value">${data.material}</div>
-          </div>
-          ${dimVal ? `<div class="pd-attr">
-            <div class="pd-attr-label">${labels.size || ''}</div>
-            <div class="pd-attr-value">${dimVal}</div>
-          </div>` : ''}
-          <div class="pd-attr">
-            <div class="pd-attr-label">${labels.lead}</div>
-            <div class="pd-attr-value">${c.pdLead}</div>
-          </div>
-        </div>
         <div class="pd-trust-strip">
           <span class="pd-trust-item"><strong>${c.pdTrustReturns || ''}</strong></span>
           <span class="pd-trust-item"><strong>${c.pdTrustShipping || ''}</strong></span>
           <span class="pd-trust-item"><strong>${c.pdTrustCare || ''}</strong></span>
         </div>
         <div class="pd-eta">${getDeliveryEstimate()}</div>
-        <div class="pd-payment-note">
-          <span>${c.pdPayment}</span>
-          ${c.pdPaymentChips.map(p => `<span class="pd-payment-chip">${p}</span>`).join('')}
-        </div>
+        <!-- M6 · pd-attrs collapsed into expandable details; payment chips merged into mini-FAQ scope -->
+        <details class="pd-spec-details">
+          <summary class="pd-spec-summary">
+            <span>${(formVal ? formVal + ' · ' : '') + (dimVal ? dimVal + ' · ' : '') + (data.material || '')}</span>
+            <span class="pd-spec-toggle">${c.pdSpecToggle || '完整规格 →'}</span>
+          </summary>
+          <div class="pd-attrs">
+            ${formVal ? `<div class="pd-attr">
+              <div class="pd-attr-label">${labels.form || ''}</div>
+              <div class="pd-attr-value">${formVal}</div>
+            </div>` : ''}
+            <div class="pd-attr">
+              <div class="pd-attr-label">${labels.maker}</div>
+              <div class="pd-attr-value">${c.hpMakerValue}</div>
+            </div>
+            <div class="pd-attr">
+              <div class="pd-attr-label">${labels.atelier}</div>
+              <div class="pd-attr-value">${c.hpAtelierValue}</div>
+            </div>
+            <div class="pd-attr">
+              <div class="pd-attr-label">${labels.material}</div>
+              <div class="pd-attr-value">${data.material}</div>
+            </div>
+            ${dimVal ? `<div class="pd-attr">
+              <div class="pd-attr-label">${labels.size || ''}</div>
+              <div class="pd-attr-value">${dimVal}</div>
+            </div>` : ''}
+            <div class="pd-attr">
+              <div class="pd-attr-label">${labels.lead}</div>
+              <div class="pd-attr-value">${c.pdLead}</div>
+            </div>
+            <div class="pd-attr pd-attr-payment">
+              <div class="pd-attr-label">${c.pdPayment || ''}</div>
+              <div class="pd-attr-value">${c.pdPaymentChips.join(' · ')}</div>
+            </div>
+          </div>
+        </details>
         <div class="pd-cta">
           ${(p.status === 'sold' || p.status === 'reserved')
             ? `<button class="btn btn-primary" onclick="navigate('consult')">${p.status === 'sold' ? c.pdCtaSold : c.pdCtaReserved}</button>
                <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`
-            : `<button class="btn btn-primary" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>
-               <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`}
+            : (STRIPE_LINKS[p.id]
+                ? `<button class="btn btn-primary" onclick="openStripeCheckout('${p.id}')">${c.pdCtaStripeNow || c.pdCta1}</button>
+                   <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`
+                : `<button class="btn btn-primary" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>
+                   <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`)}
         </div>
         <div class="pd-cta-microcopy">${c.pdCtaMicrocopy || ''}</div>
         <details class="pd-mini-faq">
@@ -8204,7 +8389,6 @@ function openProduct(id, keepView) {
             ${miniFaq.map(it => `<span class="mini-q">${it.q}</span><p>${it.a}</p>`).join('')}
           </div>
         </details>
-        <p class="pd-note">${c.pdNote}</p>
       </div>
     </div>
     <section class="pd-related">
