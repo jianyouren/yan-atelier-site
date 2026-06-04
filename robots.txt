@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap will be auto-generated once a real domain is wired.
+# Sitemap: https://yan-atelier.com/sitemap.xml

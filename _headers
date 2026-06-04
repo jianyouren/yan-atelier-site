@@ -1,0 +1,22 @@
+# Cloudflare Pages headers · YÀN Atelier
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+# Security headers — applied site-wide
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Long-cache static assets (images change infrequently)
+/images/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# HTML — short cache so customers see updates within minutes
+/*.html
+  Cache-Control: public, max-age=300, stale-while-revalidate=3600
+
+# Markdown docs — for repo browsers
+/*.md
+  Cache-Control: public, max-age=3600
