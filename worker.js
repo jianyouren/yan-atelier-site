@@ -2,17 +2,24 @@
  * YÀN Gift Finder · Cloudflare Worker backend
  * --------------------------------------------
  * Accepts POST { answers, market } from gift-finder-ai.html
- * Calls Anthropic Claude API with the AI Knowledge Base as system context
+ * Calls DeepSeek API with the AI Knowledge Base as system context
  * Returns parsed JSON: { intro, picks: [{id, name, form, priceCN, reasoning}], next_step }
  *
+ * Why DeepSeek (not Claude/GPT):
+ *   - ~10-14x cheaper than Claude Sonnet 4.6 ($0.27/M input vs $3/M)
+ *   - OpenAI-compatible API (simple Bearer auth)
+ *   - response_format: 'json_object' guarantees valid JSON
+ *   - Domestic China latency advantage for CN-market visitors
+ *
  * Deploy:
- *   1. Save this as worker.js
- *   2. Save the wrangler.toml (sibling file)
- *   3. Get an Anthropic API key from console.anthropic.com
- *   4. Run: npx wrangler secret put ANTHROPIC_API_KEY
- *      (paste your key when prompted)
- *   5. Run: npx wrangler deploy
- *   6. Copy the deployed URL into gift-finder-ai.html's GIFT_FINDER_ENDPOINT constant
+ *   1. Get a DeepSeek API key from https://platform.deepseek.com
+ *   2. Run: npx wrangler secret put DEEPSEEK_API_KEY
+ *      (paste your sk-... key when prompted)
+ *   3. Run: npx wrangler deploy
+ *   4. Copy the deployed URL into gift-finder-ai.html's GIFT_FINDER_ENDPOINT constant
+ *
+ * To switch back to Claude or to OpenAI: only the fetch URL, header, and
+ * model name in the MAIN HANDLER need to change. System prompt is portable.
  */
 
 // ============================================================
@@ -117,30 +124,37 @@ export default {
     const userMessage = formatUserMessage(answers, market);
 
     try {
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
+      // DeepSeek API · OpenAI-compatible chat completions
+      // Pricing (2026): deepseek-chat ~ $0.27/M input, $1.10/M output (~10-14x cheaper than Claude Sonnet)
+      // Domestic-China latency advantage for CN market visitors.
+      const r = await fetch('https://api.deepseek.com/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'x-api-key': env.ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-          'content-type': 'application/json'
+          'Authorization': `Bearer ${env.DEEPSEEK_API_KEY}`,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
+          model: 'deepseek-chat',
           max_tokens: 1500,
-          system: systemPrompt,
-          messages: [{ role: 'user', content: userMessage }]
+          temperature: 0.6,
+          response_format: { type: 'json_object' },
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: userMessage }
+          ]
         })
       });
 
       if (!r.ok) {
         const errText = await r.text();
-        return jsonError(`Anthropic API error: ${r.status} ${errText}`, 502);
+        return jsonError(`DeepSeek API error: ${r.status} ${errText}`, 502);
       }
 
       const data = await r.json();
-      const text = (data.content && data.content[0] && data.content[0].text) || '';
+      const text = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || '';
 
-      // Extract first valid JSON object from the response
+      // response_format: json_object guarantees valid JSON,
+      // but we still defensively extract the first {...} block in case the model wrapped it.
       const match = text.match(/\{[\s\S]*\}/);
       if (!match) return jsonError('LLM returned no JSON', 502);
 

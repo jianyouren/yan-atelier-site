@@ -42,18 +42,18 @@ Plausible script is already in the page (`<head>`). You need to register the pro
 
 ---
 
-## ③ Anthropic API key · turn on AI Gift Finder backend (5 min) · OPTIONAL
+## ③ DeepSeek API key · turn on AI Gift Finder backend (5 min) · OPTIONAL
 
-The Gift Finder POC works offline with a hardcoded demo. To make it actually call Claude:
+The Gift Finder POC works offline with a hardcoded demo. To make it actually call DeepSeek (~10-14x cheaper than Claude, OpenAI-compatible, fast CN-side latency):
 
-1. https://console.anthropic.com/ → sign in / sign up → add a payment method (pay-per-use, typical Gift Finder call ≈ $0.015)
-2. **API Keys** → **Create Key** → name it `yan-atelier-worker` → copy the `sk-ant-...` string somewhere safe
+1. https://platform.deepseek.com → sign up → **Billing** → add credit (¥10 ≈ $1.40 covers ~1000 Gift Finder calls)
+2. **API Keys** → **Create new API key** → name it `yan-atelier-worker` → copy the `sk-...` string somewhere safe
 3. Open a terminal on your computer:
    ```bash
    cd "d:\YAN_Atelier_Site"
    npx wrangler login   # opens browser, click Allow
-   npx wrangler secret put ANTHROPIC_API_KEY
-   # paste the sk-ant-... key when prompted, press Enter
+   npx wrangler secret put DEEPSEEK_API_KEY
+   # paste the sk-... key when prompted, press Enter
    npx wrangler deploy
    ```
 4. Wrangler prints a URL like `https://yan-gift-finder.<your-subdomain>.workers.dev`
@@ -62,8 +62,10 @@ The Gift Finder POC works offline with a hardcoded demo. To make it actually cal
    const GIFT_FINDER_ENDPOINT = '';
    ```
    Paste your Worker URL inside the quotes.
-6. Commit + push → Cloudflare Pages redeploys → Gift Finder now calls real Claude
+6. Commit + push → Cloudflare Pages redeploys → Gift Finder now calls real DeepSeek
 7. Tell me — I'll add Plausible event tracking on Gift Finder submissions.
+
+**Cost expectations:** 1000 monthly Gift Finder calls ≈ ¥10 / $1.30. 10,000 calls ≈ ¥100 / $13.
 
 > Skip this until after Cloudflare Pages is live. Demo mode is enough for investor first look.
 

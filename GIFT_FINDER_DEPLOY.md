@@ -26,12 +26,13 @@ When you're happy with the UX, proceed to Phase 1 to wire real AI.
 
 ## Phase 1 · Get accounts ready (10 min)
 
-### 1.1 Sign up Anthropic (5 min)
+### 1.1 Sign up DeepSeek (5 min)
 
-1. Go to https://console.anthropic.com/
-2. Sign up with email
-3. **Add payment method** (required — Claude API is pay-per-use, very cheap; typical Gift Finder call costs ~$0.005-0.015)
-4. Go to **API Keys** → create new key → copy it somewhere safe (you can't view it again)
+1. Go to https://platform.deepseek.com → sign up with email or Google
+2. **Add credit** (pay-per-use, very cheap; typical Gift Finder call costs ~$0.0005-0.0015 — roughly **1/12 the price of Claude**)
+3. Go to **API Keys** → create new key → copy it somewhere safe (you can't view it again)
+
+> Why DeepSeek over Claude/OpenAI: 10-14x cheaper, OpenAI-compatible API, and domestic-China servers mean faster latency for your CN-market visitors. The atelier voice system prompt works identically.
 
 ### 1.2 Sign up Cloudflare (5 min)
 
@@ -59,14 +60,14 @@ wrangler login
 
 This opens a browser tab — click Allow.
 
-### 2.3 Set the Anthropic API key as a Secret (1 min)
+### 2.3 Set the DeepSeek API key as a Secret (1 min)
 
 ```bash
 cd "d:\YAN_Atelier_Site"
-wrangler secret put ANTHROPIC_API_KEY
+wrangler secret put DEEPSEEK_API_KEY
 ```
 
-When prompted, paste your Anthropic API key (the `sk-ant-...` string from Phase 1.1).
+When prompted, paste your DeepSeek API key (the `sk-...` string from Phase 1.1).
 
 ### 2.4 Deploy the Worker (1 min)
 
@@ -127,11 +128,14 @@ If you want to host the Gift Finder at `yan-atelier.com/gift-finder-ai`:
 - Anthropic console → Usage → shows token consumption + cost
 - Add Plausible event tracking by editing `gift-finder-ai.html` to call `plausible('Gift Finder Submitted', { props: { recipient, occasion } })` before `submit()`
 
-### Cost expectations
-- Sonnet 4.6 pricing: ~$3 / million input tokens, ~$15 / million output tokens
-- Each Gift Finder call: ~1500 input + ~800 output ≈ $0.017 per call
-- 100 calls/month = ~$1.70
-- 1,000 calls/month = ~$17
+### Cost expectations (DeepSeek-Chat)
+- Pricing: ~$0.27 / million input tokens, ~$1.10 / million output tokens (2026 rates)
+- Each Gift Finder call: ~1500 input + ~800 output ≈ **$0.0013 per call**
+- 100 calls/month ≈ **$0.13**
+- 1,000 calls/month ≈ **$1.30**
+- 10,000 calls/month ≈ **$13**
+
+(For reference, the same volume on Claude Sonnet 4.6 would cost 10-14x more.)
 
 ### When to update the catalog
 **Every time a piece sells or new piece launches:**
@@ -155,17 +159,20 @@ After any edit: `wrangler deploy` → changes go live in ~10 seconds.
 
 ## Troubleshooting
 
-**"Worker exception: ANTHROPIC_API_KEY undefined"**
-→ You forgot Phase 2.3. Run `wrangler secret put ANTHROPIC_API_KEY` and paste your key.
+**"Worker exception: DEEPSEEK_API_KEY undefined"**
+→ You forgot Phase 2.3. Run `wrangler secret put DEEPSEEK_API_KEY` and paste your key.
 
-**"Anthropic API error: 401"**
-→ Your API key is invalid. Generate a new one in Anthropic console, then re-do Phase 2.3.
+**"DeepSeek API error: 401"**
+→ Your API key is invalid. Generate a new one at https://platform.deepseek.com → API keys, then re-do Phase 2.3.
 
-**"Anthropic API error: 429"**
-→ You hit rate limits. Either: add payment method (free tier is low), upgrade Anthropic tier, or implement retry-with-backoff in the worker.
+**"DeepSeek API error: 402"**
+→ Your DeepSeek balance is empty. Top up at https://platform.deepseek.com → Billing. Even ¥10 (~$1.40) covers ~1000 Gift Finder calls.
+
+**"DeepSeek API error: 429"**
+→ Rate limited. DeepSeek's free tier has generous limits; if hit, wait 60s or upgrade.
 
 **"LLM returned no JSON"**
-→ Claude responded with prose instead of JSON. Tighten the system prompt (or add `response_format: 'json'` once Anthropic supports it natively). For now, the frontend falls back to sampleResult().
+→ Should not happen — DeepSeek's `response_format: { type: "json_object" }` guarantees valid JSON. If it does, check the worker.js `body` field still includes the `response_format` param.
 
 **CORS errors in browser console**
 → Your worker isn't returning the right `Access-Control-Allow-Origin` header. Check `worker.js` — those headers are set, but if you forked the file, re-paste from the source.

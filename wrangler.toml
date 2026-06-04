@@ -6,5 +6,6 @@ compatibility_date = "2024-09-01"
 #   https://yan-gift-finder.<your-cloudflare-subdomain>.workers.dev
 # Copy that URL into gift-finder-ai.html (GIFT_FINDER_ENDPOINT constant).
 
-# ANTHROPIC_API_KEY is added as a Secret, NOT here.
-# Run: npx wrangler secret put ANTHROPIC_API_KEY
+# DEEPSEEK_API_KEY is added as a Secret, NOT here.
+# Get a key at https://platform.deepseek.com → API keys
+# Then run: npx wrangler secret put DEEPSEEK_API_KEY
