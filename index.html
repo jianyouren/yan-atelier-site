@@ -918,17 +918,17 @@
     /* M5 · sepia + saturate match Hero color treatment */
     filter: brightness(0.95) saturate(0.85) sepia(0.06);
   }
-  /* M5 · plate label · permanent printed mark at lower-right · 6mm visual weight */
+  /* M5 · plate label · permanent printed mark at lower-right · recognition hook (one notch up 2026-06-05) */
   .product-img::after {
     content: attr(data-plate);
     position: absolute;
-    bottom: 0.65rem;
-    right: 0.75rem;
+    bottom: 0.7rem;
+    right: 0.8rem;
     font-family: var(--serif-en);
     font-style: italic;
-    font-size: 0.62rem;
-    color: rgba(251, 247, 238, 0.55);
-    letter-spacing: 0.25em;
+    font-size: 0.7rem;
+    color: rgba(251, 247, 238, 0.72);
+    letter-spacing: 0.32em;
     z-index: 3;
     pointer-events: none;
   }
@@ -1580,16 +1580,16 @@
   }
   .pd-breadcrumb a:hover { color: var(--ink); border-bottom-color: var(--ink); }
   .pd-breadcrumb .sep { margin: 0 0.7em; color: var(--hush); }
-  /* PDP SKU line — minimal serial above the name; plate identity now lives in .pd-inventory */
+  /* PDP plate identifier — continuity with card watermark (No. XX recognition hook · 2026-06-05) */
   .pd-id {
     margin-bottom: 0.875rem;
   }
   .pd-id-sku {
     font-family: var(--serif-en);
     font-style: italic;
-    color: var(--hush);
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     font-variant-numeric: tabular-nums;
   }
@@ -4724,7 +4724,7 @@
     /* P1 · about-craft-cta link · 44pt tap target */
     .about-craft-cta { padding: 0.85rem 0.5rem; min-height: 44px; }
     /* P1 · plate label smaller + still legible · or hide when card already small */
-    .product-img::after { font-size: 0.55rem; letter-spacing: 0.18em; }
+    .product-img::after { font-size: 0.62rem; letter-spacing: 0.22em; }
     /* P1 · faq question + answer · readable on mobile, no max-height truncation */
     .faq-q { font-size: 0.95rem; }
     .faq-item.open .faq-a { max-height: none; }
@@ -4846,7 +4846,7 @@
     <div class="dual-door-inner">
       <a class="door door--bespoke" onclick="navigate('consult')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('consult')">
         <div class="door-overline">Bespoke · 定制</div>
-        <h2 class="door-h door-h-cn">心里有一件还没做出来的? 写信定制。</h2>
+        <h2 class="door-h door-h-cn">有定制需求,来信详谈。</h2>
         <h2 class="door-h door-h-en">A piece not yet made? <em>Commission it.</em></h2>
         <span class="door-arrow" aria-hidden="true">
           <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
@@ -4854,7 +4854,7 @@
       </a>
       <a class="door door--self" onclick="navigate('catalog', null, true, 'self')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'self')">
         <div class="door-overline">For Yourself · 为自己</div>
-        <h2 class="door-h door-h-cn">心里有一件,先犒赏自己。</h2>
+        <h2 class="door-h door-h-cn">先拥有它,再拥有世界。</h2>
         <h2 class="door-h door-h-en">A piece, for the moment <em>you've earned.</em></h2>
         <span class="door-arrow" aria-hidden="true">
           <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
@@ -4908,7 +4908,7 @@
       <div class="plique-overline">Plique-à-jour · 空窗珐琅</div>
       <h2 class="plique-cn">没有底,只有光。</h2>
       <h2 class="plique-en">No backing — <em>only the light passes through.</em></h2>
-      <p class="plique-fact plique-fact-cn">一种 14 世纪欧洲匠人留下的釉窗工艺。<strong>20 世纪末才回到中国 —— 全国能稳定烧空窗作品的匠人,数得出来。</strong></p>
+      <p class="plique-fact plique-fact-cn">一种 14 世纪欧洲匠人留下的釉窗工艺。<strong>20 世纪末才回到中国 —— 国内能稳定出活的人不多。</strong></p>
       <p class="plique-fact plique-fact-en">A 14th-century European glazing craft. <strong>It only returned to China at the very end of the 20th century — the number of Chinese makers who can fire plique-à-jour reliably is small enough to count.</strong></p>
       <a class="plique-link" onclick="navigate('craft')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('craft')">
         <span class="plique-link-cn">读工艺溯源 →</span>
@@ -5460,7 +5460,7 @@ const COPY = {
     heroOverline: '云南 · 滇韵工坊 · 胡艳创立',
     heroSub: '掐丝、点蓝、入炉。<br/>一件,只过一道火。',
     // Hero plique fact line — promoted from plique-section per evidence-led memo
-    heroPliqueFact: '空窗珐琅 · <strong>全球能做的工坊数得出来</strong>',
+    heroPliqueFact: '空窗珐琅 · <strong>全球能做的工坊不多</strong>',
     heroCta1: '查看全部作品',
     heroCta2: '为她寻礼',
     heroImgCaption: '空窗珐琅<strong>胡艳手作</strong>',
@@ -5709,7 +5709,7 @@ const COPY = {
     craftCtaConsult: '私约一次',
     // ============ At Your Service · 私约 ============
     consultOverline: '定制 · Bespoke',
-    consultH1: '为一个具体的人,做一件作品。',
+    consultH1: '为某人,定制一件作品。',
     consultSub: '从一个念头到一件成品。起价 ¥6,300 · 工期 4-8 周。',
     consultPromiseH: '工坊与你逐项确认。',
     consultPromiseP: '草图、釉色、配料、刻字 —— 创意层面的每个决策,工坊都和你确认到位。开工后,每个阶段你收到一次进度同步。',
@@ -5898,7 +5898,7 @@ const COPY = {
       '海棠湾,二十来岁的某个清晨。我母亲胡艳第一次拿起银丝、第一次点燃珐琅炉。那之后,她没再放下过。',
       '她没有师承,也不属于任何门派 —— 她的师傅,是一万次失败的炉火,和无数个凌晨还亮着的工作台。掐丝、点蓝、烧制、打磨,一件作品要经过数十道工序。',
       '釉料从天然矿石里提纯。某些颜色稀有,价格逼近黄金 —— 但只有它们,能让一件首饰传到你女儿手里时,仍像第一天出炉。不发黄,不褪色。',
-      '她还会一种叫空窗珐琅的工艺。釉料不挂任何金属衬底,入炉,只靠表面张力。烧成后,釉色像一扇扇透光的小窗 —— 这门手艺源于 14 世纪欧洲,新艺术运动期 Lalique 等人复兴,如今全世界能稳定做的工坊数得出来。',
+      '她还会一种叫空窗珐琅的工艺。釉料不挂任何金属衬底,入炉,只靠表面张力。烧成后,釉色像一扇扇透光的小窗 —— 这门手艺源于 14 世纪欧洲,新艺术运动期 Lalique 等人复兴,如今全世界能稳定做的工坊不多。',
       '2026 年,她把工作台从海棠湾搬到了云南。海岛湿热不养釉色,高原干凉,正合珐琅多次入炉的慢工。冬天太冷时她还是会回到海棠湾。新工坊取名「滇韵」 —— 滇,是云南的旧称;韵,留给手艺自己说话。',
       '我后来才知道,珐琅这门手艺本是元代沿丝绸之路从波斯、阿拉伯一带进中原的。学术上,云南被认为是它进入中国的可能通道之一。所以她搬回云南,某种意义上 —— 是把工艺带回了它七百年前最初落脚的地方。',
       '她的作品曾在一些重要场合代表中国工艺出现。出于尊重,具体不予详述。',
@@ -8314,7 +8314,7 @@ function openProduct(id, keepView) {
         <nav class="pd-breadcrumb" aria-label="breadcrumb">
           <a onclick="navigate('catalog', null, true)">${shopLabel}</a><span class="sep">·</span><a onclick="navigate('catalog','${p.series}', true)">${seriesName}</a>
         </nav>
-        <div class="pd-id"><span class="pd-id-sku">${p.id}</span></div>
+        <div class="pd-id"><span class="pd-id-sku">No. ${p.id.slice(-2)}</span></div>
         <h1 class="pd-name">${data.name}</h1>
         <div class="pd-price-block">
           <div class="pd-price-main">
