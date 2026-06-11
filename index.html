@@ -428,6 +428,16 @@
     opacity: 0;
     animation: fadeIn 0.6s ease 0.65s forwards;
   }
+  .hero-plique-cite {
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+    transition: opacity 0.2s ease;
+  }
+  .hero-plique-cite:hover { opacity: 1; }
   body[data-market="global"] .hero-plique-fact {
     font-family: var(--serif-en);
     font-style: italic;
@@ -2254,21 +2264,6 @@
   body[data-market="global"] .hp-promise { font-family: var(--serif-en); font-style: italic; }
   .hp-actions { text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
-  /* ============ Hero trust line(新增) ============ */
-  .hero-trust {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--silver);
-    letter-spacing: 0.2em;
-    margin-top: -1rem;
-    margin-bottom: 2.5rem;
-    text-transform: uppercase;
-    opacity: 0;
-    animation: fadeIn 0.6s ease 0.65s forwards;
-  }
-  body[data-market="cn"] .hero-trust { font-family: var(--serif); font-style: normal; letter-spacing: 0.18em; font-size: 0.9rem; text-transform: none; }
-
   /* ============ Mobile hamburger(新增) ============ */
   .nav-toggle {
     display: none;
@@ -2807,7 +2802,6 @@
     .hero-img { order: -1; min-height: 58vh; }
     .hero-text { padding: 2rem 1.5rem 3rem; }
     .hero-overline { font-size: 0.85rem; margin-bottom: 1.2rem; }
-    .hero-trust { font-size: 0.78rem; margin-bottom: 1.8rem; }
     .hero .hero-h1-cn, .hero .hero-h1-en { font-size: clamp(2rem, 9vw, 3rem); margin-bottom: 1.2rem; }
     .hero-sub { font-size: 0.95rem; margin-bottom: 2rem; }
   }
@@ -3224,8 +3218,6 @@
   .hero-cta .btn-ghost:hover { color: var(--ink); }
   .hero-cta .btn-ghost:hover::after { transform: scaleX(1); background: var(--ink); }
 
-  /* Hide hero-trust - moved to promo bar */
-  .hero-trust { display: none; }
 
   /* View Transitions API — luxury cross-fade between views */
   @media (prefers-reduced-motion: no-preference) {
@@ -4853,7 +4845,7 @@
       <p class="atelier-sub atelier-sub-en"><em>Eight hundred degrees.</em> Many firings, until the light is right.</p>
       <p class="atelier-sub atelier-sub-cn"><em>八百度</em>。反复入炉,直到光对。</p>
     </div>
-    <div class="atelier-credit">Hu Yan · Founder · Yunnan Studio (winter: Hai Tang Wan)</div>
+    <div class="atelier-credit">Hu Yan · Founder · Yunnan Studio</div>
   </section>
 
   <!-- ============ Plique-à-jour(新增) ============ -->
@@ -5398,11 +5390,10 @@ const COPY = {
     heroOverline: '云南 · 滇韵工坊 · 胡艳创立',
     heroSub: '掐丝、点蓝、入炉。<br/>一件,5-10 次入炉,800°C 烧成。',
     // Hero plique fact line — promoted from plique-section per evidence-led memo
-    heroPliqueFact: '空窗珐琅 · <strong>全球能做的工坊不多</strong>',
+    heroPliqueFact: '空窗珐琅 · <strong>全球能做的工坊不多</strong> · <a class="hero-plique-cite" onclick="navigate(\'craft\')">见工艺简史</a>',
     heroCta1: '查看全部作品',
     heroCta2: '为她寻礼',
     heroImgCaption: '空窗珐琅<strong>胡艳手作</strong>',
-    heroTrust: '¥1,280 起 · 手作 14-30 天',
     // Hook(改为礼物钩子,迎光见心已下移至 plique-section 视觉化呈现)
     hookMain: '这世上有一类器物 ——<br/>她<em>不会为自己挑</em>,<br/>你却会想为她挑。',
     hookAttr: '关于送礼',
@@ -5894,7 +5885,7 @@ const COPY = {
     geoBtnSwitch: '前往 Global 站 →',
     geoBtnStay: '留在当前',
     // Completeness Pass(新增)
-    promoText: '本批 7 件现货 · 顺丰直送 · 14 天可退',
+    promoText: '¥1,280 起 · 本批 7 件现货 · 14 天可退',
     mailFallbackText: '邮件未自动打开?复制工坊邮箱',
     mailFallbackCopyBtn: '复制 →',
     mailFallbackCopied: '已复制',
@@ -5939,11 +5930,10 @@ const COPY = {
     heroOverline: 'Yunnan Studio · Founded by Hu Yan',
     heroSub: 'Silver wire, mineral enamel, kiln-fired —<br/>each piece, through its own fire.',
     // Hero plique fact — promoted from plique-section per evidence-led memo
-    heroPliqueFact: 'Plique-à-jour — <strong>practised by few in the world today</strong>',
+    heroPliqueFact: 'Plique-à-jour — <strong>practised by few in the world today</strong> · <a class="hero-plique-cite" onclick="navigate(\'craft\')">read the history</a>',
     heroCta1: 'View the Collection',
     heroCta2: 'Find Her Gift',
     heroImgCaption: 'Plique-à-jour<strong>Founded by Hu Yan</strong>',
-    heroTrust: 'From $369 · Made to order · 14–30 days',
     hookMain: 'Some pieces — <em>she would not choose for herself</em>.<br/>You can choose them, for her.',
     hookAttr: 'On Gifting',
     featuredTitle: 'New from the Bench',
@@ -6419,7 +6409,7 @@ const COPY = {
     geoBtnSwitch: 'Go to Chinese Site →',
     geoBtnStay: 'Stay Here',
     // Completeness Pass
-    promoText: '7 in stock this batch · International tracked shipping · 14-day return',
+    promoText: 'From $369 · 7 in stock this batch · 14-day return',
     mailFallbackText: 'Email didn\'t open? Copy our atelier address',
     mailFallbackCopyBtn: 'Copy →',
     mailFallbackCopied: 'Copied',
@@ -7455,8 +7445,6 @@ function applyCopy() {
   document.getElementById('hero-cta1').textContent = c.heroCta1;
   document.getElementById('hero-cta2').textContent = c.heroCta2;
   document.getElementById('hero-img-caption').innerHTML = c.heroImgCaption;
-  const heroTrustEl = document.getElementById('hero-trust');
-  if (heroTrustEl) heroTrustEl.textContent = c.heroTrust || '';
   // Plique-à-jour substantiated fact line (promoted from plique-section per evidence-led memo)
   const heroPliqueFactEl = document.getElementById('hero-plique-fact');
   if (heroPliqueFactEl) heroPliqueFactEl.innerHTML = c.heroPliqueFact || '';
