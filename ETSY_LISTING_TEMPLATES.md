@@ -5,7 +5,7 @@ Phase-1 lighthouse channel strategy: put 2-3 sub-$300 SKUs on Etsy to build inte
 Per Etsy pricing research, comparable indie plique-à-jour / Chinese enamel pieces are in the **$150-400 range**, populated by Nicole Barr, EnamelRoom (Georgia), independent enamelists. YÀN's $182-310 entries are exactly placed.
 
 **Trust evidence required in every listing** (without these, you fall into the $50 Chinese-factory cluster):
-1. Hu Yan name + "Master enameller, Yunnan studio" line
+1. Hu Yan name + "Founder, Yunnan studio" line
 2. 925 silver hallmark photo (visible in gallery)
 3. Plique-à-jour transparency macro shot (held to light)
 4. 800°C / 5-10 firings craft details
@@ -100,7 +100,7 @@ PIECE
 · Pin and clasp on reverse
 
 MAKER
-Hu Yan · founder · Yunnan studio. The workshop has been her bench for twenty years; the move to Yunnan in 2026 was for the dry air, better for multi-firing enamel.
+Hu Yan · founder · Yunnan studio. The workshop has been her bench for more than twenty years; the move to Yunnan in 2026 was for the dry air, better for multi-firing enamel.
 
 CRAFT
 Wire-inlay is the older sibling of plique-à-jour: silver wire bent to the design, soldered, then enamel laid into the cells. Both are kiln-fired the same way. The difference: wire-inlay sits on a metal backing — the colour is opaque, layered, painterly. Plique-à-jour leaves the cells empty, holds light. Our ginkgo wreath is wire-inlay.
@@ -118,7 +118,7 @@ SHIPPING + RETURNS
 14 business days production · international tracked · 14-day return policy
 
 ABOUT
-YÀN · Yunnan Studio · 滇韵珐琅手工坊 · Founded by Hu Yan, master enameller
+YÀN · Yunnan Studio · 滇韵珐琅手工坊 · Founded by Hu Yan
 ```
 
 ### Tags
@@ -149,7 +149,7 @@ PIECE
 · Hand-tied closing knot · slides to size
 
 MAKER
-Hu Yan · master enameller · Yunnan studio. Twenty years at the bench. Plique-à-jour, cloisonné, wire-inlay — she works all three. This bracelet is wire-inlay (painted), not plique.
+Hu Yan · founder · Yunnan studio. Plique-à-jour, cloisonné, wire-inlay — she works all three. This bracelet is wire-inlay (painted), not plique.
 
 GIFT
 Velvet box · hand-signed Heritage Card · the cord is hand-braided in our Yunnan workshop, never outsourced.

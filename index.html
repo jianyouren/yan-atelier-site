@@ -11,13 +11,13 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="YÀN Atelier — Given Once, Remembered Always" />
 <meta property="og:description" content="Handmade plique-à-jour and cloisonné enamel jewellery, founded by Hu Yan. Yunnan studio, with winter quarters at Hai Tang Wan." />
-<meta property="og:image" content="https://images.unsplash.com/photo-1718293515561-fb1e487931fe?w=1200&q=80&auto=format&fit=crop" />
+<meta property="og:image" content="https://yan-atelier.com/images/hero-model-butterfly-wing.jpg" />
 <meta property="og:url" content="https://yan-atelier-site.pages.dev/" />
 <meta property="og:site_name" content="YÀN Atelier" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="YÀN Atelier" />
 <meta name="twitter:description" content="Handmade plique-à-jour jewellery, founded by Hu Yan. YÀN · Yunnan Studio." />
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1718293515561-fb1e487931fe?w=1200&q=80&auto=format&fit=crop" />
+<meta name="twitter:image" content="https://yan-atelier.com/images/hero-model-butterfly-wing.jpg" />
 <link rel="canonical" href="https://yan-atelier.com/" />
 <!-- hreflang — international SEO -->
 <link rel="alternate" hreflang="zh-CN" href="https://yan-atelier.com/?market=cn" />
@@ -32,7 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Italiana&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1718293515561-fb1e487931fe?w=1600&q=80&auto=format&fit=crop" fetchpriority="high" />
+<link rel="preload" as="image" href="images/hero-model-butterfly-wing.jpg" fetchpriority="high" />
 <style>
   :root {
     /* Editorial atelier palette — warmer cream, deeper ink, measured by hand */
@@ -752,8 +752,7 @@
     .plique-text { padding: 4rem 2rem; }
   }
 
-  /* ============ 系列 ============ */
-  .series-section { padding: 9.5rem 3rem 8.5rem; }
+  /* ============ 通用 section 头部 ============ */
   .section-header {
     text-align: center;
     margin-bottom: 5.25rem;
@@ -793,71 +792,6 @@
     line-height: 1.55;
   }
   body[data-market="cn"] .section-sub { font-family: var(--serif); font-style: normal; font-size: 1.04rem; }
-
-  /* Editorial list: each series is a horizontal row, num + name + desc + arrow */
-  .series-grid {
-    display: flex;
-    flex-direction: column;
-    max-width: 1100px;
-    margin: 0 auto;
-    border-top: 1px solid var(--line);
-  }
-  .series-card {
-    display: grid;
-    grid-template-columns: 90px 1fr 1.6fr;
-    gap: 3rem;
-    align-items: center;
-    padding: 2.8rem 2rem;
-    border-bottom: 1px solid var(--line);
-    cursor: pointer;
-    text-align: left;
-    transition: background 0.5s ease, padding 0.5s ease;
-  }
-  .series-card:hover { background: var(--ivory-2); padding-left: 2.5rem; }
-  .series-num {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.92rem;
-    color: var(--hush);
-    letter-spacing: 0.22em;
-    font-variant-numeric: tabular-nums;
-  }
-  .series-name {
-    font-family: var(--display);
-    font-size: clamp(1.8rem, 2.8vw, 2.45rem);
-    font-weight: 400;
-    letter-spacing: -0.008em;
-    line-height: 1.05;
-  }
-  body[data-market="cn"] .series-name {
-    font-family: var(--serif);
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    font-size: clamp(1.5rem, 2.4vw, 2rem);
-    line-height: 1.25;
-  }
-  .series-desc {
-    font-size: 0.95rem;
-    color: var(--ink-soft);
-    line-height: 1.78;
-    position: relative;
-    padding-right: 3rem;
-    letter-spacing: 0.005em;
-    hanging-punctuation: first;
-  }
-  .series-desc::after {
-    content: '→';
-    position: absolute;
-    right: 0; top: 50%; transform: translateY(-50%);
-    font-family: var(--serif-en);
-    color: var(--hush);
-    font-size: 1.3rem;
-    transition: transform 0.4s ease, color 0.4s ease;
-  }
-  .series-card:hover .series-desc::after {
-    transform: translate(8px, -50%);
-    color: var(--ink);
-  }
 
   /* ============ 精选 ============ */
   .featured-section {
@@ -1607,6 +1541,23 @@
     font-size: clamp(2rem, 3.4vw, 2.6rem);
     letter-spacing: 0.025em;
     line-height: 1.25;
+  }
+  /* L1 · craft anchor strip — sits between product name and price as a value-reframe */
+  .pd-craft-anchor {
+    font-family: var(--serif-en);
+    font-size: 0.82rem;
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+    color: var(--ink-soft);
+    margin: -1.25rem 0 1.875rem;
+    max-width: 540px;
+    hanging-punctuation: first;
+  }
+  body[data-market="cn"] .pd-craft-anchor {
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    line-height: 1.85;
+    letter-spacing: 0.06em;
   }
   .pd-price {
     font-family: var(--serif-en);
@@ -3542,12 +3493,23 @@
   }
   body[data-market="global"] .pd-terms-plain { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.02em; font-size: 0.92rem; }
   .pd-included {
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .pd-included-img {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    margin: 0 0 1rem 0;
+    filter: saturate(0.94);
+  }
+  .pd-included-text {
     display: flex;
     align-items: baseline;
     gap: 0.625rem;
     flex-wrap: wrap;
-    padding-top: 1rem;
-    border-top: 1px solid var(--line);
   }
   .pd-included-label {
     font-family: var(--serif);
@@ -4427,7 +4389,7 @@
     inset: 0;
     pointer-events: none;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
-    /* M2 · bumped grain + soft-light gives the "printed in a magazine" feel for placeholder images */
+    /* M2 · grain + soft-light gives the "printed in a magazine" feel and unifies mixed photo sources */
     opacity: 0.4;
     mix-blend-mode: soft-light;
     z-index: 2;
@@ -4572,7 +4534,6 @@
       align-items: flex-start;
       gap: 1rem;
     }
-    .series-section { padding: 4rem 1.5rem; }
     .promise-section { padding: 5rem 1.5rem; }
     .faq-section { padding: 4rem 1.5rem 5rem; }
     .gift-section { padding: 5rem 1.5rem; }
@@ -4667,10 +4628,6 @@
     .hero { grid-template-columns: 1fr; }
     .hero-text { padding: 3rem 2rem; }
     .hero-img { min-height: 60vh; }
-    /* Series rows collapse: stack name + desc vertically per row */
-    .series-card { grid-template-columns: 60px 1fr; gap: 1.2rem; padding: 2rem 1.5rem; }
-    .series-card:hover { padding-left: 1.8rem; }
-    .series-desc { grid-column: 1 / -1; padding-right: 2rem; font-size: 0.88rem; }
     .product-grid, .catalog-grid { grid-template-columns: repeat(2, 1fr); padding: 2rem 1.5rem; }
     .maker-section, .pd-main, .about-icif { grid-template-columns: 1fr; }
     .maker-text, .pd-info, .about-icif-text { padding: 4rem 2rem; }
@@ -4813,8 +4770,8 @@
   <section class="hero">
     <div class="hero-text">
       <div class="hero-overline" id="hero-overline"></div>
-      <h1 class="hero-h1-cn">送一次,<br/>记一生。</h1>
-      <h1 class="hero-h1-en">Given Once,<br/><em>Remembered</em> Always.</h1>
+      <h1 class="hero-h1-cn">高级珠宝的工艺,<br/><em>独立工坊的价</em>。</h1>
+      <h1 class="hero-h1-en">Fine-jewellery craft.<br/><em>Atelier price.</em></h1>
       <p class="hero-sub" id="hero-sub"></p>
       <!-- Plique-à-jour substantiated fact — promoted from plique-section per evidence-led memo -->
       <p class="hero-plique-fact" id="hero-plique-fact"></p>
@@ -4836,7 +4793,7 @@
       </div>
     </div>
     <div class="hero-img">
-      <img src="https://images.unsplash.com/photo-1718293515561-fb1e487931fe?w=1600&q=80&auto=format&fit=crop" alt="A plique-à-jour enamel butterfly-wing pendant resting on orchid petals — YÀN Atelier" data-placeholder="unsplash:Alejandro Hikari · floral enamel necklace" />
+      <img src="images/hero-model-butterfly-wing.jpg" alt="A plique-à-jour enamel butterfly-wing pendant worn at the collarbone, with a pearl drop — YÀN Atelier" />
       <div class="hero-img-caption" id="hero-img-caption"></div>
     </div>
   </section>
@@ -4846,16 +4803,16 @@
     <div class="dual-door-inner">
       <a class="door door--bespoke" onclick="navigate('consult')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('consult')">
         <div class="door-overline">Bespoke · 定制</div>
-        <h2 class="door-h door-h-cn">有定制需求,来信详谈。</h2>
-        <h2 class="door-h door-h-en">A piece not yet made? <em>Commission it.</em></h2>
+        <h2 class="door-h door-h-cn">想做不一样的?跟工坊谈。</h2>
+        <h2 class="door-h door-h-en">Want it different? <em>Talk to the bench.</em></h2>
         <span class="door-arrow" aria-hidden="true">
           <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
         </span>
       </a>
-      <a class="door door--self" onclick="navigate('catalog', null, true, 'self')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'self')">
-        <div class="door-overline">For Yourself · 为自己</div>
-        <h2 class="door-h door-h-cn">这一件,留给自己。</h2>
-        <h2 class="door-h door-h-en">A piece, for the moment <em>you've earned.</em></h2>
+      <a class="door door--self" onclick="navigate('catalog', null, true)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true)">
+        <div class="door-overline">现货 · In Stock</div>
+        <h2 class="door-h door-h-cn">这一批 12 件, 4 件已售。</h2>
+        <h2 class="door-h door-h-en">12 in stock. <em>4 sold.</em></h2>
         <span class="door-arrow" aria-hidden="true">
           <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
         </span>
@@ -4867,7 +4824,7 @@
 
   <section class="maker-section">
     <div class="maker-img">
-      <img src="https://images.unsplash.com/photo-1715374033196-0ff662284a7e?w=1600&q=80&auto=format&fit=crop" alt="The founder at her workbench, YÀN · Yunnan Studio" data-placeholder="unsplash:Kelly Sikkema · woman at jewelry bench" />
+      <img src="images/maker-huyan-bench-2023.jpg" alt="Hu Yan at her workbench, firing enamel with a torch — YÀN Atelier" />
       <div class="maker-img-credit">Photographed by 蒙明珠</div>
     </div>
     <div class="maker-text">
@@ -4885,7 +4842,7 @@
   <!-- ============ Atelier(新增) ============ -->
   <section class="atelier-section">
     <div class="atelier-img">
-      <img src="https://images.unsplash.com/photo-1659032882703-f1e4983fe1b8?w=1600&q=80&auto=format&fit=crop" alt="Hand-made pieces resting on the workbench at YÀN · Yunnan Studio" data-placeholder="unsplash:Ruan Richard Rodrigues · workshop table with tools" />
+      <img src="images/atelier-bench-pieces.jpg" alt="Unfinished silver pieces resting on the workbench at YÀN · Yunnan Studio" />
     </div>
     <div class="atelier-overlay"></div>
     <div class="atelier-content">
@@ -4893,8 +4850,8 @@
       <div class="atelier-overline atelier-overline-cn">云南 · 滇韵工坊</div>
       <h2 class="atelier-h2 atelier-h2-en">Wire. Enamel. Kiln.</h2>
       <h2 class="atelier-h2 atelier-h2-cn">掐丝 · 点蓝 · 入炉。</h2>
-      <p class="atelier-sub atelier-sub-en"><em>Eight hundred degrees.</em> Fired only once.</p>
-      <p class="atelier-sub atelier-sub-cn"><em>八百度</em>。只过一道火。</p>
+      <p class="atelier-sub atelier-sub-en"><em>Eight hundred degrees.</em> Many firings, until the light is right.</p>
+      <p class="atelier-sub atelier-sub-cn"><em>八百度</em>。反复入炉,直到光对。</p>
     </div>
     <div class="atelier-credit">Hu Yan · Founder · Yunnan Studio (winter: Hai Tang Wan)</div>
   </section>
@@ -4902,14 +4859,14 @@
   <!-- ============ Plique-à-jour(新增) ============ -->
   <section class="plique-section">
     <div class="plique-img">
-      <img src="https://images.unsplash.com/photo-1685970731850-322fbd92c898?w=1600&q=80&auto=format&fit=crop" alt="A green plique-à-jour ginkgo wreath — translucent enamel, made at the atelier" data-placeholder="unsplash:Hosniye Sadeghi · floral pendant close-up" />
+      <img src="images/plique-butterfly-backlit.jpg" alt="A blue plique-à-jour butterfly held to the light — translucent enamel, made at the atelier" />
     </div>
     <div class="plique-text">
       <div class="plique-overline">Plique-à-jour · 空窗珐琅</div>
       <h2 class="plique-cn">没有底,只有光。</h2>
       <h2 class="plique-en">No backing — <em>only the light passes through.</em></h2>
-      <p class="plique-fact plique-fact-cn">一种 14 世纪欧洲匠人留下的釉窗工艺。<strong>20 世纪末才回到中国 —— 国内能稳定出活的人不多。</strong></p>
-      <p class="plique-fact plique-fact-en">A 14th-century European glazing craft. <strong>It only returned to China at the very end of the 20th century — the number of Chinese makers who can fire plique-à-jour reliably is small enough to count.</strong></p>
+      <p class="plique-fact plique-fact-cn">一种 14 世纪欧洲匠人留下的釉窗工艺。<strong>20 世纪末才回到中国 —— 当代能稳定烧成者全球寥寥。</strong></p>
+      <p class="plique-fact plique-fact-en">A 14th-century European glazing craft, lost to Asia for centuries. <strong>It returned to Chinese benches only at the end of the 20th century — few workshops worldwide still fire it reliably.</strong></p>
       <a class="plique-link" onclick="navigate('craft')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('craft')">
         <span class="plique-link-cn">读工艺溯源 →</span>
         <span class="plique-link-en">Read the full history →</span>
@@ -4919,14 +4876,7 @@
 
   <div class="section-divider"><span class="sd-line"></span></div>
 
-  <section class="series-section">
-    <div class="section-header">
-      <div class="section-overline">Five Collections</div>
-      <h2 class="section-title" id="series-title"></h2>
-      <p class="section-sub" id="series-sub"></p>
-    </div>
-    <div class="series-grid" id="series-grid"></div>
-  </section>
+  <!-- Series section removed 2026-06-10 · Strategy A (drop series taxonomy) per 18-brand naming research -->
 
   <section class="featured-section">
     <div class="featured-header">
@@ -5237,7 +5187,7 @@
   </section>
   <section class="about-icif">
     <div class="about-icif-img">
-      <img src="https://images.unsplash.com/photo-1779202522356-3a4232b1768d?w=1600&q=80&auto=format&fit=crop" alt="YÀN Atelier at the 2023 China International Cultural Industries Fair, Sanya" data-placeholder="unsplash:adam roye · artisan at market booth" />
+      <img src="images/icif-2023-officials.jpg" alt="YÀN Atelier at the 8th China International Cultural Industries Fair, Sanya 2023 — officials viewing the enamel work" />
       <div class="maker-img-credit" style="color:rgba(255,255,255,0.35);">© ICIF Sanya 2023</div>
     </div>
     <div class="about-icif-text">
@@ -5446,7 +5396,7 @@ const COPY = {
     marketCurrent: '中国 · ¥',
     // Hero
     heroOverline: '云南 · 滇韵工坊 · 胡艳创立',
-    heroSub: '掐丝、点蓝、入炉。<br/>一件,只过一道火。',
+    heroSub: '掐丝、点蓝、入炉。<br/>一件,5-10 次入炉,800°C 烧成。',
     // Hero plique fact line — promoted from plique-section per evidence-led memo
     heroPliqueFact: '空窗珐琅 · <strong>全球能做的工坊不多</strong>',
     heroCta1: '查看全部作品',
@@ -5456,28 +5406,25 @@ const COPY = {
     // Hook(改为礼物钩子,迎光见心已下移至 plique-section 视觉化呈现)
     hookMain: '这世上有一类器物 ——<br/>她<em>不会为自己挑</em>,<br/>你却会想为她挑。',
     hookAttr: '关于送礼',
-    // 系列
-    seriesTitle: '五个系列',
-    seriesSub: '工坊的作品,分为五个系列。',
     // 精选
     featuredTitle: '近作',
     featuredLink: '查看全部 →',
     // Maker
-    makerTitle: '一双手,<br/>一炉火,<br/>一生事。',
+    makerTitle: '我母亲,<br/><em>在工坊烧珐琅</em>。',
     makerP: [
       '这个品牌从一双手开始。',
       '我的母亲胡艳,工艺师,自年少时便拿起银丝、燃起珐琅。无师承,也不属任何门派 —— 她的师傅,是炉火,是凌晨还亮着的工作台。',
-      '她的作品曾作国礼,赠予外宾;也曾在文博会上,让政要驻足观看。但更多的日子里,她只是工作台前那个安静的女人 —— 一只翼,要烧到对为止。'
+      '她的作品曾在一些重要场合代表中国工艺出现 —— 出于尊重,具体不予详述。但更多的日子里,她只是工作台前那个安静的女人。'
     ],
     makerSigText: '创始人 · 工艺师<br/>滇韵珐琅手工坊',
     makerCta: '阅读完整故事 →',
     // Promise
-    promiseTitle: '这是一位匠人手作的器物,<br/>工坊照看它的一生。',
-    promiseSub: '无论你是这件器物的第一位持有人,还是第五位,我们的承诺,始终如一。',
+    promiseTitle: '手作的器物,<br/><em>由工坊看顾一生</em>。',
+    promiseSub: '自第一位持有人起,这件器物归工坊负责到底。无论它换过几位。',
     promiseList: [
       ['01', '终身翻新<br/>与抛光'],
-      ['02', '终身断链<br/>调链 · 换扣'],
-      ['03', '珐琅釉面<br/>终身保修'],
+      ['02', '断链 · 调链<br/>换扣'],
+      ['03', '珐琅釉面<br/>保修'],
       ['04', '工艺修复<br/>寄回返工'],
       ['05', '传承登记<br/>服务延续']
     ],
@@ -5488,7 +5435,7 @@ const COPY = {
     // Catalog
     catalogH1: '作品集',
     catalogEdition: '本批 · 现货',
-    catalogSub: '每一件,经数次入炉;烧成后没有两件一样。',
+    catalogSub: '每一件,8 至 10 次入炉,800°C 烧成。出工坊之后,工坊照看一辈子。',
     // Plain status labels (no plate framing, no scarcity countdown — evidence-led)
     plateReserved: '已预订',
     plateSold: '已售出',
@@ -5498,6 +5445,7 @@ const COPY = {
     pdTerms: '30% 可退定金锁单 · 余款验收后付 · 标准件 14 天无理由退',
     pdIncludedLabel: '每件含',
     pdIncludedItems: '传家护照,丝绒礼盒,终身保养。',
+    pdIncludedAlt: '丝绒礼盒,内附传家护照 — YÀN Atelier',
     // 4-tier inventory taxonomy (Stone & Strand model)
     stockTypes: {
       inStock: '现货 · 48 小时内发出',
@@ -5507,7 +5455,7 @@ const COPY = {
     },
     // Time-based drop messaging — plain DTC convention (evidence-led; no antiquarian Edition framing)
     nextDropOverline: '本批 · 现货',
-    nextDropText: '本批 12 件中,4 件已售出 · 下批新作工坊正在筹备 · 邮件订阅可第一时间收到通知。',
+    nextDropText: '本批 12 件中,4 件已售出 · 看中的件已售或想要相近设计,写信至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,工坊一对一回复 · 也可订阅,下批新作上架第一时间通知。',
     // Customer Letters (renamed from Letters Received — plain)
     lettersOverline: '客户来信',
     lettersTitleCN: '来自收到它的人。',
@@ -5577,16 +5525,16 @@ const COPY = {
     // Product detail
     pdAttrLabels: { form: '形制', maker: '匠人', atelier: '工坊', material: '材质', size: '尺寸 / 重量', lead: '交期' },
     pdLead: '手作 14–30 天',
-    pdPriceNote: '手作交期 14–30 天',
+    pdPriceNote: '手作 14-30 天 · 这是釉真正烧成的时间,不是营销话术',
     pdCta1: '申请预订',
     pdCta2: '私人定制',
     pdSpecToggle: '完整规格 →',
-    pdCtaStripeNow: '立即购买 →',
-    pdConfigOverline: '小定制 · Light Customize',
-    pdConfigNote: '不进定制流程,也可以挑你想要的版本。',
+    pdCtaStripeNow: '购买这一件 →',
+    pdConfigOverline: '选你的版本 · Pick your version',
+    pdConfigNote: '工坊可以做的几个微调 —— 不需要进定制流程。',
     pdConfigOptional: '选填',
-    pdConfigSummaryLabel: '你的配置',
-    pdConfigDefault: '原样 · 无定制',
+    pdConfigSummaryLabel: '你的版本',
+    pdConfigDefault: '本作配色 · 不调整',
     catalogSelfOverline: '为自己 · For Yourself',
     catalogSelfH: '挑一件给自己留下的器物。',
     catalogSelfP: '不为送礼,不为节日 —— 是你给自己的一个标记。一些客户从手镯开始(常戴),也有人从一件项链开始(自己看见)。',
@@ -5600,6 +5548,8 @@ const COPY = {
     pdTrustReturns: '14 天可退',
     pdTrustShipping: '顺丰 · 国际 DHL',
     pdTrustCare: '终身保养',
+    pdCraftAnchor: '同样的 plique-à-jour 高温珐琅工艺 · 不含一个世纪的品牌税',
+    pdCraftAnchorAlt: '同样的高温珐琅工艺 · 不含一个世纪的品牌税',
     pdEtaLabel: '预计到货 · ',
     pdPayment: '支付方式:',
     pdPaymentChips: ['微信支付', '支付宝', '银联'],
@@ -5890,7 +5840,7 @@ const COPY = {
       '我后来才知道,珐琅这门手艺本是元代沿丝绸之路从波斯、阿拉伯一带进中原的。学术上,云南被认为是它进入中国的可能通道之一。所以她搬回云南,某种意义上 —— 是把工艺带回了它七百年前最初落脚的地方。',
       '她的作品曾在一些重要场合代表中国工艺出现。出于尊重,具体不予详述。',
       '而我,是她的儿子。我把她的手作,带到了你眼前。',
-      '银价在涨、好矿石越来越难找、师傅的速度永远跟不上市场。所以我们做得不多 —— 但每一件,都可以成为真正属于一个人的礼物,也可以在多年以后,成为另一个人手中的传家信物。'
+      '银价在涨、好矿石越来越难找、烧成的速度跟不上市场。所以一年里做不出多少件 —— 也因此,每一件,落到一个人手里时,不再分摊给一个世纪的品牌税。'
     ],
     aboutCreditsH2: '匠人履历',
     aboutCraftCta: '读完整工艺简史 →',
@@ -5951,7 +5901,7 @@ const COPY = {
     promoClose: '关闭',
     faqTitle: '常见问题',
     faqList: [
-      { q: '一件作品要等多久?', a: '14-30 天起,这是统一手作工期。大件如格窗系列、簪钗双钗,需 6-8 周。订单确认后,我们会在 24 小时内与您说明具体交付时间。' },
+      { q: '一件作品要等多久?', a: '14-30 天起。大件需 6-8 周。订单确认后,24 小时内告知具体时间。' },
       { q: '可以退货吗?', a: '标准件可在收货后 14 天内申请退货,需保持完好,原盒一并寄回。定制款一旦开始制作,定金不予退还,但您可以全额转作下一件作品。' },
       { q: '不在中国大陆,可以买吗?', a: '可以。请切到右上角 Global 站,价格自动换算 USD。海外发货采用国际快递,运费、承运商与预估时长在订单确认时一起告知。' },
       { q: '怎么保养?', a: '每件作品附《保养与佩戴指南》。简言之:避水、避香水、避剧烈撞击,收纳时各件分开。我们提供终身免费翻新和釉面保修 —— 任何时候需要寄回返厂,我们都接。' },
@@ -5971,7 +5921,7 @@ const COPY = {
     nlBtn: '订阅 →',
     nlThanks: '已为您打开邮件 · 请发送。我们会在 24 小时内回信。',
     footerH4s: ['关于工坊', '作品', '终身服务'],
-    footerSocial: [['Instagram', 'https://instagram.com/yan_atelier'], ['Pinterest', '#'], ['WhatsApp', '#'], ['Email', 'mailto:hello@yan-atelier.com'], ['微信', '#'], ['小红书', '#']],
+    footerSocial: [['Instagram', 'https://instagram.com/yan_atelier'], ['Email', 'mailto:hello@yan-atelier.com']],
     footerAddress: '云南 · 中国 ｜ 冬季 · 海棠湾 · 三亚',
     // Series data
     series: [
@@ -5996,11 +5946,9 @@ const COPY = {
     heroTrust: 'From $369 · Made to order · 14–30 days',
     hookMain: 'Some pieces — <em>she would not choose for herself</em>.<br/>You can choose them, for her.',
     hookAttr: 'On Gifting',
-    seriesTitle: 'Five Collections',
-    seriesSub: 'Five collections, all from one workbench.',
     featuredTitle: 'New from the Bench',
     featuredLink: 'View All →',
-    makerTitle: 'One pair of <em>hands</em>,<br/>a lifetime of <em>fire</em>.',
+    makerTitle: 'Hu Yan fires enamel<br/><em>at the bench.</em>',
     makerP: [
       'This house begins with one pair of hands.',
       'My mother, Hu Yan, took up silver wire and enamel when she was very young, and has not put them down since. She had no teacher. Her teachers were the firings that failed, and the late hours at her bench.',
@@ -6008,12 +5956,12 @@ const COPY = {
     ],
     makerSigText: 'Founder · Enameller<br/>YÀN · Yunnan Studio',
     makerCta: 'Read the full story →',
-    promiseTitle: 'This is made by hand,<br/>and by heart.<br/>We will keep it,<br/>for as long as we live.',
-    promiseSub: 'Whether you are the first holder of this piece — or the fifth — our promise remains.',
+    promiseTitle: 'Made by hand.<br/><em>Kept by the bench, for life.</em>',
+    promiseSub: 'From the first holder onward, this piece is the atelier\'s to look after. However many hands it passes through.',
     promiseList: [
       ['01', 'Lifetime<br/>polish & refinish'],
-      ['02', 'Lifetime<br/>chain repair'],
-      ['03', 'Lifetime<br/>enamel warranty'],
+      ['02', 'Chain repair<br/>& re-clasping'],
+      ['03', 'Enamel<br/>warranty'],
       ['04', 'Workshop<br/>restoration'],
       ['05', 'Heritage<br/>re-registration']
     ],
@@ -6022,7 +5970,7 @@ const COPY = {
     giftCtaBtn: 'Find Her Gift →',
     catalogH1: 'The Collection',
     catalogEdition: 'In stock now',
-    catalogSub: 'Each piece, through many firings. Each one, unique.',
+    catalogSub: 'Each piece, 8–10 firings at 800°C. Once it leaves the bench, the bench keeps it for life.',
     // Plain status labels
     plateReserved: 'Reserved',
     plateSold: 'Sold',
@@ -6032,6 +5980,7 @@ const COPY = {
     pdTerms: '30% refundable deposit holds your order · Balance after approval · 14-day return on standard pieces',
     pdIncludedLabel: 'Each piece arrives with',
     pdIncludedItems: 'Heritage passport, silk box, lifetime care.',
+    pdIncludedAlt: 'Velvet box with heritage passport tucked inside — YÀN Atelier',
     stockTypes: {
       inStock: 'In stock · ships in 48 hours',
       madeToOrder: 'Made to order · 14–21 business days',
@@ -6039,7 +5988,7 @@ const COPY = {
       customOrder: 'Custom · 6–8 weeks'
     },
     nextDropOverline: 'In stock now',
-    nextDropText: '12 pieces in this batch, 4 already taken · next pieces in preparation at the bench · subscribe to be first notified.',
+    nextDropText: '12 pieces in this batch, 4 already taken · Write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> for similar work or next-batch enquiries — the bench replies directly · Or subscribe to be first notified.',
     // Customer Letters (renamed)
     lettersOverline: 'Customer Letters',
     lettersTitleEN: 'From those who have held one.',
@@ -6107,16 +6056,16 @@ const COPY = {
     },
     pdAttrLabels: { form: 'Form', maker: 'Maker', atelier: 'Atelier', material: 'Material', size: 'Size / Weight', lead: 'Lead Time' },
     pdLead: 'Made to order · 14–30 days',
-    pdPriceNote: 'Made to order · 14–30 days',
+    pdPriceNote: 'Made over 14–30 days at the bench · This is the time the kiln takes, not a marketing line',
     pdCta1: 'Request to Reserve',
     pdCta2: 'Bespoke Order',
     pdSpecToggle: 'Full specifications →',
-    pdCtaStripeNow: 'Buy now →',
-    pdConfigOverline: 'Light Customize',
-    pdConfigNote: 'Small adjustments without entering the bespoke flow.',
+    pdCtaStripeNow: 'Purchase this piece →',
+    pdConfigOverline: 'Pick your version',
+    pdConfigNote: 'A few choices the bench can adjust without a full commission.',
     pdConfigOptional: 'optional',
-    pdConfigSummaryLabel: 'Your configuration',
-    pdConfigDefault: 'As shown · no changes',
+    pdConfigSummaryLabel: 'Your version',
+    pdConfigDefault: 'As fired · no changes',
     catalogSelfOverline: 'For Yourself',
     catalogSelfH: 'A piece you choose for the woman you\'ve become.',
     catalogSelfP: 'Not for an occasion, not for a holiday — a marker you give yourself. Some begin with a bracelet (worn daily); others with a necklace (something you see yourself).',
@@ -6130,6 +6079,8 @@ const COPY = {
     pdTrustReturns: '14-day returns',
     pdTrustShipping: 'International tracked courier',
     pdTrustCare: 'Lifetime care',
+    pdCraftAnchor: 'The same plique-à-jour high-fire enamel. Without a century of brand markup.',
+    pdCraftAnchorAlt: 'The same high-fire enamel craft. Without a century of brand markup.',
     pdEtaLabel: 'Estimated arrival · ',
     pdPayment: 'Payment:',
     pdPaymentChips: ['Visa', 'Mastercard', 'Amex', 'PayPal'],
@@ -6417,7 +6368,7 @@ const COPY = {
       'Later I learned that enamel itself came down the Silk Road, brought into China during the Yuan dynasty by Persian and Arab metalworkers. Scholars suggest Yunnan may have been one of its entry corridors. So in moving the bench back to Yunnan, my mother — without intending it — returned the craft to a place where it may first have arrived. Seven hundred years late.',
       'Her work has on occasion stood, in important settings, as a small representation of Chinese craft. Out of respect for those occasions, the specifics are not described.',
       'And I am her son. I bring her handwork to you.',
-      'Silver prices rise. Good mineral pigments grow harder to find. The maker is slow, and slower still than the market. So we make very few — but each piece can become a true gift for one person, and years later, an heirloom in another\'s hands.'
+      'Silver prices rise. Good mineral pigments grow harder to find. The bench will never match a market\'s pace. So we make few — and each piece, when it reaches one person, is not paying for a century of brand markup.'
     ],
     aboutCreditsH2: 'A Maker\'s Record',
     aboutCraftCta: 'Read the full craft history →',
@@ -6475,7 +6426,7 @@ const COPY = {
     promoClose: 'Close',
     faqTitle: 'Frequently Asked',
     faqList: [
-      { q: 'How long does a piece take?', a: 'Standard works: 14–30 days. Statement pieces (Iris Lattice series, hairpin sets): 6–8 weeks. We\'ll confirm your exact timeline within 24 hours of your reservation.' },
+      { q: 'How long does a piece take?', a: 'Standard pieces: 14–30 days. Statement pieces: 6–8 weeks. Exact timeline confirmed within 24 hours of reservation.' },
       { q: 'Can I return a piece?', a: 'Standard works can be returned within 14 days in original condition, with the box. Bespoke commissions are not refundable once production begins — but the deposit can be applied to any other piece.' },
       { q: 'Do you ship internationally?', a: 'Yes. The Global site (top-right, GL) accepts international orders in USD. Shipping uses an international tracked courier; the carrier, cost, and estimated delivery window are confirmed when we accept your reservation.' },
       { q: 'How do I care for it?', a: 'Each piece comes with a Care & Wear guide. In short: avoid water and perfume, store separately. We offer lifetime polish and enamel warranty — send it back any time it needs attention.' },
@@ -6495,7 +6446,7 @@ const COPY = {
     nlBtn: 'Subscribe →',
     nlThanks: 'Email opened — please send. We\'ll be in touch within 24 hours.',
     footerH4s: ['The Atelier', 'Shop', 'Lifelong Care'],
-    footerSocial: [['Instagram', 'https://instagram.com/yan_atelier'], ['Pinterest', '#'], ['WhatsApp', '#'], ['Email', 'mailto:hello@yan-atelier.com']],
+    footerSocial: [['Instagram', 'https://instagram.com/yan_atelier'], ['Email', 'mailto:hello@yan-atelier.com']],
     footerAddress: 'Yunnan, China  |  winter quarters: Hai Tang Wan, Sanya',
     series: [
       { id: 'butterfly', num: 'No. 01', name: 'Butterflies', desc: 'Wing-veins set in silver wire;<br/>enamel filled, cell by cell.' },
@@ -7312,7 +7263,7 @@ function openStripeCheckout(productId) {
 (function initRevealOnScroll() {
   if (!('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const sels = '#view-home .hook-section, #view-home .maker-section, #view-home .atelier-section, #view-home .plique-section, #view-home .series-section, #view-home .featured-section, #view-home .promise-section, #view-home .gift-section';
+  const sels = '#view-home .hook-section, #view-home .maker-section, #view-home .atelier-section, #view-home .plique-section, #view-home .featured-section, #view-home .promise-section, #view-home .gift-section';
   function attach() {
     const targets = document.querySelectorAll(sels);
     if (!targets.length) return;
@@ -7584,16 +7535,7 @@ function applyCopy() {
   // Wishlist initialization (after applyCopy because filter chip needs label)
   if (typeof updateWishUI === 'function') updateWishUI();
 
-  // 系列
-  document.getElementById('series-title').textContent = c.seriesTitle;
-  document.getElementById('series-sub').textContent = c.seriesSub;
-  document.getElementById('series-grid').innerHTML = c.series.map(s => `
-    <div class="series-card" onclick="navigate('catalog','${s.id}', true)">
-      <div class="series-num">${s.num}</div>
-      <div class="series-name">${s.name}</div>
-      <div class="series-desc">${s.desc}</div>
-    </div>
-  `).join('');
+  // 注: c.series 数组仍是 catalog/PDP/溯源页的 id→名称查表,不能删
 
   // 精选 header
   document.getElementById('featured-title').textContent = c.featuredTitle;
@@ -7636,7 +7578,7 @@ function applyCopy() {
   document.getElementById('catalog-sub').textContent = c.catalogSub;
   // Time-based drop note (replaces Edition closure framing)
   const nextDropEl = document.getElementById('catalog-next-drop');
-  if (nextDropEl) nextDropEl.textContent = c.nextDropText || '';
+  if (nextDropEl) nextDropEl.innerHTML = c.nextDropText || '';
   document.getElementById('catalog-filters').innerHTML = c.catalogFilters.map(([k, l]) =>
     `<button class="filter-chip${k === 'all' ? ' active' : ''}" data-filter="${k}">${l}</button>`
   ).join('');
@@ -7842,7 +7784,7 @@ function applyCopy() {
       },
       "datePublished": "2026-06-03",
       "dateModified": new Date().toISOString().slice(0,10),
-      "image": ["https://images.unsplash.com/photo-1685970731850-322fbd92c898?w=1200&q=80&auto=format&fit=crop"],
+      "image": ["https://yan-atelier.com/images/plique-butterfly-backlit.jpg"],
       "about": [
         { "@type": "Thing", "name": "Cloisonné", "sameAs": "https://en.wikipedia.org/wiki/Cloisonn%C3%A9" },
         { "@type": "Thing", "name": "Plique-à-jour", "sameAs": "https://en.wikipedia.org/wiki/Plique-%C3%A0-jour" },
@@ -8290,6 +8232,10 @@ function openProduct(id, keepView) {
   const dimVal  = MARKET === 'cn' ? meta.dim_cn  : meta.dim_en;
   // Gallery: prefer meta.imgs[], fallback to single PRODUCTS.img
   const galleryImgs = (Array.isArray(meta.imgs) && meta.imgs.length) ? meta.imgs : [p.img];
+  // L1 craft anchor — choose plique-à-jour-specific version if material indicates it; else common high-fire enamel version
+  const matText = (data.material || '');
+  const isPlique = matText.includes('空窗') || matText.toLowerCase().includes('plique');
+  const craftAnchorText = isPlique ? (c.pdCraftAnchor || '') : (c.pdCraftAnchorAlt || c.pdCraftAnchor || '');
 
   document.getElementById('product-detail').innerHTML = `
     <div class="pd-main">
@@ -8302,6 +8248,7 @@ function openProduct(id, keepView) {
         </nav>
         <div class="pd-id"><span class="pd-id-sku">No. ${p.id.slice(-2)}</span></div>
         <h1 class="pd-name">${data.name}</h1>
+        <div class="pd-craft-anchor">${craftAnchorText}</div>
         <div class="pd-price-block">
           <div class="pd-price-main">
             <span class="pd-price-value">${priceFor(p)}</span>
@@ -8309,8 +8256,11 @@ function openProduct(id, keepView) {
           <div class="pd-shipby">${shipByFor(p, c)}</div>
           <div class="pd-terms-plain">${c.pdTerms || ''}</div>
           <div class="pd-included">
-            <span class="pd-included-label">${c.pdIncludedLabel || ''}</span>
-            <span class="pd-included-items">${c.pdIncludedItems || ''}</span>
+            <img class="pd-included-img" src="images/packaging-velvet-bamboo.png" alt="${c.pdIncludedAlt || ''}" loading="lazy" />
+            <div class="pd-included-text">
+              <span class="pd-included-label">${c.pdIncludedLabel || ''}</span>
+              <span class="pd-included-items">${c.pdIncludedItems || ''}</span>
+            </div>
           </div>
         </div>
         <p class="pd-desc">${data.desc}</p>

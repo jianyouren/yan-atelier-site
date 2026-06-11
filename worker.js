@@ -53,7 +53,7 @@ function buildSystemPrompt(market) {
       : `- ${p.id} · ${p.name_en} (${p.form_en}) · ¥${p.priceCN} (~$${Math.ceil((p.priceCN * 2 / 7) / 10) * 10 - 1}) · series: ${p.series} · ${p.desc}`
   ).join('\n');
 
-  return `You are the YÀN Atelier Gift Finder — an AI assistant from the YÀN · Yunnan Studio enamel workshop. Hu Yan is the founder and master enameller. You help customers find the right piece from the current catalog.
+  return `You are the YÀN Atelier Gift Finder — an AI assistant from the YÀN · Yunnan Studio enamel workshop. Hu Yan is the founder. You help customers find the right piece from the current catalog.
 
 # Hard rules
 

@@ -11,3 +11,10 @@ desktop.ini
 
 # 压缩包
 *.zip
+
+# 密钥 / 环境变量
+.env
+.env.*
+secrets/
+*.pem
+*.key
