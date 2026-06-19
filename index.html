@@ -49,6 +49,8 @@
     --display: 'Italiana', 'Cormorant Garamond', 'Noto Serif SC', serif;
     --serif-en: 'Cormorant Garamond', 'Noto Serif SC', serif;
     --serif: 'Noto Serif SC', 'Cormorant Garamond', serif;
+    /* System sans — reserved for numbers, IDs, form inputs, fineprint, microcopy ONLY */
+    --sans-en: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'Helvetica Neue', Arial, sans-serif;
     /* Editorial type scale — 1.618 (φ) ratio for dramatic hierarchy */
     --t-caption: 0.7rem;
     --t-small: 0.82rem;
@@ -58,13 +60,32 @@
     --t-h2: 2.6rem;
     --t-h2-large: 3.4rem;
     --t-h1: 5.4rem;
+    /* ─── Spacing scale — fluid clamp() per modern-web-design skill ─── */
+    --space-3xs: clamp(0.25rem, 0.2rem + 0.25vw, 0.375rem);
+    --space-2xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+    --space-xs:  clamp(0.75rem, 0.6rem + 0.75vw, 1.125rem);
+    --space-sm:  clamp(1rem, 0.8rem + 1vw, 1.5rem);
+    --space-md:  clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+    --space-lg:  clamp(2rem, 1.6rem + 2vw, 3rem);
+    --space-xl:  clamp(3rem, 2.4rem + 3vw, 4.5rem);
+    --space-2xl: clamp(4rem, 3rem + 5vw, 6rem);
+    --space-3xl: clamp(5rem, 3.5rem + 7vw, 8rem);
+    /* ─── Semantic spacing aliases — every section must consume these ─── */
+    --container: 1280px;          /* one canonical max-width */
+    --pad-x: var(--space-xl);     /* horizontal page gutter */
+    --pad-section: var(--space-3xl);  /* vertical section breathe */
+    --gap: var(--space-lg);       /* default grid gap */
+    --gap-lg: var(--space-xl);    /* editorial grid gap */
+    --ratio-editorial: 7fr 5fr;        /* canonical 2-col (first child wider) */
+    --ratio-editorial-flip: 5fr 7fr;   /* flipped variant (second child wider) */
+    --chrome-h: 80px;             /* nav-only offset (promo bar adds via JS) */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--ivory);
     color: var(--ink);
-    font-family: var(--serif);
+    font-family: var(--serif-en);
     font-weight: 400;
     line-height: 1.7;
     letter-spacing: 0.005em;
@@ -73,21 +94,11 @@
     text-rendering: optimizeLegibility;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   }
-  body[data-market="global"] { font-family: var(--serif-en); }
+  /* CN market reverts to CN-primary serif stack + 0 letter-spacing (positive tracking is a Western-type tell on Noto Serif SC) */
+  body[data-market="cn"] { font-family: var(--serif); letter-spacing: 0; }
   ::selection { background: var(--ink); color: var(--ivory); }
 
-  /* Paper-grain texture — signature atelier surface, 4% noise via SVG turbulence */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    mix-blend-mode: multiply;
-    opacity: 0.08;
-  }
-  @media (prefers-reduced-motion: reduce) { body::after { opacity: 0.05; } }
+  /* Paper-grain body::after noise removed 2026-06-19 (C1 audit) — SBB/Anna Hu/Alighieri/WWAKE/FARIS 0/5 use noise overlay */
 
   /* Editorial cursor: dual-stroke ring — dark outer for light surfaces, ivory inner for dark surfaces */
   .hero-img,
@@ -112,63 +123,55 @@
   /* body::before atmospheric gradients removed — trust the ivory ground */
 
   /* ============ 首次访问横幅 ============ */
-  /* Geo banner — bottom-right toast, no longer disrupts first impression */
+  /* Geo banner — top slim inline bar (G1 audit 2026-06-19, was SaaS bottom-right toast).
+     Alighieri pattern. Pushes nav down via body.has-geo-banner. */
   .geo-banner {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    background: var(--ink);
-    color: var(--ivory);
-    padding: 1.25rem 1.5rem 1.125rem;
-    z-index: 200;
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 36px;
+    z-index: 110;
+    background: var(--paper);
+    color: var(--ink-soft);
     display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.875rem;
-    font-size: 0.82rem;
-    letter-spacing: 0.015em;
-    line-height: 1.55;
-    max-width: 320px;
-    transform: translateY(24px);
-    opacity: 0;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
-    box-shadow: 0 22px 56px rgba(22, 19, 16, 0.22);
-    border: 1px solid rgba(251, 247, 238, 0.08);
+    align-items: center; justify-content: center;
+    gap: 1rem;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    padding: 0 2rem;
+    border-bottom: 1px solid var(--line);
   }
-  .geo-banner.show { display: flex; transform: translateY(0); opacity: 1; }
-  .geo-banner-text { font-family: var(--serif); padding-right: 1rem; }
-  body[data-market="global"] .geo-banner-text { font-family: var(--serif-en); font-style: italic; font-size: 0.9rem; line-height: 1.45; }
-  .geo-banner-actions { display: flex; gap: 0.5rem; }
+  body[data-market="cn"] .geo-banner { font-family: var(--serif); font-style: normal; letter-spacing: 0.08em; }
+  .geo-banner.show { display: flex; }
+  .geo-banner-text { color: var(--hush); }
+  .geo-banner-actions { display: flex; align-items: center; gap: 1rem; }
   .geo-banner button {
     background: transparent;
-    border: 1px solid rgba(251, 247, 238, 0.35);
-    color: var(--ivory);
-    padding: 0.5rem 0.9rem;
-    font-family: var(--serif);
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
+    border: none;
+    color: var(--ink-soft);
+    padding: 0 0.4rem;
+    font: inherit;
     cursor: pointer;
-    flex: 1;
-    transition: all 0.3s ease;
-    font-weight: 400;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 1px;
+    transition: border-bottom-color 0.25s ease, color 0.25s ease;
   }
-  body[data-market="global"] .geo-banner button { font-family: var(--serif-en); text-transform: uppercase; letter-spacing: 0.16em; }
-  .geo-banner button:hover { background: rgba(251, 247, 238, 0.08); border-color: var(--ivory); }
+  .geo-banner button:hover { color: var(--ink); border-bottom-color: var(--ink); }
   .geo-banner-close {
-    position: absolute;
-    top: 0.35rem;
-    right: 0.55rem;
-    background: none !important;
     border: none !important;
-    padding: 0.2rem 0.4rem !important;
-    opacity: 0.5;
-    font-size: 1.05rem !important;
+    border-bottom: none !important;
+    padding: 0 0.4rem !important;
+    opacity: 0.55;
+    font-size: 1rem !important;
+    line-height: 1 !important;
     letter-spacing: 0 !important;
-    flex: none !important;
   }
-  .geo-banner-close:hover { opacity: 0.9; background: none !important; }
-  @media (max-width: 520px) {
-    .geo-banner { bottom: 1rem; right: 1rem; left: 1rem; max-width: none; }
+  .geo-banner-close:hover { opacity: 0.95; }
+  body.has-geo-banner .nav { top: 36px; }
+  @media (max-width: 600px) {
+    .geo-banner { font-size: 0.7rem; gap: 0.6rem; padding: 0 0.75rem; }
+    .geo-banner-actions { gap: 0.6rem; }
+    body.has-geo-banner .nav { top: 36px; }
   }
 
   /* ============ 顶部导航 ============ */
@@ -182,7 +185,7 @@
     border-bottom: 1px solid var(--line);
     transition: all 0.4s ease, top 0.5s ease;
   }
-  /* (geo-banner no longer pushes nav — bottom-right toast doesn't intersect top) */
+  /* Nav offset: geo-banner (top slim bar) shifts nav down via body.has-geo-banner — see line ~170 */
   .nav-brand {
     font-family: var(--display);
     font-size: 1.4rem;
@@ -201,9 +204,10 @@
   }
   .nav-links { display: flex; gap: 2.5rem; }
   .nav-link {
-    font-family: var(--serif);
-    font-size: 0.78rem;
-    letter-spacing: 0.15em;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
     color: var(--ink-soft);
     cursor: pointer;
     padding-bottom: 4px;
@@ -212,9 +216,10 @@
     background: none; border: none;
     font-weight: 400;
   }
-  body[data-market="global"] .nav-link { font-family: var(--serif-en); font-style: italic; font-size: 0.9rem; letter-spacing: 0.1em; }
+  body[data-market="cn"] .nav-link { font-family: var(--serif); font-style: normal; font-size: 0.78rem; letter-spacing: 0.15em; }
   .nav-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
   .nav-link.active { color: var(--ink); border-bottom-color: var(--ink); }
+  /* B1 nav-maker emphasis removed 2026-06-19 — D2 commerce-voice descent: About is generic, no IA emphasis */
   .nav-right { display: flex; align-items: center; gap: 1rem; }
   .market-selector {
     position: relative;
@@ -313,7 +318,7 @@
     position: relative;
     min-height: calc(100vh - 80px);
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-columns: var(--ratio-editorial-flip);
     gap: 0;
   }
   /* Vertical CN ornament removed — was decorative, no commerce value */
@@ -326,24 +331,25 @@
     border-top: 1px solid var(--line);
     display: flex; align-items: baseline; flex-wrap: wrap;
     gap: 0.5rem 1.125rem;
-    font-family: var(--serif);
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
+    font-family: var(--serif-en);
+    font-style: italic;
+    letter-spacing: 0.06em;
+    font-size: 0.85rem;
     color: var(--hush);
     max-width: 500px;
     font-variant-numeric: tabular-nums;
     opacity: 0;
     animation: fadeIn 0.6s ease 0.95s forwards;
   }
-  .hero-facts-en {
-    font-family: var(--serif-en);
-    font-style: italic;
-    letter-spacing: 0.06em;
-    font-size: 0.85rem;
+  .hero-facts.hero-facts-cn {
+    font-family: var(--serif);
+    font-style: normal;
+    letter-spacing: 0.18em;
+    font-size: 0.72rem;
     display: none;
   }
-  body[data-market="global"] .hero-facts:not(.hero-facts-en) { display: none; }
-  body[data-market="global"] .hero-facts-en { display: flex; }
+  body[data-market="cn"] .hero-facts:not(.hero-facts-cn) { display: none; }
+  body[data-market="cn"] .hero-facts.hero-facts-cn { display: flex; }
   .hero-facts .sep {
     width: 3px; height: 3px;
     background: var(--hush-soft);
@@ -352,19 +358,22 @@
     flex: none;
   }
   .hero-text {
-    padding: 4rem 5rem;
+    padding: var(--space-xl) var(--pad-x);
     display: flex; flex-direction: column; justify-content: center;
   }
+  /* Tier 2 typography sweep · overline tracking unified to 0.22em standard (2026-06-18) */
   .hero-overline {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.96rem;
+    font-family: var(--sans-en);
+    font-size: 0.72rem;
     color: var(--hush);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
     margin-bottom: 1.625rem;
     opacity: 0;
     animation: fadeIn 0.6s ease 0.15s forwards;
   }
+  body[data-market="cn"] .hero-overline { font-family: var(--serif); font-size: 0.78rem; letter-spacing: 0.18em; text-transform: none; font-weight: 500; }
   /* M1 · empty overline takes no vertical space — keeps Hero 3-tier breathing rhythm */
   .hero-overline:empty { display: none; margin: 0; }
   .hero h1 {
@@ -493,8 +502,11 @@
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center;
-    /* M2 · sepia/saturate unifies any stock/placeholder into the ivory palette */
-    filter: brightness(0.88) contrast(1.08) saturate(0.78) sepia(0.08);
+    /* C2 audit · sepia + ignition stack removed 2026-06-19; let the photograph breathe (Anna Hu pattern) */
+    opacity: 1;
+  }
+  /* Fade-in for first-paint */
+  .hero-img.is-fading-in img {
     opacity: 0;
     animation: heroImg 1.1s ease 0.15s forwards;
   }
@@ -547,7 +559,7 @@
 
   /* ============ Hook ============ */
   .hook-section {
-    padding: 7.5rem 3rem 8.25rem;
+    padding: var(--pad-section) var(--pad-x);
     text-align: center;
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
@@ -607,7 +619,7 @@
     z-index: 2;
     display: flex; flex-direction: column;
     justify-content: flex-end;
-    padding: 5rem 6rem;
+    padding: var(--pad-section) var(--pad-x);
     color: var(--ivory);
   }
   .atelier-overline {
@@ -620,7 +632,7 @@
     text-transform: uppercase;
     font-weight: 500;
   }
-  body[data-market="cn"] .atelier-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.38em; font-size: 0.72rem; text-transform: none; }
+  body[data-market="cn"] .atelier-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.32em; font-size: 0.72rem; text-transform: none; }
   .atelier-h2 {
     font-family: var(--display);
     font-size: clamp(2.7rem, 5.8vw, 4.85rem);
@@ -664,11 +676,14 @@
   body[data-market="global"] .atelier-overline-cn { display: none; }
 
   /* ============ Plique-à-jour(新增) ============ */
+  /* Reverted from 12-col asymmetric to 7fr 5fr (2026-06-17 fold-fix).
+     85vh was pushing the pendant below the visible band; 65vh + object-position
+     biased up keeps the butterfly visible in first viewport. */
   .plique-section {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: var(--ratio-editorial);
     background: var(--ivory-2);
-    min-height: 85vh;
+    min-height: 65vh;
   }
   .plique-img {
     background: #0a0a0a;
@@ -678,10 +693,11 @@
   .plique-img img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: center;
+    /* Bias crop up — pendant sits in upper third of source frame */
+    object-position: center 32%;
   }
   .plique-text {
-    padding: 6rem 5rem;
+    padding: var(--pad-section) var(--pad-x);
     display: flex; flex-direction: column; justify-content: center;
   }
   .plique-overline {
@@ -757,8 +773,63 @@
   @media (max-width: 900px) {
     .atelier-content { padding: 3rem 2rem; }
     .plique-section { grid-template-columns: 1fr; min-height: auto; }
-    .plique-img { min-height: 60vh; }
+    .plique-img { min-height: 50vh; max-height: calc(100vh - 120px); }
     .plique-text { padding: 4rem 2rem; }
+  }
+
+  /* ============ Direction · 视觉方向 2026 (added 2026-06-17, modern lane experiment) ============ */
+  /* Cooler palette deliberately departs from warm ivory to signal direction shift.
+     Section is opt-in atmosphere — does NOT replace any real product photo. */
+  .direction-section {
+    background: #ECECEA;
+    padding: 5.5rem 2rem 4.5rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .direction-hero {
+    display: grid;
+    grid-template-columns: var(--ratio-editorial);
+    max-width: var(--container);
+    margin: 0 auto;
+    gap: 3.5rem;
+    align-items: center;
+  }
+  .direction-hero-img {
+    width: 100%; height: auto; display: block;
+  }
+  .direction-text { padding: 0.5rem 0; }
+  .direction-text .section-overline { margin-bottom: 1.5rem; }
+  .direction-h2-cn {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.6vw, 3rem);
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    line-height: 1.32;
+    color: #1A1A1A;
+    margin-bottom: 1.25rem;
+  }
+  .direction-h2-en {
+    font-family: var(--serif-en);
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    letter-spacing: 0.015em;
+    font-weight: 400;
+    line-height: 1.32;
+    color: #1A1A1A;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+  }
+  .direction-sub {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #4A4A4A;
+    max-width: 32em;
+  }
+  /* .direction-grid / .direction-cell / .direction-sub deleted 2026-06-19 (T2 audit cleanup) — DOM removed in big-cut */
+  body[data-market="cn"] .direction-h2-en { display: none; }
+  body[data-market="global"] .direction-h2-cn { display: none; }
+  @media (max-width: 900px) {
+    .direction-section { padding: 3.5rem 1.25rem; }
+    .direction-hero { grid-template-columns: 1fr; gap: 2rem; }
   }
 
   /* ============ 通用 section 头部 ============ */
@@ -781,18 +852,19 @@
     font-family: var(--serif);
     font-weight: 400;
     font-size: 0.72rem;
-    letter-spacing: 0.38em;
+    letter-spacing: 0.32em;
     text-transform: none;
   }
+  /* Tier 2 typography sweep · section H2 unified to one scale (2026-06-18) */
   .section-title {
     font-family: var(--display);
-    font-size: clamp(2.6rem, 4.2vw, 3.85rem);
+    font-size: clamp(2rem, 3.6vw, 3rem);
     font-weight: 400;
-    letter-spacing: -0.008em;
-    line-height: 1.08;
+    letter-spacing: -0.005em;
+    line-height: 1.15;
     margin-bottom: 1.125rem;
   }
-  body[data-market="cn"] .section-title { font-family: var(--serif); font-weight: 500; letter-spacing: 0.02em; line-height: 1.2; }
+  body[data-market="cn"] .section-title { font-family: var(--serif); font-weight: 500; font-size: clamp(1.7rem, 3vw, 2.5rem); letter-spacing: 0.025em; line-height: 1.3; }
   .section-sub {
     font-family: var(--serif-en);
     font-style: italic;
@@ -804,23 +876,23 @@
 
   /* ============ 精选 ============ */
   .featured-section {
-    padding: 6.25rem 0 9.25rem;
+    padding: var(--pad-section) 0;
     background: var(--ivory);
   }
   .featured-header {
     display: flex; justify-content: space-between; align-items: flex-end;
-    padding: 0 3rem;
-    margin-bottom: 4rem;
+    padding: 0 var(--pad-x);
+    margin-bottom: var(--space-xl);
   }
   .featured-header h2 {
     font-family: var(--display);
-    font-size: clamp(2rem, 3.8vw, 3rem);
+    font-size: clamp(2rem, 3.6vw, 3rem);
     font-weight: 400;
-    letter-spacing: -0.008em;
-    line-height: 1.05;
+    letter-spacing: -0.005em;
+    line-height: 1.15;
     margin-bottom: 0.625rem;
   }
-  body[data-market="cn"] .featured-header h2 { font-family: var(--serif); font-weight: 500; letter-spacing: 0.018em; font-size: clamp(1.65rem, 3.2vw, 2.35rem); line-height: 1.25; }
+  body[data-market="cn"] .featured-header h2 { font-family: var(--serif); font-weight: 500; letter-spacing: 0.025em; font-size: clamp(1.7rem, 3vw, 2.5rem); line-height: 1.3; }
   .featured-link {
     font-family: var(--serif);
     font-size: 0.8rem;
@@ -839,10 +911,16 @@
   .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3rem 2rem;
-    padding: 0 3rem;
-    max-width: 1500px;
+    gap: var(--gap-lg) var(--gap);
+    padding: 0 var(--pad-x);
+    max-width: var(--container);
     margin: 0 auto;
+    align-items: start;
+  }
+  /* T9 · break dead-center symmetry: middle column offset down (WWAKE / SBB editorial rhythm) */
+  .product-grid > :nth-child(3n+2) { margin-top: 4rem; }
+  @media (max-width: 880px) {
+    .product-grid > :nth-child(3n+2) { margin-top: 0; }
   }
   /* Product cards: no hover motion — trust the photograph */
   .product-card { cursor: pointer; }
@@ -852,39 +930,47 @@
     overflow: hidden;
     position: relative;
     margin-bottom: 1.5rem;
-    /* M5 · printed-frame treatment unifies stock and real photography under one ivory register */
-    border: 1px solid var(--line-strong);
+    /* C3 audit · border + sepia removed 2026-06-19 (was Shopify-frame feeling; SBB/Anna Hu/Alighieri 0/3 use card borders) */
   }
   .product-img img {
     width: 100%; height: 100%;
     object-fit: cover;
-    /* M5 · sepia + saturate match Hero color treatment */
-    filter: brightness(0.95) saturate(0.85) sepia(0.06);
   }
-  .product-badge {
+  /* Dual-image hover swap (Loren Stewart / Marla Aaron pattern · added 2026-06-17).
+     Second image fade-swaps in on hover; gracefully absent on touch + when img2 missing. */
+  .product-img-hover {
     position: absolute;
-    top: 1rem; left: 1rem;
-    background: rgba(244, 239, 230, 0.9);
-    backdrop-filter: blur(8px);
-    color: var(--ink);
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    padding: 0.4rem 0.8rem;
-    text-transform: uppercase;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
   }
+  .product-card:hover .product-img-hover { opacity: 1; }
+  @media (hover: none) { .product-img-hover { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .product-img-hover { transition: none; } }
+  /* Badge converted from overlay pill to inline caption marker (2026-06-17 Tier 3 cleanup).
+     Sophie BB / Anna Hu / FARIS — 0/3 use overlay badges on catalog photography. */
+  .product-badge {
+    display: inline;
+    color: var(--ink);
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .product-badge::before { content: ' · '; color: var(--hush); margin: 0 0.1em; }
   .product-id {
-    font-family: var(--serif-en);
-    font-style: italic;
+    font-family: var(--sans-en);
     color: var(--hush);
     font-size: 0.72rem;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     margin-bottom: 0.5rem;
     font-variant-numeric: tabular-nums;
+    font-weight: 500;
   }
-  body[data-market="cn"] .product-id { font-family: var(--serif); font-style: normal; letter-spacing: 0.22em; text-transform: none; }
+  body[data-market="cn"] .product-id { letter-spacing: 0.18em; }
   .product-name {
     font-family: var(--display);
     font-size: 1.375rem;
@@ -906,11 +992,33 @@
   body[data-market="global"] .product-type { font-family: var(--serif-en); }
   /* Stripped: no border-top, no series chip on cards (filtered already), price same weight as name */
   .product-meta {
-    display: flex; justify-content: space-between; align-items: baseline;
+    display: flex; justify-content: space-between; align-items: center;
     font-size: 0.92rem;
     color: var(--ink-soft);
+    gap: var(--space-sm);
   }
   .product-meta-series { display: none; }
+  /* Per-card enamel color · added 2026-06-17 — enamel is per-piece attribute,
+     not a filter. Workshop is handmade and the listed colour is the as-photographed
+     default; any palette is fireable on request. */
+  .product-meta-color {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--serif);
+    font-size: 0.82rem;
+    color: var(--hush);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  body[data-market="global"] .product-meta-color { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.02em; font-size: 0.88rem; }
+  .product-meta-color .enamel-dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    flex: 0 0 auto;
+  }
   .product-price {
     font-family: var(--serif-en);
     font-weight: 400;
@@ -924,7 +1032,7 @@
   /* Editorial pin-scroll: portrait stays in viewport while text scrolls past */
   .maker-section {
     display: grid;
-    grid-template-columns: 0.85fr 1.15fr;
+    grid-template-columns: var(--ratio-editorial-flip);
     gap: 0;
     align-items: start;
   }
@@ -948,7 +1056,7 @@
     text-transform: uppercase;
   }
   .maker-text {
-    padding: 9rem 5rem;
+    padding: var(--pad-section) var(--pad-x);
     display: flex; flex-direction: column; justify-content: center;
     min-height: calc(100vh - 80px);
   }
@@ -1022,7 +1130,7 @@
 
   /* ============ Promise ============ */
   .promise-section {
-    padding: 10.5rem 3rem 9.5rem;
+    padding: var(--pad-section) var(--pad-x);
     text-align: center;
     background: var(--ink);
     color: var(--ivory);
@@ -1032,24 +1140,26 @@
   /* promise-section gold radial removed — trust the ink ground */
   .promise-section > * { position: relative; z-index: 1; }
   .promise-overline {
-    font-family: var(--serif-en);
-    font-style: italic;
+    font-family: var(--sans-en);
     color: var(--paper-mute);
-    font-size: 1rem;
-    letter-spacing: 0.15em;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
     margin-bottom: 2rem;
   }
+  body[data-market="cn"] .promise-overline { font-family: var(--serif); letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
   .promise-section h2 {
     font-family: var(--display);
-    font-size: clamp(2.3rem, 4.6vw, 3.8rem);
+    font-size: clamp(2rem, 3.6vw, 3rem);
     font-weight: 400;
-    line-height: 1.22;
-    letter-spacing: -0.008em;
+    line-height: 1.15;
+    letter-spacing: -0.005em;
     max-width: 880px;
     margin: 0 auto 1.625rem;
     color: var(--ivory);
   }
-  body[data-market="cn"] .promise-section h2 { font-family: var(--serif); font-weight: 500; letter-spacing: 0.018em; line-height: 1.35; }
+  body[data-market="cn"] .promise-section h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(1.7rem, 3vw, 2.5rem); letter-spacing: 0.025em; line-height: 1.3; }
   .promise-section .promise-sub {
     font-family: var(--serif-en);
     font-style: italic;
@@ -1117,7 +1227,7 @@
 
   /* ============ Gift section ============ */
   .gift-section {
-    padding: 9.75rem 3rem 10.5rem;
+    padding: var(--pad-section) var(--pad-x);
     text-align: center;
     background: var(--ivory-2);
     border-top: 1px solid var(--line);
@@ -1154,7 +1264,7 @@
   footer {
     background: var(--ink);
     color: rgba(244, 239, 230, 0.7);
-    padding: 5rem 3rem 2rem;
+    padding: var(--pad-section) var(--pad-x) var(--space-md);
   }
   /* Footer colophon — simplified single-line mark + tag (commerce-first downgrade) */
   .footer-colophon--lite {
@@ -1187,8 +1297,8 @@
   .footer-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 4rem;
-    max-width: 1500px;
+    gap: var(--gap-lg);
+    max-width: var(--container);
     margin: 0 auto 4rem;
   }
   .footer-brand-text {
@@ -1243,20 +1353,18 @@
     border-bottom-color: rgba(244, 239, 230, 0.45);
   }
   .footer-col li:hover { color: rgba(244, 239, 230, 1); }
+  /* Payment chips → single italic sentence (2026-06-17 Tier 3). Box-strip = Shopify
+     trust-strip tell; Hermès/Loewe never show payment-method logos. */
   .footer-payments {
-    display: flex; gap: 0.6rem;
     margin-top: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .footer-pay-chip {
     font-family: var(--serif-en);
     font-style: italic;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     color: rgba(244, 239, 230, 0.5);
-    border: 1px solid rgba(244, 239, 230, 0.15);
-    padding: 0.3rem 0.7rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.02em;
+    line-height: 1.6;
   }
+  body[data-market="cn"] .footer-payments { font-family: var(--serif); font-style: normal; letter-spacing: 0.06em; }
   .footer-bottom {
     border-top: 1px solid rgba(251, 247, 238, 0.15);
     padding-top: 2.125rem;
@@ -1265,11 +1373,12 @@
     color: rgba(251, 247, 238, 0.45);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    max-width: 1500px;
+    max-width: var(--container);
     margin: 0 auto;
     font-variant-numeric: tabular-nums;
   }
-  body[data-market="global"] .footer-bottom { font-family: var(--serif-en); font-style: italic; }
+  body[data-market="global"] .footer-bottom { font-family: var(--sans-en); letter-spacing: 0.1em; }
+  body[data-market="cn"] .footer-bottom { font-family: var(--sans-en); letter-spacing: 0.08em; }
   .footer-legal-nav {
     display: flex;
     align-items: center;
@@ -1291,41 +1400,40 @@
   }
 
   /* ============ Catalog ============ */
-  .catalog-header { text-align: center; padding: 6.75rem 3rem 4.25rem; }
-  .catalog-header .section-overline { margin-bottom: 2rem; }
+  /* Compressed 2026-06-17 — was 6.75rem/4.25rem chrome eating the first viewport */
+  .catalog-header { text-align: center; padding: var(--space-xl) var(--pad-x) var(--space-md); }
+  .catalog-header .section-overline { margin-bottom: var(--space-sm); }
   .catalog-header h1 {
     font-family: var(--display);
-    font-size: clamp(3rem, 5vw, 4.5rem);
+    font-size: clamp(2.4rem, 4vw, 3.4rem);   /* compressed 2026-06-17 — first-viewport priority */
     font-weight: 400;
-    margin-bottom: 1.4rem;
+    margin-bottom: 0.8rem;
   }
   body[data-market="cn"] .catalog-header h1 { font-family: var(--serif); letter-spacing: 0.04em; }
-  /* Time-based drop note under catalog sub — replaces Edition closure UI */
+  /* Time-based drop note — slimmed 2026-06-17, no separator border, smaller font */
   .catalog-next-drop {
     font-family: var(--serif-en);
     font-style: italic;
-    font-size: 0.86rem;
+    font-size: 0.78rem;
     color: var(--hush);
-    letter-spacing: 0.06em;
-    margin-top: 1.625rem;
-    padding-top: 1.125rem;
-    border-top: 1px solid var(--line);
-    max-width: 440px;
+    letter-spacing: 0.04em;
+    margin-top: 0.6rem;
+    max-width: 480px;
     margin-left: auto;
     margin-right: auto;
-    line-height: 1.55;
+    line-height: 1.5;
   }
-  body[data-market="cn"] .catalog-next-drop { font-family: var(--serif); font-style: normal; letter-spacing: 0.12em; font-size: 0.82rem; line-height: 1.85; }
+  body[data-market="cn"] .catalog-next-drop { font-family: var(--serif); font-style: normal; letter-spacing: 0.08em; font-size: 0.78rem; line-height: 1.7; }
 
   /* Editorial edition line — sits between H1 and sub, prints the volume count */
   .catalog-edition {
     font-family: var(--serif-en);
     font-style: italic;
-    font-size: 0.85rem;
+    font-size: 0.78rem;                       /* compressed 2026-06-17 */
     color: var(--hush);
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    margin-bottom: 1.6rem;
+    margin-bottom: 0.8rem;
   }
   body[data-market="cn"] .catalog-edition {
     font-family: var(--serif);
@@ -1335,16 +1443,17 @@
   }
   .catalog-header p {
     color: var(--hush);
-    font-size: 1.05rem;
+    font-size: 0.95rem;                       /* compressed 2026-06-17 */
     max-width: 540px;
     margin: 0 auto;
+    line-height: 1.55;
   }
-  body[data-market="global"] .catalog-header p { font-family: var(--serif-en); font-style: italic; font-size: 1.15rem; }
+  body[data-market="global"] .catalog-header p { font-family: var(--serif-en); font-style: italic; font-size: 1.02rem; }
   .catalog-filters {
     display: flex; justify-content: center; gap: 0;
-    padding: 0 3rem 1.5rem;
+    padding: 0 var(--pad-x) var(--space-sm);
     flex-wrap: wrap;
-    max-width: 1500px;
+    max-width: var(--container);
     margin: 0 auto;
   }
   .catalog-filters:empty { display: none; }
@@ -1371,60 +1480,45 @@
     background: var(--ink);
   }
   /* Sub-filters (category + price) — smaller, sits below series chips */
-  /* Self-lens hero band — JTBD 3 entry from dual-door right */
-  .catalog-self-band {
-    background: var(--ivory-2);
-    padding: 2.5rem 3rem 2.25rem;
-    border-bottom: 1px solid var(--line-strong);
-    text-align: center;
-  }
-  .catalog-self-inner { max-width: 720px; margin: 0 auto; }
-  .catalog-self-overline {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.72rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--hush);
-    margin-bottom: 0.85rem;
-  }
-  body[data-market="cn"] .catalog-self-overline { font-family: var(--serif); font-style: normal; letter-spacing: 0.36em; text-transform: none; }
-  .catalog-self-h {
-    font-family: var(--display);
-    font-size: clamp(1.65rem, 2.8vw, 2.25rem);
-    font-weight: 400;
-    letter-spacing: -0.005em;
-    line-height: 1.3;
-    margin-bottom: 0.85rem;
-    color: var(--ink);
-  }
-  body[data-market="cn"] .catalog-self-h { font-family: var(--serif); font-weight: 500; letter-spacing: 0.04em; line-height: 1.55; }
-  .catalog-self-p {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.95rem;
-    color: var(--ink-soft);
-    line-height: 1.7;
-    letter-spacing: 0.02em;
-    max-width: 540px;
+  /* ─── Grouped filter bar (2026-06-17 redesign) ─────────────────────────────
+     Each filter group gets its OWN row with a small left-aligned label and
+     a flex-wrap chip strip on the right. Replaces the flat "all chips smashed
+     in a single row" state that user flagged as unintuitive. */
+  .catalog-filterbar {
+    max-width: var(--container);
     margin: 0 auto;
+    padding: var(--space-xs) var(--pad-x) var(--space-sm);
   }
-  body[data-market="cn"] .catalog-self-p { font-family: var(--serif); font-style: normal; letter-spacing: 0.06em; }
-  @media (max-width: 640px) {
-    .catalog-self-band { padding: 2rem 1.5rem 1.75rem; }
-  }
-  .catalog-subfilters {
-    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
-    gap: 0 2.5rem;
-    padding: 1.4rem 3rem 1.4rem;
-    max-width: 1500px;
-    margin: 0 auto;
+  .catalog-filter-row {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    align-items: baseline;
+    gap: 0 var(--space-md);
+    padding: var(--space-xs) 0;
     border-bottom: 1px solid var(--line);
   }
-  .catalog-subfilter-group {
-    display: flex; flex-wrap: wrap; gap: 0;
+  .catalog-filter-row:last-child { border-bottom: 0; }
+  .catalog-filter-label {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hush);
+    font-weight: 500;
+    padding-top: 0.6rem;
   }
+  body[data-market="cn"] .catalog-filter-label { letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
+  .catalog-filter-chips {
+    display: flex; flex-wrap: wrap; gap: 0 0.25rem;
+    align-items: center;
+  }
+  .catalog-filter-chips:empty { display: none; }
+  /* Legacy alias — keeps existing JS render targets working */
   .catalog-subfilter-group:empty { display: none; }
+  @media (max-width: 600px) {
+    .catalog-filter-row { grid-template-columns: 1fr; gap: 0; padding: var(--space-2xs) 0 var(--space-xs); }
+    .catalog-filter-label { padding-top: 0; padding-bottom: 0.35rem; }
+  }
   .subfilter-chip {
     background: transparent; border: none; cursor: pointer;
     font-family: var(--serif);
@@ -1465,9 +1559,9 @@
   .catalog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3rem 2rem;
-    padding: 4rem 3rem 8rem;
-    max-width: 1500px;
+    gap: var(--gap-lg) var(--gap);
+    padding: var(--space-xl) var(--pad-x) var(--pad-section);
+    max-width: var(--container);
     margin: 0 auto;
   }
 
@@ -1487,7 +1581,7 @@
   }
   .pd-gallery img { width: 100%; height: 100%; object-fit: cover; }
   .pd-info {
-    padding: 6rem 5rem;
+    padding: var(--pad-section) var(--pad-x);
     display: flex; flex-direction: column; justify-content: flex-start;
     min-height: calc(100vh - 80px);
   }
@@ -1514,13 +1608,13 @@
     margin-bottom: 0.875rem;
   }
   .pd-id-sku {
-    font-family: var(--serif-en);
-    font-style: italic;
+    font-family: var(--sans-en);
     color: var(--ink-soft);
-    font-size: 0.82rem;
-    letter-spacing: 0.28em;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     font-variant-numeric: tabular-nums;
+    font-weight: 500;
   }
   .pd-name {
     font-family: var(--display);
@@ -1555,14 +1649,15 @@
     letter-spacing: 0.06em;
   }
   .pd-price {
-    font-family: var(--serif-en);
-    font-size: 1.8rem;
+    font-family: var(--sans-en);
+    font-size: 1.5rem;
     color: var(--ink);
     margin-bottom: 2.5rem;
     padding-bottom: 2.125rem;
     border-bottom: 1px solid var(--line-strong);
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.008em;
+    letter-spacing: 0;
+    font-weight: 500;
   }
   .pd-price small {
     font-style: italic;
@@ -1653,10 +1748,13 @@
   }
   body[data-market="global"] .pd-chip { font-family: var(--serif-en); }
   .pd-chip:hover { border-color: var(--ink); color: var(--ink); }
+  /* Selected state: outline + underline tick (2026-06-17 Tier 3). Filled black pill =
+     Shopify product-options pattern; Loewe/Anna Hu Bespoke mark selection with a thicker
+     outline + underline at the same ink, paper stays paper. */
   .pd-chip.is-selected {
-    background: var(--ink);
-    color: var(--ivory);
     border-color: var(--ink);
+    color: var(--ink);
+    box-shadow: inset 0 -2px 0 0 var(--ink);
   }
   .pd-chip em {
     font-family: var(--serif-en);
@@ -1801,7 +1899,7 @@
   body[data-market="global"] .pd-note { font-family: var(--serif-en); font-style: italic; }
 
   /* ============ About ============ */
-  .about-hero { padding: 6rem 3rem 4rem; text-align: center; }
+  .about-hero { padding: var(--pad-section) var(--pad-x) var(--space-xl); text-align: center; }
   .about-hero h1 {
     font-family: var(--display);
     font-size: clamp(3rem, 6vw, 5rem);
@@ -1835,7 +1933,7 @@
   }
   /* About story drop cap removed — consistent with maker section cuts */
   .about-credits {
-    padding: 6rem 3rem;
+    padding: var(--pad-section) var(--pad-x);
     background: var(--ivory-2);
     text-align: center;
   }
@@ -1903,7 +2001,7 @@
   }
 
   /* ============ Gift Finder ============ */
-  .gift-finder { max-width: 720px; margin: 0 auto; padding: 4rem 3rem 8rem; }
+  .gift-finder { max-width: 720px; margin: 0 auto; padding: var(--space-xl) var(--pad-x) var(--pad-section); }
   .gf-header { text-align: center; margin-bottom: 4rem; }
   .gf-header h1 {
     font-family: var(--display);
@@ -1926,7 +2024,7 @@
   .gf-card {
     background: rgba(255, 255, 255, 0.5);
     border: 1px solid var(--line);
-    padding: 3.5rem 3rem;
+    padding: var(--space-xl) var(--pad-x);
     backdrop-filter: blur(10px);
   }
   .gf-progress {
@@ -2105,9 +2203,8 @@
     flex: 1;
     background: transparent;
     border: none;
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 1.3rem;
+    font-family: var(--sans-en);
+    font-size: 1.1rem;
     padding: 1rem 0;
     color: var(--ink);
     outline: none;
@@ -2151,7 +2248,7 @@
   .heritage-not-found {
     background: var(--ivory-2);
     border: 1px dashed var(--hush);
-    padding: 2.5rem 3rem;
+    padding: var(--space-md) var(--pad-x);
     text-align: center;
   }
   .hnf-overline {
@@ -2296,7 +2393,7 @@
 
   /* ============ Legal pages (Privacy / Terms / Returns) ============ */
   .legal-hero {
-    padding: 6.5rem 3rem 3rem;
+    padding: var(--pad-section) var(--pad-x) var(--space-xl);
     text-align: center;
     border-bottom: 1px solid var(--line);
   }
@@ -2350,7 +2447,7 @@
   .legal-article {
     max-width: 720px;
     margin: 0 auto;
-    padding: 4rem 2rem 6rem;
+    padding: var(--pad-section) var(--pad-x);
   }
   .legal-section {
     padding: 3rem 0;
@@ -2434,7 +2531,8 @@
     background: var(--paper, #f4efe6);
     color: var(--ink, #1a1814);
     border: 1px solid var(--line);
-    box-shadow: 0 18px 48px -20px rgba(26, 24, 20, 0.28);
+    /* Drop-shadow removed 2026-06-17 Tier 3 — hairline border replaces floating-card lift */
+    border-top: 1px solid var(--line-strong);
     padding: 1.25rem 1.5rem 1.25rem 1.75rem;
     transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
@@ -2454,11 +2552,10 @@
     border: 1px solid var(--line);
     background: transparent;
     padding: 0.6rem 0.85rem;
-    font-family: var(--serif-en);
-    font-size: 0.92rem;
+    font-family: var(--sans-en);
+    font-size: 0.95rem;
     color: var(--ink);
   }
-  body[data-market="cn"] .nl-inline-form input { font-family: var(--serif); }
   .nl-inline-form button {
     border: 1px solid var(--ink);
     background: var(--ink);
@@ -2833,7 +2930,7 @@
 
   /* 2. FAQ section */
   .faq-section {
-    padding: 6rem 1.5rem 7rem;
+    padding: var(--pad-section) var(--pad-x);
     max-width: 880px;
     margin: 0 auto;
   }
@@ -2880,7 +2977,7 @@
 
   /* 3. Catalog toolbar (sort + count) */
   .catalog-toolbar {
-    max-width: 1500px;
+    max-width: var(--container);
     margin: 0 auto 2rem;
     padding: 0 3rem 1.2rem;
     display: flex; justify-content: space-between; align-items: center;
@@ -2909,23 +3006,8 @@
   .catalog-sort:focus { outline: none; border-bottom-color: var(--ink); }
   @media (max-width: 600px) { .catalog-toolbar { padding: 0 1.5rem 1rem; } }
 
-  /* 4. Made-to-Order chip on product cards */
-  .product-chip {
-    position: absolute;
-    bottom: 0.8rem; right: 0.8rem;
-    background: rgba(26, 23, 21, 0.78);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    color: rgba(244, 239, 230, 0.94);
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.66rem;
-    letter-spacing: 0.13em;
-    padding: 0.32rem 0.65rem;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-  body[data-market="cn"] .product-chip { font-family: var(--serif); font-style: normal; text-transform: none; letter-spacing: 0.15em; font-size: 0.7rem; }
+  /* .product-chip removed 2026-06-17 — frosted dark capsule was a Shopify "label app" tell.
+     Made-to-order communicated via caption text in .product-type if needed. */
 
   /* Section dividers reduced to a single hairline — diamond ornament removed */
   .section-divider {
@@ -2937,7 +3019,7 @@
 
   /* 6. Footer newsletter + social + address */
   .footer-newsletter {
-    padding: 4rem 1.5rem 3rem;
+    padding: var(--space-xl) var(--pad-x);
     text-align: center;
     max-width: 620px;
     margin: 0 auto;
@@ -3028,7 +3110,7 @@
   }
   body[data-market="cn"] .footer-address { font-family: var(--serif); font-style: normal; }
 
-  /* 7. Nav offset for promo bar (geo-banner moved to bottom-right toast, no top offset needed) */
+  /* 7. Nav offset for promo bar. Geo-banner top-bar adds additional 36px via body.has-geo-banner (see line ~170) */
   .nav { top: 34px; }
   .view { padding-top: 114px; }
   @media (max-width: 600px) {
@@ -3053,42 +3135,17 @@
   }
   .skip-link:focus { top: 0; }
 
-  /* Wishlist heart button on product cards */
-  .wish-btn {
-    position: absolute;
-    top: 0.8rem; right: 0.8rem;
-    background: rgba(244, 239, 230, 0.88);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: none;
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    z-index: 3;
-    transition: transform 0.3s ease, background 0.3s ease;
-    padding: 0;
-  }
-  .wish-btn:hover { transform: scale(1.08); background: rgba(244, 239, 230, 1); }
-  .wish-btn svg {
-    fill: none;
-    stroke: var(--ink);
-    stroke-width: 1.6;
-    transition: fill 0.3s ease, stroke 0.3s ease, transform 0.3s ease;
-  }
-  .wish-btn:hover svg { stroke: var(--ink); }
-  .wish-btn.saved svg { fill: var(--ink); stroke: var(--ink); }
-  .wish-btn.saved { background: rgba(244, 239, 230, 0.95); }
-  .wish-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  /* Wishlist heart removed from cards 2026-06-17 — circular ♥ pill = ASOS/Mejuri tell.
+     Save functionality preserved on PDP only. .wish-btn left as display:none for any
+     transient renders during navigation; rendering site disabled in productCardHtml(). */
+  .wish-btn { display: none; }
 
   /* Saved filter chip (shows only when wishlist > 0) */
   .filter-chip.chip-saved {
     color: var(--hush);
   }
-  .filter-chip.chip-saved::before {
-    content: '♥ ';
-    margin-right: 4px;
-  }
+  /* ♥ glyph prefix removed 2026-06-17 Tier 3 — heart-as-decoration = mass e-comm tell.
+     Saved filter reads as plain "Saved · 3", same · separator used elsewhere. */
 
   /* PDP refactor: split into .pd-main grid + .pd-related full-width */
   .product-detail { display: block; }
@@ -3146,11 +3203,485 @@
   body[data-market="cn"] .pd-mini-faq-content .mini-q { letter-spacing: 0.08em; }
   .pd-mini-faq-content .mini-q:first-child { margin-top: 0; }
 
+  /* ─── PDP v2 · full-bleed editorial PDP (added 2026-06-18) ────────────────────
+     Replaces 2-col grid. Sections: hero (mood bg + product info) ·
+     worn (color-swap image) · styling (outfit pairings) · commerce (existing). */
+  .pdp-v2 { background: var(--ivory); }
+
+  /* ── Section 1 · Hero (image-led, 2026-06-18 refined) ── */
+  .pdp-v2-hero {
+    position: relative;
+    min-height: calc(100vh - 80px);
+    display: grid;
+    grid-template-columns: minmax(340px, 4fr) 8fr;  /* narrower text, bigger image */
+    align-items: stretch;
+    overflow: hidden;
+  }
+  .pdp-v2-bg { position: absolute; inset: 0; z-index: 0; }
+  .pdp-v2-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    /* Ground-truth flat product shots — bracelet centered, dark backdrop */
+    object-position: center;
+    filter: brightness(1.02) saturate(1.05);
+  }
+  .pdp-v2-content {
+    position: relative; z-index: 2;
+    /* Ground-truth product shots have BLACK backgrounds → gradient must fully cover the left
+       text column AND fade smoothly into the product display. */
+    background: linear-gradient(to right, rgba(251,247,238,1) 0%, rgba(251,247,238,0.98) 65%, rgba(251,247,238,0.6) 85%, rgba(251,247,238,0) 100%);
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(2rem, 3.5vw, 3.5rem) clamp(2.5rem, 5vw, 4.5rem) clamp(2.5rem, 4vw, 4.5rem);
+    display: flex; flex-direction: column;
+    justify-content: center;
+    gap: 1.1rem;
+  }
+  .pdp-v2-breadcrumb {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hush);
+  }
+  body[data-market="cn"] .pdp-v2-breadcrumb { letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
+  .pdp-v2-breadcrumb a { color: inherit; text-decoration: none; cursor: pointer; }
+  .pdp-v2-breadcrumb a:hover { color: var(--ink); }
+  .pdp-v2-name {
+    font-family: var(--display);
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    line-height: 1.05;
+    margin: 0;
+    color: var(--ink);
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  body[data-market="cn"] .pdp-v2-name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(2rem, 3.6vw, 2.8rem);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+  .pdp-v2-name::after {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.45;
+    margin-top: 0.85rem;
+  }
+  .pdp-v2-symbolism {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 34ch;
+    margin: 0;
+  }
+  body[data-market="cn"] .pdp-v2-symbolism {
+    font-family: var(--serif);
+    font-style: normal;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    line-height: 1.75;
+  }
+  .pdp-v2-swatches { margin-top: 0.4rem; }
+  .pdp-v2-swatches-label {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hush);
+    margin-bottom: 0.6rem;
+  }
+  body[data-market="cn"] .pdp-v2-swatches-label { letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
+  .pdp-v2-swatch-row { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+  .pdp-v2-swatch {
+    /* P1 fix: 44pt touch target (iOS HIG) wrapping a 30px visual fill */
+    width: 44px; height: 44px;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: border-color 0.2s ease;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .pdp-v2-swatch:hover { border-color: var(--ink); }
+  .pdp-v2-swatch:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  .pdp-v2-swatch-fill {
+    /* Inner 30×30 visual fill inside the 44×44 touch target */
+    width: 30px; height: 30px;
+    display: block;
+    pointer-events: none;
+  }
+  /* P0-8: removed outer drop shadow on active swatch (Tier 3 anti-AI-default) — inset ring only */
+  .pdp-v2-swatch.is-active {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+  }
+  .pdp-v2-inspiration-label {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hush);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  body[data-market="cn"] .pdp-v2-inspiration-label { letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
+  .pdp-v2-inspiration {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 38ch;
+    margin: 0;
+  }
+  body[data-market="cn"] .pdp-v2-inspiration {
+    font-family: var(--serif);
+    font-style: normal;
+    font-size: 0.96rem;
+    letter-spacing: 0.04em;
+    line-height: 1.9;
+  }
+  /* ── PDP v2 buy block (in-hero CTA · added 2026-06-18) ── */
+  .pdp-v2-buy {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line-strong);
+    display: flex; flex-direction: column;
+    gap: 0.85rem;
+  }
+  .pdp-v2-buy-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem;
+  }
+  .pdp-v2-buy-price {
+    font-family: var(--sans-en);
+    font-size: 1.6rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    letter-spacing: 0;
+  }
+  .pdp-v2-buy-status {
+    font-family: var(--sans-en);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--hush);
+    font-weight: 500;
+  }
+  body[data-market="cn"] .pdp-v2-buy-status { letter-spacing: 0.14em; text-transform: none; font-size: 0.78rem; }
+  .pdp-v2-buy-status--sold,
+  .pdp-v2-buy-status--reserved { color: var(--hush-soft); }
+  .pdp-v2-cta {
+    width: 100%;
+    justify-content: center;
+  }
+  /* P0-10: trust line under hero CTA */
+  .pdp-v2-buy-trust {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-align: center;
+    color: var(--hush);
+    line-height: 1.5;
+    padding: 0.25rem 0 0;
+  }
+  body[data-market="cn"] .pdp-v2-buy-trust { font-family: var(--serif); letter-spacing: 0.08em; font-size: 0.76rem; }
+  .pdp-v2-buy-trust strong { font-weight: 500; color: var(--ink-soft); }
+  /* P1 fix: stronger see-details link affordance + touch target */
+  .pdp-v2-see-details {
+    text-align: center;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.4em;
+    padding: 0.6rem 0;
+    min-height: 36px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  body[data-market="cn"] .pdp-v2-see-details { font-family: var(--serif); font-style: normal; letter-spacing: 0.04em; }
+  .pdp-v2-see-details:hover { color: var(--ink); text-decoration-color: var(--ink); }
+
+  /* ── Sticky bottom buy bar (Mejuri/Sophie BB pattern · added 2026-06-18) ──
+     Always visible so buyer can buy from any scroll position. */
+  .pdp-v2-sticky {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 90;
+    /* P0-7: removed frosted glass (Tier 3 anti-AI-default) — solid ivory + stronger top hairline */
+    /* P0-9: safe-area-inset-bottom prevents iPhone home indicator overlap */
+    min-height: 72px;
+    background: var(--ivory);
+    border-top: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 0 var(--pad-x);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    transition: transform 0.3s ease;
+  }
+  .pdp-v2-sticky-info {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column;
+    gap: 0.15rem;
+  }
+  .pdp-v2-sticky-name {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  body[data-market="cn"] .pdp-v2-sticky-name { font-family: var(--serif); font-weight: 500; letter-spacing: 0.02em; }
+  .pdp-v2-sticky-variant {
+    font-family: var(--sans-en);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--hush);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  body[data-market="cn"] .pdp-v2-sticky-variant { font-family: var(--serif); font-size: 0.78rem; }
+  .pdp-v2-sticky-dot {
+    width: 0.7rem; height: 0.7rem;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    display: inline-block;
+    flex: 0 0 auto;
+  }
+  .pdp-v2-sticky-price {
+    font-family: var(--sans-en);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    flex: 0 0 auto;
+  }
+  .pdp-v2-sticky-cta {
+    padding: 0.7rem 1.6rem;
+    min-height: 44px;
+    flex: 0 0 auto;
+    font-size: 0.85rem;
+  }
+  /* Push commerce-section bottom padding to clear sticky bar */
+  .pdp-v2-commerce { padding-bottom: calc(var(--pad-section) + 100px); }
+  /* Related grid also needs clearance */
+  .pd-related { padding-bottom: 100px !important; }
+  /* Mobile: sticky bar layout — compressed 2026-06-19 (G3 audit · was 68px / total mobile chrome was ~180px) */
+  @media (max-width: 600px) {
+    .pdp-v2-sticky { gap: 0.6rem; padding: 0 0.9rem; min-height: 52px; height: 52px; }
+    .pdp-v2-sticky-name { font-size: 0.88rem; }
+    .pdp-v2-sticky-variant { font-size: 0.62rem; }
+    .pdp-v2-sticky-price { font-size: 0.95rem; }
+    .pdp-v2-sticky-cta { padding: 0.45rem 0.95rem; font-size: 0.72rem; min-height: 36px; }
+    /* G3 · promo-bar hide on PDP mobile (additional ~28px chrome reclaimed for product) */
+    body:has(#view-product.active) .promo-bar { display: none; }
+    body:has(#view-product.active) .nav { top: 0 !important; }
+  }
+  @media (max-width: 380px) {
+    .pdp-v2-sticky-variant { display: none; }  /* very tight */
+  }
+
+  /* ── Section 2 · Worn (color-swap image, 2026-06-18 refined ── image bigger) ── */
+  .pdp-v2-worn {
+    display: grid;
+    grid-template-columns: 8fr 4fr;  /* bigger image */
+    align-items: center;
+    padding: var(--pad-section) 0;
+    gap: 0;
+    background: var(--ivory);
+  }
+  .pdp-v2-worn-img-wrap {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--ivory-2);
+  }
+  .pdp-v2-worn-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: opacity 0.4s ease;
+  }
+  .pdp-v2-worn-img.is-switching { opacity: 0.25; }
+  .pdp-v2-worn-text {
+    padding: 0 clamp(2rem, 5vw, 5rem);
+  }
+  .pdp-v2-section-overline {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hush);
+    margin-bottom: 0.85rem;
+  }
+  body[data-market="cn"] .pdp-v2-section-overline { letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
+  .pdp-v2-worn-h {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 1.5rem;
+  }
+  body[data-market="cn"] .pdp-v2-worn-h {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+  }
+  .pdp-v2-worn-p {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 36ch;
+    margin: 0;
+  }
+  body[data-market="cn"] .pdp-v2-worn-p {
+    font-family: var(--serif);
+    font-style: normal;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    line-height: 1.9;
+  }
+
+  /* ── Section 3 · Styling (outfit pairings) ── */
+  .pdp-v2-styling {
+    background: var(--paper);
+    padding: var(--pad-section) var(--pad-x);
+    text-align: center;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .pdp-v2-styling-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .pdp-v2-styling-h {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 0.5rem 0 0;
+  }
+  body[data-market="cn"] .pdp-v2-styling-h {
+    font-family: var(--serif);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  }
+  .pdp-v2-styling-sub {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--hush);
+    max-width: 38ch;
+    margin: 1.2rem auto 0;
+    line-height: 1.55;
+  }
+  body[data-market="cn"] .pdp-v2-styling-sub { font-family: var(--serif); font-style: normal; letter-spacing: 0.04em; }
+  .pdp-v2-styling-list {
+    list-style: none; padding: 0;
+    margin: 3rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--gap-lg);
+    text-align: left;
+  }
+  .pdp-v2-styling-item {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    padding: 1.5rem 0 0;
+    border-top: 1px solid var(--line-strong);
+    position: relative;
+  }
+  body[data-market="cn"] .pdp-v2-styling-item {
+    font-family: var(--serif);
+    font-style: normal;
+    letter-spacing: 0.04em;
+    line-height: 1.85;
+    font-size: 0.98rem;
+  }
+  .pdp-v2-styling-item::before {
+    content: counter(styling-counter, decimal-leading-zero);
+    counter-increment: styling-counter;
+    display: block;
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    color: var(--hush);
+    margin-bottom: 0.5rem;
+  }
+  .pdp-v2-styling-list { counter-reset: styling-counter; }
+
+  /* ── Section 4 · Commerce (existing stack, wrapped) ── */
+  .pdp-v2-commerce {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--pad-section) var(--pad-x);
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    .pdp-v2-hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .pdp-v2-bg {
+      position: relative;
+      /* P0-2: shorter bg → price + CTA land within first viewport scroll (~520px on iPhone SE) */
+      height: 38vh;
+      min-height: 240px;
+    }
+    .pdp-v2-content {
+      background: var(--ivory);
+      padding: 1.5rem var(--pad-x) 2.5rem;
+      gap: 0.85rem;
+    }
+    /* P0-2: DOM reorder so cold visitor sees Name → Color → Price → CTA in first ~520px,
+       editorial content (wearerProfile + About) demoted to scroll-reward below. */
+    .pdp-v2-content > .pdp-v2-breadcrumb { order: 1; }
+    .pdp-v2-content > .pdp-v2-name       { order: 2; }
+    .pdp-v2-content > .pdp-v2-swatches   { order: 3; }
+    .pdp-v2-content > .pdp-v2-buy        { order: 4; }
+    .pdp-v2-content > .pdp-v2-symbolism  { order: 5; margin-top: 0.5rem; }
+    .pdp-v2-content > .pdp-v2-inspiration-label { order: 6; }
+    .pdp-v2-content > .pdp-v2-inspiration       { order: 7; }
+    .pdp-v2-worn {
+      grid-template-columns: 1fr;
+      padding: var(--pad-section) 0 0;
+    }
+    .pdp-v2-worn-text {
+      padding: 2.5rem var(--pad-x);
+    }
+  }
+  @media (max-width: 600px) {
+    .pdp-v2-styling-list { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
   /* PDP Related Products section */
   .pd-related {
     background: var(--ivory-2);
     border-top: 1px solid var(--line);
-    padding: 5rem 3rem 6rem;
+    padding: var(--pad-section) var(--pad-x);
   }
   .pd-related-header {
     text-align: center;
@@ -3166,8 +3697,8 @@
   .pd-related-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 1200px;
+    gap: var(--gap);
+    max-width: var(--container);
     margin: 0 auto;
   }
   @media (max-width: 1024px) {
@@ -3225,81 +3756,145 @@
      Removed ~88 lines of dead CSS: .plate-status / .pd-inventory / .edition-counter
      ============================================================ */
 
-  /* M9 · Dual-door band · 2-column entry serving JTBD 1+2 (Bespoke) and JTBD 3 (Self-purchase) */
+  /* Brand mantra marquee deleted 2026-06-19 (G2 audit) — SBB/Anna Hu/Alighieri/Pippa 0/4 use kinetic marquees;
+     brand claims (800°C / Yunnan / plique-à-jour) carried by hero meta bridge + plique-section + atelier-section. */
+  /* B2 · Hero → Craft meta bridge · Alighieri pattern, one short line, hush color */
+  .hero-meta-bridge {
+    text-align: center;
+    padding: 1.1rem var(--pad-x);
+    background: var(--ivory);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--hush);
+  }
+  .hero-meta-bridge a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 1px;
+    transition: border-bottom-color 0.25s ease;
+  }
+  .hero-meta-bridge a:hover { border-bottom-color: var(--ink); }
+  .hero-meta-bridge .hero-meta-bridge-cn { display: none; font-family: var(--serif); font-style: normal; letter-spacing: 0.12em; }
+  body[data-market="cn"] .hero-meta-bridge .hero-meta-bridge-en { display: none; }
+  body[data-market="cn"] .hero-meta-bridge .hero-meta-bridge-cn { display: inline; }
+
+  /* M9 · Dual-door band · 2-column entry serving JTBD 1+2 (Bespoke) and JTBD 3 (Self-purchase).
+     2026-06-18: bg image + dark scrim added per user (cold-traffic visibility) */
   .dual-door-band {
-    padding: 5.5rem 0 5.75rem;
-    background: var(--paper);
+    padding: 0;
+    background: var(--ink);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     position: relative;
   }
   .dual-door-inner {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
-    max-width: 1400px;
+    grid-template-columns: 1fr 1fr;
+    max-width: 100%;
     margin: 0 auto;
-  }
-  .dual-door-inner::before {
-    content: '';
-    grid-column: 2;
-    background: var(--line-strong);
   }
   .door {
     display: block;
-    padding: 1rem 4rem;
+    padding: clamp(4rem, 8vw, 7rem) clamp(2rem, 4vw, 4rem);
     text-align: center;
     cursor: pointer;
     text-decoration: none;
-    color: inherit;
-    transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--ivory);
     position: relative;
+    overflow: hidden;
+    min-height: 380px;
+    isolation: isolate;
   }
-  .door:hover { background: var(--ivory-2); }
+  .door-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+    filter: brightness(0.85) saturate(0.95);
+  }
+  .door::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(22, 19, 16, 0.35) 0%, rgba(22, 19, 16, 0.55) 100%);
+    z-index: 1;
+    transition: background 0.5s ease;
+  }
+  .door-content {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100%;
+    min-height: 280px;
+  }
+  .door:hover .door-bg { transform: scale(1.04); filter: brightness(0.95) saturate(1); }
+  .door:hover::after { background: linear-gradient(180deg, rgba(22, 19, 16, 0.25) 0%, rgba(22, 19, 16, 0.4) 100%); }
   .door-overline {
-    font-family: var(--serif-en);
-    font-size: 0.68rem;
-    letter-spacing: 0.32em;
+    font-family: var(--sans-en);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: rgba(251, 247, 238, 0.75);
     margin-bottom: 1.75rem;
     font-weight: 500;
   }
-  body[data-market="cn"] .door-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.38em; text-transform: none; }
+  body[data-market="cn"] .door-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
   .door-h {
     font-family: var(--display);
-    font-size: clamp(1.5rem, 2.6vw, 2.15rem);
+    font-size: clamp(1.6rem, 2.8vw, 2.3rem);
     font-weight: 400;
     line-height: 1.22;
     letter-spacing: -0.008em;
     margin-bottom: 1.75rem;
-    color: var(--ink);
+    color: var(--ivory);
+    max-width: 22ch;
   }
-  body[data-market="cn"] .door-h-cn { font-family: var(--serif); font-weight: 500; letter-spacing: 0.04em; line-height: 1.6; }
+  body[data-market="cn"] .door-h-cn { font-family: var(--serif); font-weight: 500; letter-spacing: 0.04em; line-height: 1.55; }
   body[data-market="global"] .door-h-cn { display: none; }
   body[data-market="cn"] .door-h-en { display: none; }
   .door-h em { font-style: italic; font-weight: 400; }
   .door-arrow {
     display: inline-block;
-    color: var(--ink-soft);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    color: rgba(251, 247, 238, 0.85);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
   }
-  .door:hover .door-arrow { transform: translateX(8px); color: var(--ink); }
+  /* D1 · door ribbon — inventory/lead-time fact strip, decoupled from H */
+  .door-ribbon {
+    display: inline-block;
+    font-family: var(--sans-en);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(251, 247, 238, 0.65);
+    padding: 0.4rem 0.7rem;
+    border: 1px solid rgba(251, 247, 238, 0.22);
+    margin-bottom: 1.5rem;
+    font-variant-numeric: tabular-nums;
+    align-self: center;
+  }
+  body[data-market="cn"] .door-ribbon { font-family: var(--serif); text-transform: none; letter-spacing: 0.08em; font-size: 0.78rem; }
+  .door-ribbon-cn { display: none; }
+  body[data-market="cn"] .door-ribbon-en { display: none; }
+  body[data-market="cn"] .door-ribbon-cn { display: inline-block; }
+  .door:hover .door-arrow { transform: translateX(8px); color: var(--ivory); }
+  /* Subtle divider between the two doors (only on desktop) */
+  .door + .door { border-left: 1px solid rgba(251, 247, 238, 0.15); }
   @media (max-width: 880px) {
     .dual-door-inner {
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1px 1fr;
     }
-    .dual-door-inner::before {
-      grid-column: 1;
-      grid-row: 2;
-      height: 1px;
-      width: 100%;
-    }
-    .door { padding: 3rem 2rem; }
+    .door + .door { border-left: 0; border-top: 1px solid rgba(251, 247, 238, 0.15); }
+    .door { padding: 4rem 2rem; min-height: 320px; }
   }
   /* Legacy consult-band selector kept for any external references — falls through if unused */
   .consult-band {
-    padding: 5.5rem 3rem 5.75rem;
+    padding: var(--pad-section) var(--pad-x);
     background: var(--paper);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
@@ -3319,7 +3914,7 @@
     margin-bottom: 1.875rem;
     font-weight: 500;
   }
-  body[data-market="cn"] .consult-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.38em; text-transform: none; }
+  body[data-market="cn"] .consult-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.32em; text-transform: none; }
   .consult-h {
     font-family: var(--display);
     font-size: clamp(1.9rem, 3.4vw, 2.85rem);
@@ -3345,52 +3940,7 @@
   }
   .consult-band:hover .consult-arrow { transform: translateX(10px); }
 
-  /* Letters Received — social proof block in printed-monograph voice */
-  .letters-section {
-    padding: 8.5rem 3rem 9.25rem;
-    background: var(--paper);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-  .letters-section .section-header { text-align: center; margin-bottom: 5rem; }
-  .letters-section .section-title-cn { display: none; }
-  body[data-market="cn"] .letters-section .section-title { display: none; }
-  body[data-market="cn"] .letters-section .section-title-cn { display: block; font-family: var(--serif); font-weight: 500; letter-spacing: 0.02em; line-height: 1.2; }
-  .letters-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3.5rem 3.25rem;
-    max-width: 1240px;
-    margin: 0 auto 5.5rem;
-  }
-  @media (max-width: 880px) { .letters-grid { grid-template-columns: 1fr; max-width: 520px; gap: 4rem; } }
-  .letter { margin: 0; }
-  .letter-body {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 1.18rem;
-    line-height: 1.65;
-    color: var(--ink);
-    margin: 0 0 1.625rem;
-    letter-spacing: -0.005em;
-    text-indent: -0.42em;
-    hanging-punctuation: first;
-  }
-  body[data-market="cn"] .letter-body { font-family: var(--serif); font-style: normal; font-size: 1.04rem; line-height: 1.85; text-indent: 0; }
-  .letter-attr {
-    font-family: var(--serif-en);
-    font-size: 0.78rem;
-    letter-spacing: 0.14em;
-    color: var(--hush);
-    display: flex; flex-direction: column; gap: 0.35rem;
-    padding-top: 1.125rem;
-    border-top: 1px solid var(--line);
-    font-variant-numeric: tabular-nums;
-  }
-  .letter-from { color: var(--ink-soft); font-style: italic; }
-  .letter-meta { font-style: italic; letter-spacing: 0.08em; color: var(--hush-soft); }
-  body[data-market="cn"] .letter-from,
-  body[data-market="cn"] .letter-meta { font-family: var(--serif); font-style: normal; letter-spacing: 0.18em; }
+  /* Letters Received CSS deleted 2026-06-19 (T6) · DOM cut 06-08, COPY keys + renderer cut same day */
   .letters-honours {
     max-width: 880px;
     margin: 0 auto;
@@ -3407,28 +3957,161 @@
     margin-bottom: 1.875rem;
     font-weight: 500;
   }
-  body[data-market="cn"] .honours-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.38em; text-transform: none; }
+  body[data-market="cn"] .honours-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.32em; text-transform: none; }
+  /* Honours flex-list → running sentence when count < 4 (2026-06-17 Tier 3).
+     A 1-item centered italic strip reads thinner than no credit. */
   .honours-list {
     list-style: none;
     font-family: var(--serif-en);
     font-style: italic;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--hush);
+    text-align: center;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    max-width: 56ch;
+    margin: 0 auto;
+  }
+  .honours-list li { display: inline; }
+  .honours-list li:not(:last-child)::after { content: ' · '; color: var(--hush-soft); margin: 0 0.3em; }
+  body[data-market="cn"] .honours-list { font-family: var(--serif); font-style: normal; letter-spacing: 0.06em; }
+
+  /* ─── PDP "wear it to the light" italic line · plique-à-jour only (2026-06-17 wow compound A) ───── */
+  .pd-wear-light {
+    margin: -1.2rem 0 2rem;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--hush);
+    letter-spacing: 0.01em;
+    line-height: 1.55;
+  }
+  body[data-market="cn"] .pd-wear-light { font-family: var(--serif); font-style: normal; font-size: 0.88rem; letter-spacing: 0.06em; }
+
+  /* ─── PDP spec-tombstone block (sits between price-block and desc) ───────
+     Plain spec rows: Piece (SKU) / Material / Dimension / Completed.
+     Edition-of-12 framing removed 2026-06-19 (T1 audit) per evidence-led recalibration. */
+  .pd-tombstone {
+    margin: 0 0 2.25rem;
+    padding: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .pd-tombstone-row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pd-tombstone-row:last-child { border-bottom: 0; }
+  .pd-tombstone dt {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--hush);
+    font-weight: 500;
+  }
+  body[data-market="cn"] .pd-tombstone dt { letter-spacing: 0.22em; text-transform: none; }
+  .pd-tombstone dd {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  body[data-market="global"] .pd-tombstone dd { font-family: var(--serif-en); }
+  @media (max-width: 600px) {
+    .pd-tombstone-row { grid-template-columns: 6.5rem 1fr; }
+    .pd-tombstone dt { font-size: 0.65rem; }
+    .pd-tombstone dd { font-size: 0.9rem; }
+  }
+
+  /* ─── Enamel-color wayfinder chips (Bea Bongiasca pattern · refactored 2026-06-17)
+     Now sits inside .catalog-filterbar as one labeled row, matching Form & Price
+     visual treatment. Old standalone-strip styling removed. */
+  #enamel-wayfinder:empty { display: none; }
+  .enamel-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 0;
+    padding: 0.55rem 0.7rem;
+    cursor: pointer;
+    font-family: var(--serif);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    color: var(--hush);
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+  }
+  body[data-market="cn"] .enamel-chip { font-weight: 500; letter-spacing: 0.14em; text-transform: none; font-size: 0.85rem; }
+  body[data-market="global"] .enamel-chip { font-family: var(--serif-en); letter-spacing: 0.06em; font-size: 0.92rem; }
+  .enamel-chip:hover { color: var(--ink); }
+  .enamel-chip.is-active { color: var(--ink); }
+  .enamel-chip.is-active::after { content: ' ·'; color: var(--ink); }
+  .enamel-dot {
+    width: 0.78rem;
+    height: 0.78rem;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    flex: 0 0 auto;
+  }
+  @media (max-width: 600px) {
+    .enamel-chip { font-size: 0.74rem; padding: 0.5rem 0.55rem; }
+  }
+
+  /* ─── Catalog help banner (Gift Finder entry · 2026-06-17) ─────────────────
+     Sits above filterbar. Editorial italic line, no Shopify-promo box, hairline
+     border. Click → /gift view. Atelier-voice copy lives in COPY.catalogHelp*. */
+  .catalog-help-banner {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.4rem 2.25rem;
-    letter-spacing: 0.04em;
+    align-items: center;
+    gap: var(--space-sm);
+    max-width: var(--container);
+    margin: 0 auto var(--space-sm);
+    padding: var(--space-sm) var(--pad-x);
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background 0.25s ease, color 0.25s ease;
   }
-  .honours-list li { padding: 0.4rem 0; position: relative; }
-  .honours-list li:not(:last-child)::after {
-    content: '·';
-    position: absolute;
-    right: -1.25rem;
-    top: 0.4rem;
-    color: var(--hush-soft);
+  .catalog-help-banner:hover { background: var(--paper); color: var(--ink); }
+  .catalog-help-overline {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hush);
+    font-weight: 500;
+    white-space: nowrap;
+    flex: 0 0 auto;
   }
-  body[data-market="cn"] .honours-list { font-family: var(--serif); font-style: normal; letter-spacing: 0.12em; }
+  body[data-market="cn"] .catalog-help-overline { letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
+  .catalog-help-text {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    flex: 1;
+    color: inherit;
+  }
+  body[data-market="cn"] .catalog-help-text { font-family: var(--serif); font-style: normal; letter-spacing: 0.04em; }
+  .catalog-help-arrow {
+    font-family: var(--sans-en);
+    font-size: 1.05rem;
+    color: var(--hush);
+    transition: transform 0.25s ease;
+  }
+  .catalog-help-banner:hover .catalog-help-arrow { transform: translateX(4px); color: var(--ink); }
+  @media (max-width: 600px) {
+    .catalog-help-banner { flex-direction: column; align-items: flex-start; gap: 0.3rem; padding: var(--space-sm) var(--pad-x); }
+    .catalog-help-text { font-size: 0.9rem; }
+  }
 
   /* Simplified PDP commerce stack — evidence-led, plain commerce language */
   .pd-price-block {
@@ -3440,12 +4123,12 @@
     margin-bottom: 1.125rem;
   }
   .pd-price-value {
-    font-family: var(--serif-en);
-    font-size: 2.1rem;
-    letter-spacing: -0.012em;
+    font-family: var(--sans-en);
+    font-size: 1.65rem;
+    letter-spacing: 0;
     color: var(--ink);
     font-variant-numeric: tabular-nums;
-    font-weight: 400;
+    font-weight: 500;
   }
   /* Ship-by line — Mejuri/Aurate/Foundrae literal lead-time convention */
   .pd-shipby {
@@ -3473,15 +4156,9 @@
     padding-top: 1rem;
     border-top: 1px solid var(--line);
   }
-  .pd-included-img {
-    display: block;
-    width: 100%;
-    max-width: 420px;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    margin: 0 0 1rem 0;
-    filter: saturate(0.94);
-  }
+  /* pd-included--text-only variant — 2026-06-18, drops awkward inline illustration */
+  .pd-included--text-only { display: flex; align-items: baseline; gap: 0.625rem; flex-wrap: wrap; padding-top: 0.75rem; }
+  .pd-included-img { display: none; }
   .pd-included-text {
     display: flex;
     align-items: baseline;
@@ -3505,32 +4182,21 @@
   }
   body[data-market="global"] .pd-included-items { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.02em; }
 
-  /* Product card sold/reserved — YVMIN quiet badge model, no strikethrough, no auction markup */
+  /* Sold/Reserved converted from frosted overlay sticker to in-caption text (2026-06-17).
+     Editorial convention: dim the photograph (.product-card--sold rule), name status in caption.
+     Replaces auction-house theatre / Shopify "Sold Out" app look. */
   .product-sold {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-family: var(--serif);
+    display: block;
+    font-family: var(--sans-en);
     font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    color: var(--ink);
-    background: rgba(251, 247, 238, 0.94);
-    padding: 0.5rem 0.875rem;
-    z-index: 4;
-    font-weight: 400;
-    backdrop-filter: blur(4px);
-  }
-  body[data-market="global"] .product-sold {
-    font-family: var(--serif-en);
-    font-style: italic;
     letter-spacing: 0.14em;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-  }
-  .product-reserved {
-    background: rgba(251, 247, 238, 0.72);
     color: var(--ink-soft);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 0.4rem;
   }
+  body[data-market="cn"] .product-sold { letter-spacing: 0.18em; text-transform: none; }
+  .product-reserved { color: var(--hush); }
   .product-card--sold .product-img img,
   .product-card--sold .product-name,
   .product-card--sold .product-price { opacity: 0.62; }
@@ -3543,7 +4209,7 @@
      ============================================================ */
   /* M7 · Bespoke hero with ceremony — min-height + signature mark backdrop */
   .consult-hero {
-    padding: 11rem 3rem 6rem;
+    padding: var(--pad-section) var(--pad-x);
     text-align: center;
     min-height: 72svh;
     display: flex;
@@ -3601,7 +4267,7 @@
   body[data-market="cn"] .consult-sub { font-family: var(--serif); font-style: normal; font-size: 1.08rem; line-height: 1.85; }
 
   .consult-promise {
-    padding: 4.5rem 3rem 5.5rem;
+    padding: var(--pad-section) var(--pad-x);
     background: var(--paper);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
@@ -3649,8 +4315,8 @@
 
   /* M (new) · Bespoke examples · proof-of-craft above the 4-step flow */
   .consult-examples {
-    padding: 6.5rem 3rem 5rem;
-    max-width: 1280px;
+    padding: var(--pad-section) var(--pad-x) calc(var(--pad-section) * 0.7);
+    max-width: var(--container);
     margin: 0 auto;
   }
   .consult-examples-grid {
@@ -3665,12 +4331,11 @@
     background: #000;
     overflow: hidden;
     margin-bottom: 1.5rem;
-    border: 1px solid var(--line-strong);
+    /* C3 parallel cleanup 2026-06-19 · border + sepia removed for register parity with .product-img */
   }
   .consult-example-img img {
     width: 100%; height: 100%;
     object-fit: cover;
-    filter: brightness(0.95) saturate(0.85) sepia(0.06);
   }
   .consult-example-name {
     font-family: var(--display);
@@ -3702,9 +4367,9 @@
   body[data-market="cn"] .consult-example-adapt strong { font-family: var(--serif); letter-spacing: 0.28em; text-transform: none; font-weight: 500; }
   @media (max-width: 880px) {
     .consult-examples-grid { grid-template-columns: 1fr; gap: 3rem; }
-    .consult-examples { padding: 4rem 1.5rem 3rem; }
+    .consult-examples { padding: var(--space-xl) var(--pad-x); }
   }
-  .consult-channels { padding: 7.25rem 3rem 6.5rem; }
+  .consult-channels { padding: var(--pad-section) var(--pad-x); }
   .consult-channels .section-header { text-align: center; margin-bottom: 4.25rem; }
   .consult-grid {
     display: grid;
@@ -3787,7 +4452,7 @@
 
   /* "After you write" reassurance — vertical timeline, atelier register */
   .consult-process {
-    padding: 6.5rem 3rem 7rem;
+    padding: var(--pad-section) var(--pad-x);
     background: var(--ivory-2);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
@@ -3875,7 +4540,7 @@
   .craft-museums-list a:hover .craft-museums-name { text-decoration: underline; text-underline-offset: 3px; }
 
   .consult-what {
-    padding: 7rem 3rem 8.5rem;
+    padding: var(--pad-section) var(--pad-x);
     background: var(--paper);
     border-top: 1px solid var(--line);
   }
@@ -4010,7 +4675,7 @@
     margin-bottom: 1.125rem;
     font-weight: 500;
   }
-  body[data-market="cn"] .craft-toc-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.38em; text-transform: none; font-size: 0.74rem; }
+  body[data-market="cn"] .craft-toc-overline { font-family: var(--serif); font-weight: 400; letter-spacing: 0.32em; text-transform: none; font-size: 0.74rem; }
   .craft-toc-list {
     list-style: none;
     counter-reset: toc;
@@ -4317,7 +4982,7 @@
   }
   /* CN 标题在移动端字距更紧 — 防止溢出 */
   @media (max-width: 600px) {
-    body[data-market="cn"] .hero-h1-cn { letter-spacing: 0.12em; }
+    body[data-market="cn"] .hero-h1-cn { letter-spacing: 0.025em; }
     body[data-market="cn"] .atelier-h2 { letter-spacing: 0.15em; }
     body[data-market="cn"] .plique-cn { letter-spacing: 0.2em; }
     body[data-market="cn"] .section-title { letter-spacing: 0.12em; }
@@ -4383,28 +5048,58 @@
 
   /* Drop cap removed — was decorative, no commerce value */
 
-  /* 4. Plique-à-jour cursor-following 暖光斑("迎光见心"物理化) */
-  .plique-img {
+  /* ─── Cursor-as-light · main WOW Layer 2 (strengthened 2026-06-17) ─────────
+     Soft warm radial gradient follows cursor over .plique-img + .hero-img.
+     Combined with brightness/saturate boost on the IMG itself, reveals the
+     translucent plique-à-jour color "as if held to a window" — the literal
+     physical property of plique-à-jour animated. */
+  .plique-img,
+  .hero-img {
     --mx: 50%;
     --my: 50%;
     isolation: isolate;
   }
-  .plique-img::after {
+  .plique-img::after,
+  .hero-img::after {
     content: '';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: radial-gradient(280px circle at var(--mx) var(--my), rgba(255, 232, 180, 0.22), transparent 65%);
+    background: radial-gradient(360px circle at var(--mx) var(--my),
+      rgba(255, 220, 160, 0.42) 0%,
+      rgba(255, 220, 160, 0.18) 35%,
+      transparent 70%);
     mix-blend-mode: screen;
     opacity: 0;
-    transition: opacity 0.6s ease;
-    z-index: 1;
+    transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+    z-index: 2;
+  }
+  .plique-img img,
+  .hero-img img {
+    transition: filter 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
   }
   @media (hover: hover) and (pointer: fine) {
-    .plique-img:hover::after { opacity: 1; }
+    .plique-img:hover::after,
+    .hero-img:hover::after { opacity: 1; }
+    /* Brighten + saturate the IMG itself on hover — color "comes alive" with light */
+    .plique-img:hover img { filter: brightness(1.08) saturate(1.22) contrast(1.05); }
+    .hero-img:hover img { filter: brightness(0.96) contrast(1.08) saturate(1.02); }
+  }
+  /* Touch fallback: gentle auto-drift (.cursor-light-auto added by JS on touch devices) */
+  @media (hover: none) {
+    .plique-img.cursor-light-auto::after,
+    .hero-img.cursor-light-auto::after {
+      opacity: 0.85;
+      animation: cursor-light-drift 7s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+    }
+  }
+  @keyframes cursor-light-drift {
+    0%   { background: radial-gradient(340px circle at 30% 35%, rgba(255,220,160,0.36), transparent 70%); }
+    100% { background: radial-gradient(340px circle at 70% 65%, rgba(255,220,160,0.36), transparent 70%); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .plique-img::after { display: none; }
+    .plique-img::after, .hero-img::after { display: none; }
+    .plique-img img, .hero-img img { transition: none; }
   }
 
   /* ============ Mobile Fundamentals(research-driven, 2026-05-28)============ */
@@ -4522,7 +5217,7 @@
 
   /* 6. Unify CN letter-spacing fix to ≤768px (was only ≤600 — dead zone 601-768) */
   @media (max-width: 768px) {
-    body[data-market="cn"] .hero-h1-cn { letter-spacing: 0.08em; }
+    body[data-market="cn"] .hero-h1-cn { letter-spacing: 0.025em; }
     body[data-market="cn"] .atelier-h2 { letter-spacing: 0.1em; }
     body[data-market="cn"] .plique-cn { letter-spacing: 0.18em; }
     body[data-market="cn"] .section-title { letter-spacing: 0.12em; }
@@ -4602,8 +5297,11 @@
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
     .about-credits-grid { grid-template-columns: 1fr 1fr; }
     .hp-content { grid-template-columns: 1fr; }
-    /* Sticky maker/pd-gallery breaks on single-col stack — disable sticky so text flows after image */
-    .maker-img, .pd-gallery { position: static !important; height: auto !important; aspect-ratio: 4/5; }
+    /* Sticky maker/pd-gallery breaks on single-col stack — disable sticky so text flows after image.
+       Cap gallery height to viewport so the product image is ALWAYS visible above the fold
+       on tablet/laptop stacked layout (2026-06-17 fold-fix). */
+    .maker-img, .pd-gallery { position: static !important; height: auto !important; aspect-ratio: 4/5; max-height: calc(100vh - 120px); }
+    .pd-gallery img { height: 100%; }
     /* Atelier full-bleed: use svh so iOS Safari URL-bar show/hide doesn't jump */
     .atelier-section { height: 100svh; min-height: clamp(560px, 88svh, 720px); }
   }
@@ -4688,7 +5386,7 @@
 <nav class="nav">
   <div class="nav-brand" onclick="navigate('home')">
     <span class="yan">YÀN</span>
-    <span class="atelier">Atelier · 滇韵</span>
+    <span class="atelier">Atelier</span>
   </div>
   <div class="nav-links" id="nav-links"></div>
   <div class="nav-right">
@@ -4733,26 +5431,26 @@
   <section class="hero">
     <div class="hero-text">
       <div class="hero-overline" id="hero-overline"></div>
-      <h1 class="hero-h1-cn">高级珠宝的工艺,<br/><em>独立工坊的价</em>。</h1>
-      <h1 class="hero-h1-en">Fine-jewellery craft.<br/><em>Atelier price.</em></h1>
+      <h1 class="hero-h1-en">Wear it.<br/>People will ask <em>where you found it</em>.</h1>
+      <h1 class="hero-h1-cn">戴出去,<br/>别人会问你<em>哪儿淘的</em>。</h1>
       <p class="hero-sub" id="hero-sub"></p>
-      <!-- Plique-à-jour substantiated fact — promoted from plique-section per evidence-led memo -->
-      <p class="hero-plique-fact" id="hero-plique-fact"></p>
+      <!-- hero-plique-fact bridge removed 2026-06-19 (T3 audit) · scarcity boast lives in plique-section below; cold-zone needs fewer registers -->
+      <p class="hero-plique-fact" id="hero-plique-fact" hidden></p>
       <div class="hero-cta">
         <button class="btn btn-primary" id="hero-cta1" onclick="if(window.plausible)plausible('Hero CTA Collection'); navigate('catalog', null, true)"></button>
         <button class="btn btn-ghost" id="hero-cta2" onclick="if(window.plausible)plausible('Hero CTA Gift Finder'); navigate('gift')"></button>
       </div>
       <div class="hero-facts" aria-label="trust">
-        <span>手作 14–30 天</span><span class="sep"></span>
-        <span>14 天可退</span><span class="sep"></span>
-        <span>终身保养</span><span class="sep"></span>
-        <span>顺丰直送</span>
-      </div>
-      <div class="hero-facts hero-facts-en" aria-label="trust">
         <span>Made to order · 14–30 days</span><span class="sep"></span>
         <span>14-day returns</span><span class="sep"></span>
         <span>Lifetime care</span><span class="sep"></span>
         <span>International tracked</span>
+      </div>
+      <div class="hero-facts hero-facts-cn" aria-label="trust">
+        <span>手作 14–30 天</span><span class="sep"></span>
+        <span>14 天可退</span><span class="sep"></span>
+        <span>终身保养</span><span class="sep"></span>
+        <span>顺丰直送</span>
       </div>
     </div>
     <div class="hero-img">
@@ -4761,24 +5459,44 @@
     </div>
   </section>
 
-  <!-- Dual-door band · M9 · entry for Bespoke (JTBD 1+2) + Self (JTBD 3) -->
+  <!-- B2 · Hero → Craft meta bridge (2026-06-19) -->
+  <div class="hero-meta-bridge">
+    <span class="hero-meta-bridge-en">Made at 800°C in Yunnan. <a href="#craft" onclick="event.preventDefault(); navigate('craft')">Read about plique-à-jour →</a></span>
+    <span class="hero-meta-bridge-cn">800°C 高火, 烧于云南。<a href="#craft" onclick="event.preventDefault(); navigate('craft')">了解空窗珐琅 →</a></span>
+  </div>
+
+  <!-- Brand mantra marquee deleted 2026-06-19 (G2 audit) — brand claims carried by hero meta + plique + atelier sections -->
+
+  <!-- Dual-door band · M9 · entry for Bespoke (JTBD 1+2) + Self (JTBD 3)
+       2026-06-18 added background images per buyer request — workshop scene for Bespoke,
+       worn product for In-Stock. Dark scrim keeps editorial register, text in ivory. -->
   <section class="dual-door-band">
     <div class="dual-door-inner">
-      <a class="door door--bespoke" onclick="navigate('consult')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('consult')">
-        <div class="door-overline">Bespoke · 定制</div>
-        <h2 class="door-h door-h-cn">想做不一样的?跟工坊谈。</h2>
-        <h2 class="door-h door-h-en">Want it different? <em>Talk to the bench.</em></h2>
-        <span class="door-arrow" aria-hidden="true">
-          <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
-        </span>
+      <a class="door door--self" onclick="navigate('catalog')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog')">
+        <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" loading="lazy" />
+        <div class="door-content">
+          <div class="door-overline">立刻能戴 · Ready to wear</div>
+          <h2 class="door-h door-h-cn">工坊已经做好的, 选一件带走。</h2>
+          <h2 class="door-h door-h-en">Pieces ready at the bench. Take one home.</h2>
+          <div class="door-ribbon door-ribbon-en" id="door-ribbon-stock-en">12 in batch · 4 sold</div>
+          <div class="door-ribbon door-ribbon-cn" id="door-ribbon-stock-cn">12 件 · 4 已售</div>
+          <span class="door-arrow" aria-hidden="true">
+            <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
+          </span>
+        </div>
       </a>
-      <a class="door door--self" onclick="navigate('catalog', null, true)" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true)">
-        <div class="door-overline">现货 · In Stock</div>
-        <h2 class="door-h door-h-cn">这一批 12 件, 4 件已售。</h2>
-        <h2 class="door-h door-h-en">12 in this batch. <em>4 sold.</em></h2>
-        <span class="door-arrow" aria-hidden="true">
-          <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
-        </span>
+      <a class="door door--bespoke" onclick="navigate('consult')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('consult')">
+        <img class="door-bg" src="images/atelier-bench-pieces.jpg" alt="" loading="lazy" />
+        <div class="door-content">
+          <div class="door-overline">量身做一件 · Make it yours</div>
+          <h2 class="door-h door-h-cn">你想要的样子, 跟工坊谈。</h2>
+          <h2 class="door-h door-h-en">Tell us what you want. We make it.</h2>
+          <div class="door-ribbon door-ribbon-en">8–12 weeks · made to order</div>
+          <div class="door-ribbon door-ribbon-cn">8–12 周交期 · 定制</div>
+          <span class="door-arrow" aria-hidden="true">
+            <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
+          </span>
+        </div>
       </a>
     </div>
   </section>
@@ -4791,7 +5509,6 @@
       <div class="maker-img-credit">Photographed by 蒙明珠</div>
     </div>
     <div class="maker-text">
-      <div class="section-overline">The Maker</div>
       <h2 id="maker-title"></h2>
       <div id="maker-paragraphs"></div>
       <div class="maker-signature">
@@ -4811,10 +5528,10 @@
     <div class="atelier-content">
       <div class="atelier-overline atelier-overline-en">Yunnan · The Atelier</div>
       <div class="atelier-overline atelier-overline-cn">云南 · 滇韵工坊</div>
-      <h2 class="atelier-h2 atelier-h2-en">Wire. Enamel. Kiln.</h2>
-      <h2 class="atelier-h2 atelier-h2-cn">掐丝 · 点蓝 · 入炉。</h2>
-      <p class="atelier-sub atelier-sub-en"><em>Eight hundred degrees.</em> Many firings, until the light is right.</p>
-      <p class="atelier-sub atelier-sub-cn"><em>八百度</em>。反复入炉,直到光对。</p>
+      <h2 class="atelier-h2 atelier-h2-en">Colour fired at 800°C. It does not fade.</h2>
+      <h2 class="atelier-h2 atelier-h2-cn">800°C 烧出来的颜色, 不会褪。</h2>
+      <p class="atelier-sub atelier-sub-en">Many firings, until the light is right. Worn for thirty years, still day-one colour.</p>
+      <p class="atelier-sub atelier-sub-cn">反复入炉, 直到光对。戴三十年, 还是第一天的颜色。</p>
     </div>
     <div class="atelier-credit">Hu Yan · Founder · Yunnan Studio</div>
   </section>
@@ -4825,9 +5542,9 @@
       <img src="images/plique-butterfly-backlit.jpg" width="1280" height="1707" alt="A blue plique-à-jour butterfly held to the light — translucent enamel, made at the atelier" />
     </div>
     <div class="plique-text">
-      <div class="plique-overline">Plique-à-jour · 空窗珐琅</div>
-      <h2 class="plique-cn">没有底,只有光。</h2>
-      <h2 class="plique-en">No backing — <em>only the light passes through.</em></h2>
+      <div class="plique-overline">Plique-à-jour · 空窗珐琅 · 对光见色</div>
+      <h2 class="plique-cn">举到光里。<br/><em>文艺复兴金匠也这么验。</em></h2>
+      <h2 class="plique-en"><em>Hold it to the light.</em><br/>Renaissance goldsmiths did.</h2>
       <p class="plique-fact plique-fact-cn">一种 14 世纪欧洲匠人留下的釉窗工艺。<strong>20 世纪末才回到中国 —— 当代能稳定烧成者全球寥寥。</strong></p>
       <p class="plique-fact plique-fact-en">A 14th-century European glazing craft, lost to Asia for centuries. <strong>It returned to Chinese benches only at the end of the 20th century — few workshops worldwide still fire it reliably.</strong></p>
       <a class="plique-link" onclick="navigate('craft')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('craft')">
@@ -4841,10 +5558,22 @@
 
   <!-- Series section removed 2026-06-10 · Strategy A (drop series taxonomy) per 18-brand naming research -->
 
+  <!-- Direction 2026 · big-cut 2026-06-19 (T2 audit · was 6-square Pinterest moodboard + meta-commentary).
+       Now a single atmospheric still life. Modern lane signal preserved without the moodboard register. -->
+  <section class="direction-section">
+    <div class="direction-hero">
+      <img class="direction-hero-img" src="images/direction-2026-hero.png" width="1536" height="1024" loading="lazy"
+           alt="Plique-à-jour enamel chips, copper wire and a ceramic crucible — the raw materials of the bench" />
+      <div class="direction-text">
+        <h2 class="direction-h2-cn">同一门工艺,新的呈现。</h2>
+        <h2 class="direction-h2-en">The same craft, in a contemporary frame.</h2>
+      </div>
+    </div>
+  </section>
+
   <section class="featured-section">
     <div class="featured-header">
       <div>
-        <div class="section-overline">New from the bench</div>
         <h2 id="featured-title"></h2>
       </div>
       <button class="featured-link" id="featured-link" onclick="navigate('catalog', null, true)"></button>
@@ -4855,7 +5584,7 @@
   <!-- Customer letters + Press section removed 2026-06-07 · pending real customer material + stronger press credentials -->
 
   <section class="promise-section">
-    <div class="promise-overline">Our Lifelong Promise</div>
+    <div class="promise-overline" id="promise-overline"></div>
     <h2 id="promise-title"></h2>
     <p class="promise-sub" id="promise-sub"></p>
     <ul class="promise-list" id="promise-list"></ul>
@@ -4872,32 +5601,43 @@
 
   <!-- Home gift-section deduped per evidence-led memo:
        consult-band (atelier-feel) is the load-bearing Home CTA. Gift Finder is reachable
-       via Hero CTA #2 "为她寻礼 / Find Her Gift". One Home contact surface only. -->
+       via Hero CTA #2 "替人寻礼 / Find a Gift". One Home contact surface only. -->
 
 </div>
 
 <!-- ============ 作品列表 ============ -->
 <div class="view" id="view-catalog">
-  <!-- Self-lens hero band — shown when user lands via dual-door "For Yourself" entry -->
-  <div class="catalog-self-band" id="catalog-self-band" hidden>
-    <div class="catalog-self-inner">
-      <div class="catalog-self-overline" id="catalog-self-overline"></div>
-      <h2 class="catalog-self-h" id="catalog-self-h"></h2>
-      <p class="catalog-self-p" id="catalog-self-p"></p>
-    </div>
-  </div>
   <div class="catalog-header">
-    <div class="section-overline" id="catalog-overline-next"></div>
+    <!-- catalog-overline-next removed 2026-06-17 — duplicated catalog-edition content,
+         ate ~40px first-viewport space. Edition line below H1 carries the same signal. -->
     <h1 id="catalog-h1"></h1>
     <p class="catalog-edition" id="catalog-edition"></p>
     <p id="catalog-sub"></p>
     <p class="catalog-next-drop" id="catalog-next-drop"></p>
   </div>
+  <!-- Gift Finder entry on catalog (added 2026-06-17 — discoverability fix).
+       Hero CTA2 isn't enough; visitor on catalog actively choosing benefits from a finder shortcut. -->
+  <a class="catalog-help-banner" onclick="navigate('gift')" role="button" tabindex="0"
+     onkeydown="if(event.key==='Enter')navigate('gift')">
+    <span class="catalog-help-overline" id="catalog-help-overline"></span>
+    <span class="catalog-help-text" id="catalog-help-text"></span>
+    <span class="catalog-help-arrow" aria-hidden="true">→</span>
+  </a>
   <div class="catalog-filters" id="catalog-filters"></div>
-  <div class="catalog-subfilters">
-    <div class="catalog-subfilter-group" id="catalog-cat-filters" aria-label="Category"></div>
-    <div class="catalog-subfilter-group" id="catalog-price-filters" aria-label="Price"></div>
+  <!-- Grouped filter bar — Form + Price only (2026-06-17 update · enamel demoted to
+       per-product attribute since workshop is handmade and any color is fireable on request) -->
+  <div class="catalog-filterbar" role="group" aria-label="Filter pieces">
+    <div class="catalog-filter-row">
+      <span class="catalog-filter-label" id="catalog-form-label"></span>
+      <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-cat-filters" aria-label="Form"></div>
+    </div>
+    <div class="catalog-filter-row">
+      <span class="catalog-filter-label" id="catalog-price-label"></span>
+      <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-price-filters" aria-label="Price"></div>
+    </div>
   </div>
+  <!-- Off-DOM host kept so renderEnamelWayfinder() doesn't crash if invoked; UI removed. -->
+  <div id="enamel-wayfinder" hidden></div>
   <div class="catalog-toolbar">
     <span class="catalog-count" id="catalog-count"></span>
     <select class="catalog-sort" id="catalog-sort" onchange="onCatalogSortChange()">
@@ -4953,7 +5693,6 @@
 <!-- ============ Heritage ============ -->
 <div class="view" id="view-heritage">
   <div class="heritage-hero">
-    <div class="section-overline">The Object's Passport</div>
     <h1 id="heritage-h1"></h1>
     <p id="heritage-p"></p>
     <div class="heritage-form">
@@ -5082,7 +5821,6 @@
   <!-- Bespoke examples · what a commission can adapt from -->
   <section class="consult-examples">
     <div class="section-header">
-      <div class="section-overline" id="consult-examples-overline">Bespoke Examples · 可定制方向</div>
       <h2 class="section-title" id="consult-examples-h"></h2>
     </div>
     <div class="consult-examples-grid" id="consult-examples-grid"></div>
@@ -5090,7 +5828,7 @@
 
   <section class="consult-channels">
     <div class="section-header">
-      <div class="section-overline" id="consult-channels-overline">Three ways to reach us</div>
+      <div class="section-overline" id="consult-channels-overline">Contact</div>
       <h2 class="section-title" id="consult-channels-h"></h2>
     </div>
     <div class="consult-grid">
@@ -5121,7 +5859,6 @@
   <!-- What happens after you write — reassurance bridge before contact -->
   <section class="consult-process">
     <div class="section-header">
-      <div class="section-overline" id="consult-process-overline"></div>
       <h2 class="section-title" id="consult-process-title"></h2>
     </div>
     <ol class="consult-process-list" id="consult-process-list"></ol>
@@ -5129,7 +5866,6 @@
 
   <section class="consult-what">
     <div class="section-header">
-      <div class="section-overline" id="consult-what-overline">What we help with</div>
       <h2 class="section-title" id="consult-what-h"></h2>
     </div>
     <ul class="consult-what-list" id="consult-what-list"></ul>
@@ -5144,21 +5880,12 @@
   </section>
   <article class="about-story" id="about-story"></article>
   <section class="about-credits">
-    <div class="section-overline">Maker's Record · 履历</div>
     <h2 id="about-credits-h2"></h2>
     <div class="about-credits-grid" id="about-credits-grid"></div>
   </section>
-  <section class="about-icif">
-    <div class="about-icif-img">
-      <img src="images/icif-2023-officials.jpg" width="1920" height="1280" alt="YÀN Atelier at the 8th China International Cultural Industries Fair, Sanya 2023 — officials viewing the enamel work" />
-      <div class="maker-img-credit" style="color:rgba(255,255,255,0.35);">© ICIF Sanya 2023</div>
-    </div>
-    <div class="about-icif-text">
-      <div class="section-overline">ICIF 2023 · Sanya</div>
-      <h3 id="icif-title"></h3>
-      <div id="icif-text"></div>
-    </div>
-  </section>
+  <!-- About-ICIF section removed 2026-06-17 — political-association risk hygiene (user request).
+       Fair appearance still credited in honours list. Section + dedicated narrative + politician
+       imagery cut entirely. -->
 </div>
 
 <!-- ============ Legal · Privacy / Terms / Returns ============ -->
@@ -5353,35 +6080,36 @@
 const COPY = {
   cn: {
     // 导航
-    nav: ['首页', '作品', '工艺', '定制', '关于'],
+    nav: ['首页', '作品', '寻礼', '工艺', '定制', '关于'],
     // 切换器
     marketOpt: { cn: '中国大陆', global: 'Global', hk: '香港', jp: '日本' },
     marketCurrent: '中国 · ¥',
     // Hero
-    heroOverline: '云南 · 高温矿石珐琅 · 手作工坊',
-    heroSub: '掐丝、点蓝、入炉。<br/>一件,5–10 次入炉,800°C 烧成。',
-    // Hero plique fact line — promoted from plique-section per evidence-led memo
-    heroPliqueFact: '空窗珐琅 · <strong>全球能做的工坊不多</strong> · <a class="hero-plique-cite" onclick="navigate(\'craft\')">见工艺简史</a>',
+    heroOverline: '镂空透光珐琅 · 烧于云南',
+    heroSub: '每件烧 5–10 次, 釉色每次都微微不同 ——<br/>不会有同一件。',
+    // hero-plique-fact bridge retired 2026-06-19 (T3) · scarcity boast moved down to plique-section
+    heroPliqueFact: '',
     heroCta1: '查看全部作品',
-    heroCta2: '为她寻礼',
+    heroCta2: '替人寻礼',
     heroImgCaption: '空窗珐琅 · <strong>工坊手作</strong>',
     // Hook(改为礼物钩子,迎光见心已下移至 plique-section 视觉化呈现)
-    hookMain: '这世上有一类器物 ——<br/>她<em>不会为自己挑</em>,<br/>你却会想为她挑。',
+    hookMain: '有些器物 ——<br/>是替人挑的。',
     hookAttr: '关于送礼',
     // 精选
-    featuredTitle: '近作',
+    featuredTitle: '工坊精选',
     featuredLink: '查看全部 →',
     // Maker
-    makerTitle: '我母亲,<br/><em>在工坊烧珐琅</em>。',
+    makerTitle: '一件一件,<br/>在工坊里烧。',
     makerP: [
       '这个品牌起于一张工作台。',
       '我的母亲胡艳,工艺师,自年少时便拿起银丝、燃起珐琅。无师承,也不属任何门派 —— 她的师傅,是炉火,是凌晨还亮着的工作台。',
-      '她的作品曾在一些重要场合代表中国工艺出现 —— 出于尊重,具体不予详述。但更多的日子里,她只是工作台前那个安静的女人。'
+      '更多的日子里,她只是工作台前那个安静的女人。一炉珐琅,反复试色,直到那一扇窗的光透得对了为止。'
     ],
     makerSigText: '创始人 · 工艺师<br/>滇韵珐琅手工坊',
     makerCta: '阅读完整故事 →',
     // Promise
-    promiseTitle: '手作的器物,<br/><em>由工坊看顾一生</em>。',
+    promiseOverline: '终身承诺',
+    promiseTitle: '手作的器物,<br/>由工坊看顾一生。',
     promiseSub: '自第一位持有人起,这件器物归工坊负责到底。无论它换过几位。',
     promiseList: [
       ['01', '终身翻新<br/>与抛光'],
@@ -5391,9 +6119,9 @@ const COPY = {
       ['05', '传承登记<br/>服务延续']
     ],
     // Gift CTA on home — DEPRECATED, kept for backward compat (Home gift-section removed in favor of consult-band)
-    giftCtaTitle: '这世上有一类器物 ——<br/>她<em>不会为自己挑</em>,你却会想为她挑。',
-    giftCtaSub: '三分钟,一段对话。我们一起,为她寻一件。',
-    giftCtaBtn: '为她寻礼 →',
+    giftCtaTitle: '有些器物, 是替人挑的。',
+    giftCtaSub: '三分钟,一段对话。我们一起,把那一件挑出来。',
+    giftCtaBtn: '替人寻礼 →',
     // Catalog
     catalogH1: '作品集',
     catalogEdition: '本批 · 现货',
@@ -5418,14 +6146,7 @@ const COPY = {
     // Time-based drop messaging — plain DTC convention (evidence-led; no antiquarian Edition framing)
     nextDropOverline: '本批 · 现货',
     nextDropText: '本批 12 件中,4 件已售出 · 看中的件已售或想要相近设计,写信至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,工坊一对一回复 · 也可订阅,下批新作上架第一时间通知。',
-    // Customer Letters (renamed from Letters Received — plain)
-    lettersOverline: '客户来信',
-    lettersTitleCN: '来自收到它的人。',
-    lettersTitleEN: 'From those who have held one.',
-    letters: [
-      { body: '"她拿到的那一刻没有说话,只是把它对着窗,翻过来,翻过去。"', from: '— A. 陈', meta: '银杏戒 · 母亲七十寿礼' },
-      { body: '"我没告诉他这是手作。他自己看出来了 —— 说翼脉里有人的呼吸。"', from: '— J. 林', meta: '靛蓝之蝶 · 周年之礼' }
-    ],
+    // Customer Letters keys deleted 2026-06-19 (T6 audit) · render + DOM cut 06-08, this was dead data with fabricated names — brand-integrity hazard
     honoursOverline: '媒体与展览',
     honours: ['2023 · 第八届海南国际文博会 · 三亚']
 ,
@@ -5437,8 +6158,8 @@ const COPY = {
       ['necklace', '项链'],
       ['bracelet', '手镯 · 手链'],
       ['brooch',   '胸针'],
-      ['hairpin',  '簪钗'],
-      ['lock',     '长命锁']
+      ['hairpin',  '发饰'],
+      ['lock',     '吊坠']
     ],
     catalogPriceFilters: [
       ['all',  '全价位'],
@@ -5446,11 +6167,18 @@ const COPY = {
       ['mid',  '¥2,000–3,500'],
       ['high', '¥3,500 以上']
     ],
+    // Filter group labels (added 2026-06-17 — fixed flat chip stream)
+    catalogFormLabel: '形制',
+    catalogPriceLabel: '价格',
+    catalogEnamelLabel: '釉色',
+    // Gift Finder discoverability — entry on catalog (added 2026-06-17)
+    catalogHelpOverline: '送礼?',
+    catalogHelpText: '让 AI 帮你挑 —— 几个短问题, 给你三件最贴的',
     catalogDeadEnd: '此形制暂无现货 —— 可联系工坊私约定制类似作品',
     catalogDeadEndCta: '前往私约 →',
     reserve: {
       step1Overline: '第一步 / 四步',
-      step1H: '申请预订这一件',
+      step1H: '拿下这一件',
       step1P: '工坊接单制。提交申请后,我们会在 <strong>24 小时内</strong>回信,确认材料、工时与交付时间,并附安全支付链接。<strong>确认后再收款。</strong>',
       btnNext1: '继续 →',
       step2Overline: '第二步 / 四步',
@@ -5480,7 +6208,7 @@ const COPY = {
     pdAttrLabels: { form: '形制', maker: '匠人', atelier: '工坊', material: '材质', size: '尺寸 / 重量', lead: '交期' },
     pdLead: '手作 14–30 天',
     pdPriceNote: '手作 14–30 天 · 这是釉真正烧成的时间,不是营销话术',
-    pdCta1: '申请预订',
+    pdCta1: '拿下这一件',
     pdCta2: '私人定制',
     pdSpecToggle: '完整规格 →',
     pdCtaStripeNow: '购买这一件 →',
@@ -5489,14 +6217,11 @@ const COPY = {
     pdConfigOptional: '选填',
     pdConfigSummaryLabel: '你的版本',
     pdConfigDefault: '本作配色 · 不调整',
-    catalogSelfOverline: '为自己 · For Yourself',
-    catalogSelfH: '挑一件给自己留下的器物。',
-    catalogSelfP: '不为送礼,不为节日 —— 是你给自己的一个标记。一些客户从手镯开始(常戴),也有人从一件项链开始(自己看见)。',
     pdCtaSold: '已售 · 询问类似作品',
     pdCtaReserved: '已预订 · 询问类似作品',
     pdCtaMicrocopy: '24 小时内回信 · 确认后再收款 · 可全程邮件沟通',
-    pdRelatedOverline: '同一脉络',
-    pdRelatedTitle: '您也许会喜欢',
+    pdRelatedOverline: '',
+    pdRelatedTitle: '您可能也喜欢',
     pdFaqLabel: '常见问题 · 交期 / 退货 / 保养',
     savedFilterLabel: '已收藏',
     pdTrustReturns: '14 天可退',
@@ -5606,16 +6331,16 @@ const COPY = {
     consultPromiseP: '草图、釉色、配料、刻字 —— 创意层面的每个决策,工坊都和你确认到位。开工后,每个阶段你收到一次进度同步。',
     consultResponseText: '24 小时内回信',
     // Bespoke examples — frame as adaptable directions, not fabricated commissions (brand-integrity rule)
-    consultExamplesOverline: '可定制方向',
-    consultExamplesH: '可以从这三件出发,调成只属于她的样子。',
+    consultExamplesH: '从一件作品出发,调成只属于这一个人的样子。',
     consultExamplesList: [
       { id: 'YA-2026-0003', adapt: '可改:叶片数 · 渐变绿调 · 中央嵌石(玛瑙 / 珍珠)· 反面刻字。' },
       { id: 'YA-2026-0008', adapt: '可改:绳结颜色 · 锁面图样 · 中央汉字 · 内侧刻名与日期。' },
       { id: 'YA-2026-0005', adapt: '可改:格窗珐琅色 · 中央花心石 · 末端坠的形与色 · 链节数与长度。' }
     ],
-    consultChannelsH: '开始一次定制,有三种入口。',
+    consultChannelsH: '如何联系工坊',
+    consultChannelsOverline: '联系',
     consultCh1Title: '微信',
-    consultCh1P: '想做什么,直接发图、发想法、发她的旧件。最快。',
+    consultCh1P: '想做什么,直接发图、发想法、发想参照的旧件。最快。',
     consultCh1Handle: '<a href="mailto:hello@yan-atelier.com?subject=%E7%B4%A2%E8%A6%81%E5%BE%AE%E4%BF%A1">来信索要微信(打开邮箱)↗</a>',
     consultCh2Title: '邮件',
     consultCh2P: '写得长一点。草图、刻字内容、特殊石料 —— 留底有记录。',
@@ -5635,7 +6360,6 @@ const COPY = {
       '尺寸 —— 按你或收礼人的实际尺寸定'
     ],
     // 4-step bespoke process
-    consultProcessOverline: '工坊的流程',
     consultProcessTitle: '一件定制是怎么做出来的。',
     consultProcessSteps: [
       ['一', '你写一封信,告诉我们想做什么 / 给谁。'],
@@ -5689,8 +6413,8 @@ const COPY = {
         <p><strong>如何申请。</strong>请写信至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,附作品编号与照片,工坊将在 24 小时内回信并提供退货 / 翻新指引。</p>
       `
     },
-    gfH1: '为她寻礼',
-    gfSub: '告诉我们一些关于她的事,我们一起,把那一件挑出来。',
+    gfH1: '替人寻礼',
+    gfSub: '告诉我们一些关于这个人的事,我们一起把那一件挑出来。',
     gfPrev: '← 上一题',
     gfSkip: '跳过 →',
     gfQuestions: [
@@ -5704,7 +6428,7 @@ const COPY = {
         ]
       },
       {
-        q: '想象她日常的样子,你会用哪种气质形容?',
+        q: '想象这个人日常的样子,你会用哪种气质形容?',
         options: [
           { v: 'gentle', label: '温润 · 内敛' },
           { v: 'bold', label: '明朗 · 鲜活' },
@@ -5713,7 +6437,7 @@ const COPY = {
         ]
       },
       {
-        q: '更想让她在哪种光线下,记起你?',
+        q: '更想在哪种光线下被记起?',
         options: [
           { v: 'morning', label: '清晨日光' },
           { v: 'dusk', label: '黄昏微光' },
@@ -5740,21 +6464,21 @@ const COPY = {
         ]
       }
     ],
-    gfResultProgress: '三件,像她',
+    gfResultProgress: '三件 · 已挑出',
     gfResultH2: '为你挑出的三件',
-    gfResultP: '基于你的回答,这是我们想推到她手中的三件。点击任意一件,看见它的样子。',
+    gfResultP: '基于你的回答,这是我们想送出的三件。点击任意一件,看见它的样子。',
     gfRestart: '重新开始',
     gfPickRank: ['之一', '之二', '之三'],
     gfWhy: '为什么是这一件?',
     gfReasons: {
       mother: '送母亲长辈,我们偏爱有"庇护"意味的器物 —— 不张扬,但耐看。',
-      partner: '伴侣之间,要的是"为她而做"的那种感觉 —— 这一类作品工艺独占性最强。',
-      friend: '挚友之间,礼物要轻、要美、要让她想起一段共同的时光。',
+      partner: '伴侣之间,要的是"为这一个人而做"的感觉 —— 这一类作品工艺独占性最强。',
+      friend: '挚友之间,礼物要轻、要美、要让对方想起一段共同的时光。',
       self: '送给自己,可以选最任性的那一件 —— 你不必向任何人解释。'
     },
     gfReasonsExtra: [
-      '这一件,是这一类里我们最想推到她手中的那一件。',
-      '同一脉络里更日常的版本 —— 她每天都会戴它,这件事比"重要场合戴一次"更可贵。',
+      '这一件,是这一类里我们最想送出的那一件。',
+      '同一脉络里更日常的版本 —— 适合每天都戴,这件事比"重要场合戴一次"更可贵。',
       '留给你做参考 —— 如果对前两件还不确定,看看这一件,你可能会发现它才是。'
     ],
     // Heritage
@@ -5792,25 +6516,16 @@ const COPY = {
       '她还会一种叫空窗珐琅的工艺。釉料不挂任何金属衬底,入炉,只靠表面张力。烧成后,釉色像一扇扇透光的小窗 —— 这门手艺源于 14 世纪欧洲,新艺术运动期 Lalique 等人复兴,如今全世界能稳定做的工坊不多。',
       '2026 年,她把工作台从海棠湾搬到了云南。海岛湿热不养釉色,高原干凉,正合珐琅多次入炉的慢工。冬天太冷时她还是会回到海棠湾。新工坊取名「滇韵」 —— 滇,是云南的旧称;韵,留给手艺自己说话。',
       '我后来才知道,珐琅这门手艺本是元代沿丝绸之路从波斯、阿拉伯一带进中原的。学术上,云南被认为是它进入中国的可能通道之一。所以她搬回云南,某种意义上 —— 是把工艺带回了它七百年前最初落脚的地方。',
-      '她的作品曾在一些重要场合代表中国工艺出现。出于尊重,具体不予详述。',
       '银价在涨、好矿石越来越难找、烧成的速度跟不上市场。所以一年里做不出多少件 —— 也因此,每一件,落到一个人手里时,不再分摊给一个世纪的品牌税。'
     ],
-    aboutCreditsH2: '匠人履历',
+    aboutCreditsH2: '关于匠人',
     aboutCraftCta: '读完整工艺简史 →',
     credits: [
       ['起点', '投身银饰珐琅工艺。无师承,自摸索矿石釉料、掐丝、点蓝、烧制等数十道工序。'],
-      ['重要场合', '作品曾在一些重要场合代表中国工艺出现。出于尊重,具体不予详述。'],
-      ['2023 · 文博会', '第八届三亚国际文化产业博览会,作品现场展示,获多位领导驻足观看。'],
+      ['2023 · 文博会', '第八届三亚国际文化产业博览会,作品现场展示,与访客与策展人交流。'],
       ['2026 · 迁至云南', '工坊正名「滇韵珐琅手工坊」,设于云南高原 —— 干凉气候更适合多次入炉的珐琅工艺。冬季归海棠湾。'],
       ['今日', '滇韵珐琅手工坊持续创作。第二代正在搭建品牌,试图把母亲的手艺带到更远的地方。']
     ],
-    icifTitle: '那一日,政要驻足。',
-    icifText: [
-      '2023 年,第八届三亚国际文化产业博览会。母亲在展台前点珐琅,旁边的桌上摆着十几只玻璃小杯,装着不同颜色的天然矿石釉料 —— 蓝、绿、红、粉。',
-      '那一天,几位领导来到展位前,拿起一件刚出炉的作品端详许久。母亲没说什么,继续手上的活。'
-    ],
-    icifQuote: '"她从不为镜头停下,只为这件器物。"',
-    icifQuoteAttr: '—— 当日一位参观者',
     // Footer
     footerTag: '送一次,记一生',
     footerDesc: '一座设于云南的银饰珐琅手作工坊,起于海棠湾,冬归海棠湾。一笔釉,一炉火,与一份愿守一生的承诺。',
@@ -5827,8 +6542,8 @@ const COPY = {
         { label: '项链',         view: 'catalog', cat: 'necklace' },
         { label: '手镯 · 手链',  view: 'catalog', cat: 'bracelet' },
         { label: '胸针',         view: 'catalog', cat: 'brooch' },
-        { label: '簪钗',         view: 'catalog', cat: 'hairpin' },
-        { label: '长命锁',       view: 'catalog', cat: 'lock' }
+        { label: '发饰',         view: 'catalog', cat: 'hairpin' },
+        { label: '吊坠',         view: 'catalog', cat: 'lock' }
       ],
       [
         { label: '作品溯源',    view: 'heritage' },
@@ -5882,33 +6597,34 @@ const COPY = {
       { id: 'bloom', num: 'No. 02', name: '花信', desc: '一花一稿,<br/>釉色循花的本色调和。' },
       { id: 'heirloom', num: 'No. 03', name: '信物', desc: '掐丝细密,<br/>形依旧制。' },
       { id: 'season', num: 'No. 04', name: '四季', desc: '釉色循时节而调,<br/>春绿、夏蓝、秋金,冬待来年。' },
-      { id: 'hairpin', num: 'No. 05', name: '簪钗', desc: '银簪为骨,珐琅为饰,<br/>珠为步摇。' }
+      { id: 'hairpin', num: 'No. 05', name: '发饰', desc: '银簪为骨,珐琅为饰,<br/>珠为步摇。' }
     ]
   },
   global: {
-    nav: ['Home', 'Shop', 'Craft', 'Bespoke', 'Maker'],
+    nav: ['Home', 'Shop', 'Gift', 'Craft', 'Bespoke', 'About'],
     marketOpt: { cn: 'Mainland China', global: 'Global', hk: 'Hong Kong', jp: 'Japan' },
     marketCurrent: 'Global · $',
-    heroOverline: 'Yunnan · High-fire mineral enamel · Independent atelier',
-    heroSub: 'Silver wire, mineral enamel, kiln-fired —<br/>each piece, through its own fire.',
+    heroOverline: 'Translucent enamel jewellery · fired in Yunnan',
+    heroSub: 'Five to ten firings, every one slightly different —<br/>no one else will be wearing the same piece.',
     // Hero plique fact — promoted from plique-section per evidence-led memo
-    heroPliqueFact: 'Plique-à-jour — <strong>practised by few in the world today</strong> · <a class="hero-plique-cite" onclick="navigate(\'craft\')">read the history</a>',
+    heroPliqueFact: '',
     heroCta1: 'View the Collection',
-    heroCta2: 'Find Her Gift',
+    heroCta2: 'Find a Gift',
     heroImgCaption: 'Plique-à-jour · <strong>made at the atelier</strong>',
-    hookMain: 'Some pieces — <em>she would not choose for herself</em>.<br/>You can choose them, for her.',
+    hookMain: 'Some pieces ——<br/>bought for someone.',
     hookAttr: 'On Gifting',
-    featuredTitle: 'New from the Bench',
+    featuredTitle: 'Selected pieces',
     featuredLink: 'View All →',
-    makerTitle: 'My mother,<br/><em>at the bench, firing enamel.</em>',
+    makerTitle: 'One piece at a time.<br/>At the bench.',
     makerP: [
       'This house begins at one bench.',
       'My mother, Hu Yan, took up silver wire and enamel when she was very young, and has not put them down since. She had no teacher. Her teachers were the firings that failed, and the late hours at her bench.',
-      'Her work has been chosen as a state gift, and shown at the 8th China International Cultural Industry Fair, Sanya, 2023. But most days, she is simply at the bench, working a single wing until it is right.'
+      'Most days, she is simply at the bench — working a single wing, firing the kiln, watching the colour come up until it is right.'
     ],
     makerSigText: 'Founder · Enameller<br/>YÀN · Yunnan Studio',
     makerCta: 'Read the full story →',
-    promiseTitle: 'Made by hand.<br/><em>Kept by the bench, for life.</em>',
+    promiseOverline: 'Our Lifelong Promise',
+    promiseTitle: 'Made by hand.<br/>Kept by the bench, for life.',
     promiseSub: 'From the first holder onward, this piece is the atelier\'s to look after. However many hands it passes through.',
     promiseList: [
       ['01', 'Lifetime<br/>polish & refinish'],
@@ -5917,9 +6633,9 @@ const COPY = {
       ['04', 'Workshop<br/>restoration'],
       ['05', 'Heritage<br/>re-registration']
     ],
-    giftCtaTitle: 'Some pieces — <em>she would not choose for herself</em>.<br/>You can choose them, for her.',
-    giftCtaSub: 'Three minutes. One conversation. Together, we find her gift.',
-    giftCtaBtn: 'Find Her Gift →',
+    giftCtaTitle: 'Some pieces — bought for someone.',
+    giftCtaSub: 'Three minutes. One conversation. Together, we find the gift.',
+    giftCtaBtn: 'Find a Gift →',
     catalogH1: 'The Collection',
     catalogEdition: 'In stock now',
     catalogSub: 'Each piece, 8–10 firings at 800°C. Once made, kept for life.',
@@ -5931,7 +6647,7 @@ const COPY = {
     pdShipByEngraved: 'Engraved / custom · ships in 21–30 business days',
     pdTerms: '30% refundable deposit holds your order · Balance after approval · 14-day return on standard pieces',
     pdIncludedLabel: 'Each piece arrives with',
-    pdIncludedItems: 'Heritage passport, silk box, lifetime care.',
+    pdIncludedItems: 'Provenance card signed by the maker, silk box, lifetime care.',
     pdIncludedAlt: 'Velvet box with heritage passport tucked inside — YÀN Atelier',
     stockTypes: {
       inStock: 'In stock · ships in 48 hours',
@@ -5941,14 +6657,7 @@ const COPY = {
     },
     nextDropOverline: 'In stock now',
     nextDropText: '12 pieces in this batch, 4 already taken · Write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> for similar work or next-batch enquiries — the studio replies directly · Or subscribe to be first notified.',
-    // Customer Letters (renamed)
-    lettersOverline: 'Customer Letters',
-    lettersTitleEN: 'From those who have held one.',
-    lettersTitleCN: '来自收到它的人。',
-    letters: [
-      { body: '"The first time my mother held it, she did not say anything. She just turned it slowly, until the light caught the wing."', from: '— A. Chen', meta: 'Ginkgo Ring · for her mother\'s 70th' },
-      { body: '"I did not tell him it was handmade. He saw it himself — said there was breath in the wing-veins."', from: '— J. Lin', meta: 'Indigo Butterfly · anniversary' }
-    ],
+    // Customer Letters keys deleted 2026-06-19 (T6 audit) · render + DOM cut 06-08, this was dead data with fabricated names — brand-integrity hazard
     honoursOverline: 'Press & Exhibitions',
     honours: ['2023 · 8th Hainan International Cultural Industry Fair · Sanya']
 ,
@@ -5959,8 +6668,8 @@ const COPY = {
       ['necklace', 'Necklaces'],
       ['bracelet', 'Bracelets'],
       ['brooch',   'Brooches'],
-      ['hairpin',  'Hairpins'],
-      ['lock',     'Long-life locks']
+      ['hairpin',  'Hair Pins'],
+      ['lock',     'Pendants']
     ],
     catalogPriceFilters: [
       ['all',  'All prices'],
@@ -5968,11 +6677,18 @@ const COPY = {
       ['mid',  '$600–999'],
       ['high', '$1,000 +']
     ],
+    // Filter group labels (added 2026-06-17)
+    catalogFormLabel: 'Form',
+    catalogPriceLabel: 'Price',
+    catalogEnamelLabel: 'Enamel',
+    // Gift Finder catalog entry (added 2026-06-17)
+    catalogHelpOverline: 'Gifting?',
+    catalogHelpText: 'Let our finder ask a few short questions — three pieces, hand-picked.',
     catalogDeadEnd: 'None in stock in this form right now — write to the atelier about a similar commission',
     catalogDeadEndCta: 'Go to At Your Service →',
     reserve: {
       step1Overline: 'Step 1 of 4',
-      step1H: 'Request to reserve this piece',
+      step1H: 'Get this piece',
       step1P: 'Reservations are handled at the atelier. After you submit, we write back within <strong>24 hours</strong> confirming materials, timing, and delivery, with the secure payment link attached. <strong>No charge yet.</strong>',
       btnNext1: 'Continue →',
       step2Overline: 'Step 2 of 4',
@@ -5998,10 +6714,10 @@ const COPY = {
       step4P: 'We\'ve prepared this reservation request in your mail client. <strong>Please press send.</strong> The atelier will reply within <strong>24 hours</strong> to confirm size, gemstones, and any engraving — together with a <strong>secure payment link</strong> (Stripe / international cards / WeChat Pay).<br/><br/><strong>No charge yet.</strong> If the email did not open automatically, write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> and quote the reference above.',
       btnDone: 'Continue browsing'
     },
-    pdAttrLabels: { form: 'Form', maker: 'Maker', atelier: 'Atelier', material: 'Material', size: 'Size / Weight', lead: 'Lead Time' },
+    pdAttrLabels: { form: 'Form', maker: 'Maker', atelier: 'Workshop', material: 'Material', size: 'Size / Weight', lead: 'Lead Time' },
     pdLead: 'Made to order · 14–30 days',
     pdPriceNote: 'Made over 14–30 days at the bench · This is the time the kiln takes, not a marketing line',
-    pdCta1: 'Request to Reserve',
+    pdCta1: 'Get this piece',
     pdCta2: 'Bespoke Order',
     pdSpecToggle: 'Full specifications →',
     pdCtaStripeNow: 'Purchase this piece →',
@@ -6010,13 +6726,10 @@ const COPY = {
     pdConfigOptional: 'optional',
     pdConfigSummaryLabel: 'Your version',
     pdConfigDefault: 'As fired · no changes',
-    catalogSelfOverline: 'For Yourself',
-    catalogSelfH: 'A piece you choose for the woman you\'ve become.',
-    catalogSelfP: 'Not for an occasion, not for a holiday — a marker you give yourself. Some begin with a bracelet (worn daily); others with a necklace (something you see yourself).',
     pdCtaSold: 'Sold · Inquire About a Similar Piece',
     pdCtaReserved: 'Reserved · Inquire About a Similar Piece',
     pdCtaMicrocopy: 'Response within 24 hours · No charge yet · Email-only if you prefer',
-    pdRelatedOverline: 'From the same hand',
+    pdRelatedOverline: '',
     pdRelatedTitle: 'You may also like',
     pdFaqLabel: 'Common questions · delivery / returns / care',
     savedFilterLabel: 'Saved',
@@ -6126,14 +6839,14 @@ const COPY = {
     consultPromiseP: 'Sketch, enamel colour, stones, engraving — every creative decision is confirmed with you before we begin. Once production starts, you receive one progress update per stage.',
     consultResponseText: 'reply within 24 hours',
     // Bespoke examples — adaptable directions, not fabricated past commissions
-    consultExamplesOverline: 'Bespoke Examples',
-    consultExamplesH: 'Three starting points. Each can be made into something only hers.',
+    consultExamplesH: 'Start from a piece. Shape it into something only theirs.',
     consultExamplesList: [
       { id: 'YA-2026-0003', adapt: 'Adaptable: number of leaves · enamel green-tone · centre stone (agate / pearl) · engraving on reverse.' },
       { id: 'YA-2026-0008', adapt: 'Adaptable: silk cord colour · lock-face motif · centre character · inside-engraved name + date.' },
       { id: 'YA-2026-0005', adapt: 'Adaptable: window enamel hue · centre stone · clasp drop shape · linked length.' }
     ],
-    consultChannelsH: 'Three ways to start a commission.',
+    consultChannelsH: 'How to reach the bench',
+    consultChannelsOverline: 'Contact',
     consultCh1Title: 'WhatsApp',
     consultCh1P: 'For sketches, images of inspiration, and quick back-and-forth.',
     consultCh1Handle: '<a href="mailto:hello@yan-atelier.com?subject=Request%20WhatsApp%20handle">Request WhatsApp handle (opens email) ↗</a>',
@@ -6155,7 +6868,6 @@ const COPY = {
       'Sizing — to your, or the recipient\'s, actual measurements'
     ],
     // 4-step bespoke process
-    consultProcessOverline: 'Our Process',
     consultProcessTitle: 'How a commission is made.',
     consultProcessSteps: [
       ['i', 'You write describing what you have in mind, and for whom.'],
@@ -6209,8 +6921,8 @@ const COPY = {
         <p><strong>How to start.</strong>Write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> with the piece ID and a photograph. A person from the studio replies within 24 hours with return or restoration instructions.</p>
       `
     },
-    gfH1: 'Find <em>Her</em> Gift',
-    gfSub: 'Tell us about her. We\'ll find the one piece that feels made for her.',
+    gfH1: 'Find a Gift',
+    gfSub: 'Tell us about them. We\'ll find the one piece that feels made for them.',
     gfPrev: '← Previous',
     gfSkip: 'Skip →',
     gfQuestions: [
@@ -6224,7 +6936,7 @@ const COPY = {
         ]
       },
       {
-        q: 'How would you describe her presence?',
+        q: 'How would you describe their presence?',
         options: [
           { v: 'gentle', label: 'Quiet & graceful' },
           { v: 'bold', label: 'Vivid & bright' },
@@ -6260,24 +6972,24 @@ const COPY = {
         ]
       }
     ],
-    gfResultProgress: 'Three pieces, like her',
-    gfResultH2: 'Three pieces, like her.',
-    gfResultP: 'Based on your answers, here is what we would hand-pick for her — and why.',
+    gfResultProgress: 'Three pieces · hand-picked',
+    gfResultH2: 'Three pieces, hand-picked.',
+    gfResultP: 'Based on your answers, here is what we would hand-pick for them — and why.',
     gfRestart: 'Start Over',
     gfPickRank: ['Match 1', 'Match 2', 'Match 3'],
     gfWhy: 'Why this one?',
     gfReasons: {
       mother: 'For a mother or elder, we lean toward pieces with a quiet, protective quality — unshowy, but enduring.',
-      partner: 'Between partners, what matters is the sense of "made for her" — these works carry the strongest singular craft.',
-      friend: 'Between close friends, a gift should be light, beautiful, and remind her of a shared moment.',
+      partner: 'Between partners, what matters is the sense of "made for the one" — these works carry the strongest singular craft.',
+      friend: 'Between close friends, a gift should be light, beautiful, and remind them of a shared moment.',
       self: 'For yourself, choose the most willful one — you owe no one an explanation.'
     },
     gfReasonsExtra: [
-      'This is the one, of this kind, we most want to place in her hands.',
-      'A more everyday companion in the same vein — she will wear it daily, which matters more than wearing something only on grand occasions.',
+      'This is the one, of this kind, we most want to send out.',
+      'A more everyday companion in the same vein — worn daily, which matters more than wearing something only on grand occasions.',
       'A counterpoint, kept here for you — if the first two feel uncertain, you may find this one is in fact the one.'
     ],
-    heritageH1: 'The Object\'s Passport',
+    heritageH1: 'Verify your piece',
     heritageP: 'Every YÀN piece carries an ID. Whether you are its first holder — or its fifth — our promise holds the same.',
     heritageHint: 'No ID at hand? <a onclick="lookupHeritage(\'YA-2026-0001\')">View an example passport →</a>',
     heritageSampleBtn: 'View a Sample Passport →',
@@ -6310,25 +7022,16 @@ const COPY = {
       'She also works in plique-à-jour — enamel that fires without any metal backing, held only by surface tension. Each finished cell becomes a small stained window. The technique reaches back to 14th-century Europe, was revived by Lalique and others in the Art Nouveau era, and is today held by very few workshops worldwide.',
       'In 2026, she moved the bench from Hai Tang Wan to Yunnan. Coastal humidity doesn\'t suit enamel; the dry highland air does. The workshop is now called 滇韵 (Diān-yùn) — Diān, the old name for Yunnan; yùn, what\'s left to the work itself. In the coldest months, the bench returns south.',
       'Later I learned that enamel itself came down the Silk Road, brought into China during the Yuan dynasty by Persian and Arab metalworkers. Scholars suggest Yunnan may have been one of its entry corridors. So in moving the bench back to Yunnan, my mother — without intending it — returned the craft to a place where it may first have arrived. Seven hundred years late.',
-      'Her work has on occasion stood, in important settings, as a small representation of Chinese craft. Out of respect for those occasions, the specifics are not described.',
       'Silver prices rise. Good mineral pigments grow harder to find. The bench will never match a market\'s pace. So we make few — and each piece, when it reaches one person, is not paying for a century of brand markup.'
     ],
-    aboutCreditsH2: 'A Maker\'s Record',
+    aboutCreditsH2: 'About the maker',
     aboutCraftCta: 'Read the full craft history →',
     credits: [
       ['Early years', 'Devoted to the craft of silver enamel. Without teachers or lineage, she taught herself the use of mineral pigments and the many stages of inlay, firing, and polishing.'],
-      ['Important occasions', 'On past occasions, pieces have stood as small representations of Chinese craftsmanship in important settings. Out of respect for those settings, specifics are not described.'],
       ['2023 · ICIF Sanya', 'At the 8th China International Cultural Industry Fair (Sanya), her work was demonstrated on-site; visitors and curators returned to her stand throughout the fair.'],
       ['2026 · Moved to Yunnan', 'The studio takes its formal name, 滇韵 ( Diān-yùn ) — dry highland air better suited to multi-firing enamel work. Winter quarters remain at Hai Tang Wan.'],
       ['Today', 'The Yunnan studio continues. The maker\'s son is building this house, intending to bring her work further into the world.']
     ],
-    icifTitle: 'The day they paused.',
-    icifText: [
-      'At the 8th China International Cultural Industry Fair (Sanya, 2023). My mother worked the enamel at her stand; on the table beside her, more than a dozen small glass jars held natural mineral pigments — blue, green, red, pink.',
-      'That day, several visitors came to the stand and took up a freshly fired piece, holding it for a long while. My mother said nothing, and went on with her work.'
-    ],
-    icifQuote: '"She has never paused for a camera — only for the object."',
-    icifQuoteAttr: '— a visitor at the fair',
     footerTag: 'Given once, remembered always.',
     footerDesc: 'Handmade silver and plique-à-jour enamel jewellery. Founded at Hai Tang Wan; the bench now in Yunnan, returning south for winter. A stroke of enamel, a kiln, and a promise we intend to keep.',
     // Footer columns — {label, view, filter} objects rendered as <a>
@@ -6343,14 +7046,14 @@ const COPY = {
         { label: 'Necklaces',       view: 'catalog', cat: 'necklace' },
         { label: 'Bracelets',       view: 'catalog', cat: 'bracelet' },
         { label: 'Brooches',        view: 'catalog', cat: 'brooch' },
-        { label: 'Hairpins',        view: 'catalog', cat: 'hairpin' },
-        { label: 'Long-life Locks', view: 'catalog', cat: 'lock' }
+        { label: 'Hair Pins',       view: 'catalog', cat: 'hairpin' },
+        { label: 'Pendants',        view: 'catalog', cat: 'lock' }
       ],
       [
         { label: 'Object Passport',   view: 'heritage' },
         { label: 'Polish & Refinish', view: 'consult' },
         { label: 'Chain Repair',      view: 'consult' },
-        { label: 'Heritage Registry', view: 'heritage' },
+        { label: 'Verify your piece', view: 'heritage' },
         { label: 'Packaging',         view: 'consult' }
       ]
     ],
@@ -6396,7 +7099,56 @@ const COPY = {
       { id: 'bloom', num: 'No. 02', name: 'Blossoms', desc: 'Each flower drawn anew;<br/>each enamel mixed to its own colour.' },
       { id: 'heirloom', num: 'No. 03', name: 'Talismans', desc: 'Close-set wirework;<br/>shaped to forms long held.' },
       { id: 'season', num: 'No. 04', name: 'Seasons', desc: 'Enamel mixed to each season\'s light;<br/>green spring, blue summer, gold autumn — winter waits.' },
-      { id: 'hairpin', num: 'No. 05', name: 'Hairpins', desc: 'Silver for the bone, enamel for the face;<br/>pearls that sway with each step.' }
+      { id: 'hairpin', num: 'No. 05', name: 'Hair Pins', desc: 'Silver for the bone, enamel for the face;<br/>pearls that sway with each step.' }
+    ]
+  }
+};
+
+// ============================================================
+// 色彩家族 · 同一设计的多色 SKU 集合 (2026-06-18)
+// 注: 当 PRODUCT_META[sku].colorFamily 指向一个 family 时,
+//     PDP 渲染从这里拉 wearerProfile / whatToSay / wornInstruction /
+//     stylingTips / heroBgImg / variants — 共享同一组买家侧文案,
+//     避免 0005/0006/0007 重复填.
+// 点击色块时, openProduct(variant.skuId) 重新加载, 价格/状态/编号
+// 自动更新成对应 SKU.
+// ============================================================
+const COLOR_FAMILIES = {
+  'iris-lattice': {
+    skus: ['YA-2026-0005', 'YA-2026-0006', 'YA-2026-0007'],
+    // Per-variant bgImg + wornImg means hero background + worn image BOTH switch on color click.
+    // bgImg is the wide/landscape hero composition; wornImg is the closeup portrait.
+    variants: [
+      // bgImg = GROUND TRUTH flat product shot (museum-grade haute-joaillerie register, dark backdrop).
+      //         2026-06-18 P0-1 fix: was AI-hallucinated near-miss; now using real product photography.
+      // wornImg = AI swap-generated portrait worn shot, product-faithful (~95%). Used in Worn section.
+      { id: 'iris',  cn: '原色 · 紫兰', en: 'Iris (original)', hex: '#7A5A99',
+        wornImg: 'images/p05-worn-purple.jpg', bgImg: 'images/p05-bracelet-purple.jpg', skuId: 'YA-2026-0005' },
+      { id: 'azure', cn: '青空蓝',       en: 'Azure',           hex: '#5E84B0',
+        wornImg: 'images/p06-worn-azure.jpg',  bgImg: 'images/p06-bracelet-blue.jpg',   skuId: 'YA-2026-0006' },
+      { id: 'dusk',  cn: '幽暮紫',       en: 'Dusk',            hex: '#5C3F73',
+        wornImg: 'images/p07-worn-dusk.jpg',   bgImg: 'images/p07-bracelet-purple2.jpg', skuId: 'YA-2026-0007' }
+    ],
+    // wearerProfile: buyer-outcome (delivers Hero "别人会问你哪儿淘的"), not buyer-identity scripting.
+    wearerProfile_cn: '早上扣上, 晚上摘下, 中间六次有人多看你手腕一眼。',
+    wearerProfile_en: 'Six people look at your wrist between morning and dinner. You\'re not counting, but you notice.',
+    // details = plain factual description (museum-label tone). No "fired one at a time" (banned single-maker brag per feedback-copy-durability).
+    details_cn: '六扇银窗, 每扇里一朵兰花釉。中心一颗淡水珠, 红石榴小花扣连接。云南工坊, 800°C 高温一炉一炉烧。',
+    details_en: 'Six silver windows, each holding a single iris flower in enamel. A freshwater pearl at centre, garnet flowers at the joints. Kiln-fired at 800°C at the Yunnan studio.',
+    // wornInstruction: deliver Hero promise (someone will ask), drop poetic "let windows face light"
+    wornInstructionH_cn: '戴主手腕, 略偏外侧 —— 别人坐你斜对面的时候, 整排格窗才看得见。',
+    wornInstructionH_en: 'Dominant wrist, turned slightly outward — so the person across the table sees all six windows at once, not just the side.',
+    wornInstructionP_cn: '早上扣上, 一整天它在六个角度里翻过去翻过来 —— 釉色跟着光走, 你忘了戴着这件, 直到有人开口问。',
+    wornInstructionP_en: 'Clasp it in the morning. It turns through six angles all day. You\'ll forget you\'re wearing it — until someone asks.',
+    stylingTips_cn: [
+      '想叠戴? 一只极简金色细圈套外侧, 格窗留在内侧 —— 视线落在釉色上',
+      '配衣服? 暖白棉麻或米色羊绒最稳 —— 素袖里六扇窗一格一格亮过去',
+      '想再多戴一件? 同手食指一枚细银戒, 不带石头。加一件就够, 不要四件'
+    ],
+    stylingTips_en: [
+      'Stacking? One fine gold bangle on the outside, lattice windows on the inside — the eye lands on the enamel',
+      'Clothes? Warm white linen or cream cashmere is the safest call — the six windows light up one at a time against a quiet sleeve',
+      'Want more on the hand? One thin silver ring on the same index finger, no stone. Add one piece — not four'
     ]
   }
 };
@@ -6409,12 +7161,12 @@ const PRODUCTS = [
     id: 'YA-2026-0001', series: 'bloom', img: 'images/p01-daisy-green.jpg', badge_cn: '新作', badge_en: 'New', status: 'available',
     priceCN: 1280,
     cn: {
-      name: '绿野雏菊',
+      name: '雏菊 · 胸针',
       material: '925银 · 矿石珐琅 · 天然珍珠',
       desc: '十六瓣花,空窗釉色由透绿渐黄,如初夏阳光透过窗纸。中心一颗淡水珍珠 —— 母亲挑了三颗才选定这一颗,她说,珠光要温,不能抢花的颜色。'
     },
     global: {
-      name: 'Daisy of the Meadow',
+      name: 'Daisy Brooch',
       material: '925 silver · mineral enamel · freshwater pearl',
       desc: 'Sixteen petals, the enamel shading from translucent green to soft yellow — early summer light through a paper window. A pearl at the centre: the maker chose this one from three, the lustre warm enough not to overwhelm the bloom.'
     }
@@ -6423,12 +7175,12 @@ const PRODUCTS = [
     id: 'YA-2026-0002', series: 'butterfly', img: 'images/p02-butterfly-blue.jpg', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'sold',
     priceCN: 3780,
     cn: {
-      name: '青空之蝶',
+      name: '蝴蝶 · 胸针',
       material: '925银 · 空窗珐琅',
       desc: '空窗珐琅工艺翼,无衬底,迎光时蓝色釉料如夏日午后的天空。蝶身为镂空银花纹,极薄,佩戴时如有蝶停在锁骨。'
     },
     global: {
-      name: 'Butterfly in Azure',
+      name: 'Butterfly Brooch',
       material: '925 silver · plique-à-jour enamel',
       desc: 'Wings made in plique-à-jour, with no backing — held to the light, the blue is the colour of a summer afternoon sky. The body, an openwork silver filigree, sits so lightly it feels less worn than alighted.'
     }
@@ -6437,12 +7189,12 @@ const PRODUCTS = [
     id: 'YA-2026-0003', series: 'bloom', img: 'images/p03-ginkgo-ring.jpg', status: 'available',
     priceCN: 1380,
     cn: {
-      name: '银杏环',
+      name: '银杏叶 · 胸针',
       material: '925银 · 矿石珐琅',
       desc: '六片银杏叶围成一圈,叶脉以掐丝勾勒。绿色珐琅由叶尖至叶柄渐深,如秋未深时一棵尚未褪色的树。可作胸针,也可作衣饰。'
     },
     global: {
-      name: 'Ginkgo Wreath',
+      name: 'Ginkgo Leaf Brooch',
       material: '925 silver · mineral enamel',
       desc: 'Six ginkgo leaves in a circle, veined with wire-inlay. The green deepens from tip to stem — a tree caught just before the season turns. May be worn as brooch or ornament.'
     }
@@ -6451,12 +7203,12 @@ const PRODUCTS = [
     id: 'YA-2026-0004', series: 'hairpin', img: 'images/p04-ginkgo-hairpin.jpg', badge_cn: '一对', badge_en: 'Set of Two', status: 'sold',
     priceCN: 4180,
     cn: {
-      name: '银杏簪 · 双钗',
+      name: '银杏 · 发饰(一对)',
       material: '925银 · 矿石珐琅 · 淡水珍珠流苏',
       desc: '一支蓝,一支绿,可分可合。簪头双叶交错,缀红玛瑙、黄蜜蜡花心,珠串流苏轻晃。'
     },
     global: {
-      name: 'Ginkgo Hairpin · A Pair',
+      name: 'Ginkgo Hair Pin · Pair',
       material: '925 silver · mineral enamel · freshwater pearls',
       desc: 'One blue, one green — together or apart. Two leaves at the head, with red agate and yellow amber as flower hearts; pearl tassels stir as you move.'
     }
@@ -6465,12 +7217,12 @@ const PRODUCTS = [
     id: 'YA-2026-0005', series: 'season', img: 'images/p05-bracelet-purple.jpg', status: 'available',
     priceCN: 5180,
     cn: {
-      name: '紫兰格窗',
+      name: '鸢尾 · 镯',
       material: '925银 · 矿石珐琅 · 红石榴石 · 天然珍珠',
       desc: '六格镂空银窗,每窗一朵紫兰,以掐丝填珐琅。链节间嵌红石榴石四瓣花扣,末端缀红玉髓水滴坠 —— 整件手镯如一扇小小的中式格窗,可戴于腕上。'
     },
     global: {
-      name: 'Iris Lattice',
+      name: 'Iris Bracelet',
       material: '925 silver · mineral enamel · garnet · freshwater pearl',
       desc: 'Six lattice windows in silver, each holding a single iris in wire-inlay enamel. Between the links, four-petalled clasps of red garnet; at the close, a carnelian teardrop. A Chinese garden window, worn at the wrist.'
     }
@@ -6479,40 +7231,40 @@ const PRODUCTS = [
     id: 'YA-2026-0006', series: 'season', img: 'images/p06-bracelet-blue.jpg', status: 'available',
     priceCN: 5180,
     cn: {
-      name: '青兰格窗',
+      name: '鸢尾 · 镯(青)',
       material: '925银 · 矿石珐琅 · 红玛瑙 · 珍珠 · 莲花扣',
-      desc: '紫兰格窗的姐妹款,蓝色版本。末端缀镂空莲花扣 —— 取自工坊的传统纹样,也是母亲对"清净"的小小落款。两支可成对赠予姐妹、母女、知己。'
+      desc: '鸢尾的青色姐妹款。莲花扣合在腕内侧, 贴肉, 不硌。两支一起买 —— 一支留家里, 一支跟着走。'
     },
     global: {
-      name: 'Iris Lattice in Cyan',
+      name: 'Iris Bracelet · Azure',
       material: '925 silver · mineral enamel · agate · pearl · lotus clasp',
-      desc: 'The sister of Iris Lattice, rendered in blue. The clasp closes with an openwork lotus — a traditional motif of the atelier, and the maker\'s quiet signature for "stillness." Two may be given paired — to sisters, mother and daughter, or close friends.'
+      desc: 'The blue sister piece. The lotus clasp closes flush against the inside of the wrist — no bite. Buy two: one stays at home, one travels with her.'
     }
   },
   {
     id: 'YA-2026-0007', series: 'season', img: 'images/p07-bracelet-purple2.jpg', status: 'reserved',
     priceCN: 5180,
     cn: {
-      name: '幽兰格窗',
+      name: '鸢尾 · 镯(紫)',
       material: '925银 · 矿石珐琅 · 红石榴石 · 珍珠',
-      desc: '紫兰格窗系列的暮色款。珐琅釉色偏深紫,黄昏时分佩戴最美。属于一直怀着心事、却不轻易说出口的那一类人。'
+      desc: '鸢尾的暮色款。釉色偏深紫, 室内的暖灯下最沉。早上戴着开会不显, 下班那杯酒的桌上, 灯一调暗, 它就出来了。'
     },
     global: {
-      name: 'Iris Lattice at Dusk',
+      name: 'Iris Bracelet · Dusk',
       material: '925 silver · mineral enamel · garnet · pearl',
-      desc: 'The twilight version of Iris Lattice — a deeper, more contemplative purple, best worn at dusk. For someone who carries thoughts she does not say aloud.'
+      desc: 'The Iris in deep violet. Reads quiet under office light. Comes alive on a dim table — the moment the candles are lit.'
     }
   },
   {
     id: 'YA-2026-0008', series: 'heirloom', img: 'images/p08-lock.jpg', badge_cn: '传家', badge_en: 'Heirloom', status: 'available',
     priceCN: 3180,
     cn: {
-      name: '鱼戏莲叶 · 长命锁',
+      name: '莲鱼 · 吊坠',
       material: '925银 · 矿石珐琅 · 真丝结绳',
-      desc: '中式长命锁形制,锁面绘鱼戏莲叶图 ——"莲"通"连",喻代代相传;"鱼"通"余",喻富足。绳结由滇韵手工坊手编,可作婴礼、寿礼,也可作给自己的"成人之锁"。'
+      desc: '长命锁形制吊坠,锁面绘鱼与莲叶。绳结手编,可作婴礼、寿礼,也可作给自己的"成人之礼"。'
     },
     global: {
-      name: 'Koi & Lotus Long-Life Lock',
+      name: 'Fish & Lotus Pendant',
       material: '925 silver · mineral enamel · hand-braided silk',
       desc: 'A traditional Chinese long-life lock, its face painted with koi among lotus — lián (lotus) plays on "to connect, generation to generation"; yú (fish) on "abundance." The silk cord is hand-braided at the Yunnan studio. For an infant, an elder — or oneself, as a "lock of coming-of-age."'
     }
@@ -6521,12 +7273,12 @@ const PRODUCTS = [
     id: 'YA-2026-0009', series: 'heirloom', img: 'images/p09-bangle-fu.jpg', status: 'sold',
     priceCN: 4180,
     cn: {
-      name: '福纹祥云 · 镯',
+      name: '云纹 · 镯(福)',
       material: '925银 · 矿石珐琅 · 满工掐丝',
       desc: '满工掐丝镂空,蓝白珐琅祥云纹缠绕,正中一枚"福"字 —— 这是母亲做给长辈寿辰的一件,釉料用了她最珍爱的那批宝石蓝矿石,据说当年只剩一小罐。'
     },
     global: {
-      name: 'Fortune & Auspicious Cloud',
+      name: 'Cloud Bangle · 福',
       material: '925 silver · mineral enamel · full openwork',
       desc: 'Densely worked openwork silver, set with white-and-blue enamel clouds; at the centre, the character fú — "fortune." A piece the maker made for an elder\'s birthday, with the last of her most-loved batch of sapphire-blue pigment.'
     }
@@ -6535,12 +7287,12 @@ const PRODUCTS = [
     id: 'YA-2026-0010', series: 'butterfly', img: 'images/p10-butterfly-tassel.jpg', status: 'available',
     priceCN: 2380,
     cn: {
-      name: '靛蓝之蝶 · 流苏项链',
+      name: '蝴蝶 · 项链',
       material: '925银 · 矿石珐琅 · 流苏银坠',
       desc: '蝴蝶翼面以靛蓝渐变珐琅烧制,翼脉镂空,身后双流苏。锁骨链而非垂坠链,佩戴时蝶停胸前,流苏轻晃。'
     },
     global: {
-      name: 'Indigo Butterfly with Tassels',
+      name: 'Butterfly Necklace',
       material: '925 silver · mineral enamel · silver tassels',
       desc: 'Wings fired in indigo enamel with openwork veins, two slender tassels behind. A collarbone chain rather than a pendant drop — at rest, the butterfly settles low, the tassels stirring as you move.'
     }
@@ -6549,26 +7301,26 @@ const PRODUCTS = [
     id: 'YA-2026-0011', series: 'heirloom', img: 'images/p11-bangle-cloud.jpg', status: 'sold',
     priceCN: 3780,
     cn: {
-      name: '云水祥纹 · 镯',
+      name: '云纹 · 镯(素)',
       material: '925银 · 矿石珐琅 · 满工掐丝',
-      desc: '福纹祥云的素面款,无字,只留祥云。送给不喜形于色的人 —— 心意藏在云里,只有戴的人懂。'
+      desc: '云纹镯的素面款,无字,只留祥云。送给不喜形于色的人 —— 心意藏在云里,只有戴的人懂。'
     },
     global: {
-      name: 'Cloud & Water',
+      name: 'Cloud Bangle · Plain',
       material: '925 silver · mineral enamel · full openwork',
-      desc: 'The plain version of Fortune & Auspicious Cloud — no character, only the clouds. For those who do not show what they feel: the meaning held in the cloudwork, known only to the one who wears it.'
+      desc: 'The plain version of Cloud Bangle · 福 — no character, only the clouds. For those who do not show what they feel: the meaning held in the cloudwork, known only to the one who wears it.'
     }
   },
   {
     id: 'YA-2026-0012', series: 'bloom', img: 'images/p12-bracelet-cord.jpg', badge_cn: '可调节', badge_en: 'Adjustable', status: 'available',
     priceCN: 1280,
     cn: {
-      name: '青莲编织 · 手链',
+      name: '青莲 · 编绳',
       material: '925银 · 矿石珐琅 · 手编绳',
       desc: '青底珐琅花管,描两枝水仙,两端编入真丝。可调节,适合从少女到母亲的任意尺寸 —— 因此,也是最常被三代人之间互相赠予的一款。'
     },
     global: {
-      name: 'Narcissus on a Cord',
+      name: 'Lotus Cord Bracelet',
       material: '925 silver · mineral enamel · braided silk',
       desc: 'A blue enamel tube painted with two narcissi, braided at each end with silk. Adjustable — fitted from young girls to mothers. It has become, perhaps for that reason, the piece most often passed between three generations.'
     }
@@ -6582,6 +7334,25 @@ const PRODUCTS = [
 // ============================================================
 const PRODUCT_META = {
   'YA-2026-0001': { formKey: 'brooch',   form_cn: '胸针',                  form_en: 'Brooch',                        dim_cn: '约 4.8 × 4.8 cm · 12 g',  dim_en: 'Approx. 4.8 × 4.8 cm · 12 g',  imgs: [],
+    wearerProfile_cn: '别在毛呢外套上, 一天能被人问三次"这是什么花"。',
+    wearerProfile_en: 'Pinned to a wool coat — you\'ll get asked "what is that flower" three times in a day.',
+    details_cn: '十六瓣花, 釉色从透绿渐至柔黄。中心一颗淡水珍珠。云南工坊手工烧成。',
+    details_en: 'Sixteen petals, enamel shading from translucent green to soft yellow. A freshwater pearl at the centre. Fired by hand at a Yunnan workshop.',
+    colorVariants: [
+      { id: 'green',  cn: '原色 · 透绿渐黄',  en: 'Original · green to yellow',  hex: '#9DB66A', wornImg: 'images/p01-daisy-green.jpg' },
+      { id: 'azure',  cn: '青空蓝',           en: 'Azure',                       hex: '#6792B5', wornImg: 'images/p01-daisy-green.jpg' },
+      { id: 'violet', cn: '幽紫',             en: 'Violet',                      hex: '#7A5A99', wornImg: 'images/p01-daisy-green.jpg' }
+    ],
+    stylingTips_cn: [
+      '素白棉麻 + 米色羊绒 —— 让釉色作为暖光出场',
+      '海蓝衬衫 + 米色直筒裤 —— 与初春配色对话',
+      '工装夹克 + 直纹丹宁 —— 把柔光放在硬轮廓上'
+    ],
+    stylingTips_en: [
+      'White cotton-linen + cream cashmere — the enamel becomes the warm light',
+      'Sea-blue shirt + cream straight-leg — paired with early-spring tones',
+      'Workwear jacket + raw denim — soft glow against a structured silhouette'
+    ],
     options: {
       enamel: { label_cn: '釉色', label_en: 'Enamel Colour', choices: [
         { id: 'green', label_cn: '原色 · 透绿渐黄', label_en: 'Original · translucent green to yellow', delta: 0 },
@@ -6598,6 +7369,25 @@ const PRODUCT_META = {
     }
   },
   'YA-2026-0002': { formKey: 'brooch',   form_cn: '胸针',                  form_en: 'Brooch',                        dim_cn: '翼展约 5.6 cm · 9 g',          dim_en: 'Wingspan approx. 5.6 cm · 9 g', imgs: [],
+    wearerProfile_cn: '走到窗边, 翼面会突然透出蓝色 —— 别人也看见, 但只有你戴着。',
+    wearerProfile_en: 'By a window the wings catch blue light. Others see it too — but only one is wearing it.',
+    details_cn: '翼面采用空窗珐琅 (plique-à-jour) 工艺 —— 釉料无金属衬底, 烧成后, 光直接穿过翼面。云南工坊手工烧成。',
+    details_en: 'Wings made in plique-à-jour — enamel held without a metal backing, so light passes straight through after firing. Fired by hand at a Yunnan workshop.',
+    colorVariants: [
+      { id: 'azure',  cn: '原色 · 青空透蓝',  en: 'Original · azure',     hex: '#5A8BB5', wornImg: 'images/plique-butterfly-backlit.jpg' },
+      { id: 'indigo', cn: '靛蓝',             en: 'Indigo',               hex: '#3D5FAA', wornImg: 'images/plique-butterfly-backlit.jpg' },
+      { id: 'violet', cn: '紫透',             en: 'Violet',               hex: '#7A5A99', wornImg: 'images/plique-butterfly-backlit.jpg' }
+    ],
+    stylingTips_cn: [
+      '白衬衫 + 海军色西装 —— 让 plique-à-jour 那道光成为唯一焦点',
+      '米色裙装 + 浅金小链 —— 让蓝保持唯一的色相',
+      '中性灰针织 + 直纹丹宁 —— 让釉的色温对话冷调'
+    ],
+    stylingTips_en: [
+      'White shirt + navy blazer — the plique-à-jour becomes the only light',
+      'Cream dress + soft gold chain — blue stays the only hue',
+      'Neutral grey knit + raw denim — the enamel\'s warmth answers the cool tones'
+    ],
     options: {
       enamel: { label_cn: '翼面釉色', label_en: 'Wing Enamel', choices: [
         { id: 'azure', label_cn: '原色 · 青空透蓝', label_en: 'Original · azure translucent blue', delta: 0 },
@@ -6629,7 +7419,7 @@ const PRODUCT_META = {
         placeholder_cn: '名字、日期、字(选填)', placeholder_en: 'Name, date, or character (optional)' }
     }
   },
-  'YA-2026-0004': { formKey: 'hairpin',  form_cn: '簪钗 · 一对',           form_en: 'Hairpin · pair',                dim_cn: '长约 14 cm · 单支 8 g',         dim_en: 'Length approx. 14 cm · 8 g each', imgs: [],
+  'YA-2026-0004': { formKey: 'hairpin',  form_cn: '发饰 · 一对',           form_en: 'Hair pin · pair',               dim_cn: '长约 14 cm · 单支 8 g',         dim_en: 'Length approx. 14 cm · 8 g each', imgs: [],
     options: {
       combo: { label_cn: '色彩组合', label_en: 'Colour Pairing', choices: [
         { id: 'blue-green', label_cn: '原色 · 一蓝一绿', label_en: 'Original · one blue, one green', delta: 0 },
@@ -6646,6 +7436,8 @@ const PRODUCT_META = {
     }
   },
   'YA-2026-0005': { formKey: 'bracelet', form_cn: '手镯',                  form_en: 'Bracelet',                      dim_cn: '内径 56–60 mm · 26 g',         dim_en: 'Inner ⌀ 56–60 mm · 26 g',       imgs: [],
+    // PDP v2 buyer-side content lives in COLOR_FAMILIES['iris-lattice'] — 0005/0006/0007 share.
+    colorFamily: 'iris-lattice',
     options: {
       enamel: { label_cn: '格窗釉色', label_en: 'Lattice Enamel', choices: [
         { id: 'iris', label_cn: '原色 · 紫兰', label_en: 'Original · iris purple', delta: 0 },
@@ -6662,6 +7454,7 @@ const PRODUCT_META = {
     }
   },
   'YA-2026-0006': { formKey: 'bracelet', form_cn: '手镯',                  form_en: 'Bracelet',                      dim_cn: '内径 56–60 mm · 26 g',         dim_en: 'Inner ⌀ 56–60 mm · 26 g',       imgs: [],
+    colorFamily: 'iris-lattice',
     options: {
       enamel: { label_cn: '格窗釉色', label_en: 'Lattice Enamel', choices: [
         { id: 'cyan', label_cn: '原色 · 青蓝', label_en: 'Original · cyan blue', delta: 0 },
@@ -6678,6 +7471,7 @@ const PRODUCT_META = {
     }
   },
   'YA-2026-0007': { formKey: 'bracelet', form_cn: '手镯',                  form_en: 'Bracelet',                      dim_cn: '内径 56–60 mm · 26 g',         dim_en: 'Inner ⌀ 56–60 mm · 26 g',       imgs: [],
+    colorFamily: 'iris-lattice',
     options: {
       enamel: { label_cn: '格窗釉色', label_en: 'Lattice Enamel', choices: [
         { id: 'dusk', label_cn: '原色 · 幽暮紫', label_en: 'Original · dusk violet', delta: 0 },
@@ -6693,7 +7487,7 @@ const PRODUCT_META = {
         placeholder_cn: '名字、纪念日(选填)', placeholder_en: 'Name or date (optional)' }
     }
   },
-  'YA-2026-0008': { formKey: 'lock',     form_cn: '长命锁 · 项链',        form_en: 'Long-life lock · pendant',      dim_cn: '锁身约 4.5 cm · 绳长 50–60 cm · 18 g', dim_en: 'Lock approx. 4.5 cm · cord 50–60 cm · 18 g', imgs: [],
+  'YA-2026-0008': { formKey: 'lock',     form_cn: '吊坠',                 form_en: 'Pendant',                       dim_cn: '主体约 4.5 cm · 绳长 50–60 cm · 18 g', dim_en: 'Body approx. 4.5 cm · cord 50–60 cm · 18 g', imgs: [],
     options: {
       character: { label_cn: '中央汉字', label_en: 'Centre Character', choices: [
         { id: 'fu', label_cn: '福 · 原配', label_en: '福 (fortune) · original', delta: 0 },
@@ -7158,14 +7952,14 @@ function copyMailAddress() {
   const c = (COPY && COPY[MARKET]) || {};
   const okMsg = c.mailFallbackCopied || 'Copied';
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText('hello@yan-atelier.com').then(() => set('✓ ' + okMsg), () => set('—'));
+    navigator.clipboard.writeText('hello@yan-atelier.com').then(() => set('— ' + okMsg), () => set('—'));
   } else {
     // Fallback: select-and-copy via temporary input
     const tmp = document.createElement('input');
     tmp.value = 'hello@yan-atelier.com';
     document.body.appendChild(tmp);
     tmp.select();
-    try { document.execCommand('copy'); set('✓ ' + okMsg); } catch (e) { set('—'); }
+    try { document.execCommand('copy'); set('— ' + okMsg); } catch (e) { set('—'); }
     document.body.removeChild(tmp);
   }
 }
@@ -7206,7 +8000,7 @@ function openStripeCheckout(productId) {
 (function initRevealOnScroll() {
   if (!('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const sels = '#view-home .hook-section, #view-home .maker-section, #view-home .atelier-section, #view-home .plique-section, #view-home .featured-section, #view-home .promise-section, #view-home .gift-section';
+  const sels = '#view-home .hook-section, #view-home .maker-section, #view-home .atelier-section, #view-home .plique-section, #view-home .direction-section, #view-home .featured-section, #view-home .promise-section, #view-home .gift-section';
   function attach() {
     const targets = document.querySelectorAll(sels);
     if (!targets.length) return;
@@ -7387,7 +8181,7 @@ function applyCopy() {
 
   // 导航(加入 craft 工艺 + consult 私约,在 Shop 之后)
   const navLinksEl = document.getElementById('nav-links');
-  const views = ['home', 'catalog', 'craft', 'consult', 'about'];
+  const views = ['home', 'catalog', 'gift', 'craft', 'consult', 'about'];
   navLinksEl.innerHTML = c.nav.map((label, i) =>
     `<button class="nav-link${views[i] === currentView ? ' active' : ''}" data-view="${views[i]}" onclick="navigate('${views[i]}')">${label}</button>`
   ).join('');
@@ -7442,6 +8236,17 @@ function applyCopy() {
       if (opt) opt.textContent = c.catalogSortOptions[key];
     });
   }
+  // Catalog filter group labels + Gift Finder help banner (added 2026-06-17)
+  const formLbl = document.getElementById('catalog-form-label');
+  if (formLbl) formLbl.textContent = c.catalogFormLabel || 'Form';
+  const priceLbl = document.getElementById('catalog-price-label');
+  if (priceLbl) priceLbl.textContent = c.catalogPriceLabel || 'Price';
+  const enamelLbl = document.getElementById('catalog-enamel-label');
+  if (enamelLbl) enamelLbl.textContent = c.catalogEnamelLabel || 'Enamel';
+  const helpOvl = document.getElementById('catalog-help-overline');
+  if (helpOvl) helpOvl.textContent = c.catalogHelpOverline || '';
+  const helpTxt = document.getElementById('catalog-help-text');
+  if (helpTxt) helpTxt.textContent = c.catalogHelpText || '';
 
   // Newsletter
   const nlTitle = document.getElementById('nl-title');
@@ -7476,6 +8281,16 @@ function applyCopy() {
   // Wishlist initialization (after applyCopy because filter chip needs label)
   if (typeof updateWishUI === 'function') updateWishUI();
 
+  // D1 · dual-door ribbon — counted from PRODUCTS, decoupled from H title (rule D3a)
+  try {
+    const total = PRODUCTS.length;
+    const sold = PRODUCTS.filter(p => p.status === 'sold').length;
+    const ribbonEn = document.getElementById('door-ribbon-stock-en');
+    const ribbonCn = document.getElementById('door-ribbon-stock-cn');
+    if (ribbonEn) ribbonEn.textContent = `${total} in batch · ${sold} sold`;
+    if (ribbonCn) ribbonCn.textContent = `${total} 件 · ${sold} 已售`;
+  } catch (e) { /* ribbon is decorative · fail-quiet */ }
+
   // 注: c.series 数组仍是 catalog/PDP/溯源页的 id→名称查表,不能删
 
   // 精选 header
@@ -7492,6 +8307,7 @@ function applyCopy() {
   document.getElementById('maker-cta-btn').textContent = c.makerCta;
 
   // Promise
+  document.getElementById('promise-overline').textContent = c.promiseOverline || '';
   document.getElementById('promise-title').innerHTML = c.promiseTitle;
   document.getElementById('promise-sub').textContent = c.promiseSub || '';
   document.getElementById('promise-list').innerHTML = c.promiseList.map(([n, t]) => `
@@ -7585,31 +8401,14 @@ function applyCopy() {
       <div class="credit-text">${t}</div>
     </div>
   `).join('');
-  document.getElementById('icif-title').textContent = c.icifTitle;
-  document.getElementById('icif-text').innerHTML = c.icifText.map(p => `<p>${p}</p>`).join('') +
-    `<p style="margin-top:1.5rem;font-family:var(--serif-en);font-style:italic;color:var(--paper-mute);">${c.icifQuote}</p>` +
-    (c.icifQuoteAttr ? `<p style="margin-top:0.5rem;font-family:var(--serif-en);font-style:italic;font-size:0.85rem;color:var(--paper-mute);">${c.icifQuoteAttr}</p>` : '');
+  // ICIF section populator removed 2026-06-17 with the .about-icif section.
 
-  // Customer Letters + Press & Exhibitions (renamed from Letters Received / Recognised)
-  const lettersGridEl = document.getElementById('letters-grid');
-  if (lettersGridEl && c.letters) {
-    lettersGridEl.innerHTML = c.letters.map(L => `
-      <figure class="letter">
-        <blockquote class="letter-body">${L.body}</blockquote>
-        <figcaption class="letter-attr">
-          <span class="letter-from">${L.from}</span>
-          <span class="letter-meta">${L.meta}</span>
-        </figcaption>
-      </figure>`).join('');
-  }
+  // Letters render removed 2026-06-19 (T6) — DOM was cut 06-08, COPY keys deleted same day
   const honoursListEl = document.getElementById('honours-list');
   if (honoursListEl && c.honours) {
     honoursListEl.innerHTML = c.honours.map(h => `<li>${h}</li>`).join('');
     document.getElementById('honours-overline-text').textContent = c.honoursOverline || 'Press & Exhibitions';
   }
-  // Letters section heading (rename Letters Received → Customer Letters)
-  const lettersOverlineEl = document.querySelector('.letters-section .section-overline');
-  if (lettersOverlineEl && c.lettersOverline) lettersOverlineEl.textContent = c.lettersOverline;
 
   // Craft · 工艺溯源(Article rendering + Schema.org markup)
   if (document.getElementById('craft-h1') && c.craftSections) {
@@ -7747,6 +8546,8 @@ function applyCopy() {
     document.getElementById('consult-promise-p').textContent = c.consultPromiseP || '';
     document.getElementById('consult-response-text').textContent = c.consultResponseText || '';
     document.getElementById('consult-channels-h').textContent = c.consultChannelsH || '';
+    const consultOverlineEl = document.getElementById('consult-channels-overline');
+    if (consultOverlineEl && c.consultChannelsOverline) consultOverlineEl.textContent = c.consultChannelsOverline;
     // Bespoke examples render — adaptable directions, not fabricated past commissions
     const ceOverline = document.getElementById('consult-examples-overline');
     if (ceOverline) ceOverline.textContent = c.consultExamplesOverline || '';
@@ -7837,8 +8638,8 @@ function applyCopy() {
   // Footer
   document.getElementById('footer-tag').textContent = c.footerTag;
   document.getElementById('footer-desc').textContent = c.footerDesc;
-  document.getElementById('footer-payments').innerHTML = c.footerPayments.map(p =>
-    `<span class="footer-pay-chip">${p}</span>`).join('');
+  // Payments → single italic sentence (Tier 3 cleanup 2026-06-17). Joins methods with " · ".
+  document.getElementById('footer-payments').textContent = c.footerPayments.join(' · ');
   // Footer columns — now {label, view, filter} objects; render each as a clickable <a>.
   // External entry (Footer click) ALWAYS resets _catalogCat/_catalogPrice via 3rd arg `true`.
   // Backward-compatible: if a plain string is encountered, fall back to plain text <li>.
@@ -7920,22 +8721,26 @@ function productCardHtml(p) {
     : (status === 'reserved'
       ? `<div class="product-sold product-reserved">${c.plateReserved || (MARKET === 'cn' ? '已预订' : 'Reserved')}</div>`
       : '');
+  // img2: fall back through meta.imgs[1] (gallery shot 2) or p.img2 (explicit override)
+  const img2 = (Array.isArray(meta.imgs) && meta.imgs.length > 1) ? meta.imgs[1] : (p.img2 || null);
   return `
     <div class="product-card product-card--${status}" onclick="openProduct('${p.id}')">
       <div class="product-img">
-        ${badge ? `<div class="product-badge">${badge}</div>` : ''}
-        ${statusBadge}
-        <button class="wish-btn${wished ? ' saved' : ''}" data-wish-id="${p.id}" aria-label="Save for later" aria-pressed="${wished}" onclick="event.stopPropagation(); toggleWish('${p.id}')">
-          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </button>
         <img src="${p.img}" alt="${data.name}" loading="lazy" />
+        ${img2 ? `<img class="product-img-hover" src="${img2}" alt="" loading="lazy" />` : ''}
       </div>
       <div class="product-name">${data.name}</div>
-      ${pieceType ? `<div class="product-type">${pieceType}</div>` : ''}
+      ${pieceType ? `<div class="product-type">${pieceType}${badge ? `<span class="product-badge">${badge}</span>` : ''}</div>` : (badge ? `<div class="product-type"><span class="product-badge">${badge}</span></div>` : '')}
       <div class="product-meta">
-        <span class="product-meta-series">${seriesName}</span>
+        ${(() => {
+          const ec = enamelForSku(p.id);
+          if (!ec) return `<span class="product-meta-series">${seriesName}</span>`;
+          const cname = MARKET === 'cn' ? ec.cn : ec.en;
+          return `<span class="product-meta-color"><span class="enamel-dot" style="background:${ec.hex}"></span>${cname}</span>`;
+        })()}
         <span class="product-price">${priceFor(p)}</span>
       </div>
+      ${statusBadge}
     </div>
   `;
 }
@@ -7956,12 +8761,8 @@ function navigate(view, filter, reset, lens, cat) {
   if (reset && view === 'catalog') {
     _catalogCat = cat || 'all';
     _catalogPrice = 'all';
+    _catalogEnamel = null;
   }
-  // Lens applies only to catalog (e.g. 'self' from dual-door right · null clears)
-  if (view === 'catalog') {
-    _catalogLens = (lens === 'self') ? 'self' : null;
-  }
-
   const doSwitch = () => {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + view).classList.add('active');
@@ -7979,6 +8780,7 @@ function navigate(view, filter, reset, lens, cat) {
         const priceGroup = document.getElementById('catalog-price-filters');
         if (priceGroup) priceGroup.querySelectorAll('.subfilter-chip').forEach(x => x.classList.toggle('active', x.dataset.price === 'all'));
       }
+      renderEnamelWayfinder();
       renderCatalog(filter || 'all');
       if (filter) {
         document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c.dataset.filter === filter));
@@ -7988,19 +8790,6 @@ function navigate(view, filter, reset, lens, cat) {
       }
     }
     if (view === 'gift') restartGiftFinder();
-    // Show/hide self-lens band per current lens
-    const selfBand = document.getElementById('catalog-self-band');
-    if (selfBand) {
-      const c = COPY[MARKET];
-      if (_catalogLens === 'self') {
-        document.getElementById('catalog-self-overline').textContent = c.catalogSelfOverline || '';
-        document.getElementById('catalog-self-h').textContent = c.catalogSelfH || '';
-        document.getElementById('catalog-self-p').textContent = c.catalogSelfP || '';
-        selfBand.hidden = false;
-      } else {
-        selfBand.hidden = true;
-      }
-    }
     if (view === 'heritage') {
       document.getElementById('heritage-result').classList.remove('active');
       document.getElementById('heritage-input').value = '';
@@ -8022,7 +8811,42 @@ let _catalogSort = 'featured';
 let _catalogFilter = 'all';
 let _catalogCat = 'all';       // category (form) sub-filter
 let _catalogPrice = 'all';     // price-band sub-filter
-let _catalogLens = null;       // JTBD lens — 'self' from dual-door right entry
+let _catalogEnamel = null;     // enamel-color wayfinder filter (null = all colors)
+
+// ─── Enamel color wayfinder (Bea Bongiasca pattern · 2026-06-17) ──────────
+// Color-as-entry — visitor picks an enamel family, catalog filters to it.
+// Hex values are approximations of the actual translucent enamel hues YÀN fires.
+const ENAMEL_COLORS = [
+  { id: 'green',  cn: '翠',   en: 'Green',  hex: '#7FA86A', skus: ['YA-2026-0001','YA-2026-0003','YA-2026-0004'] },
+  { id: 'cyan',   cn: '青',   en: 'Cyan',   hex: '#5A8EAE', skus: ['YA-2026-0006','YA-2026-0012'] },
+  { id: 'blue',   cn: '蓝',   en: 'Blue',   hex: '#3A5F8E', skus: ['YA-2026-0002','YA-2026-0009','YA-2026-0010'] },
+  { id: 'violet', cn: '紫',   en: 'Violet', hex: '#7A5C8E', skus: ['YA-2026-0005','YA-2026-0007'] },
+  { id: 'silver', cn: '素银', en: 'Silver', hex: '#B5B3AE', skus: ['YA-2026-0008','YA-2026-0011'] },
+];
+// Find which enamel bucket a SKU lives in. Used for per-card color display.
+function enamelForSku(skuId) {
+  return ENAMEL_COLORS.find(c => c.skus.includes(skuId)) || null;
+}
+function renderEnamelWayfinder() {
+  const host = document.getElementById('enamel-wayfinder');
+  if (!host) return;
+  const isCn = MARKET === 'cn';
+  host.innerHTML = ENAMEL_COLORS.map(c => {
+    const name = isCn ? c.cn : c.en;
+    const active = _catalogEnamel === c.id ? ' is-active' : '';
+    return `<button class="enamel-chip${active}" data-enamel="${c.id}" aria-pressed="${_catalogEnamel === c.id}">
+      <span class="enamel-dot" style="background:${c.hex}"></span>${name}
+    </button>`;
+  }).join('');
+  host.querySelectorAll('.enamel-chip').forEach(btn => {
+    btn.addEventListener('click', e => {
+      const id = e.currentTarget.dataset.enamel;
+      _catalogEnamel = (_catalogEnamel === id) ? null : id;
+      renderEnamelWayfinder();
+      renderCatalog(_catalogFilter);
+    });
+  });
+}
 
 function onCatalogSortChange() {
   _catalogSort = document.getElementById('catalog-sort').value;
@@ -8070,6 +8894,11 @@ function renderCatalog(filter) {
   // Sub-filter: price band
   if (_catalogPrice && _catalogPrice !== 'all') {
     list = list.filter(p => _inPriceBand(p, _catalogPrice));
+  }
+  // Sub-filter: enamel-color wayfinder (Bea Bongiasca pattern · 2026-06-17)
+  if (_catalogEnamel) {
+    const bucket = ENAMEL_COLORS.find(c => c.id === _catalogEnamel);
+    if (bucket) list = list.filter(p => bucket.skus.includes(p.id));
   }
 
   if (_catalogSort === 'newest') {
@@ -8167,33 +8996,152 @@ function openProduct(id, keepView) {
   const isPlique = matText.includes('空窗') || matText.toLowerCase().includes('plique');
   const craftAnchorText = isPlique ? (c.pdCraftAnchor || '') : (c.pdCraftAnchorAlt || c.pdCraftAnchor || '');
 
+  // ── PDP v2 buyer-side fields (renamed 2026-06-18 — content frames buyer's decisions, not maker's design notes) ──
+  const isCn = MARKET === 'cn';
+  // Color family lookup: if SKU is part of a family (e.g. iris-lattice), pull SHARED buyer-side content + variants from family.
+  const family = (meta.colorFamily && typeof COLOR_FAMILIES !== 'undefined') ? COLOR_FAMILIES[meta.colorFamily] : null;
+  const ms = (k) => (family && family[k]) || meta[k] || '';   // family overrides SKU
+  // wearerProfile = "戴这件的人是谁" (who wears this — buyer identity hook)
+  const wearerProfile = ms(isCn ? 'wearerProfile_cn' : 'wearerProfile_en') || '';
+  // details = plain factual description, museum-label tone (renamed from whatToSay 2026-06-18 —
+  // user feedback: directive "what to say when asked" reads as sales-script, patronizing).
+  // Buyer extracts their own story from the facts.
+  const details = ms(isCn ? 'details_cn' : 'details_en') || data.desc;
+  // colorVariants: from family (real SKU siblings) or SKU-level (customization preview)
+  const colorVariants = (family && family.variants) || (Array.isArray(meta.colorVariants) ? meta.colorVariants : []);
+  // current variant = the one whose skuId matches current SKU (for sibling families)
+  const currentVariant = colorVariants.find(cv => cv.skuId === p.id) || colorVariants[0] || null;
+  const stylingTips = (family && (isCn ? family.stylingTips_cn : family.stylingTips_en))
+    || (isCn ? meta.stylingTips_cn : meta.stylingTips_en) || [];
+  const defaultWornImg = (currentVariant && currentVariant.wornImg) || p.img;
+  // Per-variant bgImg → Hero background switches on color click (was a single family.heroBgImg, broken)
+  const bgImg = (currentVariant && currentVariant.bgImg) || (currentVariant && currentVariant.wornImg) || ms('heroBgImg') || p.img;
+  // Worn-section instruction: family/SKU override → generic fallback
+  const wornH = ms(isCn ? 'wornInstructionH_cn' : 'wornInstructionH_en')
+    || (isCn ? '戴上, 找一束光。' : 'Wear it. Find some light.');
+  const wornP = ms(isCn ? 'wornInstructionP_cn' : 'wornInstructionP_en')
+    || (isPlique
+      ? (isCn ? '釉色没有金属衬底, 只有光透过时才显色 —— 这件设计为对光佩戴。' : 'No metal backing — the colour exists only as light passes through. Designed to be held to the light.')
+      : (isCn ? '800°C 烧成的矿石釉色, 不褪色, 不变形。戴三十年还是第一天的颜色。' : 'Mineral enamel fired at 800°C — colour that holds, day-one through year thirty.'));
+  // Hero CTA (added 2026-06-18 — buy in first viewport, not at the bottom)
+  // Built as helper so same logic powers both hero CTA and sticky-bottom CTA
+  const buildCta = (extraClass) => (p.status === 'sold' || p.status === 'reserved')
+    ? `<button class="btn btn-primary ${extraClass}" onclick="navigate('consult')">${p.status === 'sold' ? c.pdCtaSold : c.pdCtaReserved}</button>`
+    : (STRIPE_LINKS[p.id]
+        ? `<button class="btn btn-primary ${extraClass}" onclick="openStripeCheckout('${p.id}')">${c.pdCtaStripeNow || c.pdCta1}</button>`
+        : `<button class="btn btn-primary ${extraClass}" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>`);
+  const heroCta = buildCta('pdp-v2-cta');
+  const stickyCta = buildCta('pdp-v2-sticky-cta');
+  const heroStatus = p.status === 'sold' ? (isCn ? '已售' : 'Sold')
+    : p.status === 'reserved' ? (isCn ? '已预订' : 'Reserved')
+    : (isCn ? '现货 · ' + (c.pdLead || '14–30 天') : 'In stock · ' + (c.pdLead || '14–30 days'));
+  const currentVariantName = currentVariant ? (isCn ? currentVariant.cn : currentVariant.en) : '';
+  const stylingOverline = isCn ? '怎么搭' : 'Wear It With';
+  const stylingH = isCn ? '不用想穿什么。' : 'No thinking required.';
+  const stylingSub = isCn ? '工坊给的三种最有把握的搭法 —— 你可以照着穿, 也可以从中挑一条放着记着。' : 'Three pairings the atelier stands behind. Wear one. Bookmark another.';
+
   document.getElementById('product-detail').innerHTML = `
-    <div class="pd-main">
-      <div class="pd-gallery">
-        ${galleryImgs.map((src, i) => `<img src="${src}" alt="${data.name}${galleryImgs.length > 1 ? ' · ' + (i+1) : ''}" />`).join('')}
-      </div>
-      <div class="pd-info">
-        <nav class="pd-breadcrumb" aria-label="breadcrumb">
-          <a onclick="navigate('catalog', null, true)">${shopLabel}</a><span class="sep">·</span><a onclick="navigate('catalog','${p.series}', true)">${seriesName}</a>
-        </nav>
-        <div class="pd-id"><span class="pd-id-sku">No. ${p.id.slice(-2)}</span></div>
-        <h1 class="pd-name">${data.name}</h1>
-        <div class="pd-craft-anchor">${craftAnchorText}</div>
-        <div class="pd-price-block">
-          <div class="pd-price-main">
-            <span class="pd-price-value">${priceFor(p)}</span>
-          </div>
-          <div class="pd-shipby">${shipByFor(p, c)}</div>
-          <div class="pd-terms-plain">${c.pdTerms || ''}</div>
-          <div class="pd-included">
-            <img class="pd-included-img" src="images/packaging-velvet-bamboo.png" alt="${c.pdIncludedAlt || ''}" loading="lazy" />
-            <div class="pd-included-text">
-              <span class="pd-included-label">${c.pdIncludedLabel || ''}</span>
-              <span class="pd-included-items">${c.pdIncludedItems || ''}</span>
+    <div class="pdp-v2">
+
+      <!-- Section 1 · Hero (mood bg + product info) -->
+      <section class="pdp-v2-hero">
+        <div class="pdp-v2-bg"><img src="${bgImg}" alt="" loading="eager" fetchpriority="high" /></div>
+        <div class="pdp-v2-content">
+          <nav class="pdp-v2-breadcrumb" aria-label="breadcrumb">
+            <a onclick="navigate('catalog', null, true)">${shopLabel}</a> · <a onclick="navigate('catalog','${p.series}', true)">${seriesName}</a> · No. ${p.id.slice(-2)}
+          </nav>
+          <h1 class="pdp-v2-name">${data.name}</h1>
+          ${wearerProfile ? `<p class="pdp-v2-symbolism">${wearerProfile}</p>` : ''}
+          ${colorVariants.length ? `
+            <div class="pdp-v2-swatches">
+              <div class="pdp-v2-swatches-label">${isCn ? '釉色 · 点击切换' : 'Colours · click to switch'}</div>
+              <div class="pdp-v2-swatch-row">
+                ${colorVariants.map((cv) => {
+                  const isCurrent = cv.skuId ? cv.skuId === p.id : false;
+                  return `
+                  <button class="pdp-v2-swatch ${isCurrent ? 'is-active' : ''}"
+                          data-variant-id="${cv.id}"
+                          data-worn-img="${cv.wornImg || p.img}"
+                          ${cv.skuId ? `data-sku-id="${cv.skuId}"` : ''}
+                          aria-label="${isCn ? cv.cn : cv.en}"
+                          title="${isCn ? cv.cn : cv.en}"
+                          onclick="pdpSwitchVariant(this)">
+                    <span class="pdp-v2-swatch-fill" style="background:${cv.hex}"></span>
+                  </button>`;
+                }).join('')}
+              </div>
+            </div>` : ''}
+          <div class="pdp-v2-inspiration-label">${isCn ? '关于' : 'About'}</div>
+          <p class="pdp-v2-inspiration">${details}</p>
+          <!-- Hero buy block (added 2026-06-18 — buy visible in first viewport) -->
+          <div class="pdp-v2-buy">
+            <div class="pdp-v2-buy-row">
+              <span class="pdp-v2-buy-price">${priceFor(p)}</span>
+              <span class="pdp-v2-buy-status pdp-v2-buy-status--${p.status || 'available'}">${heroStatus}</span>
             </div>
+            ${heroCta}
+            <!-- P0-10: trust line right under CTA so risk-reversal hits at buying moment -->
+            <div class="pdp-v2-buy-trust"><strong>${c.pdTrustReturns || ''}</strong> · <strong>${c.pdTrustShipping || ''}</strong> · <strong>${c.pdTrustCare || ''}</strong></div>
+            <a class="pdp-v2-see-details" href="#pdp-v2-details">${isCn ? '看完整规格 / 自定义 ↓' : 'Specs & customisation ↓'}</a>
           </div>
         </div>
-        <p class="pd-desc">${data.desc}</p>
+      </section>
+
+      <!-- Section 2 · Worn (color-swap image) -->
+      <section class="pdp-v2-worn">
+        <div class="pdp-v2-worn-img-wrap">
+          <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}" />
+        </div>
+        <div class="pdp-v2-worn-text">
+          <div class="pdp-v2-section-overline">${isCn ? '戴法' : 'How to Wear'}</div>
+          <h2 class="pdp-v2-worn-h">${wornH}</h2>
+          <p class="pdp-v2-worn-p">${wornP}</p>
+        </div>
+      </section>
+
+      <!-- Section 3 · Styling (outfit pairings) -->
+      ${stylingTips.length ? `
+        <section class="pdp-v2-styling">
+          <div class="pdp-v2-styling-inner">
+            <div class="pdp-v2-section-overline">${stylingOverline}</div>
+            <h2 class="pdp-v2-styling-h">${stylingH}</h2>
+            <p class="pdp-v2-styling-sub">${stylingSub}</p>
+            <ul class="pdp-v2-styling-list">
+              ${stylingTips.map(tip => `<li class="pdp-v2-styling-item">${tip}</li>`).join('')}
+            </ul>
+          </div>
+        </section>` : ''}
+
+      <!-- Section 4 · Commerce (existing stack, wrapped) -->
+      <section class="pdp-v2-commerce" id="pdp-v2-details">
+        <div class="pd-craft-anchor">${craftAnchorText}</div>
+        <div class="pd-price-block">
+          <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
+          <div class="pd-shipby">${shipByFor(p, c)}</div>
+          <div class="pd-terms-plain">${c.pdTerms || ''}</div>
+          <!-- Packaging illustration removed 2026-06-18 — user feedback: inline image inside
+               price block felt awkward / didn't match e-commerce convention. Packaging info now
+               lives in the mini-FAQ + spec details below. -->
+          <div class="pd-included pd-included--text-only">
+            <span class="pd-included-label">${c.pdIncludedLabel || ''}</span>
+            <span class="pd-included-items">${c.pdIncludedItems || ''}</span>
+          </div>
+        </div>
+        ${(() => {
+          const skuTxt = p.id;
+          const materialTxt = data.material || (isCn ? '纯银 · 掐丝珐琅' : 'Sterling silver · plique-à-jour enamel');
+          const dimTxt = dimVal || '—';
+          const completedTxt = isCn ? '2026 · YÀN · 滇韵工坊' : '2026 · YÀN · Yunnan Studio';
+          const L = isCn
+            ? { plate: '编号', mat: '材质', dim: '尺寸', done: '完成于' }
+            : { plate: 'Piece', mat: 'Material', dim: 'Dimension', done: 'Completed' };
+          return `<dl class="pd-tombstone">
+            <div class="pd-tombstone-row"><dt>${L.plate}</dt><dd>${skuTxt}</dd></div>
+            <div class="pd-tombstone-row"><dt>${L.mat}</dt><dd>${materialTxt}</dd></div>
+            <div class="pd-tombstone-row"><dt>${L.dim}</dt><dd>${dimTxt}</dd></div>
+            <div class="pd-tombstone-row"><dt>${L.done}</dt><dd>${completedTxt}</dd></div>
+          </dl>`;
+        })()}
         ${pdRenderCustomize(p, PRODUCT_META[p.id], c)}
         <div class="pd-trust-strip">
           <span class="pd-trust-item"><strong>${c.pdTrustReturns || ''}</strong></span>
@@ -8201,7 +9149,6 @@ function openProduct(id, keepView) {
           <span class="pd-trust-item"><strong>${c.pdTrustCare || ''}</strong></span>
         </div>
         <div class="pd-eta">${getDeliveryEstimate()}</div>
-        <!-- M6 · pd-attrs collapsed into expandable details; payment chips merged into mini-FAQ scope -->
         <details class="pd-spec-details">
           <summary class="pd-spec-summary">
             <span>${(formVal ? formVal + ' · ' : '') + (dimVal ? dimVal + ' · ' : '') + (data.material || '')}</span>
@@ -8255,22 +9202,65 @@ function openProduct(id, keepView) {
             ${miniFaq.map(it => `<span class="mini-q">${it.q}</span><p>${it.a}</p>`).join('')}
           </div>
         </details>
-      </div>
+      </section>
+
     </div>
     <section class="pd-related">
       <div class="pd-related-header">
-        <div class="section-overline">${c.pdRelatedOverline || ''}</div>
+        ${c.pdRelatedOverline ? `<div class="section-overline">${c.pdRelatedOverline}</div>` : ''}
         <h3 class="pd-related-h">${c.pdRelatedTitle || ''}</h3>
       </div>
       <div class="pd-related-grid">
         ${related.map(rp => productCardHtml(rp)).join('')}
       </div>
     </section>
+    <!-- Sticky bottom buy bar · always-visible CTA (added 2026-06-18) ─
+         Mejuri / Sophie BB pattern. So buyer can buy from any scroll position. -->
+    <div class="pdp-v2-sticky" role="region" aria-label="${isCn ? '快速预订' : 'Quick reserve'}">
+      <div class="pdp-v2-sticky-info">
+        <div class="pdp-v2-sticky-name">${data.name}</div>
+        ${currentVariant ? `<div class="pdp-v2-sticky-variant"><span class="pdp-v2-sticky-dot" style="background:${currentVariant.hex}"></span>${currentVariantName}</div>` : `<div class="pdp-v2-sticky-variant">${heroStatus}</div>`}
+      </div>
+      <div class="pdp-v2-sticky-price">${priceFor(p)}</div>
+      ${stickyCta}
+    </div>
   `;
   if (!keepView) navigate('product');
   // Initialize PDP configurator state (does nothing if SKU has no options)
   pdInitConfig(id);
   pdRefreshConfig();
+}
+
+// ── PDP v2 · color swatch click handler (updated 2026-06-18 — supports sibling-SKU switch) ──
+// If the swatch has data-sku-id pointing to a DIFFERENT SKU (color family sibling),
+// reload PDP with that SKU's data (price/status/edition all switch). Otherwise just
+// swap the worn image locally (customization preview behavior).
+function pdpSwitchVariant(btn) {
+  const skuId = btn.dataset.skuId;
+  // SKU sibling switch: reload PDP entirely with the sibling's data
+  if (skuId && skuId !== window._lastProductId) {
+    openProduct(skuId, true);  // keepView = true so we stay on PDP, don't trigger navigate
+    return;
+  }
+  // Otherwise: local image swap + customizer sync (single-SKU preview behavior)
+  const wornImg = btn.dataset.wornImg;
+  const imgEl = document.getElementById('pdp-v2-worn-img');
+  if (imgEl && wornImg) {
+    imgEl.classList.add('is-switching');
+    setTimeout(() => {
+      imgEl.src = wornImg;
+      imgEl.classList.remove('is-switching');
+    }, 220);
+  }
+  document.querySelectorAll('.pdp-v2-swatch').forEach(b => b.classList.remove('is-active'));
+  btn.classList.add('is-active');
+  const variantId = btn.dataset.variantId;
+  if (variantId) {
+    const customizerChip = document.querySelector(`.pd-chip[data-option-key="enamel"][data-choice-id="${variantId}"]`);
+    if (customizerChip && !customizerChip.classList.contains('is-selected')) {
+      customizerChip.click();
+    }
+  }
 }
 
 // ============================================================
@@ -8279,11 +9269,17 @@ function openProduct(id, keepView) {
 let _reserveState = { step: 1, productId: null, isBespoke: false };
 
 function openReserveModal(productId, isBespoke) {
-  _reserveState = { step: 1, productId, isBespoke: !!isBespoke, submitted: false };
+  // P0-3 (2026-06-18): collapsed from 4-step concierge form to direct form entry.
+  // Cold ad-traffic visitor expects instant-buy; the intro + timeline steps were friction.
+  // Step 1 (intro) + step 2 (timeline) skipped → jump straight to step 3 (form).
+  // Back button on step 3 repurposed to close modal (no step 2 to go back to).
+  // Step 4 (confirmation) preserved.
+  _reserveState = { step: 3, productId, isBespoke: !!isBespoke, submitted: false };
   const p = PRODUCTS.find(x => x.id === productId);
   if (!p) return;
   const c = COPY[MARKET];
   const data = p[MARKET];
+  // step 1 thumb/name/price still get populated for confirmation step reference
   document.getElementById('rv-thumb').src = p.img;
   document.getElementById('rv-thumb').alt = data.name;
   document.getElementById('rv-name').textContent = data.name;
@@ -8291,10 +9287,18 @@ function openReserveModal(productId, isBespoke) {
   document.getElementById('rv-price').textContent = priceFor(p);
   document.getElementById('rv-lead').textContent = c.pdLead;
   applyReserveCopy();
-  showReserveStep(1);
+  showReserveStep(3);
+  // Hide the 4-dot progress (collapsed to 1 actionable step now)
+  const progressEl = document.getElementById('reserve-progress');
+  if (progressEl) progressEl.style.display = 'none';
+  // Convert step-3 back button to "Close" since there's no step 2 to go back to
+  const backBtn = document.getElementById('rv-btn-back-3');
+  if (backBtn) {
+    backBtn.textContent = (MARKET === 'cn' ? '取消' : 'Cancel');
+    backBtn.onclick = function() { closeReserveModal(); };
+  }
   document.getElementById('reserve-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
-  // Plausible — task E
   if (window.plausible) plausible('Reserve Modal Open', { props: { product: p.id } });
 }
 function closeReserveModal() {
@@ -8645,10 +9649,12 @@ function showGeoBanner() {
   document.getElementById('geo-stay-btn').onclick = closeGeoBanner;
   setTimeout(() => {
     document.getElementById('geo-banner').classList.add('show');
-  }, 4500); // 4.5s — let the hero land before nagging
+    document.body.classList.add('has-geo-banner');
+  }, 1200); // 1.2s — slim top bar is non-intrusive, can land sooner than the old toast
 }
 function closeGeoBanner() {
   document.getElementById('geo-banner').classList.remove('show');
+  document.body.classList.remove('has-geo-banner');
   try { localStorage.setItem('yan-geo-dismissed', '1'); } catch (e) {}
 }
 
@@ -8666,6 +9672,49 @@ window.addEventListener('scroll', () => {
 // ============================================================
 applyCopy();
 showGeoBanner();
+
+// Hero fade-in (C2 audit 2026-06-19 — replaces removed ignition keyframe stack)
+(function heroFadeIn() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+  const hero = document.querySelector('.hero-img');
+  if (hero) hero.classList.add('is-fading-in');
+})();
+
+// ─── Cursor-as-light · main WOW Layer 2 (2026-06-17) ────────────────────
+// Sets --mx / --my on .hero-img + .plique-img so the radial-gradient
+// ::after overlay follows the cursor. rAF-throttled. Touch fallback:
+// auto-drift via CSS animation (cursor-light-auto class).
+(function cursorLight() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+  const targets = document.querySelectorAll('.hero-img, .plique-img');
+  if (!targets.length) return;
+  const hasTouch = window.matchMedia('(hover: none)').matches;
+
+  targets.forEach(el => {
+    if (hasTouch) {
+      el.classList.add('cursor-light-auto');
+      return;
+    }
+    let raf = null, nextX = 50, nextY = 50;
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      nextX = ((e.clientX - r.left) / r.width) * 100;
+      nextY = ((e.clientY - r.top) / r.height) * 100;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        el.style.setProperty('--mx', nextX + '%');
+        el.style.setProperty('--my', nextY + '%');
+        raf = null;
+      });
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.setProperty('--mx', '50%');
+      el.style.setProperty('--my', '50%');
+    });
+  });
+})();
 </script>
 </body>
 </html>
