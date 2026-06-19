@@ -769,6 +769,26 @@
   body[data-market="cn"] .plique-link-en { display: none; }
   body[data-market="global"] .plique-link-cn { display: none; }
 
+  /* Atelier CTA · 2026-06-19 (architecture audit · was 0-CTA mood section, benchmark divergence fixed) */
+  .atelier-cta {
+    display: inline-block;
+    margin-top: 1.75rem;
+    font-family: var(--serif);
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    color: var(--ivory);
+    border-bottom: 1px solid rgba(251, 247, 238, 0.55);
+    padding-bottom: 4px;
+    cursor: pointer;
+    transition: opacity 0.3s ease, border-bottom-color 0.3s ease;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  body[data-market="global"] .atelier-cta { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.06em; font-weight: 400; }
+  .atelier-cta:hover { border-bottom-color: var(--ivory); }
+  body[data-market="cn"] .atelier-cta-en { display: none; }
+  body[data-market="global"] .atelier-cta-cn { display: none; }
+
   /* Responsive for new sections */
   @media (max-width: 900px) {
     .atelier-content { padding: 3rem 2rem; }
@@ -777,60 +797,7 @@
     .plique-text { padding: 4rem 2rem; }
   }
 
-  /* ============ Direction · 视觉方向 2026 (added 2026-06-17, modern lane experiment) ============ */
-  /* Cooler palette deliberately departs from warm ivory to signal direction shift.
-     Section is opt-in atmosphere — does NOT replace any real product photo. */
-  .direction-section {
-    background: #ECECEA;
-    padding: 5.5rem 2rem 4.5rem;
-    border-top: 1px solid rgba(0,0,0,0.06);
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-  }
-  .direction-hero {
-    display: grid;
-    grid-template-columns: var(--ratio-editorial);
-    max-width: var(--container);
-    margin: 0 auto;
-    gap: 3.5rem;
-    align-items: center;
-  }
-  .direction-hero-img {
-    width: 100%; height: auto; display: block;
-  }
-  .direction-text { padding: 0.5rem 0; }
-  .direction-text .section-overline { margin-bottom: 1.5rem; }
-  .direction-h2-cn {
-    font-family: var(--serif);
-    font-size: clamp(2rem, 3.6vw, 3rem);
-    letter-spacing: 0.06em;
-    font-weight: 500;
-    line-height: 1.32;
-    color: #1A1A1A;
-    margin-bottom: 1.25rem;
-  }
-  .direction-h2-en {
-    font-family: var(--serif-en);
-    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
-    letter-spacing: 0.015em;
-    font-weight: 400;
-    line-height: 1.32;
-    color: #1A1A1A;
-    font-style: italic;
-    margin-bottom: 1.5rem;
-  }
-  .direction-sub {
-    font-size: 0.92rem;
-    line-height: 1.7;
-    color: #4A4A4A;
-    max-width: 32em;
-  }
-  /* .direction-grid / .direction-cell / .direction-sub deleted 2026-06-19 (T2 audit cleanup) — DOM removed in big-cut */
-  body[data-market="cn"] .direction-h2-en { display: none; }
-  body[data-market="global"] .direction-h2-cn { display: none; }
-  @media (max-width: 900px) {
-    .direction-section { padding: 3.5rem 1.25rem; }
-    .direction-hero { grid-template-columns: 1fr; gap: 2rem; }
-  }
+  /* Direction section CSS deleted 2026-06-19 (architecture audit) — section removed, 0/5 indie benchmark use mood-only CTA-less sections */
 
   /* ============ 通用 section 头部 ============ */
   .section-header {
@@ -3758,29 +3725,7 @@
 
   /* Brand mantra marquee deleted 2026-06-19 (G2 audit) — SBB/Anna Hu/Alighieri/Pippa 0/4 use kinetic marquees;
      brand claims (800°C / Yunnan / plique-à-jour) carried by hero meta bridge + plique-section + atelier-section. */
-  /* B2 · Hero → Craft meta bridge · Alighieri pattern, one short line, hush color */
-  .hero-meta-bridge {
-    text-align: center;
-    padding: 1.1rem var(--pad-x);
-    background: var(--ivory);
-    border-bottom: 1px solid var(--line);
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
-    color: var(--hush);
-  }
-  .hero-meta-bridge a {
-    color: var(--ink-soft);
-    text-decoration: none;
-    border-bottom: 1px solid var(--line-strong);
-    padding-bottom: 1px;
-    transition: border-bottom-color 0.25s ease;
-  }
-  .hero-meta-bridge a:hover { border-bottom-color: var(--ink); }
-  .hero-meta-bridge .hero-meta-bridge-cn { display: none; font-family: var(--serif); font-style: normal; letter-spacing: 0.12em; }
-  body[data-market="cn"] .hero-meta-bridge .hero-meta-bridge-en { display: none; }
-  body[data-market="cn"] .hero-meta-bridge .hero-meta-bridge-cn { display: inline; }
+  /* hero-meta-bridge CSS deleted 2026-06-19 (architecture audit) — route duplicated with Plique link, cold-zone density reduction */
 
   /* M9 · Dual-door band · 2-column entry serving JTBD 1+2 (Bespoke) and JTBD 3 (Self-purchase).
      2026-06-18: bg image + dark scrim added per user (cold-traffic visibility) */
@@ -5440,18 +5385,7 @@
         <button class="btn btn-primary" id="hero-cta1" onclick="if(window.plausible)plausible('Hero CTA Collection'); navigate('catalog', null, true)"></button>
         <button class="btn btn-ghost" id="hero-cta2" onclick="if(window.plausible)plausible('Hero CTA Gift Finder'); navigate('gift')"></button>
       </div>
-      <div class="hero-facts" aria-label="trust">
-        <span>Made to order · 14–30 days</span><span class="sep"></span>
-        <span>14-day returns</span><span class="sep"></span>
-        <span>Lifetime care</span><span class="sep"></span>
-        <span>International tracked</span>
-      </div>
-      <div class="hero-facts hero-facts-cn" aria-label="trust">
-        <span>手作 14–30 天</span><span class="sep"></span>
-        <span>14 天可退</span><span class="sep"></span>
-        <span>终身保养</span><span class="sep"></span>
-        <span>顺丰直送</span>
-      </div>
+      <!-- hero-facts trust strip removed 2026-06-19 (architecture audit) · trust info lives in Promise section + PDP inline trust strips (per BRAND R3) -->
     </div>
     <div class="hero-img">
       <img src="images/hero-model-butterfly-wing.jpg" width="1024" height="1024" alt="A plique-à-jour enamel butterfly-wing pendant worn at the collarbone, with a pearl drop — YÀN Atelier" />
@@ -5459,20 +5393,16 @@
     </div>
   </section>
 
-  <!-- B2 · Hero → Craft meta bridge (2026-06-19) -->
-  <div class="hero-meta-bridge">
-    <span class="hero-meta-bridge-en">Made at 800°C in Yunnan. <a href="#craft" onclick="event.preventDefault(); navigate('craft')">Read about plique-à-jour →</a></span>
-    <span class="hero-meta-bridge-cn">800°C 高火, 烧于云南。<a href="#craft" onclick="event.preventDefault(); navigate('craft')">了解空窗珐琅 →</a></span>
-  </div>
+  <!-- Hero meta bridge deleted 2026-06-19 (architecture audit) — route duplicated with Plique section link below; cold-zone needs less density -->
 
-  <!-- Brand mantra marquee deleted 2026-06-19 (G2 audit) — brand claims carried by hero meta + plique + atelier sections -->
+  <!-- Brand marquee + Hero meta bridge both deleted; brand claims live in Plique section + Atelier section -->
 
   <!-- Dual-door band · M9 · entry for Bespoke (JTBD 1+2) + Self (JTBD 3)
        2026-06-18 added background images per buyer request — workshop scene for Bespoke,
        worn product for In-Stock. Dark scrim keeps editorial register, text in ivory. -->
   <section class="dual-door-band">
     <div class="dual-door-inner">
-      <a class="door door--self" onclick="navigate('catalog')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog')">
+      <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
         <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" loading="lazy" />
         <div class="door-content">
           <div class="door-overline">立刻能戴 · Ready to wear</div>
@@ -5499,6 +5429,17 @@
         </div>
       </a>
     </div>
+  </section>
+
+  <!-- Featured section · moved here 2026-06-19 (architecture audit, was slot 8) — commerce visible by slot 3 -->
+  <section class="featured-section">
+    <div class="featured-header">
+      <div>
+        <h2 id="featured-title"></h2>
+      </div>
+      <button class="featured-link" id="featured-link" onclick="navigate('catalog', null, true)"></button>
+    </div>
+    <div class="product-grid" id="featured-products"></div>
   </section>
 
   <div class="section-divider"><span class="sd-line"></span></div>
@@ -5532,6 +5473,10 @@
       <h2 class="atelier-h2 atelier-h2-cn">800°C 烧出来的颜色, 不会褪。</h2>
       <p class="atelier-sub atelier-sub-en">Many firings, until the light is right. Worn for thirty years, still day-one colour.</p>
       <p class="atelier-sub atelier-sub-cn">反复入炉, 直到光对。戴三十年, 还是第一天的颜色。</p>
+      <a class="atelier-cta" onclick="navigate('craft')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('craft')">
+        <span class="atelier-cta-en">Read about the bench →</span>
+        <span class="atelier-cta-cn">了解工坊 →</span>
+      </a>
     </div>
     <div class="atelier-credit">Hu Yan · Founder · Yunnan Studio</div>
   </section>
@@ -5558,29 +5503,8 @@
 
   <!-- Series section removed 2026-06-10 · Strategy A (drop series taxonomy) per 18-brand naming research -->
 
-  <!-- Direction 2026 · big-cut 2026-06-19 (T2 audit · was 6-square Pinterest moodboard + meta-commentary).
-       Now a single atmospheric still life. Modern lane signal preserved without the moodboard register. -->
-  <section class="direction-section">
-    <div class="direction-hero">
-      <img class="direction-hero-img" src="images/direction-2026-hero.png" width="1536" height="1024" loading="lazy"
-           alt="Plique-à-jour enamel chips, copper wire and a ceramic crucible — the raw materials of the bench" />
-      <div class="direction-text">
-        <h2 class="direction-h2-cn">同一门工艺,新的呈现。</h2>
-        <h2 class="direction-h2-en">The same craft, in a contemporary frame.</h2>
-      </div>
-    </div>
-  </section>
-
-  <section class="featured-section">
-    <div class="featured-header">
-      <div>
-        <h2 id="featured-title"></h2>
-      </div>
-      <button class="featured-link" id="featured-link" onclick="navigate('catalog', null, true)"></button>
-    </div>
-    <div class="product-grid" id="featured-products"></div>
-  </section>
-
+  <!-- Direction section deleted 2026-06-19 (architecture audit) -->
+  <!-- Featured section moved up to slot 3 (after dual-door) 2026-06-19 (architecture audit · 4/5 indie peers show commerce by slot 5; YÀN was waiting until slot 8) -->
   <!-- Customer letters + Press section removed 2026-06-07 · pending real customer material + stronger press credentials -->
 
   <section class="promise-section">
@@ -8000,7 +7924,7 @@ function openStripeCheckout(productId) {
 (function initRevealOnScroll() {
   if (!('IntersectionObserver' in window)) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const sels = '#view-home .hook-section, #view-home .maker-section, #view-home .atelier-section, #view-home .plique-section, #view-home .direction-section, #view-home .featured-section, #view-home .promise-section, #view-home .gift-section';
+  const sels = '#view-home .hook-section, #view-home .maker-section, #view-home .atelier-section, #view-home .plique-section, #view-home .featured-section, #view-home .promise-section, #view-home .gift-section';
   function attach() {
     const targets = document.querySelectorAll(sels);
     if (!targets.length) return;
@@ -8757,11 +8681,12 @@ function navigate(view, filter, reset, lens, cat) {
   document.getElementById('nav-links').classList.remove('open');
   document.getElementById('nav-toggle').classList.remove('open');
 
-  // EXTERNAL-entry reset of sub-filters · cat override (footer form-link entry)
+  // EXTERNAL-entry reset of sub-filters · cat override (footer form-link entry) · lens carries status (e.g. 'in-stock' from self-door, A6 audit 2026-06-19)
   if (reset && view === 'catalog') {
     _catalogCat = cat || 'all';
     _catalogPrice = 'all';
     _catalogEnamel = null;
+    _catalogStatus = (lens === 'in-stock') ? 'in-stock' : null;
   }
   const doSwitch = () => {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -8812,6 +8737,7 @@ let _catalogFilter = 'all';
 let _catalogCat = 'all';       // category (form) sub-filter
 let _catalogPrice = 'all';     // price-band sub-filter
 let _catalogEnamel = null;     // enamel-color wayfinder filter (null = all colors)
+let _catalogStatus = null;     // status filter (null = all; 'in-stock' = only available) — set by self-door A6 audit 2026-06-19
 
 // ─── Enamel color wayfinder (Bea Bongiasca pattern · 2026-06-17) ──────────
 // Color-as-entry — visitor picks an enamel family, catalog filters to it.
@@ -8899,6 +8825,11 @@ function renderCatalog(filter) {
   if (_catalogEnamel) {
     const bucket = ENAMEL_COLORS.find(c => c.id === _catalogEnamel);
     if (bucket) list = list.filter(p => bucket.skus.includes(p.id));
+  }
+  // Sub-filter: status (A6 audit 2026-06-19) — self-door entry filters to in-stock only; fallback to full list if empty
+  if (_catalogStatus === 'in-stock') {
+    const inStock = list.filter(p => p.status === 'available');
+    if (inStock.length > 0) list = inStock;
   }
 
   if (_catalogSort === 'newest') {
