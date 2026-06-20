@@ -64,6 +64,16 @@ If this Claude session is reached via WeChat ClawBot (user typing from mobile):
 - Long-running agents are fine (user reads at next WeChat check)
 - Never start local servers (user can't see localhost from phone unless same WiFi + firewall open + correct port)
 
+## Image-gen prompt research (evidence-led scene library)
+
+**Report**: `D:/YAN_AutoEdit/docs/jewelry_ecom_scene_research_2026-06-21.md`
+
+Contains real-world scene templates harvested from indie fine jewelry listings on Etsy / Amazon Handmade / Shopify (SBB / WWAKE / Alighieri / Pippa) / 小红书 / Anna Hu, with subject-preservation language patterns specifically tested on Nano Banana Pro + gpt-image-2 /edits. If user (especially via WeChat) asks "找一个 X 风格 prompt" / "查那个调研报告" / "给我场景模板" — read this file first, don't reinvent.
+
+Gap-analyzed against `D:/YAN_AutoEdit/config/gen_presets.yaml` (18 existing presets). Recommended scene additions are at end of report.
+
+**Subject preservation language patterns** (the user's #1 pain point — they want 1:1 identity preservation when changing scenes): documented in Part D of the report. Use these patterns in `modifier` when writing curl calls, not free-form "preserve identity" mumbo.
+
 ## Image-gen flow (style-ref → matched product → generated image)
 
 When user sends a reference image via WeChat and asks for "同款 / 类似风格的产品图 / generate similar" OR specifies a SKU/category to render in a particular style:
