@@ -66,18 +66,22 @@ If this Claude session is reached via WeChat ClawBot (user typing from mobile):
 
 ## Image-gen flow (style-ref → matched product → generated image)
 
-When user sends a reference image via WeChat and asks for "同款 / 类似风格的产品图 / generate similar":
+When user sends a reference image via WeChat and asks for "同款 / 类似风格的产品图 / generate similar" OR specifies a SKU/category to render in a particular style:
 
 **Pipeline**:
-1. **Vision-analyze the ref image** — describe composition, lighting, mood, color palette, background, subject framing.
-2. **Find best matching SKU** — read `PRODUCTS` array (line ~7159 in `index.html`). Match by form (brooch / bracelet / necklace / pendant / etc) + dominant motif. If user said which SKU, use that. If multiple candidates, pick top 1 — don't ask the user to choose (they're on mobile).
-3. **Build curl call** to AutoEdit's image gen API (server runs on local PC):
+1. **Vision-analyze the ref image** — extract style WORDS: lighting (golden hour / soft daylight / harsh flash / dim lamp), background (linen / marble / wood / on-body / dark velvet), composition (top-down / 3-quarter / macro / mirror selfie), palette (warm cream / cool stone / saturated jewel / muted earth), mood (editorial / candid / luxe / playful). The ref image's TEXT description goes into `modifier`. NEVER pass user's ref image as `sku_ref` — that uses it as the shape to preserve, which gives the wrong output (a "product image" of the user's ref instead of a YÀN piece styled like the ref).
+2. **Pick YÀN SKU** — two paths:
+   - **(A) Auto-match**: read `PRODUCTS` array (line ~7159 in `index.html`). Match by form (brooch / bracelet / necklace / pendant / hair pin) + dominant motif if user's ref hints at one (e.g., shows a delicate bracelet → match Iris Bracelet).
+   - **(B) User-specified**: if user said "用蝴蝶胸针" / "做个鸢尾镯款" / mentions a SKU number → use that. User-specified always overrides auto-match.
+3. **Pick preset** — `white_bg_main` for Amazon/Temu/Etsy clinical main image; `macro_detail` for close-up texture/material; `flat_lay_collection` for top-down editorial. If user's ref is lifestyle / model-worn / mirror selfie → still use `white_bg_main` for clean catalog output OR pass strong modifier to override. (Default to `white_bg_main` unless user specifies.)
+4. **Build curl call** — `sku_ref` is the YÀN catalog file, `modifier` carries the ref-image style words:
    ```bash
    curl --noproxy '*' -X POST http://127.0.0.1:8765/api/generate/image \
-     -F preset_id=etsy_lifestyle \
-     -F modifier="<short modifier from ref-image analysis: lighting/background/mood cue>" \
-     -F sku_ref=@D:/YAN_Atelier_Site/images/<product-image>.jpg \
-     -F style_ref=@<saved-ref-image-path>
+     -F preset_id=white_bg_main \
+     -F modifier="soft natural daylight, warm cream linen surface, top-down composition, editorial lookbook feel" \
+     -F sku_ref=@D:/YAN_Atelier_Site/images/p05-bracelet-purple.jpg
+   # DO NOT pass -F style_ref=@... — that field is currently a noop in AutoEdit.
+   # DO NOT pass user's WeChat ref image as sku_ref — wrong direction.
    ```
 4. **Parse response** for `assets[0].path` (local file path on PC).
 5. **Push to public CDN** so user can open from any network. yan-gen-cdn project is **NOT** connected to GitHub — git push does NOT auto-deploy. **Use wrangler:**
