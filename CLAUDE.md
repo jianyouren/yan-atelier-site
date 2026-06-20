@@ -80,19 +80,20 @@ When user sends a reference image via WeChat and asks for "同款 / 类似风格
      -F style_ref=@<saved-ref-image-path>
    ```
 4. **Parse response** for `assets[0].path` (local file path on PC).
-5. **Push to public CDN** so user can open from any network (mobile / cellular / different WiFi):
+5. **Push to public CDN** so user can open from any network. yan-gen-cdn project is **NOT** connected to GitHub — git push does NOT auto-deploy. **Use wrangler:**
    ```bash
-   # Copy generated image into yan-gen-cdn repo
-   cp <assets[0].path> D:/yan-gen-cdn/images/<timestamp>-<sku-id>.png
-   # Commit + push (auto-deploys to Cloudflare Pages in ~30s)
-   cd D:/yan-gen-cdn
-   git add images/<filename>
-   git -c user.email=hu@yan-atelier.com -c user.name="YAN AutoEdit" commit -m "gen: <SKU> via <preset>"
-   git push origin main
-   # Public URL after deploy:
+   # Copy generated image into yan-gen-cdn (use distinctive filename — never overwrite)
+   cp "<assets[0].path>" "D:/yan-gen-cdn/images/<timestamp>-<sku-id>.png"
+   # Deploy via wrangler (CLOUDFLARE_API_TOKEN already in env; uses --commit-dirty=true since no git tracking required)
+   cd /d D:/yan-gen-cdn
+   CLOUDFLARE_API_TOKEN="$CLOUDFLARE_API_TOKEN" npx --yes wrangler@latest pages deploy . --project-name=yan-gen-cdn --branch=main --commit-dirty=true
+   # Wrangler outputs the preview URL + main URL takes ~30s extra to propagate.
+   # Public URL pattern:
    #   https://yan-gen-cdn.pages.dev/images/<filename>
    ```
-6. **Send the public URL to user via WeChat** (works on any network, ~30-60s after push).
+   **DO NOT** use `git add + git commit + git push` for yan-gen-cdn — that pushes to GitHub but Cloudflare doesn't watch GitHub for this project. The actual deploy mechanism is `wrangler pages deploy`.
+6. **VERIFY** before sending URL to user: `curl --noproxy '*' -o /dev/null -w "%{http_code}" <full-url>` should return 200. Wait 30s after deploy + retry if first attempt 404s (propagation lag).
+7. **Then send the public URL via WeChat**. Don't send the URL before verifying — user gets index.html / 404 page when file isn't live yet.
 
 **Presets to pick from** (depends on use case):
 - `white_bg_main` — Amazon-grade pure white bg main image
