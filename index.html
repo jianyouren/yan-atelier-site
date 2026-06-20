@@ -793,8 +793,8 @@
   @media (max-width: 900px) {
     .atelier-content { padding: 3rem 2rem; }
     .plique-section { grid-template-columns: 1fr; min-height: auto; }
-    .plique-img { min-height: 50vh; max-height: calc(100vh - 120px); }
-    .plique-text { padding: 4rem 2rem; }
+    .plique-img { min-height: 40vh; max-height: 50vh; }
+    .plique-text { padding: 3rem 2rem; }
   }
 
   /* Direction section CSS deleted 2026-06-19 (architecture audit) — section removed, 0/5 indie benchmark use mood-only CTA-less sections */
@@ -2848,11 +2848,11 @@
   /* ============ Mobile hero - 图先文后(新增)============ */
   @media (max-width: 768px) {
     .hero { display: flex; flex-direction: column; }
-    .hero-img { order: -1; min-height: 58vh; }
-    .hero-text { padding: 2rem 1.5rem 3rem; }
-    .hero-overline { font-size: 0.85rem; margin-bottom: 1.2rem; }
-    .hero .hero-h1-cn, .hero .hero-h1-en { font-size: clamp(2rem, 9vw, 3rem); margin-bottom: 1.2rem; }
-    .hero-sub { font-size: 0.95rem; margin-bottom: 2rem; }
+    .hero-img { order: -1; min-height: 42vh; max-height: 50vh; }
+    .hero-text { padding: 1.75rem 1.5rem 2.5rem; }
+    .hero-overline { font-size: 0.82rem; margin-bottom: 1rem; }
+    .hero .hero-h1-cn, .hero .hero-h1-en { font-size: clamp(1.8rem, 8vw, 2.5rem); margin-bottom: 1rem; }
+    .hero-sub { font-size: 0.9rem; margin-bottom: 1.5rem; }
   }
 
   /* ============ Completeness Pass(新增)============ */
@@ -5245,10 +5245,10 @@
     /* Sticky maker/pd-gallery breaks on single-col stack — disable sticky so text flows after image.
        Cap gallery height to viewport so the product image is ALWAYS visible above the fold
        on tablet/laptop stacked layout (2026-06-17 fold-fix). */
-    .maker-img, .pd-gallery { position: static !important; height: auto !important; aspect-ratio: 4/5; max-height: calc(100vh - 120px); }
+    .maker-img, .pd-gallery { position: static !important; height: auto !important; aspect-ratio: 4/5; max-height: 55vh; }
     .pd-gallery img { height: 100%; }
     /* Atelier full-bleed: use svh so iOS Safari URL-bar show/hide doesn't jump */
-    .atelier-section { height: 100svh; min-height: clamp(560px, 88svh, 720px); }
+    .atelier-section { height: 85svh; min-height: clamp(480px, 75svh, 600px); }
   }
 
   /* ============================================================
@@ -5256,8 +5256,13 @@
      Covers Cycle 3/4 new components missed in earlier breakpoints.
      ============================================================ */
   @media (max-width: 600px) {
+    /* Mobile image scaling — reduce oversized hero/section images */
+    .hero-img { min-height: 38vh; max-height: 45vh; }
+    .plique-img { min-height: 35vh; max-height: 42vh; }
+    .maker-img, .pd-gallery { max-height: 48vh; }
+    .atelier-section { height: 75svh; min-height: 420px; max-height: 520px; }
     /* P0 #1 · catalog/product grid → single column · biggest visual lift */
-    .product-grid, .catalog-grid { grid-template-columns: 1fr; gap: 3rem 0; padding: 1.5rem 1.25rem; }
+    .product-grid, .catalog-grid { grid-template-columns: 1fr; gap: 2.5rem 0; padding: 1.5rem 1.25rem; }
     /* P0 #11 · PDP attrs grid → single column */
     .pd-attrs { grid-template-columns: 1fr; gap: 1rem; }
     /* P0 #12 · footer cols → single column */
