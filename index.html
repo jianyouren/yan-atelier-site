@@ -7067,14 +7067,14 @@ const COLOR_FAMILIES = {
     details_cn: '六扇银窗, 每扇里一朵兰花釉。中心一颗淡水珠, 红石榴小花扣连接。云南工坊, 800°C 高温一炉一炉烧。',
     details_en: 'Six silver windows, each holding a single iris flower in enamel. A freshwater pearl at centre, garnet flowers at the joints. Kiln-fired at 800°C at the Yunnan studio.',
     // wornInstruction: deliver Hero promise (someone will ask), drop poetic "let windows face light"
-    wornInstructionH_cn: '戴主手腕, 略偏外侧 —— 别人坐你斜对面的时候, 整排格窗才看得见。',
-    wornInstructionH_en: 'Dominant wrist, turned slightly outward — so the person across the table sees all six windows at once, not just the side.',
-    wornInstructionP_cn: '早上扣上, 一整天它在六个角度里翻过去翻过来 —— 釉色跟着光走, 你忘了戴着这件, 直到有人开口问。',
-    wornInstructionP_en: 'Clasp it in the morning. It turns through six angles all day. You\'ll forget you\'re wearing it — until someone asks.',
+    wornInstructionH_cn: '戴惯用手那只，稍微往外转一点 —— 对面的人才能看全六扇窗。',
+    wornInstructionH_en: 'Wear it on your dominant wrist, turned slightly outward — so the person across sees all six windows.',
+    wornInstructionP_cn: '早上扣上就不用管了。一整天它跟着你动，光打进来的角度一直在变 —— 你自己都忘了戴着，直到有人问"这个好特别，哪儿买的"。',
+    wornInstructionP_en: 'Clasp it in the morning and forget about it. It catches light differently all day — until someone asks where you got it.',
     stylingTips_cn: [
-      '想叠戴? 一只极简金色细圈套外侧, 格窗留在内侧 —— 视线落在釉色上',
-      '配衣服? 暖白棉麻或米色羊绒最稳 —— 素袖里六扇窗一格一格亮过去',
-      '想再多戴一件? 同手食指一枚细银戒, 不带石头。加一件就够, 不要四件'
+      '我一般外面套一只细金圈，让珐琅露在里侧 —— 低调但自己看得到',
+      '穿米白毛衣的时候最好看，袖口一动，六扇小窗轮流亮',
+      '同一只手加一枚素银戒就够了，多了反而抢'
     ],
     stylingTips_en: [
       'Stacking? One fine gold bangle on the outside, lattice windows on the inside — the eye lands on the enamel',
@@ -8974,9 +8974,9 @@ function openProduct(id, keepView) {
     : p.status === 'reserved' ? (isCn ? '已预订' : 'Reserved')
     : (isCn ? '现货 · ' + (c.pdLead || '14–30 天') : 'In stock · ' + (c.pdLead || '14–30 days'));
   const currentVariantName = currentVariant ? (isCn ? currentVariant.cn : currentVariant.en) : '';
-  const stylingOverline = isCn ? '怎么搭' : 'Wear It With';
-  const stylingH = isCn ? '不用想穿什么。' : 'No thinking required.';
-  const stylingSub = isCn ? '工坊给的三种最有把握的搭法 —— 你可以照着穿, 也可以从中挑一条放着记着。' : 'Three pairings the atelier stands behind. Wear one. Bookmark another.';
+  const stylingOverline = isCn ? '搭配心得' : 'Styling Notes';
+  const stylingH = isCn ? '我平时这么戴。' : 'How I wear it.';
+  const stylingSub = isCn ? '试过很多，这三种最不出错 —— 你也可以找到自己的方式。' : 'Tried many ways. These three never fail — you\'ll find your own.';
 
   document.getElementById('product-detail').innerHTML = `
     <div class="pdp-v2">
