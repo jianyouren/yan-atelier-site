@@ -92,8 +92,9 @@ When user sends a reference image via WeChat and asks for "同款 / 类似风格
    #   https://yan-gen-cdn.pages.dev/images/<filename>
    ```
    **DO NOT** use `git add + git commit + git push` for yan-gen-cdn — that pushes to GitHub but Cloudflare doesn't watch GitHub for this project. The actual deploy mechanism is `wrangler pages deploy`.
-6. **VERIFY** before sending URL to user: `curl --noproxy '*' -o /dev/null -w "%{http_code}" <full-url>` should return 200. Wait 30s after deploy + retry if first attempt 404s (propagation lag).
-7. **Then send the public URL via WeChat**. Don't send the URL before verifying — user gets index.html / 404 page when file isn't live yet.
+6. **VERIFY** before sending URL to user: `curl --noproxy '*' -o /dev/null -w "%{http_code} %{size_download}" <full-url>` should return 200 AND size matching the generated file (typically > 200kb). Wait 30s after deploy + retry if first attempt 404s OR returns ~574b (that's the index.html placeholder = file not propagated yet).
+7. **Always append `?v=<timestamp>` cache-bust to URL sent to user** (because WeChat / mobile browser may have cached a previous 404 → user sees placeholder index.html instead of new image). Example: `https://yan-gen-cdn.pages.dev/images/X.png?v=1781949000`
+8. **Then send the public URL via WeChat**. Don't send the URL before step 6 verify passes — user gets index.html / 404 page when file isn't live yet, and screenshots it as "still broken".
 
 **Presets to pick from** (depends on use case):
 - `white_bg_main` — Amazon-grade pure white bg main image
