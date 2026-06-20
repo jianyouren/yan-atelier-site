@@ -3614,9 +3614,10 @@
     }
     .pdp-v2-bg {
       position: relative;
-      /* P0-2: shorter bg → price + CTA land within first viewport scroll (~520px on iPhone SE) */
-      height: 38vh;
-      min-height: 240px;
+      /* P0-1: shorter bg → price + CTA land within first viewport on iPhone SE (~520px viewport) */
+      height: 32vh;
+      min-height: 180px;
+      max-height: 240px;
     }
     .pdp-v2-content {
       background: var(--ivory);
@@ -5415,8 +5416,8 @@
           <div class="door-overline">立刻能戴 · Ready to wear</div>
           <h2 class="door-h door-h-cn">做好的, 直接带走。</h2>
           <h2 class="door-h door-h-en">Pieces ready at the bench. Take one home.</h2>
-          <div class="door-ribbon door-ribbon-en" id="door-ribbon-stock-en">12 in batch · 4 sold</div>
-          <div class="door-ribbon door-ribbon-cn" id="door-ribbon-stock-cn">12 件 · 4 已售</div>
+          <div class="door-ribbon door-ribbon-en" id="door-ribbon-stock-en">8 available · 12 made</div>
+          <div class="door-ribbon door-ribbon-cn" id="door-ribbon-stock-cn">还剩 8 件 · 共 12 件</div>
           <span class="door-arrow" aria-hidden="true">
             <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
           </span>
@@ -8218,8 +8219,9 @@ function applyCopy() {
     const sold = PRODUCTS.filter(p => p.status === 'sold').length;
     const ribbonEn = document.getElementById('door-ribbon-stock-en');
     const ribbonCn = document.getElementById('door-ribbon-stock-cn');
-    if (ribbonEn) ribbonEn.textContent = `${total} in batch · ${sold} sold`;
-    if (ribbonCn) ribbonCn.textContent = `${total} 件 · ${sold} 已售`;
+    const avail = total - sold;
+    if (ribbonEn) ribbonEn.textContent = `${avail} available · ${total} made`;
+    if (ribbonCn) ribbonCn.textContent = `还剩 ${avail} 件 · 共 ${total} 件`;
   } catch (e) { /* ribbon is decorative · fail-quiet */ }
 
   // 注: c.series 数组仍是 catalog/PDP/溯源页的 id→名称查表,不能删
