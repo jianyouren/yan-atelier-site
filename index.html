@@ -2849,7 +2849,7 @@
   @media (max-width: 768px) {
     .hero { display: flex; flex-direction: column; overflow: visible; width: 100%; }
     .hero-img { order: -1; min-height: 42vh; max-height: 50vh; width: 100%; }
-    .hero-text { padding: 2rem 1.5rem 2.5rem; width: 100%; box-sizing: border-box; overflow: visible; }
+    .hero-text { padding: 2rem var(--pad-x) 2.5rem; width: 100%; box-sizing: border-box; overflow: visible; }
     .hero-overline { font-size: 0.82rem; margin-bottom: 1rem; }
     .hero .hero-h1-cn, .hero .hero-h1-en { font-size: clamp(1.6rem, 7vw, 2.2rem); margin-bottom: 1rem; word-break: keep-all; overflow-wrap: break-word; }
     .hero-sub { font-size: 0.88rem; margin-bottom: 1.5rem; max-width: 100%; }
@@ -5256,13 +5256,15 @@
      Covers Cycle 3/4 new components missed in earlier breakpoints.
      ============================================================ */
   @media (max-width: 600px) {
+    /* Lock horizontal padding to fixed value for consistent alignment */
+    :root { --pad-x: 1.25rem; }
     /* Mobile image scaling — reduce oversized hero/section images */
     .hero-img { min-height: 38vh; max-height: 45vh; }
     .plique-img { min-height: 35vh; max-height: 42vh; }
     .maker-img, .pd-gallery { max-height: 48vh; }
     .atelier-section { height: 75svh; min-height: 420px; max-height: 520px; }
     /* P0 #1 · catalog/product grid → single column · biggest visual lift */
-    .product-grid, .catalog-grid { grid-template-columns: 1fr; gap: 2.5rem 0; padding: 1.5rem 1.25rem; }
+    .product-grid, .catalog-grid { grid-template-columns: 1fr; gap: 2.5rem 0; padding: 1.5rem var(--pad-x); }
     /* P0 #11 · PDP attrs grid → single column */
     .pd-attrs { grid-template-columns: 1fr; gap: 1rem; }
     /* P0 #12 · footer cols → single column */
@@ -5288,9 +5290,9 @@
     .nl-inline-form button { width: 100%; }
     /* P0 #10 · consult examples · less tall images on mobile */
     .consult-example-img { aspect-ratio: 1 / 1; }
-    .consult-examples { padding: 3.5rem 1.25rem 2.5rem; }
+    .consult-examples { padding: 3.5rem var(--pad-x) 2.5rem; }
     /* P0 #14 · consult-response wraps cleanly */
-    .consult-response { padding: 1rem 1.25rem; flex-wrap: wrap; gap: 0.6rem; }
+    .consult-response { padding: 1rem var(--pad-x); flex-wrap: wrap; gap: 0.6rem; }
     /* P1 · about-craft-cta link · 44pt tap target */
     .about-craft-cta { padding: 0.85rem 0.5rem; min-height: 44px; }
     /* P1 · faq question + answer · readable on mobile, no max-height truncation */
