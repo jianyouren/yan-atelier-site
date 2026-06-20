@@ -112,20 +112,25 @@ When user sends a reference image via WeChat and asks for "同款 / 类似风格
 - (More via `curl http://127.0.0.1:8765/api/generate/presets`)
 
 **SKU → image path map** (current local images for sku_ref):
-| SKU | Image path |
-|---|---|
-| YA-2026-0001 (Daisy Brooch) | `D:/YAN_Atelier_Site/images/p01-daisy-green.jpg` |
-| YA-2026-0002 (Butterfly Brooch) | `D:/YAN_Atelier_Site/images/p02-butterfly-blue.jpg` |
-| YA-2026-0003 (Ginkgo Leaf Brooch) | `D:/YAN_Atelier_Site/images/p03-ginkgo-ring.jpg` |
-| YA-2026-0004 (Ginkgo Hair Pin · Pair) | `D:/YAN_Atelier_Site/images/p04-ginkgo-hairpin.jpg` |
-| YA-2026-0005 (Iris Bracelet) | `D:/YAN_Atelier_Site/images/p05-bracelet-purple.jpg` |
-| YA-2026-0006 (Iris Bracelet · Azure) | `D:/YAN_Atelier_Site/images/p06-bracelet-blue.jpg` |
-| YA-2026-0007 (Iris Bracelet · Dusk) | `D:/YAN_Atelier_Site/images/p07-bracelet-purple2.jpg` |
-| YA-2026-0008 (Fish & Lotus Pendant) | `D:/YAN_Atelier_Site/images/p08-lock.jpg` |
-| YA-2026-0009 (Cloud Bangle · 福) | `D:/YAN_Atelier_Site/images/p09-bangle-fu.jpg` |
-| YA-2026-0010 (Butterfly Necklace) | `D:/YAN_Atelier_Site/images/p10-butterfly-tassel.jpg` |
-| YA-2026-0011 (Cloud Bangle · Plain) | `D:/YAN_Atelier_Site/images/p11-bangle-cloud.jpg` |
-| YA-2026-0012 (Lotus Cord Bracelet) | `D:/YAN_Atelier_Site/images/p12-bracelet-cord.jpg` |
+
+⚠️ **Photo reality vs SKU name mismatch** — some SKUs are named as brooch/etc but current photo shows a different form (necklace). For image gen purposes ALWAYS go by the **PHOTO ACTUAL** column, not the SKU name. New form-specific photos are pending user shoots.
+
+| SKU | SKU name (catalog) | Image path | **PHOTO ACTUAL** |
+|---|---|---|---|
+| YA-2026-0001 | Daisy Brooch | `D:/YAN_Atelier_Site/images/p01-daisy-green.jpg` | **necklace form** (brooch photo pending) |
+| YA-2026-0002 | Butterfly Brooch | `D:/YAN_Atelier_Site/images/p02-butterfly-blue.jpg` | **necklace form** (brooch photo pending) |
+| YA-2026-0003 | Ginkgo Leaf Brooch | `D:/YAN_Atelier_Site/images/p03-ginkgo-ring.jpg` | brooch (verify before gen) |
+| YA-2026-0004 | Ginkgo Hair Pin · Pair | `D:/YAN_Atelier_Site/images/p04-ginkgo-hairpin.jpg` | hairpin |
+| YA-2026-0005 | Iris Bracelet | `D:/YAN_Atelier_Site/images/p05-bracelet-purple.jpg` | bracelet ✓ |
+| YA-2026-0006 | Iris Bracelet · Azure | `D:/YAN_Atelier_Site/images/p06-bracelet-blue.jpg` | bracelet ✓ |
+| YA-2026-0007 | Iris Bracelet · Dusk | `D:/YAN_Atelier_Site/images/p07-bracelet-purple2.jpg` | bracelet ✓ |
+| YA-2026-0008 | Fish & Lotus Pendant | `D:/YAN_Atelier_Site/images/p08-lock.jpg` | pendant ✓ |
+| YA-2026-0009 | Cloud Bangle · 福 | `D:/YAN_Atelier_Site/images/p09-bangle-fu.jpg` | bangle ✓ |
+| YA-2026-0010 | Butterfly Necklace | `D:/YAN_Atelier_Site/images/p10-butterfly-tassel.jpg` | necklace ✓ |
+| YA-2026-0011 | Cloud Bangle · Plain | `D:/YAN_Atelier_Site/images/p11-bangle-cloud.jpg` | bangle ✓ |
+| YA-2026-0012 | Lotus Cord Bracelet | `D:/YAN_Atelier_Site/images/p12-bracelet-cord.jpg` | cord bracelet ✓ |
+
+**Implication for generation**: when user says 「蝴蝶」 or 「雏菊」, the only available photos show **necklace forms**. Don't promise a "brooch" generation — output will look like necklace. If user explicitly wants brooch generation for these motifs, tell them: "需先有胸针款实物照才能保形生成 — 现在只有项链款照片" (real brooch photo needed first — only necklace photos exist currently).
 
 **Reply template to WeChat** (Markdown OK):
 ```
