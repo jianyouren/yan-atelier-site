@@ -73,6 +73,11 @@ When user sends a reference image via WeChat and asks for "同款 / 类似风格
 2. **Pick YÀN SKU** — two paths:
    - **(A) Auto-match**: read `PRODUCTS` array (line ~7159 in `index.html`). Match by form (brooch / bracelet / necklace / pendant / hair pin) + dominant motif if user's ref hints at one (e.g., shows a delicate bracelet → match Iris Bracelet).
    - **(B) User-specified**: if user said "用蝴蝶胸针" / "做个鸢尾镯款" / mentions a SKU number → use that. User-specified always overrides auto-match.
+   - **Default-ambiguous-motif rules** (when user names a motif but not the form):
+     - 「蝴蝶」 → **0010 Butterfly Necklace** (0002 brooch is 已售/sold, prefer in-stock 0010)
+     - 「云纹」/「云」 → **0011 Cloud Bangle · Plain** (0009 Cloud Bangle · 福 is the variant with character, prefer the plain one as default)
+     - 「鸢尾」 → **0005 Iris Bracelet** (original, in-stock; 0006 0007 are color variants)
+     - 「银杏」 → **0003 Ginkgo Leaf Brooch** (0004 is hairpin pair — more specific)
 3. **Pick preset** — `white_bg_main` for Amazon/Temu/Etsy clinical main image; `macro_detail` for close-up texture/material; `flat_lay_collection` for top-down editorial. If user's ref is lifestyle / model-worn / mirror selfie → still use `white_bg_main` for clean catalog output OR pass strong modifier to override. (Default to `white_bg_main` unless user specifies.)
 4. **Build curl call** — `sku_ref` is the YÀN catalog file, `modifier` carries the ref-image style words:
    ```bash
