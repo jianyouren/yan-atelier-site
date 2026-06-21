@@ -5487,7 +5487,14 @@
     .maker-img, .pd-gallery { max-height: 48vh; }
     .atelier-section { height: 75svh; min-height: 420px; max-height: 520px; }
     /* P0 #1 · catalog/product grid → single column · biggest visual lift */
-    .product-grid, .catalog-grid { grid-template-columns: 1fr; gap: 2.5rem 0; padding: 1.5rem var(--pad-x); }
+    .product-grid, .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 0.75rem; padding: 1.5rem var(--pad-x); }
+    .product-grid > :nth-child(3n+2) { margin-top: 0; }
+    .product-card .product-img { margin-bottom: 0.75rem; }
+    .product-name { font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .product-type { font-size: 0.68rem; margin-bottom: 0.25rem; }
+    .product-meta { font-size: 0.78rem; }
+    .product-tags { top: 0.5rem; left: 0.5rem; gap: 0.25rem; }
+    .product-tag { font-size: 0.52rem; padding: 0.2rem 0.4rem; }
     /* P0 #11 · PDP attrs grid → single column */
     .pd-attrs { grid-template-columns: 1fr; gap: 1rem; }
     /* P0 #12 · footer cols → single column */
