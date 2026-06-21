@@ -5651,7 +5651,7 @@
   <section class="dual-door-band">
     <div class="dual-door-inner">
       <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
-        <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" loading="lazy" />
+        <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" />
         <div class="door-content">
           <div class="door-overline door-overline-en">Ready to wear</div>
           <div class="door-overline door-overline-cn">立刻能戴</div>
@@ -5665,7 +5665,7 @@
         </div>
       </a>
       <a class="door door--bespoke" onclick="navigate('consult')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('consult')">
-        <img class="door-bg" src="images/atelier-bench-pieces.jpg" alt="" loading="lazy" />
+        <img class="door-bg" src="images/atelier-bench-pieces.jpg" alt="" />
         <div class="door-content">
           <div class="door-overline door-overline-en">Make it yours</div>
           <div class="door-overline door-overline-cn">量身做一件</div>
@@ -8984,8 +8984,8 @@ function productCardHtml(p) {
     <div class="product-card product-card--${status}" onclick="openProduct('${p.id}')">
       <div class="product-img">
         ${tagsHtml}
-        <img src="${p.img}" alt="${data.name}" loading="lazy" />
-        ${img2 ? `<img class="product-img-hover" src="${img2}" alt="" loading="lazy" />` : ''}
+        <img src="${p.img}" alt="${data.name}" />
+        ${img2 ? `<img class="product-img-hover" src="${img2}" alt="" />` : ''}
       </div>
       <div class="product-name">${data.name}</div>
       ${pieceType ? `<div class="product-type">${pieceType}${badge ? `<span class="product-badge">${badge}</span>` : ''}</div>` : (badge ? `<div class="product-type"><span class="product-badge">${badge}</span></div>` : '')}
