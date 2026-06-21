@@ -4055,6 +4055,10 @@
   .door-ribbon-cn { display: none; }
   body[data-market="cn"] .door-ribbon-en { display: none; }
   body[data-market="cn"] .door-ribbon-cn { display: inline-block; }
+  /* Door overline CN/EN visibility */
+  .door-overline-cn { display: none; }
+  body[data-market="cn"] .door-overline-en { display: none; }
+  body[data-market="cn"] .door-overline-cn { display: block; }
   .door:hover .door-arrow { transform: translateX(8px); color: var(--ivory); }
   /* Subtle divider between the two doors (only on desktop) */
   .door + .door { border-left: 1px solid rgba(251, 247, 238, 0.15); }
@@ -5647,7 +5651,8 @@
       <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
         <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" loading="lazy" />
         <div class="door-content">
-          <div class="door-overline">立刻能戴 · Ready to wear</div>
+          <div class="door-overline door-overline-en">Ready to wear</div>
+          <div class="door-overline door-overline-cn">立刻能戴</div>
           <h2 class="door-h door-h-cn">做好的, 直接带走。</h2>
           <h2 class="door-h door-h-en">Pieces ready at the bench. Take one home.</h2>
           <div class="door-ribbon door-ribbon-en" id="door-ribbon-stock-en">8 available · 12 made</div>
@@ -5660,7 +5665,8 @@
       <a class="door door--bespoke" onclick="navigate('consult')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('consult')">
         <img class="door-bg" src="images/atelier-bench-pieces.jpg" alt="" loading="lazy" />
         <div class="door-content">
-          <div class="door-overline">量身做一件 · Make it yours</div>
+          <div class="door-overline door-overline-en">Make it yours</div>
+          <div class="door-overline door-overline-cn">量身做一件</div>
           <h2 class="door-h door-h-cn">想要什么样的, 来聊。</h2>
           <h2 class="door-h door-h-en">Tell us what you want. We make it.</h2>
           <div class="door-ribbon door-ribbon-en">8–12 weeks · made to order</div>
