@@ -1133,20 +1133,25 @@
   }
   @media (max-width: 880px) {
     .testimonial-grid { grid-template-columns: 1fr; }
-  }
-
   /* Market-specific visibility for value cards and testimonials */
-  body[data-market="global"] .value-title-cn,
-  body[data-market="global"] .value-desc-cn,
-  body[data-market="global"] .testimonial-title-cn,
-  body[data-market="global"] .testimonial-count-cn,
-  body[data-market="global"] .testimonial-quote-cn { display: none; }
-  
+  /* Default: hide CN content */
+  .value-title-cn, .value-desc-cn,
+  .testimonial-title-cn, .testimonial-count-cn, .testimonial-quote-cn { display: none; }
+
+  /* When CN market: show CN, hide EN */
+  body[data-market="cn"] .value-title-cn,
+  body[data-market="cn"] .value-desc-cn,
+  body[data-market="cn"] .testimonial-title-cn,
+  body[data-market="cn"] .testimonial-count-cn,
+  body[data-market="cn"] .testimonial-quote-cn { display: block; }
+
   body[data-market="cn"] .value-title-en,
   body[data-market="cn"] .value-desc-en,
   body[data-market="cn"] .testimonial-title-en,
   body[data-market="cn"] .testimonial-count-en,
   body[data-market="cn"] .testimonial-quote-en { display: none; }
+  }
+
 
 
   .product-id {
