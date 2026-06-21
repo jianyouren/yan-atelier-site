@@ -973,6 +973,7 @@
 
   /* ============ Value Proposition Cards (Alana Maria style) ============ */
   .value-section {
+    overflow-x: hidden;
     padding: var(--space-xl) var(--pad-x);
     background: var(--paper);
     border-top: 1px solid var(--line);
@@ -1026,6 +1027,7 @@
 
   /* ============ Testimonial Section (Alana Maria style) ============ */
   .testimonial-section {
+    overflow-x: hidden;
     padding: var(--pad-section) var(--pad-x);
     background: var(--ivory);
   }
@@ -1133,6 +1135,7 @@
   }
   @media (max-width: 880px) {
     .testimonial-grid { grid-template-columns: 1fr; }
+  }
   /* Market-specific visibility for value cards and testimonials */
   /* Default: hide CN content */
   .value-title-cn, .value-desc-cn,
@@ -1150,7 +1153,6 @@
   body[data-market="cn"] .testimonial-title-en,
   body[data-market="cn"] .testimonial-count-en,
   body[data-market="cn"] .testimonial-quote-en { display: none; }
-  }
 
 
 
