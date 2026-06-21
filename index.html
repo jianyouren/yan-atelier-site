@@ -927,6 +927,228 @@
     font-weight: 500;
   }
   .product-badge::before { content: ' · '; color: var(--hush); margin: 0 0.1em; }
+
+  /* ============ Product Overlay Tags (Aurum Brothers style) ============ */
+  .product-tags {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    z-index: 2;
+  }
+  .product-tag {
+    display: inline-block;
+    padding: 0.3rem 0.6rem;
+    font-family: var(--sans-en);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .product-tag--limited {
+    background: var(--ink);
+    color: var(--ivory);
+  }
+  .product-tag--new {
+    background: var(--ivory);
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+  }
+  .product-tag--unique {
+    background: #8B6914;
+    color: var(--ivory);
+  }
+  .product-tag--sold {
+    background: var(--hush);
+    color: var(--ivory);
+  }
+  body[data-market="cn"] .product-tag {
+    font-family: var(--serif);
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+  }
+
+  /* ============ Value Proposition Cards (Alana Maria style) ============ */
+  .value-section {
+    padding: var(--space-xl) var(--pad-x);
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+    max-width: var(--container);
+    margin: 0 auto;
+    text-align: center;
+  }
+  .value-card {
+    padding: var(--space-md) var(--space-sm);
+  }
+  .value-icon {
+    font-size: 1.8rem;
+    margin-bottom: var(--space-xs);
+    opacity: 0.85;
+  }
+  .value-title {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  body[data-market="cn"] .value-title {
+    font-family: var(--serif);
+    font-style: normal;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+  }
+  .value-desc {
+    font-family: var(--serif-en);
+    font-size: 0.85rem;
+    color: var(--hush);
+    line-height: 1.6;
+  }
+  body[data-market="cn"] .value-desc {
+    font-family: var(--serif);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+  @media (max-width: 700px) {
+    .value-grid { grid-template-columns: 1fr; gap: var(--space-sm); }
+    .value-card { padding: var(--space-sm); }
+  }
+
+  /* ============ Testimonial Section (Alana Maria style) ============ */
+  .testimonial-section {
+    padding: var(--pad-section) var(--pad-x);
+    background: var(--ivory);
+  }
+  .testimonial-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+  .testimonial-header h2 {
+    font-family: var(--display);
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.75rem;
+  }
+  body[data-market="cn"] .testimonial-header h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+  .testimonial-stars {
+    color: var(--ink);
+    font-size: 1rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+  .testimonial-count {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--hush);
+  }
+  body[data-market="cn"] .testimonial-count {
+    font-family: var(--serif);
+    font-style: normal;
+  }
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .testimonial-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: var(--space-lg) var(--space-md);
+    display: flex;
+    flex-direction: column;
+  }
+  .testimonial-quote {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    flex: 1;
+    margin-bottom: var(--space-md);
+  }
+  body[data-market="cn"] .testimonial-quote {
+    font-family: var(--serif);
+    font-style: normal;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--line);
+  }
+  .testimonial-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--ivory);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif-en);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  .testimonial-meta {
+    flex: 1;
+  }
+  .testimonial-name {
+    font-family: var(--serif-en);
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin-bottom: 0.15rem;
+  }
+  body[data-market="cn"] .testimonial-name {
+    font-family: var(--serif);
+  }
+  .testimonial-verified {
+    font-family: var(--sans-en);
+    font-size: 0.68rem;
+    color: #2E7D32;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  @media (max-width: 880px) {
+    .testimonial-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Market-specific visibility for value cards and testimonials */
+  body[data-market="global"] .value-title-cn,
+  body[data-market="global"] .value-desc-cn,
+  body[data-market="global"] .testimonial-title-cn,
+  body[data-market="global"] .testimonial-count-cn,
+  body[data-market="global"] .testimonial-quote-cn { display: none; }
+  
+  body[data-market="cn"] .value-title-en,
+  body[data-market="cn"] .value-desc-en,
+  body[data-market="cn"] .testimonial-title-en,
+  body[data-market="cn"] .testimonial-count-en,
+  body[data-market="cn"] .testimonial-quote-en { display: none; }
+
+
   .product-id {
     font-family: var(--sans-en);
     color: var(--hush);
@@ -5439,6 +5661,34 @@
     </div>
   </section>
 
+
+  <!-- Value Proposition Cards (Alana Maria style) -->
+  <section class="value-section">
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="value-icon">✦</div>
+        <div class="value-title value-title-en">925 Sterling Silver</div>
+        <div class="value-title value-title-cn">925纯银</div>
+        <div class="value-desc value-desc-en">Hypoallergenic, tarnish-resistant. Lasts generations.</div>
+        <div class="value-desc value-desc-cn">不过敏、不氧化，传代之物。</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">◈</div>
+        <div class="value-title value-title-en">800°C Fired Enamel</div>
+        <div class="value-title value-title-cn">800°C 高温珐琅</div>
+        <div class="value-desc value-desc-en">Mineral enamel, 5–10 firings per piece. Colour that never fades.</div>
+        <div class="value-desc value-desc-cn">矿物质珐琅，每件烧制5-10次。颜色永不褪。</div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">⚒</div>
+        <div class="value-title value-title-en">Yunnan Handcraft</div>
+        <div class="value-title value-title-cn">云南手工坊</div>
+        <div class="value-desc value-desc-en">Each piece shaped by hand at the Yunnan atelier. No two identical.</div>
+        <div class="value-desc value-desc-cn">滇韵工坊手作，每件都是孤品。</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Featured section · moved here 2026-06-19 (architecture audit, was slot 8) — commerce visible by slot 3 -->
   <section class="featured-section">
     <div class="featured-header">
@@ -5449,6 +5699,53 @@
     </div>
     <div class="product-grid" id="featured-products"></div>
   </section>
+
+  <!-- Testimonial Section (Alana Maria style) -->
+  <section class="testimonial-section">
+    <div class="testimonial-header">
+      <h2 class="testimonial-title-en">WHY YÀN</h2>
+      <h2 class="testimonial-title-cn">为什么选择 YÀN</h2>
+      <div class="testimonial-stars">★★★★★</div>
+      <div class="testimonial-count testimonial-count-en">Voices from the atelier</div>
+      <div class="testimonial-count testimonial-count-cn">来自工坊的声音</div>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-quote testimonial-quote-en">The moment I held it to the light and saw the enamel glow like stained glass — I understood why this takes months to make.</div>
+        <div class="testimonial-quote testimonial-quote-cn">拿到光下看的那一刻，珐琅像彩色玻璃一样透亮——我才明白为什么要做这么久。</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">L</div>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Lisa M.</div>
+            <div class="testimonial-verified">Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote testimonial-quote-en">My mother asked where I found it. When I told her it was handmade in Yunnan, she wanted one too.</div>
+        <div class="testimonial-quote testimonial-quote-cn">我妈问我哪儿买的，我说是云南手工做的，她也想要一个。</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Sophie W.</div>
+            <div class="testimonial-verified">Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-quote testimonial-quote-en">Not like anything in stores. People stop me to ask about it. Worth every penny.</div>
+        <div class="testimonial-quote testimonial-quote-cn">跟商场里的完全不一样，经常有人拦住问我在哪买的。值。</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">J</div>
+          <div class="testimonial-meta">
+            <div class="testimonial-name">Jennifer K.</div>
+            <div class="testimonial-verified">Verified Buyer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <div class="section-divider"><span class="sd-line"></span></div>
 
@@ -7090,7 +7387,7 @@ const COLOR_FAMILIES = {
 // ============================================================
 const PRODUCTS = [
   {
-    id: 'YA-2026-0001', series: 'bloom', img: 'images/p01-daisy-green.jpg', badge_cn: '新作', badge_en: 'New', status: 'available',
+    id: 'YA-2026-0001', series: 'bloom', img: 'images/p01-daisy-green.jpg', badge_cn: '新作', badge_en: 'New', status: 'available', isNew: true, limited: 8,
     priceCN: 1280,
     cn: {
       name: '雏菊 · 胸针',
@@ -7118,7 +7415,7 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0003', series: 'bloom', img: 'images/p03-ginkgo-ring.jpg', status: 'available',
+    id: 'YA-2026-0003', series: 'bloom', img: 'images/p03-ginkgo-ring.jpg', status: 'available', unique: true,
     priceCN: 1380,
     cn: {
       name: '银杏叶 · 胸针',
@@ -7146,7 +7443,7 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0005', series: 'season', img: 'images/p05-bracelet-purple.jpg', status: 'available',
+    id: 'YA-2026-0005', series: 'season', img: 'images/p05-bracelet-purple.jpg', status: 'available', limited: 6,
     priceCN: 5180,
     cn: {
       name: '鸢尾 · 镯',
@@ -8656,9 +8953,17 @@ function productCardHtml(p) {
       : '');
   // img2: fall back through meta.imgs[1] (gallery shot 2) or p.img2 (explicit override)
   const img2 = (Array.isArray(meta.imgs) && meta.imgs.length > 1) ? meta.imgs[1] : (p.img2 || null);
+  // Product overlay tags (Aurum Brothers style)
+  const tags = [];
+  if (p.limited) tags.push('<span class="product-tag product-tag--limited">' + (MARKET === 'cn' ? '限量 ' + p.limited + '件' : 'Limited ' + p.limited) + '</span>');
+  if (p.isNew) tags.push('<span class="product-tag product-tag--new">' + (MARKET === 'cn' ? '新品' : 'New') + '</span>');
+  if (p.unique) tags.push('<span class="product-tag product-tag--unique">' + (MARKET === 'cn' ? '孤品' : 'One of a Kind') + '</span>');
+  if (status === 'sold') tags.push('<span class="product-tag product-tag--sold">' + (MARKET === 'cn' ? '已售' : 'Sold') + '</span>');
+  const tagsHtml = tags.length ? '<div class="product-tags">' + tags.join('') + '</div>' : '';
   return `
     <div class="product-card product-card--${status}" onclick="openProduct('${p.id}')">
       <div class="product-img">
+        ${tagsHtml}
         <img src="${p.img}" alt="${data.name}" loading="lazy" />
         ${img2 ? `<img class="product-img-hover" src="${img2}" alt="" loading="lazy" />` : ''}
       </div>
