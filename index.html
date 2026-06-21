@@ -81,7 +81,7 @@
     --chrome-h: 80px;             /* nav-only offset (promo bar adds via JS) */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
   body {
     background: var(--ivory);
     color: var(--ink);
@@ -2854,7 +2854,7 @@
     .mail-fallback-toast {
       flex-wrap: wrap;
       bottom: 1rem;
-      max-width: calc(100vw - 2rem);
+      max-width: calc(100% - 2rem);
       padding: 0.75rem 0.875rem;
       gap: 0.5rem;
     }
@@ -5407,8 +5407,8 @@
   @media (max-width: 768px) {
     .reserve-card {
       padding: 2rem 1.5rem;
-      width: 100vw;
-      max-width: 100vw;
+      width: 100%;
+      max-width: 100%;
       max-height: 100vh;
       height: 100vh;
     }
@@ -5515,7 +5515,7 @@
     .credit-item { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 1.5rem; }
     .credit-item:first-child { border-top: none; padding-top: 0; }
     /* P0 #2 · market dropdown fit-to-screen */
-    .market-dropdown { right: -1rem; left: -1rem; min-width: 0; width: calc(100vw - 2rem); }
+    .market-dropdown { right: -1rem; left: -1rem; min-width: 0; width: calc(100% - 2rem); }
     /* P0 #5 · consult channel handles · 44pt touch target */
     .consult-channel-handle, .consult-channel-handle a { display: inline-block; min-height: 44px; padding: 0.7rem 0; line-height: 1.5; }
     /* P0 #6 · subfilter chips touch target */
