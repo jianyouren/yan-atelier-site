@@ -2311,6 +2311,11 @@
     font-weight: 500;
   }
   body[data-market="cn"] .pd-installment { display: none; } /* Klarna/Afterpay not available in China */
+  /* 2026-06-22 SBB-audit: Klarna pink banner + Payment Icons strip break quiet-luxury
+     register and violate this file's own line ~1675 rule (Hermès/Loewe never show
+     payment-method logos). Hidden globally until reinstated with quieter treatment. */
+  .pd-installment { display: none !important; }
+  .pd-payment-icons { display: none !important; }
 
   /* ============ v3.2: UGC Customer Gallery (evidence-based social proof) ============ */
   .ugc-section {
@@ -4143,6 +4148,7 @@
     aspect-ratio: 3 / 4;
     overflow: hidden;
     background: var(--ivory-2);
+    position: relative;   /* anchor for .ai-disclosure-badge */
   }
   .pdp-v2-worn-img {
     width: 100%; height: 100%;
@@ -4150,6 +4156,29 @@
     transition: opacity 0.4s ease;
   }
   .pdp-v2-worn-img.is-switching { opacity: 0.25; }
+
+  /* AI-generated-content disclosure badge (Etsy 2026 + Meta + 中国 2026 四部门
+     AI 标识办法 要求). Subtle but legible bottom-right corner overlay. */
+  .ai-disclosure-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 5;
+    padding: 4px 8px;
+    background: rgba(20, 20, 20, 0.65);
+    color: rgba(255, 255, 255, 0.95);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  @media (max-width: 600px) {
+    .ai-disclosure-badge { font-size: 9px; padding: 3px 6px; bottom: 8px; right: 8px; }
+  }
   .pdp-v2-worn-text {
     padding: 0 clamp(2rem, 5vw, 5rem);
   }
@@ -6089,7 +6118,8 @@
   <section class="dual-door-band">
     <div class="dual-door-inner">
       <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
-        <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" />
+        <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" data-ai-generated="true" />
+        <span class="ai-disclosure-badge" aria-label="AI 辅助生成图像">AI 辅助</span>
         <div class="door-content">
           <div class="door-overline door-overline-en">Ready to wear</div>
           <div class="door-overline door-overline-cn">立刻能戴</div>
@@ -8828,13 +8858,9 @@ function openConsultBooking() {
   setTimeout(showNlInlinePostConsult, 1500);
 }
 
-// B1 · Stripe checkout opener · invoked from PDP when STRIPE_LINKS[id] is set
-function openStripeCheckout(productId) {
-  const url = STRIPE_LINKS[productId];
-  if (!url) return;
-  if (window.plausible) plausible('Stripe Checkout Opened', { props: { product: productId } });
-  window.open(url, '_blank', 'noopener');
-}
+// B1 · Stripe checkout opener — defined ONCE at line ~7958 (PRODUCTS section).
+// Duplicate that lived here was removed 2026-06-22 (function hoisting was
+// silently using the duplicate with drifted Plausible event name).
 
 // ============================================================
 // Aesthetic upgrades — Scroll-triggered reveal + Plique cursor glow
@@ -10000,7 +10026,11 @@ function openProduct(id, keepView) {
       <!-- Section 2 · Worn (color-swap image) -->
       <section class="pdp-v2-worn">
         <div class="pdp-v2-worn-img-wrap">
-          <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}" />
+          <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}"
+               data-ai-generated="${/\/p\d{2}-worn-/.test(defaultWornImg) ? 'true' : 'false'}" />
+          <span class="ai-disclosure-badge" id="pdp-worn-ai-badge"
+                aria-label="AI 辅助生成图像"
+                style="${/\/p\d{2}-worn-/.test(defaultWornImg) ? '' : 'display:none;'}">${isCn ? 'AI 辅助' : 'AI assisted'}</span>
         </div>
         <div class="pdp-v2-worn-text">
           <div class="pdp-v2-section-overline">${isCn ? '戴法' : 'How to Wear'}</div>
@@ -10191,7 +10221,16 @@ function openProduct(id, keepView) {
     document.head.appendChild(productSchemaEl);
   }
   const availMap = { available: 'InStock', sold: 'SoldOut', reserved: 'PreOrder' };
-  const priceNum = MARKET === 'cn' ? p.priceCN : Math.round(p.priceCN / 7.19);
+  // Schema.org price MUST match the on-page price (priceFor()) — Google Merchant
+  // Center rejects feeds where structured-data price ≠ visible price.
+  // priceFor logic: CN uses raw priceCN; Global uses Math.round((priceCN * 2) / 7), rounded to ...9.
+  let priceNum;
+  if (MARKET === 'cn') {
+    priceNum = p.priceCN;
+  } else {
+    const usd = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
+    priceNum = Math.ceil(usd / 10) * 10 - 1;   // $179, $369 ... ending in 9
+  }
   const currencyCode = MARKET === 'cn' ? 'CNY' : 'USD';
   const productSchema = {
     "@context": "https://schema.org",
@@ -10242,10 +10281,15 @@ function pdpSwitchVariant(btn) {
   // Otherwise: local image swap + customizer sync (single-SKU preview behavior)
   const wornImg = btn.dataset.wornImg;
   const imgEl = document.getElementById('pdp-v2-worn-img');
+  const aiBadgeEl = document.getElementById('pdp-worn-ai-badge');
   if (imgEl && wornImg) {
     imgEl.classList.add('is-switching');
     setTimeout(() => {
       imgEl.src = wornImg;
+      // AI-disclosure badge: show when worn image is AI-generated (filenames matching /pNN-worn-/).
+      const isAi = /\/p\d{2}-worn-/.test(wornImg);
+      imgEl.dataset.aiGenerated = isAi ? 'true' : 'false';
+      if (aiBadgeEl) aiBadgeEl.style.display = isAi ? '' : 'none';
       imgEl.classList.remove('is-switching');
     }, 220);
   }
