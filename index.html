@@ -4179,6 +4179,10 @@
   @media (max-width: 600px) {
     .ai-disclosure-badge { font-size: 9px; padding: 3px 6px; bottom: 8px; right: 8px; }
   }
+  /* i18n: match .door-overline-en/-cn pattern — show right language per market */
+  .ai-disclosure-badge-cn { display: none; }
+  body[data-market="cn"] .ai-disclosure-badge-en { display: none; }
+  body[data-market="cn"] .ai-disclosure-badge-cn { display: inline-block; }
   .pdp-v2-worn-text {
     padding: 0 clamp(2rem, 5vw, 5rem);
   }
@@ -6119,7 +6123,8 @@
     <div class="dual-door-inner">
       <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
         <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" data-ai-generated="true" />
-        <span class="ai-disclosure-badge" aria-label="AI 辅助生成图像">AI 辅助</span>
+        <span class="ai-disclosure-badge ai-disclosure-badge-en" aria-label="AI-assisted render">AI assisted render</span>
+        <span class="ai-disclosure-badge ai-disclosure-badge-cn" aria-label="AI 辅助渲染">AI 辅助渲染</span>
         <div class="door-content">
           <div class="door-overline door-overline-en">Ready to wear</div>
           <div class="door-overline door-overline-cn">立刻能戴</div>
@@ -10029,8 +10034,8 @@ function openProduct(id, keepView) {
           <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}"
                data-ai-generated="${/\/p\d{2}-worn-/.test(defaultWornImg) ? 'true' : 'false'}" />
           <span class="ai-disclosure-badge" id="pdp-worn-ai-badge"
-                aria-label="AI 辅助生成图像"
-                style="${/\/p\d{2}-worn-/.test(defaultWornImg) ? '' : 'display:none;'}">${isCn ? 'AI 辅助' : 'AI assisted'}</span>
+                aria-label="${isCn ? 'AI 辅助渲染' : 'AI-assisted render'}"
+                style="${/\/p\d{2}-worn-/.test(defaultWornImg) ? '' : 'display:none;'}">${isCn ? 'AI 辅助渲染' : 'AI assisted render'}</span>
         </div>
         <div class="pdp-v2-worn-text">
           <div class="pdp-v2-section-overline">${isCn ? '戴法' : 'How to Wear'}</div>
@@ -10069,21 +10074,13 @@ function openProduct(id, keepView) {
         })()}
         <div class="pd-price-block">
           <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
-          <!-- v3.2: Installment payment option (Klarna/Afterpay - Global only) -->
-          ${(() => {
-            if (MARKET === 'cn' || !c.pdInstallmentText) return '';
-            const priceNum = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
-            const rounded = Math.ceil(priceNum / 10) * 10 - 1;
-            const installment = Math.ceil(rounded / 4);
-            const text = c.pdInstallmentText.replace('$XX', '$' + installment);
-            return `<div class="pd-installment">
-              <span class="pd-installment-text">${text}</span>
-              <svg class="pd-installment-logo" viewBox="0 0 70 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="70" height="26" rx="4" fill="#FFB3C7"/>
-                <text x="35" y="17" text-anchor="middle" fill="#17120F" font-size="11" font-weight="600">Klarna</text>
-              </svg>
-            </div>`;
-          })()}
+          <!-- v3.2 Klarna installment block REMOVED from DOM 2026-06-22 per SBB + Stripe FE audit:
+               (a) brand: pink Klarna #FFB3C7 broke quiet-luxury register (this file line 1675
+                   says "Hermès/Loewe never show payment-method logos");
+               (b) legal: hand-rolled SVG `<text>Klarna</text>` was a trademark hazard even when
+                   CSS-hidden because it remained in view-source / Stripe partner review.
+               When Klarna comes back, use official stripe.com/files/brand assets + restraint. -->
+          ${''}
           <div class="pd-shipby">${shipByFor(p, c)}</div>
           <div class="pd-terms-plain">${c.pdTerms || ''}</div>
           <!-- Packaging illustration removed 2026-06-18 — user feedback: inline image inside
@@ -10098,7 +10095,7 @@ function openProduct(id, keepView) {
           const skuTxt = p.id;
           const materialTxt = data.material || (isCn ? '纯银 · 掐丝珐琅' : 'Sterling silver · plique-à-jour enamel');
           const dimTxt = dimVal || '—';
-          const completedTxt = isCn ? '2026 · YÀN · 滇韵工坊' : '2026 · YÀN · Yunnan Studio';
+          const completedTxt = isCn ? '2025–2026 · YÀN · 滇韵工坊' : '2025–2026 · YÀN · Yunnan Studio';
           const L = isCn
             ? { plate: '编号', mat: '材质', dim: '尺寸', done: '完成于' }
             : { plate: 'Piece', mat: 'Material', dim: 'Dimension', done: 'Completed' };
