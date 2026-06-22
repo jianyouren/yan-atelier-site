@@ -3331,6 +3331,23 @@
   }
   body[data-market="cn"] .footer-address { font-family: var(--serif); font-style: normal; }
 
+  /* v3.1: 电商法第15条 - 营业执照信息披露 */
+  .footer-legal-entity {
+    text-align: center;
+    color: rgba(244, 239, 230, 0.4);
+    font-family: var(--serif);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    padding: 0 1rem 1rem;
+    line-height: 1.6;
+  }
+  .footer-legal-entity a {
+    color: rgba(244, 239, 230, 0.5);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .footer-legal-entity a:hover { color: var(--paper-mute); }
+
   /* 7. Nav offset for promo bar. Geo-banner top-bar adds additional 36px via body.has-geo-banner (see line ~170) */
   .nav { top: 34px; }
   .view { padding-top: 114px; }
@@ -6239,6 +6256,8 @@
   </div>
   <div class="footer-social" id="footer-social"></div>
   <div class="footer-address" id="footer-address"></div>
+  <!-- v3.1: 电商法第15条 - 营业执照信息披露 (仅CN市场显示) -->
+  <div class="footer-legal-entity" id="footer-legal-entity"></div>
   <div class="footer-bottom">
     <span id="footer-copyright"></span>
     <nav class="footer-legal-nav" aria-label="Legal">
@@ -6875,6 +6894,8 @@ const COPY = {
     footerH4s: ['关于工坊', '作品', '终身服务'],
     footerSocial: [['Instagram', 'https://instagram.com/yan_atelier'], ['Email', 'mailto:hello@yan-atelier.com']],
     footerAddress: '云南 · 中国 ｜ 冬季 · 海棠湾 · 三亚',
+    // v3.1: 电商法第15条 营业执照信息
+    footerLegalEntity: '昆明市官渡区滇韵珐琅珠宝首饰工作室（个体工商户）<br/>统一社会信用代码: 92530111MAET9QTM34 · 经营者: 胡艳<br/>经营场所: 云南省昆明市官渡区',
     // Series data
     series: [
       { id: 'butterfly', num: 'No. 01', name: '蝶谱', desc: '翼脉以银丝掐成,<br/>釉色一格一格地填。' },
@@ -8566,6 +8587,17 @@ function applyCopy() {
   // Footer address
   const addr = document.getElementById('footer-address');
   if (addr) addr.textContent = c.footerAddress || '';
+
+  // v3.1: 电商法第15条 - 营业执照信息 (仅CN市场显示)
+  const legalEntity = document.getElementById('footer-legal-entity');
+  if (legalEntity) {
+    if (MARKET === 'cn' && c.footerLegalEntity) {
+      legalEntity.innerHTML = c.footerLegalEntity;
+      legalEntity.style.display = 'block';
+    } else {
+      legalEntity.style.display = 'none';
+    }
+  }
 
   // Wishlist initialization (after applyCopy because filter chip needs label)
   if (typeof updateWishUI === 'function') updateWishUI();
