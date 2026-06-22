@@ -8592,20 +8592,8 @@ const PRICE_MULT = 2.0; // 海外溢价倍率
 const FIRST_VISIT_KEY = 'yan_visited_v3';
 
 // ============================================================
-// B1 · Stripe Payment Links scaffold · paste real URLs per SKU when ready
+// B1 · Stripe Payment Links — see STRIPE_LINKS definition in COPY section above (line ~7944)
 // ============================================================
-// Workflow once user creates Stripe account:
-//   1. Stripe Dashboard → Payment Links → New
-//   2. Create one link per SKU with that SKU's CN price (Stripe handles currency switch)
-//   3. Paste the buylink (e.g. 'https://buy.stripe.com/abc123') keyed by product id below
-//   4. PDP CTA renders a "Pay Now via Stripe →" button INSTEAD OF the Reserve modal
-//      for SKUs that have a link set.
-// Sold/Reserved SKUs always route to Consult regardless of Stripe link.
-const STRIPE_LINKS = {
-  // 'YA-2026-0001': 'https://buy.stripe.com/your_link_here',
-  // 'YA-2026-0003': 'https://buy.stripe.com/your_link_here',
-  // 'YA-2026-0012': 'https://buy.stripe.com/your_link_here',
-};
 
 // ============================================================
 // B2 · Acuity / Cal.com booking URL scaffold
