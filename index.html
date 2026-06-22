@@ -29,6 +29,39 @@
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <!-- Plausible analytics — pre-wired, user will activate the domain at plausible.io after going live -->
 <script defer data-domain="yan-atelier.com" src="https://plausible.io/js/script.js"></script>
+<!-- v3.1: Schema.org Organization (for Google/AI discovery) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "YÀN Atelier",
+  "alternateName": ["滇韵珐琅手工坊", "Dian Yun Enamel Studio"],
+  "url": "https://yan-atelier-site.pages.dev",
+  "logo": "https://yan-atelier-site.pages.dev/favicon.svg",
+  "description": "Translucent enamel jewelry, fired by hand in Yunnan, China. Plique-à-jour and cloisonné techniques. Each piece undergoes 5-10 firings at 800°C.",
+  "foundingDate": "2025",
+  "founder": {
+    "@type": "Person",
+    "name": "Hu Yan",
+    "alternateName": "胡艳"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kunming",
+    "addressRegion": "Yunnan",
+    "addressCountry": "CN"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "hello@yan-atelier.com",
+    "contactType": "customer service",
+    "availableLanguage": ["English", "Chinese"]
+  },
+  "sameAs": [
+    "https://instagram.com/yan_atelier"
+  ]
+}
+</script>
 <!-- v3.1: 自托管字体 (解决 Google Fonts 在中国被墙问题) -->
 <link rel="preload" href="fonts/italiana-v21-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="fonts/cormorant-garamond-v21-latin-regular.woff2" as="font" type="font/woff2" crossorigin />
@@ -7555,6 +7588,37 @@ const COLOR_FAMILIES = {
 };
 
 // ============================================================
+// v3.1: Stripe Payment Links 配置 (海外信用卡收款)
+// 用户需在 Stripe Dashboard 创建 Payment Links，然后填入下方 URL
+// 每个产品的 Payment Link 收取 30% 定金
+// 文档: https://stripe.com/docs/payment-links
+// ============================================================
+const STRIPE_LINKS = {
+  // 'YA-2026-0001': 'https://buy.stripe.com/xxx', // Daisy Brooch - $54 deposit (30% of $178)
+  // 'YA-2026-0003': 'https://buy.stripe.com/xxx', // Ginkgo Leaf Brooch - $58 deposit
+  // 'YA-2026-0005': 'https://buy.stripe.com/xxx', // Iris Bracelet - $216 deposit
+  // 'YA-2026-0006': 'https://buy.stripe.com/xxx', // Iris Bracelet Azure - $216 deposit
+  // 'YA-2026-0008': 'https://buy.stripe.com/xxx', // Fish & Lotus Pendant - $133 deposit
+  // 'YA-2026-0010': 'https://buy.stripe.com/xxx', // Butterfly Necklace - $99 deposit
+  // 'YA-2026-0012': 'https://buy.stripe.com/xxx', // Lotus Cord Bracelet - $54 deposit
+  // 填入后删除注释符号 //
+};
+
+// Stripe Checkout 跳转函数 (仅 Global 市场生效)
+function openStripeCheckout(productId) {
+  const link = STRIPE_LINKS[productId];
+  if (!link) {
+    // Fallback to mailto reservation if no Stripe link configured
+    openReserveModal(productId, false);
+    return;
+  }
+  // Track conversion event
+  if (window.plausible) plausible('Stripe Checkout', { props: { product: productId } });
+  // Open Stripe Payment Link in new tab (so user can return to site)
+  window.open(link, '_blank', 'noopener');
+}
+
+// ============================================================
 // 产品库:中英双套
 // ============================================================
 const PRODUCTS = [
@@ -9659,6 +9723,51 @@ function openProduct(id, keepView) {
   // Initialize PDP configurator state (does nothing if SKU has no options)
   pdInitConfig(id);
   pdRefreshConfig();
+
+  // v3.1: Inject Schema.org Product JSON-LD (for Google Shopping / AI discovery / Shopify Catalog)
+  let productSchemaEl = document.getElementById('product-schema-jsonld');
+  if (!productSchemaEl) {
+    productSchemaEl = document.createElement('script');
+    productSchemaEl.type = 'application/ld+json';
+    productSchemaEl.id = 'product-schema-jsonld';
+    document.head.appendChild(productSchemaEl);
+  }
+  const availMap = { available: 'InStock', sold: 'SoldOut', reserved: 'PreOrder' };
+  const priceNum = MARKET === 'cn' ? p.priceCN : Math.round(p.priceCN / 7.19);
+  const currencyCode = MARKET === 'cn' ? 'CNY' : 'USD';
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": data.name,
+    "description": data.desc,
+    "image": "https://yan-atelier-site.pages.dev/" + p.img,
+    "sku": p.id,
+    "brand": { "@type": "Brand", "name": "YÀN Atelier" },
+    "manufacturer": { "@type": "Organization", "name": "滇韵珐琅手工坊", "address": "Yunnan, China" },
+    "material": data.material,
+    "category": "Jewelry",
+    "isHandmade": true,
+    "offers": {
+      "@type": "Offer",
+      "url": "https://yan-atelier-site.pages.dev/#product=" + p.id,
+      "priceCurrency": currencyCode,
+      "price": priceNum,
+      "availability": "https://schema.org/" + (availMap[p.status] || 'InStock'),
+      "seller": { "@type": "Organization", "name": "YÀN Atelier" },
+      "shippingDetails": {
+        "@type": "OfferShippingDetails",
+        "shippingDestination": { "@type": "DefinedRegion", "addressCountry": ["CN", "US", "GB", "JP", "HK"] },
+        "deliveryTime": { "@type": "ShippingDeliveryTime", "handlingTime": { "@type": "QuantitativeValue", "minValue": 14, "maxValue": 30, "unitCode": "DAY" } }
+      },
+      "hasMerchantReturnPolicy": {
+        "@type": "MerchantReturnPolicy",
+        "applicableCountry": "CN",
+        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+        "merchantReturnDays": 14
+      }
+    }
+  };
+  productSchemaEl.textContent = JSON.stringify(productSchema, null, 2);
 }
 
 // ── PDP v2 · color swatch click handler (updated 2026-06-18 — supports sibling-SKU switch) ──
