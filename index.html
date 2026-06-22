@@ -11,18 +11,18 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="YÀN Atelier — Given Once, Remembered Always" />
 <meta property="og:description" content="Handmade plique-à-jour and cloisonné enamel jewellery from a Yunnan atelier. Mineral enamel fired at 800°C, 5–10 firings per piece. From $369." />
-<meta property="og:image" content="https://yan-atelier.com/images/hero-model-butterfly-wing.jpg" />
-<meta property="og:url" content="https://yan-atelier.com/" />
+<meta property="og:image" content="https://yan-atelier-site.pages.dev/images/hero-model-butterfly-wing.jpg" />
+<meta property="og:url" content="https://yan-atelier-site.pages.dev/" />
 <meta property="og:site_name" content="YÀN Atelier" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="YÀN Atelier" />
 <meta name="twitter:description" content="Handmade plique-à-jour jewellery · YÀN · Yunnan atelier · 800°C mineral enamel." />
-<meta name="twitter:image" content="https://yan-atelier.com/images/hero-model-butterfly-wing.jpg" />
-<link rel="canonical" href="https://yan-atelier.com/" />
+<meta name="twitter:image" content="https://yan-atelier-site.pages.dev/images/hero-model-butterfly-wing.jpg" />
+<link rel="canonical" href="https://yan-atelier-site.pages.dev/" />
 <!-- hreflang — international SEO -->
-<link rel="alternate" hreflang="zh-CN" href="https://yan-atelier.com/?market=cn" />
-<link rel="alternate" hreflang="en" href="https://yan-atelier.com/?market=global" />
-<link rel="alternate" hreflang="x-default" href="https://yan-atelier.com/" />
+<link rel="alternate" hreflang="zh-CN" href="https://yan-atelier-site.pages.dev/?market=cn" />
+<link rel="alternate" hreflang="en" href="https://yan-atelier-site.pages.dev/?market=global" />
+<link rel="alternate" hreflang="x-default" href="https://yan-atelier-site.pages.dev/" />
 
 <!-- Favicon — minimal placeholder · swap to atelier mark once real branding lands -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -44,7 +44,7 @@
     --paper-mute: rgba(251, 247, 238, 0.6);
     --line: rgba(22, 19, 16, 0.08);
     --line-strong: rgba(22, 19, 16, 0.18);
-    --hush: rgba(22, 19, 16, 0.55);
+    --hush: rgba(22, 19, 16, 0.65);  /* v3.1: 0.55→0.65 for WCAG AA contrast */
     --hush-soft: rgba(22, 19, 16, 0.4);
     --display: 'Italiana', 'Cormorant Garamond', 'Noto Serif SC', serif;
     --serif-en: 'Cormorant Garamond', 'Noto Serif SC', serif;
@@ -3030,6 +3030,31 @@
   .reserve-field input:focus {
     outline: none;
     border-bottom-color: var(--hush);
+  }
+  /* v3.1: Privacy consent checkbox */
+  .reserve-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: var(--t-small);
+    color: var(--hush);
+    cursor: pointer;
+    margin-top: 0.5rem;
+  }
+  .reserve-consent input[type="checkbox"] {
+    margin-top: 0.2rem;
+    accent-color: var(--ink);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .rv-consent-text a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .rv-consent-text a:hover {
+    color: var(--ink-soft);
   }
   .reserve-actions {
     display: flex;
@@ -6281,6 +6306,11 @@
           <span class="rv-label" id="rv-l-when"></span>
           <input type="text" id="rv-input-when" />
         </label>
+        <!-- v3.1: Privacy consent checkbox (PIPL Art.14 compliance) -->
+        <label class="reserve-consent">
+          <input type="checkbox" id="rv-input-consent" required />
+          <span class="rv-consent-text" id="rv-consent-text"></span>
+        </label>
         <div class="reserve-actions">
           <button type="button" class="btn btn-ghost" onclick="reservePrev()" id="rv-btn-back-3"></button>
           <button type="submit" class="btn btn-primary" id="rv-btn-submit"></button>
@@ -6447,6 +6477,7 @@ const COPY = {
       lName: '姓名',
       lContact: '邮箱 / 微信',
       lWhen: '希望收到的时间(可选)',
+      consentText: '我已阅读并同意 <a href="#legal" onclick="event.stopPropagation();showLegal()">《隐私政策》</a> 和 <a href="#legal" onclick="event.stopPropagation();showLegal()">《服务条款》</a>',
       btnSubmit: '提交预订申请 →',
       step4Overline: '请发送',
       step4H: '请发送预订邮件 · 工坊 24 小时内回信',
@@ -6819,6 +6850,10 @@ const COPY = {
     faqTitle: '常见问题',
     faqList: [
       { q: '要等多久?', a: '14–30 天起, 大件要 6–8 周。下单后 24 小时内告诉你具体时间。' },
+      { q: '珐琅会掉色吗?', a: '不会。矿石珐琅在 800°C 高温下与金属熔合, 化学稳定。故宫的清代珐琅、两千年前的塞浦路斯金戒, 釉色至今如初。这不是"保色10年"—— 是可以传给下一代的颜色。' },
+      { q: '能碰水吗?', a: '日常洗手不必摘下。但请避免: 泡温泉/游泳/长时间浸水; 香水、酒精直接喷洒(会腐蚀银件); 剧烈碰撞。' },
+      { q: '银会氧化变黑吗?', a: '925银会自然氧化, 这是正常现象。您可以随时寄回工坊, 我们免费为您抛光翻新 —— 只需承担来回运费。' },
+      { q: '坏了怎么修?', a: '联系工坊, 拍照说明情况。我们评估后提供修复方案和报价(如需)。寄回后通常 2–4 周修复完成。' },
       { q: '能退吗?', a: '现货可以, 收到后 14 天内, 保持完好、原盒寄回就行。定制款开工后定金不退, 但可以全额转到下一件。' },
       { q: '不在大陆能买吗?', a: '能。右上角切到 Global, 价格自动换成美元。海外走国际快递, 运费和时间下单时一起告诉你。' },
       { q: '怎么保养?', a: '每件都有一张保养卡。最主要就是: 别泡水、别喷香水上去、别摔。收起来的时候别跟其他首饰混一起。翻新抛光永远免费 —— 什么时候想修了, 寄回来就行。' },
@@ -6957,6 +6992,7 @@ const COPY = {
       lName: 'Name',
       lContact: 'Email or WeChat handle',
       lWhen: 'Preferred delivery window (optional)',
+      consentText: 'I have read and agree to the <a href="#legal" onclick="event.stopPropagation();showLegal()">Privacy Policy</a> and <a href="#legal" onclick="event.stopPropagation();showLegal()">Terms of Service</a>',
       btnSubmit: 'Submit Reservation Request →',
       step4Overline: 'Please send',
       step4H: 'Send the email to confirm · we reply within 24h',
@@ -7322,6 +7358,10 @@ const COPY = {
     faqTitle: 'Frequently Asked',
     faqList: [
       { q: 'How long does a piece take?', a: 'Standard pieces: 14–30 days. Statement pieces: 6–8 weeks. Exact timeline confirmed within 24 hours of reservation.' },
+      { q: 'Will the enamel fade?', a: 'No. Mineral enamel fuses with metal at 800°C, creating a chemically stable bond. Enamel pieces from the Qing Dynasty and ancient Cyprus remain vivid after centuries. This isn\'t "color-safe for 10 years" — it\'s color that can be passed down.' },
+      { q: 'Can it get wet?', a: 'Daily hand-washing is fine. However, please avoid: hot springs, pools, or prolonged submersion; direct contact with perfume or alcohol (corrodes silver); impact against hard surfaces.' },
+      { q: 'Will the silver tarnish?', a: '925 silver naturally oxidizes over time — this is normal. You can send your piece back to the atelier anytime for complimentary polishing — just cover shipping costs.' },
+      { q: 'What if it breaks?', a: 'Contact the atelier with photos. We\'ll assess and provide a repair plan and quote (if needed). Typical turnaround after return shipping is 2–4 weeks.' },
       { q: 'Can I return a piece?', a: 'Standard works can be returned within 14 days in original condition, with the box. Bespoke commissions are not refundable once production begins — but the deposit can be applied to any other piece.' },
       { q: 'Do you ship internationally?', a: 'Yes. The Global site (top-right, GL) accepts international orders in USD. Shipping uses an international tracked courier; the carrier, cost, and estimated delivery window are confirmed when we accept your reservation.' },
       { q: 'How do I care for it?', a: 'Each piece comes with a Care & Wear guide. In short: avoid water and perfume, store separately. We offer lifetime polish and enamel warranty — send it back any time it needs attention.' },
@@ -8980,12 +9020,14 @@ function productCardHtml(p) {
   if (p.unique) tags.push('<span class="product-tag product-tag--unique">' + (MARKET === 'cn' ? '孤品' : 'One of a Kind') + '</span>');
   if (status === 'sold') tags.push('<span class="product-tag product-tag--sold">' + (MARKET === 'cn' ? '已售' : 'Sold') + '</span>');
   const tagsHtml = tags.length ? '<div class="product-tags">' + tags.join('') + '</div>' : '';
+  // v3.1: keyboard support + lazy loading
+  const ariaLabel = MARKET === 'cn' ? `查看 ${data.name} 详情` : `View ${data.name} details`;
   return `
-    <div class="product-card product-card--${status}" onclick="openProduct('${p.id}')">
+    <div class="product-card product-card--${status}" tabindex="0" role="button" aria-label="${ariaLabel}" onclick="openProduct('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProduct('${p.id}')}">
       <div class="product-img">
         ${tagsHtml}
-        <img src="${p.img}" alt="${data.name}" />
-        ${img2 ? `<img class="product-img-hover" src="${img2}" alt="" />` : ''}
+        <img src="${p.img}" alt="${data.name}" loading="lazy" decoding="async" />
+        ${img2 ? `<img class="product-img-hover" src="${img2}" alt="" loading="lazy" decoding="async" />` : ''}
       </div>
       <div class="product-name">${data.name}</div>
       ${pieceType ? `<div class="product-type">${pieceType}${badge ? `<span class="product-badge">${badge}</span>` : ''}</div>` : (badge ? `<div class="product-type"><span class="product-badge">${badge}</span></div>` : '')}
@@ -9712,6 +9754,7 @@ function applyReserveCopy() {
   set('rv-l-name', r.lName);
   set('rv-l-contact', r.lContact);
   set('rv-l-when', r.lWhen);
+  set('rv-consent-text', r.consentText || ''); // v3.1: privacy consent
   set('rv-btn-back-3', r.btnBack);
   set('rv-btn-submit', r.btnSubmit);
   set('rv-step4-overline', r.step4Overline);
