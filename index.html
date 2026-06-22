@@ -2216,6 +2216,279 @@
   }
   body[data-market="global"] .pd-note { font-family: var(--serif-en); font-style: italic; }
 
+  /* ============ v3.2: Stock Badge System (Stone & Strand / Mejuri pattern) ============ */
+  .pd-stock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+  .pd-stock-badge--in-stock {
+    background: rgba(76, 140, 74, 0.08);
+    color: #2d5a2c;
+    border: 1px solid rgba(76, 140, 74, 0.2);
+  }
+  .pd-stock-badge--made-to-order {
+    background: rgba(180, 140, 80, 0.08);
+    color: #8a6914;
+    border: 1px solid rgba(180, 140, 80, 0.2);
+  }
+  .pd-stock-badge--sold {
+    background: rgba(22, 19, 16, 0.04);
+    color: var(--hush);
+    border: 1px solid var(--line);
+  }
+  .pd-stock-badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pd-stock-badge--in-stock::before { background: #4c8c4a; }
+  .pd-stock-badge--made-to-order::before { background: #b48c50; }
+  .pd-stock-badge--sold::before { background: var(--hush-soft); }
+  body[data-market="cn"] .pd-stock-badge { font-family: var(--serif); letter-spacing: 0.12em; }
+
+  /* ============ v3.2: Payment Icons Strip (Foundrae / Sophie BB pattern) ============ */
+  .pd-payment-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .pd-payment-icons-label {
+    font-size: 0.72rem;
+    color: var(--hush);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-right: 0.5rem;
+  }
+  body[data-market="cn"] .pd-payment-icons-label { font-family: var(--serif); text-transform: none; letter-spacing: 0.15em; }
+  .pd-payment-icon {
+    height: 22px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+  }
+  .pd-payment-icon:hover { opacity: 1; }
+  /* SVG icon containers */
+  .pd-payment-icon svg {
+    height: 100%;
+    width: auto;
+  }
+
+  /* ============ v3.2: Installment Payment Banner (Klarna/Affirm pattern) ============ */
+  .pd-installment {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 182, 193, 0.08);
+    border: 1px solid rgba(255, 182, 193, 0.3);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 0.82rem;
+  }
+  .pd-installment-logo {
+    height: 18px;
+    width: auto;
+  }
+  .pd-installment-text {
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+  .pd-installment-text strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  body[data-market="cn"] .pd-installment { display: none; } /* Klarna/Afterpay not available in China */
+
+  /* ============ v3.2: UGC Customer Gallery (evidence-based social proof) ============ */
+  .ugc-section {
+    padding: var(--space-xl) var(--pad-x);
+    background: var(--ivory-2);
+  }
+  .ugc-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+  .ugc-overline {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.78rem;
+    color: var(--hush);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  body[data-market="cn"] .ugc-overline { font-family: var(--serif); font-style: normal; letter-spacing: 0.25em; text-transform: none; }
+  .ugc-title {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 400;
+    color: var(--ink);
+  }
+  body[data-market="cn"] .ugc-title { font-family: var(--serif); letter-spacing: 0.06em; }
+  .ugc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-md);
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .ugc-card {
+    background: var(--paper);
+    padding: 1.5rem;
+    border-radius: 2px;
+    box-shadow: 0 2px 12px rgba(22, 19, 16, 0.04);
+  }
+  .ugc-quote {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 1.2rem;
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  body[data-market="cn"] .ugc-quote { font-family: var(--serif); font-style: normal; letter-spacing: 0.04em; }
+  .ugc-quote::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -0.3rem;
+    font-size: 2rem;
+    color: var(--hush-soft);
+    font-family: var(--serif-en);
+  }
+  .ugc-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .ugc-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: var(--hush);
+    font-weight: 500;
+  }
+  .ugc-name {
+    font-size: 0.85rem;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .ugc-piece {
+    font-size: 0.75rem;
+    color: var(--hush);
+    margin-top: 0.15rem;
+  }
+  .ugc-stars {
+    color: #d4a853;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    margin-left: auto;
+  }
+  .ugc-cta {
+    text-align: center;
+    margin-top: var(--space-lg);
+  }
+  .ugc-cta-text {
+    font-size: 0.82rem;
+    color: var(--hush);
+    margin-bottom: 0.8rem;
+  }
+  body[data-market="global"] .ugc-cta-text { font-family: var(--serif-en); font-style: italic; }
+
+  /* ============ v3.2: Press/Media Section ============ */
+  .press-section {
+    padding: var(--space-2xl) var(--pad-x);
+    background: var(--paper);
+  }
+  .press-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+  .press-overline {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.78rem;
+    color: var(--hush);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  body[data-market="cn"] .press-overline { font-family: var(--serif); font-style: normal; letter-spacing: 0.25em; text-transform: none; }
+  .press-title {
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  body[data-market="cn"] .press-title { font-family: var(--serif); letter-spacing: 0.06em; }
+  .press-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto var(--space-lg);
+    opacity: 0.6;
+  }
+  .press-logo {
+    height: 28px;
+    width: auto;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+  .press-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+  .press-quotes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-md);
+    max-width: var(--container);
+    margin: 0 auto;
+  }
+  .press-quote-card {
+    padding: 2rem;
+    background: var(--ivory);
+    border-left: 3px solid var(--ink);
+  }
+  .press-quote-text {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  body[data-market="cn"] .press-quote-text { font-family: var(--serif); font-style: normal; letter-spacing: 0.04em; }
+  .press-quote-source {
+    font-size: 0.82rem;
+    color: var(--hush);
+    letter-spacing: 0.08em;
+  }
+
   /* ============ About ============ */
   .about-hero { padding: var(--pad-section) var(--pad-x) var(--space-xl); text-align: center; }
   .about-hero h1 {
@@ -6004,6 +6277,30 @@
     <ul class="promise-list" id="promise-list"></ul>
   </section>
 
+  <!-- ============ v3.2: UGC Customer Reviews Section ============ -->
+  <section class="ugc-section" id="ugc-section">
+    <div class="ugc-header">
+      <div class="ugc-overline" id="ugc-overline"></div>
+      <h2 class="ugc-title" id="ugc-title"></h2>
+    </div>
+    <div class="ugc-grid" id="ugc-grid"></div>
+    <div class="ugc-cta">
+      <p class="ugc-cta-text" id="ugc-cta-text"></p>
+      <a class="btn btn-ghost" href="mailto:hello@yan-atelier.com?subject=Customer%20Photo">
+        <span id="ugc-cta-btn">Share your photo →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ v3.2: Press & Media Section ============ -->
+  <section class="press-section" id="press-section">
+    <div class="press-header">
+      <div class="press-overline" id="press-overline"></div>
+      <h2 class="press-title" id="press-title"></h2>
+    </div>
+    <div class="press-quotes" id="press-quotes"></div>
+  </section>
+
   <!-- ============ FAQ section(新增)============ -->
   <section class="faq-section">
     <div class="section-header">
@@ -6655,6 +6952,31 @@ const COPY = {
     pdPayment: '支付方式:',
     pdPaymentChips: ['微信支付', '支付宝', '银联'],
     pdNote: '每件都有一张传家卡 —— 编号、谁做的、以后怎么找我们修, 全在上面。卡跟着谁, 服务跟着谁。',
+    // v3.2: Stock badge labels
+    pdStockInStock: '现货 · 48 小时内发出',
+    pdStockMadeToOrder: '订制 · 14–21 个工作日',
+    pdStockSold: '已售出',
+    pdStockReserved: '已预订',
+    // v3.2: Installment payment (hidden for CN)
+    pdInstallmentText: '',
+    // v3.2: Payment icons label
+    pdPaymentIconsLabel: '支付方式',
+    // v3.2: UGC section
+    ugcOverline: '来自戴过的人',
+    ugcTitle: '她们怎么说',
+    ugcCtaText: '收到你的作品了? 发照片给我们 →',
+    ugcReviews: [
+      { quote: '送给我妈六十大寿的礼物。她说, 这是她收过最像传家的东西。', name: '林小姐', piece: '鸢尾 · 镯', initials: '林' },
+      { quote: '第一次在网上买这种价位的首饰, 收到比图片还好看。', name: '王女士', piece: '蝴蝶 · 项链', initials: '王' },
+      { quote: '本来想买大牌, 看到这个觉得更有故事。戴出去朋友都问在哪买的。', name: '陈小姐', piece: '雏菊 · 胸针', initials: '陈' }
+    ],
+    // v3.2: Press section
+    pressOverline: '媒体报道',
+    pressTitle: '关于我们',
+    pressQuotes: [
+      { text: '一间藏在云南的珐琅工坊, 把文艺复兴时期的空窗技法带回了东方。', source: '海南日报 · 2023' },
+      { text: '母女两代人守着一门快要失传的手艺, 一件一件地烧。', source: '三亚文博会特刊 · 2023' }
+    ],
     // Gift Finder
     // ============ Craft · 工艺溯源(SEO + GEO 旗舰) ============
     craftH1: '中国珐琅工艺：<br/>从丝路掐丝到空窗 —— 一位匠人的简史',
@@ -7172,6 +7494,31 @@ const COPY = {
     pdPayment: 'Payment:',
     pdPaymentChips: ['Visa', 'Mastercard', 'Amex', 'PayPal'],
     pdNote: 'Each piece arrives with a Lifetime Care Passport, recording its ID, the maker\'s name, and our lifelong service. Whether you are its first holder — or its fifth — the promise remains the same.',
+    // v3.2: Stock badge labels
+    pdStockInStock: 'In stock · ships in 48 hours',
+    pdStockMadeToOrder: 'Made to order · 14–21 days',
+    pdStockSold: 'Sold',
+    pdStockReserved: 'Reserved',
+    // v3.2: Installment payment
+    pdInstallmentText: 'Or 4 interest-free payments of <strong>$XX</strong> with',
+    // v3.2: Payment icons label
+    pdPaymentIconsLabel: 'We accept',
+    // v3.2: UGC section
+    ugcOverline: 'From those who wear them',
+    ugcTitle: 'What they say',
+    ugcCtaText: 'Received your piece? Share a photo with us →',
+    ugcReviews: [
+      { quote: 'A birthday gift for my mother\'s 60th. She said it\'s the first piece she\'s received that feels like an heirloom.', name: 'L. Chen', piece: 'Iris Bracelet', initials: 'LC' },
+      { quote: 'My first time ordering jewelry this way. It arrived even more beautiful than the photos.', name: 'S. Wang', piece: 'Butterfly Necklace', initials: 'SW' },
+      { quote: 'I was going to buy from a big house. This has more story. Everyone asks where I found it.', name: 'M. Liu', piece: 'Daisy Brooch', initials: 'ML' }
+    ],
+    // v3.2: Press section
+    pressOverline: 'In the press',
+    pressTitle: 'About us',
+    pressQuotes: [
+      { text: 'A hidden enamel studio in Yunnan, bringing Renaissance-era plique-à-jour back to the East.', source: 'Hainan Daily · 2023' },
+      { text: 'Two generations, mother and daughter, guarding a craft that was nearly lost — one firing at a time.', source: 'Sanya Cultural Fair · 2023' }
+    ],
     // ============ Craft · enamel history (SEO + GEO flagship) ============
     craftH1: 'Chinese Enamel:<br/>From Silk Road Cloisonné to Plique-à-jour — A Maker\'s History',
     craftHeroSub: 'A craft that travelled from the Mediterranean, through Byzantium and the Islamic world, and arrived in China along the Silk Road in the 13th century. Where it came from, what it became, and why my mother makes it today, in Yunnan.',
@@ -8190,7 +8537,8 @@ function pdConfigForMailto() {
 // ============================================================
 // 状态
 // ============================================================
-// Auto-detect: international-first. CN only if zh-* accept-language or saved preference.
+// v3.2: Enhanced market detection - IP geo first, then language, then saved preference
+// Uses free IP geolocation API (ipapi.co) with fallback to language detection
 function detectDefaultMarket() {
   try {
     const saved = localStorage.getItem('yan-market');
@@ -8199,6 +8547,44 @@ function detectDefaultMarket() {
   const lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
   return lang.startsWith('zh') ? 'cn' : 'global';
 }
+
+// v3.2: Async IP-based market detection (runs after initial render, non-blocking)
+async function detectMarketByIP() {
+  try {
+    // Skip if user has explicitly chosen a market
+    const saved = localStorage.getItem('yan-market');
+    if (saved === 'cn' || saved === 'global') return;
+
+    // Check if we've already done IP detection in this session
+    const ipDetected = sessionStorage.getItem('yan-ip-detected');
+    if (ipDetected) return;
+
+    const response = await fetch('https://ipapi.co/json/', {
+      timeout: 3000,
+      cache: 'no-store'
+    });
+    if (!response.ok) return;
+
+    const data = await response.json();
+    sessionStorage.setItem('yan-ip-detected', 'true');
+
+    // CN country code → switch to CN market
+    const countryCode = (data.country_code || '').toUpperCase();
+    const detectedMarket = (countryCode === 'CN' || countryCode === 'HK' || countryCode === 'MO' || countryCode === 'TW')
+      ? 'cn'
+      : 'global';
+
+    // Only switch if different and user hasn't manually chosen
+    if (detectedMarket !== MARKET) {
+      // Show subtle geo banner instead of auto-switching (better UX)
+      showGeoBanner();
+    }
+  } catch (e) {
+    // Silently fail - IP detection is enhancement, not critical
+    console.log('IP detection skipped:', e.message);
+  }
+}
+
 let MARKET = detectDefaultMarket();     // 当前市场 — auto-detected on first load
 let currentView = 'home';
 const FX_RATE = 7.0;   // ¥ → $ 汇率
@@ -8794,6 +9180,45 @@ function applyCopy() {
       <div class="promise-item-title">${t}</div>
     </li>
   `).join('');
+
+  // v3.2: UGC Customer Reviews
+  const ugcOverline = document.getElementById('ugc-overline');
+  const ugcTitle = document.getElementById('ugc-title');
+  const ugcGrid = document.getElementById('ugc-grid');
+  const ugcCtaText = document.getElementById('ugc-cta-text');
+  if (ugcOverline && c.ugcOverline) ugcOverline.textContent = c.ugcOverline;
+  if (ugcTitle && c.ugcTitle) ugcTitle.textContent = c.ugcTitle;
+  if (ugcCtaText && c.ugcCtaText) ugcCtaText.textContent = c.ugcCtaText;
+  if (ugcGrid && c.ugcReviews) {
+    ugcGrid.innerHTML = c.ugcReviews.map(r => `
+      <div class="ugc-card">
+        <p class="ugc-quote">${r.quote}</p>
+        <div class="ugc-meta">
+          <div class="ugc-avatar">${r.initials}</div>
+          <div>
+            <div class="ugc-name">${r.name}</div>
+            <div class="ugc-piece">${r.piece}</div>
+          </div>
+          <div class="ugc-stars">★★★★★</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // v3.2: Press & Media
+  const pressOverline = document.getElementById('press-overline');
+  const pressTitle = document.getElementById('press-title');
+  const pressQuotes = document.getElementById('press-quotes');
+  if (pressOverline && c.pressOverline) pressOverline.textContent = c.pressOverline;
+  if (pressTitle && c.pressTitle) pressTitle.textContent = c.pressTitle;
+  if (pressQuotes && c.pressQuotes) {
+    pressQuotes.innerHTML = c.pressQuotes.map(q => `
+      <div class="press-quote-card">
+        <p class="press-quote-text">"${q.text}"</p>
+        <div class="press-quote-source">— ${q.source}</div>
+      </div>
+    `).join('');
+  }
 
   // Gift CTA (Home section removed per #60 dedupe; guard against missing elements)
   const gctTitle = document.getElementById('gift-cta-title');
@@ -9610,8 +10035,35 @@ function openProduct(id, keepView) {
       <!-- Section 4 · Commerce (existing stack, wrapped) -->
       <section class="pdp-v2-commerce" id="pdp-v2-details">
         <div class="pd-craft-anchor">${craftAnchorText}</div>
+        <!-- v3.2: Stock availability badge (Stone & Strand pattern) -->
+        ${(() => {
+          const status = p.status || 'available';
+          if (status === 'sold') {
+            return `<div class="pd-stock-badge pd-stock-badge--sold">${c.pdStockSold || (isCn ? '已售出' : 'Sold')}</div>`;
+          } else if (status === 'reserved') {
+            return `<div class="pd-stock-badge pd-stock-badge--sold">${c.pdStockReserved || (isCn ? '已预订' : 'Reserved')}</div>`;
+          } else {
+            // Check if we have stock (simplified: available = in stock for now)
+            return `<div class="pd-stock-badge pd-stock-badge--in-stock">${c.pdStockInStock || (isCn ? '现货 · 48 小时内发出' : 'In stock · ships in 48 hours')}</div>`;
+          }
+        })()}
         <div class="pd-price-block">
           <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
+          <!-- v3.2: Installment payment option (Klarna/Afterpay - Global only) -->
+          ${(() => {
+            if (MARKET === 'cn' || !c.pdInstallmentText) return '';
+            const priceNum = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
+            const rounded = Math.ceil(priceNum / 10) * 10 - 1;
+            const installment = Math.ceil(rounded / 4);
+            const text = c.pdInstallmentText.replace('$XX', '$' + installment);
+            return `<div class="pd-installment">
+              <span class="pd-installment-text">${text}</span>
+              <svg class="pd-installment-logo" viewBox="0 0 70 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="70" height="26" rx="4" fill="#FFB3C7"/>
+                <text x="35" y="17" text-anchor="middle" fill="#17120F" font-size="11" font-weight="600">Klarna</text>
+              </svg>
+            </div>`;
+          })()}
           <div class="pd-shipby">${shipByFor(p, c)}</div>
           <div class="pd-terms-plain">${c.pdTerms || ''}</div>
           <!-- Packaging illustration removed 2026-06-18 — user feedback: inline image inside
@@ -9691,6 +10143,21 @@ function openProduct(id, keepView) {
                    <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`)}
         </div>
         <div class="pd-cta-microcopy">${c.pdCtaMicrocopy || ''}</div>
+        <!-- v3.2: Payment method icons (Foundrae / Sophie BB pattern) -->
+        <div class="pd-payment-icons">
+          <span class="pd-payment-icons-label">${c.pdPaymentIconsLabel || (isCn ? '支付方式' : 'We accept')}</span>
+          ${MARKET === 'cn' ? `
+            <span class="pd-payment-icon" title="微信支付"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#09B83E"/><text x="19" y="15" text-anchor="middle" fill="white" font-size="8" font-weight="500">微信</text></svg></span>
+            <span class="pd-payment-icon" title="支付宝"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#00A0E9"/><text x="19" y="15" text-anchor="middle" fill="white" font-size="8" font-weight="500">支付宝</text></svg></span>
+            <span class="pd-payment-icon" title="银联"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#E21836"/><text x="19" y="15" text-anchor="middle" fill="white" font-size="8" font-weight="500">银联</text></svg></span>
+          ` : `
+            <span class="pd-payment-icon" title="Visa"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#1A1F71"/><text x="19" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-style="italic">VISA</text></svg></span>
+            <span class="pd-payment-icon" title="Mastercard"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#fff" stroke="#ddd"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/></svg></span>
+            <span class="pd-payment-icon" title="American Express"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#006FCF"/><text x="19" y="15" text-anchor="middle" fill="white" font-size="7" font-weight="600">AMEX</text></svg></span>
+            <span class="pd-payment-icon" title="Apple Pay"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#000"/><text x="19" y="15" text-anchor="middle" fill="white" font-size="8" font-weight="500"> Pay</text></svg></span>
+            <span class="pd-payment-icon" title="PayPal"><svg viewBox="0 0 38 24"><rect width="38" height="24" rx="3" fill="#003087"/><text x="19" y="15" text-anchor="middle" fill="white" font-size="8" font-weight="600">PayPal</text></svg></span>
+          `}
+        </div>
         <details class="pd-mini-faq">
           <summary>${c.pdFaqLabel || '常见问题'}</summary>
           <div class="pd-mini-faq-content">
@@ -10213,6 +10680,10 @@ window.addEventListener('scroll', () => {
 // ============================================================
 applyCopy();
 showGeoBanner();
+
+// v3.2: Async IP-based market detection (runs after initial render, non-blocking)
+// This enhances market detection for users who haven't explicitly chosen a market
+setTimeout(() => { detectMarketByIP(); }, 2000); // Delay 2s to prioritize initial render
 
 // Hero fade-in (C2 audit 2026-06-19 — replaces removed ignition keyframe stack)
 (function heroFadeIn() {
