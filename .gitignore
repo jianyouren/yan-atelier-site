@@ -1,20 +1,67 @@
-# Windows
+# ════════════════════════════════════════════════════════════════════════
+# YÀN Atelier · .gitignore
+# Last refactor: 2026-06-22 — bucketed by source after WeChat-Claude bridge
+# session generated ~46 untracked files (mood refs / AI staging / WeChat raw
+# / AutoEdit cache). Goal: ignore noise, keep real assets.
+# ════════════════════════════════════════════════════════════════════════
+
+# ─── OS ───────────────────────────────────────────────────────────────
 Thumbs.db
 desktop.ini
-
-# macOS
 .DS_Store
+# Windows accidentally-created sentinel file
+nul
 
-# 编辑器
+# ─── Editor ───────────────────────────────────────────────────────────
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# 压缩包
+# ─── Archives / secrets ───────────────────────────────────────────────
 *.zip
-
-# 密钥 / 环境变量
 .env
 .env.*
 secrets/
 *.pem
 *.key
+
+# ─── AutoEdit cache (PNG conversion artifacts) ────────────────────────
+# `_ensure_png()` in D:/YAN_AutoEdit converts .jpg→.png for gpt-image-2
+# /edits upload. The .upload.png siblings are throwaway cache.
+*.upload.png
+
+# ─── WeChat raw message downloads (encrypted CDN URLs as filenames) ───
+# Look like _cgi-bin_mmwebwx-bin_webwxgetmsgimg__&MsgID=...&skey=@crypt_...
+# Direct WeChat web/desktop exports — no business in the repo. Replace
+# with properly-named copies if any are keepers.
+images/_cgi-bin*
+images/_cgi*
+
+# ─── AI generation staging (raw output — rename or delete before commit) ─
+# AI gen tools dump `output (N).png` here. Rename to meaningful filename
+# (e.g. images/mood-XYZ.png) if keeping, otherwise delete.
+images/output.png
+images/output (*).png
+images/output_*.png
+
+# ─── Ad-hoc numbered exports (WeChat dump / clipboard saves) ──────────
+# Files like images/1.png, images/2.png, images/00 (N).png — rename
+# meaningfully if keeping, otherwise let them gitignore-vanish.
+images/[0-9].png
+images/[0-9][0-9].png
+images/[0-9][0-9][0-9].png
+images/00 (*).png
+
+# ─── Video assets (too large for git history) ─────────────────────────
+# .mp4 files routinely 1-13MB. Use external storage (Cloudflare R2 /
+# Google Drive / dedicated CDN) or commit only with explicit decision.
+video/*.mp4
+video/*.mov
+video/*.webm
+video/*.MOV
+
+# ─── Local-only test artifacts ────────────────────────────────────────
+test_output.txt
+*.log
+*.tmp

@@ -74,12 +74,74 @@ Gap-analyzed against `D:/YAN_AutoEdit/config/gen_presets.yaml` (18 existing pres
 
 **Subject preservation language patterns** (the user's #1 pain point — they want 1:1 identity preservation when changing scenes): documented in Part D of the report. Use these patterns in `modifier` when writing curl calls, not free-form "preserve identity" mumbo.
 
-## Image-gen flow (style-ref → matched product → generated image)
+## Image-gen flow (AutoEdit v2 · platform-led · 2026-06-22)
 
-When user sends a reference image via WeChat and asks for "同款 / 类似风格的产品图 / generate similar" OR specifies a SKU/category to render in a particular style:
+**Endpoint**: `POST http://127.0.0.1:8765/api/generate/image` (multipart form)
 
-**Pipeline**:
-1. **Vision-analyze the ref image** — extract style WORDS: lighting (golden hour / soft daylight / harsh flash / dim lamp), background (linen / marble / wood / on-body / dark velvet), composition (top-down / 3-quarter / macro / mirror selfie), palette (warm cream / cool stone / saturated jewel / muted earth), mood (editorial / candid / luxe / playful). The ref image's TEXT description goes into `modifier`. NEVER pass user's ref image as `sku_ref` — that uses it as the shape to preserve, which gives the wrong output (a "product image" of the user's ref instead of a YÀN piece styled like the ref).
+**Flow**: user sends a request via WeChat → Claude parses platform / image_type / SKU → POSTs → waits 60-120s → response includes `public_url` (auto-CDN-deployed) → Claude sends URL text to user → WeChat renders preview.
+
+**Required form fields** (all optional individually but valid combinations apply):
+| Field | Values | Notes |
+|---|---|---|
+| `platform` | `xiaohongshu` / `tiktok` / `facebook` / `instagram` | sets aspect: xhs 3:4, tt 9:16, fb 1:1, ig 4:5 |
+| `image_type` | `商业图` / `产品图` / `场景图` / `品宣图` / `佩戴特写` | maps to preset via combinations matrix |
+| `sku_id` | `0001`-`0012` (from SKU library) | OR upload `sku_ref` file |
+| `sku_ref` | file upload | use when user supplies a custom SKU photo not in library |
+| `style_ref` | file upload (optional) | inspiration image — model sees this for composition/mood, NOT for product |
+| `remix` | `lock` / `vary` (default `lock`) | `vary` = model face/identity remixed each gen (anti-likeness-infringement) |
+| `modifier` | free text | appended to prompt; use for one-off tweaks ("偏暖色 / 不要文字") |
+| `auto_publish` | `true` (default) / `false` | `true` returns `public_url` from CDN; keep ON for WeChat flow |
+
+**SKU library** (auto-fills photo + standard description):
+- `0001` 雏菊·胸针 · `0002` 蝴蝶·胸针 · `0003` 银杏叶·胸针 · `0004` 银杏·发饰
+- `0005` Iris·镯·紫 · `0006` Iris·镯·Azure · `0007` Iris·镯·Dusk
+- `0008` 莲鱼·吊坠 · `0009` 云纹·镯(福) · `0010` 蝴蝶·项链 · `0011` 云纹·镯(素) · `0012` 青莲·编绳
+- Full library: `GET http://127.0.0.1:8765/api/skus/` returns photo URLs + standard descriptions
+
+**Sample WeChat call** (user: "用蝴蝶项链做小红书佩戴特写, 模特换脸"):
+```bash
+curl --noproxy '*' -X POST http://127.0.0.1:8765/api/generate/image \
+  -F platform=xiaohongshu \
+  -F image_type=佩戴特写 \
+  -F sku_id=0010 \
+  -F remix=vary \
+  -F auto_publish=true \
+  --max-time 200
+# returns: {assets:[{path, url, public_url}], elapsed_s, cdn_warnings}
+# public_url is the Cloudflare Pages URL — send THAT to WeChat
+```
+
+**Parsing user intent** from WeChat text:
+- Platform keywords: 小红书/xhs → `xiaohongshu`; TikTok/TT/抖音/竖版9:16 → `tiktok`; Facebook/FB → `facebook`; Instagram/IG/INS → `instagram`
+- Type keywords: 主图/广告/首页 → `商业图`; 白底/catalog/搜索图 → `产品图`; 场景/氛围 → `场景图`; 品宣/editorial → `品宣图`; 佩戴/上身/on-model → `佩戴特写`
+- SKU disambiguation (default-ambiguous-motif rules, unchanged):
+  - 「蝴蝶」 → **0010 Butterfly Necklace** (0002 brooch is 已售/sold)
+  - 「云纹」/「云」 → **0011 Cloud Bangle · Plain** (default plain; 0009 is 福 variant)
+  - 「鸢尾」/Iris → **0005** (others 0006/0007 are color variants)
+  - 「银杏」 → **0003 Ginkgo Leaf** (0004 is hairpin pair)
+- 模特换脸/防侵权/换脸 → `remix=vary`. **Default to `vary` if user didn't specify** (safer for commercial use).
+
+**Reply template to WeChat**:
+```
+匹配到: <SKU> · <平台> · <图类型> · <remix mode>
+生成耗时: <elapsed_s>s
+
+<public_url>
+
+(Cloudflare CDN 任意网络可开. ~30s 后未渲染就刷新)
+```
+
+**Hard rules**:
+- NEVER pass user's WeChat ref image as `sku_ref` — use `style_ref` instead (it'll inform mood/composition, not product shape).
+- NEVER send the local `path` (D:\...) to WeChat — send only `public_url`.
+- If `cdn_warnings` is non-null in response, surface it to user (CDN failed, only local file available — won't render in WeChat).
+- If 502 from API: check `D:\YAN_AutoEdit` logs — usually aidraw365 channel flake. Retry is automatic (3 attempts, 5s/15s backoff) but a 3rd failure means upstream is down. Wait 2 min and retry, OR tell user to try again later.
+- If `gpt-image-2` channel down explicitly (503 "no available channel"): config switches to `aidraw365_nanobanana_pro` will work for SKU-only (no style_ref) — but tell user "降级到 nano-banana, 不能用 style_ref" if you do that swap.
+
+## Legacy: vision-analyze for "make similar to this ref" (when no SKU library match)
+
+If user sends a ref image but no SKU/platform/type:
+1. **Vision-analyze the ref image** — extract style WORDS: lighting / background / composition / palette / mood. The ref image's TEXT description goes into `modifier`. NEVER pass user's ref image as `sku_ref` — that uses it as the shape to preserve, which gives the wrong output (a "product image" of the user's ref instead of a YÀN piece styled like the ref).
 2. **Pick YÀN SKU** — two paths:
    - **(A) Auto-match**: read `PRODUCTS` array (line ~7159 in `index.html`). Match by form (brooch / bracelet / necklace / pendant / hair pin) + dominant motif if user's ref hints at one (e.g., shows a delicate bracelet → match Iris Bracelet).
    - **(B) User-specified**: if user said "用蝴蝶胸针" / "做个鸢尾镯款" / mentions a SKU number → use that. User-specified always overrides auto-match.
@@ -152,10 +214,11 @@ When user sends a reference image via WeChat and asks for "同款 / 类似风格
 (任何网络都能开 · 推 Cloudflare Pages 约 30-60s 后生效)
 ```
 
-**Notes / caveats**:
-- API server is on `0.0.0.0:8765` PID known via `netstat -ano | findstr :8765`. If down, run `D:\YAN_AutoEdit\start_api.bat`.
-- Active image provider: `siliconflow_kolors` (env `SILICONFLOW_API_KEY` set). Each call costs a few cents of SF credit.
-- Generation takes 10-30s typically.
-- Output saved to `D:\YAN_AutoEdit\out\<date>\<job-id>_<n>.png`.
-- The 12 SKU images above are MOSTLY placeholder/AI-touched (per user, real product photos are pending). Final results will improve once user shoots real photos.
-- When user sends a ref image to WeChat, the bridge saves it locally — read from `~/.wechat-claude-code/sessions/` or use whatever path the daemon exposes. (TODO: verify exact saved path after first test.)
+**Notes / caveats** (updated 2026-06-22):
+- API server is on `127.0.0.1:8765` (Vite dev :5173 proxies /api to it). If down, kill any orphan + relaunch via `start_api.bat` (env keys `YAN_GEN_API_KEY` + `SILICONFLOW_API_KEY` come from User-scope env vars; bridge bash must source them).
+- **Active image provider** (config/gen.yaml): `aidraw365_gpt_image_2` for v2 single-SKU + multi-image swap. Each call ~$0.04. Fallback model `nanobanana-pro` works for single-image only (no style_ref).
+- **Generation takes 60-120s** for gpt-image-2 (longer than Kolors). +15-30s for CDN deploy when `auto_publish=true`.
+- Output saved to `D:\YAN_AutoEdit\assets\generated\<date>\<job-id>_0.png` (LEGACY: `D:\YAN_AutoEdit\out\<date>\` is the OLD path, no longer used).
+- CDN copy lands in `D:\yan-gen-cdn\images\<job-id>_0.png` then wrangler-deploys.
+- When user sends a ref image to WeChat, the bridge saves it to `~/.wechat-claude-code/inbox-images/<ts>.jpeg` (path prepended to prompt).
+- Photo reality: 12 SKU images in `D:/YAN_Atelier_Site/images/p*.jpg` are currently real but some show different forms than the SKU name (e.g., 0001/0002 named "brooch" but photo is necklace). Workflow: pass via `sku_id` and trust the photo; do not promise forms not shown.
