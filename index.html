@@ -1827,7 +1827,7 @@
   }
   body[data-market="cn"] .catalog-filter-label { letter-spacing: 0.18em; text-transform: none; font-size: 0.78rem; }
   .catalog-filter-chips {
-    display: flex; flex-wrap: wrap; gap: 0 0.25rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem;
     align-items: center;
   }
   .catalog-filter-chips:empty { display: none; }
@@ -1850,10 +1850,10 @@
   body[data-market="cn"] .subfilter-chip { font-weight: 500; letter-spacing: 0.14em; text-transform: none; font-size: 0.8rem; }
   body[data-market="global"] .subfilter-chip { font-family: var(--serif-en); letter-spacing: 0.06em; font-size: 0.86rem; }
   .subfilter-chip:hover { color: var(--ink); }
-  .subfilter-chip.active { color: var(--ink); }
-  .subfilter-chip.active::after {
-    content: ' ·';
-    color: var(--ink);
+  .subfilter-chip.active { color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
+  @media (min-width: 601px) {
+    .subfilter-chip.active { text-decoration: none; }
+    .subfilter-chip.active::after { content: ' ·'; color: var(--ink); }
   }
   /* Catalog dead-end / empty-state CTA (e.g. 簪钗 with no available pieces) */
   .catalog-deadend {
@@ -5682,8 +5682,9 @@
     .market-dropdown { right: -1rem; left: -1rem; min-width: 0; width: calc(100% - 2rem); }
     /* P0 #5 · consult channel handles · 44pt touch target */
     .consult-channel-handle, .consult-channel-handle a { display: inline-block; min-height: 44px; padding: 0.7rem 0; line-height: 1.5; }
-    /* P0 #6 · subfilter chips touch target */
-    .subfilter-chip { min-height: 44px; padding: 0.7rem 1rem; font-size: 0.78rem; }
+    /* P0 #6 · subfilter chips touch target + better wrap */
+    .subfilter-chip { min-height: 44px; padding: 0.7rem 0.6rem; font-size: 0.78rem; }
+    .catalog-filter-chips { gap: 0.3rem 0.4rem; }
     /* P0 #7 · customizer chips touch target + wrap gap */
     .pd-chip { min-height: 44px; padding: 0.65rem 0.95rem; font-size: 0.88rem; flex: 0 0 auto; }
     .pd-option-chips { gap: 0.6rem 0.5rem; }
