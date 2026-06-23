@@ -1837,6 +1837,35 @@
     .catalog-filter-row { grid-template-columns: 1fr; gap: 0; padding: var(--space-2xs) 0 var(--space-xs); }
     .catalog-filter-label { padding-top: 0; padding-bottom: 0.35rem; }
   }
+  /* Motif collapsible (2026-06-23 · 13 chips were chip-jungle) */
+  .catalog-motif-details {
+    border-bottom: 1px solid var(--line);
+    padding: var(--space-xs) 0;
+  }
+  .catalog-motif-details:last-child { border-bottom: 0; }
+  .catalog-motif-summary {
+    display: grid;
+    grid-template-columns: 9rem 1fr auto;
+    align-items: baseline;
+    gap: 0 var(--space-md);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    padding: 0.3rem 0;
+    min-height: 44px;
+  }
+  .catalog-motif-summary::-webkit-details-marker { display: none; }
+  .catalog-motif-toggle {
+    font-family: var(--sans-en);
+    font-size: 1rem;
+    color: var(--hush);
+    transition: transform 0.2s ease;
+  }
+  .catalog-motif-details[open] .catalog-motif-toggle { transform: rotate(45deg); }
+  .catalog-motif-details[open] #catalog-motif-filters { margin-top: var(--space-xs); }
+  @media (max-width: 600px) {
+    .catalog-motif-summary { grid-template-columns: 1fr auto; }
+  }
   .subfilter-chip {
     background: transparent; border: none; cursor: pointer;
     font-family: var(--serif);
@@ -3477,12 +3506,68 @@
     border: 1px solid var(--line);
     text-align: center;
   }
+  /* Peak-end step 4 (2026-06-23) — was just a mailto-handoff receipt; now a brand peak with
+     Hu Yan bench portrait + "what happens next" timeline. Psych: peak-end rule means the
+     LAST moment disproportionately shapes how the visit is remembered. */
+  .reserve-step-done {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: var(--space-md);
+    align-items: stretch;
+  }
+  .reserve-done-figure {
+    margin: 0;
+    overflow: hidden;
+    background: var(--ink);
+    aspect-ratio: 4 / 5;
+    max-height: 380px;
+  }
+  .reserve-done-figure img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 40%;
+    filter: grayscale(0.15);
+  }
+  .reserve-done-body { display: flex; flex-direction: column; gap: 0.6rem; }
+  .reserve-next-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0.4rem 0 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .reserve-next-steps li {
+    display: grid;
+    grid-template-columns: 1.8rem 1fr;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--ink);
+    line-height: 1.55;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .reserve-next-steps li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .reserve-next-steps li::before {
+    content: counter(rv-step, upper-roman);
+    counter-increment: rv-step;
+    font-family: var(--serif-en);
+    font-style: italic;
+    color: var(--hush);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+  .reserve-next-steps { counter-reset: rv-step; }
+  /* Hide 4-dot Stripe-style progress on the done step — the timeline below carries that signal. */
+  body:has(.reserve-step[data-step="4"]:not([hidden])) .reserve-progress { display: none; }
   @media (max-width: 600px) {
     .reserve-card { padding: 2.2rem 1.5rem; max-height: 94vh; width: 95vw; }
     .reserve-actions { flex-direction: column-reverse; align-items: stretch; }
     .reserve-actions .btn { width: 100%; }
     .reserve-product { flex-direction: column; align-items: flex-start; gap: 1rem; }
     .reserve-product img { width: 100%; height: 200px; }
+    .reserve-step-done { grid-template-columns: 1fr; }
+    .reserve-done-figure { aspect-ratio: 16 / 10; max-height: 200px; }
   }
 
   /* ============ Catalog Empty / Divider(新增)============ */
@@ -3749,8 +3834,11 @@
   .footer-legal-entity a:hover { color: var(--paper-mute); }
 
   /* 7. Nav offset for promo bar. Geo-banner top-bar adds additional 36px via body.has-geo-banner (see line ~170) */
+  /* 2026-06-23 fix: both bars were stacked at top:0 z:110, overlapping. When geo-banner is visible
+     (first-paint market decision), suppress promo-bar — geo wins as the more time-sensitive UX. */
   .nav { top: 34px; }
   .view { padding-top: 114px; }
+  body.has-geo-banner .promo-bar { display: none; }
   @media (max-width: 600px) {
     .nav { top: 28px; }
     .view { padding-top: 100px; }
@@ -4183,6 +4271,35 @@
   .ai-disclosure-badge-cn { display: none; }
   body[data-market="cn"] .ai-disclosure-badge-en { display: none; }
   body[data-market="cn"] .ai-disclosure-badge-cn { display: inline-block; }
+  /* WeChat in-app browser overrides (2026-06-23) — X5 kernel renders backdrop-filter as
+     solid blocks, breaking the translucent atelier register. Swap to opaque ivory. */
+  body.is-wechat .nav,
+  body.is-wechat .reserve-backdrop,
+  body.is-wechat .nl-inline,
+  body.is-wechat .mail-fallback-toast {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  body.is-wechat .nav { background: var(--paper); }
+  body.is-wechat .reserve-backdrop { background: rgba(22, 19, 16, 0.55); }
+  /* Catalog-card variant — quieter than the hero badge, but still visible BEFORE click. */
+  .product-ai-badge {
+    position: absolute;
+    top: 10px; left: 10px;
+    z-index: 4;
+    padding: 3px 7px;
+    background: rgba(22, 19, 16, 0.78);
+    color: rgba(251, 247, 238, 0.95);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  @media (max-width: 600px) {
+    .product-ai-badge { font-size: 8.5px; padding: 2.5px 5px; top: 6px; left: 6px; }
+  }
   .pdp-v2-worn-text {
     padding: 0 clamp(2rem, 5vw, 5rem);
   }
@@ -4779,6 +4896,20 @@
     font-variant-numeric: tabular-nums;
     font-weight: 500;
   }
+  /* Anchor line — shown only on plique-à-jour PDPs (2026-06-23, psych Cialdini anchoring).
+     Converts Craft page Renaissance/Cartier work into commerce signal at the buying moment. */
+  .pd-price-anchor {
+    font-family: var(--serif);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+    line-height: 1.55;
+    margin: -0.4rem 0 1.1rem;
+    padding: 0.55rem 0 0;
+    border-top: 1px dotted var(--line);
+  }
+  body[data-market="global"] .pd-price-anchor { font-family: var(--serif-en); font-style: italic; font-size: 0.83rem; }
+  .pd-price-anchor strong { font-weight: 500; color: var(--ink); font-style: normal; }
   /* Ship-by line — Mejuri/Aurate/Foundrae literal lead-time convention */
   .pd-shipby {
     font-family: var(--serif);
@@ -6021,6 +6152,8 @@
     #view-product .pd-info { padding-bottom: 8rem; }
     /* P1 · mail toast bottom offset to clear sticky CTA + safe area */
     .mail-fallback-toast { bottom: calc(5rem + env(safe-area-inset-bottom, 0)); }
+    /* 2026-06-23 · on PDP the 52px sticky buy bar pushes the toast further up so it stays visible */
+    body:has(#view-product.active) .mail-fallback-toast { bottom: calc(5rem + 52px + env(safe-area-inset-bottom, 0)); }
     /* P1 · nl-inline slide-in respects safe area */
     .nl-inline { bottom: calc(1.5rem + env(safe-area-inset-bottom, 0)); }
     /* P1 · footer-newsletter input · prevent iOS zoom */
@@ -6130,8 +6263,8 @@
           <div class="door-overline door-overline-cn">立刻能戴</div>
           <h2 class="door-h door-h-cn">做好的, 直接带走。</h2>
           <h2 class="door-h door-h-en">Pieces ready at the bench. Take one home.</h2>
-          <div class="door-ribbon door-ribbon-en" id="door-ribbon-stock-en">8 available · 12 made</div>
-          <div class="door-ribbon door-ribbon-cn" id="door-ribbon-stock-cn">还剩 8 件 · 共 12 件</div>
+          <div class="door-ribbon door-ribbon-en" id="door-ribbon-stock-en">In stock now</div>
+          <div class="door-ribbon door-ribbon-cn" id="door-ribbon-stock-cn">现货</div>
           <span class="door-arrow" aria-hidden="true">
             <svg width="40" height="10" viewBox="0 0 40 10"><line x1="0" y1="5" x2="38" y2="5" stroke="currentColor" stroke-width="0.8"/><polyline points="33,1 38,5 33,9" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
           </span>
@@ -6193,52 +6326,11 @@
     <div class="product-grid" id="featured-products"></div>
   </section>
 
-  <!-- Testimonial Section (Alana Maria style) -->
-  <section class="testimonial-section">
-    <div class="testimonial-header">
-      <h2 class="testimonial-title-en">WHY YÀN</h2>
-      <h2 class="testimonial-title-cn">为什么选择 YÀN</h2>
-      <div class="testimonial-stars">★★★★★</div>
-      <div class="testimonial-count testimonial-count-en">Voices from the atelier</div>
-      <div class="testimonial-count testimonial-count-cn">来自工坊的声音</div>
-    </div>
-    <div class="testimonial-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-quote testimonial-quote-en">The moment I held it to the light and saw the enamel glow like stained glass — I understood why this takes months to make.</div>
-        <div class="testimonial-quote testimonial-quote-cn">拿到光下看的那一刻，珐琅像彩色玻璃一样透亮——我才明白为什么要做这么久。</div>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">L</div>
-          <div class="testimonial-meta">
-            <div class="testimonial-name">Lisa M.</div>
-            <div class="testimonial-verified">Verified Buyer</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-quote testimonial-quote-en">My mother asked where I found it. When I told her it was handmade in Yunnan, she wanted one too.</div>
-        <div class="testimonial-quote testimonial-quote-cn">我妈问我哪儿买的，我说是云南手工做的，她也想要一个。</div>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">S</div>
-          <div class="testimonial-meta">
-            <div class="testimonial-name">Sophie W.</div>
-            <div class="testimonial-verified">Verified Buyer</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-quote testimonial-quote-en">Not like anything in stores. People stop me to ask about it. Worth every penny.</div>
-        <div class="testimonial-quote testimonial-quote-cn">跟商场里的完全不一样，经常有人拦住问我在哪买的。值。</div>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">J</div>
-          <div class="testimonial-meta">
-            <div class="testimonial-name">Jennifer K.</div>
-            <div class="testimonial-verified">Verified Buyer</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <!-- Testimonial section removed 2026-06-23 — 3-agent panel converged:
+       fabricated Lisa M./Sophie W./Jennifer K. + "Verified Buyer" stars violate
+       the 2026-06-03 EOD brand-integrity rule (Customer Letters were cut for
+       the same reason). Re-enable only with real WeChat/Email screenshots +
+       buyer permission. UGC section (display:none) already follows this rule. -->
 
   <div class="section-divider"><span class="sd-line"></span></div>
 
@@ -6372,12 +6464,9 @@
     <span class="catalog-help-arrow" aria-hidden="true">→</span>
   </a>
   <div class="catalog-filters" id="catalog-filters"></div>
-  <!-- Grouped filter bar — Motif + Form + Price (2026-06-23: motif row added back as catalog grew to 73 SKUs)  -->
+  <!-- Grouped filter bar — Form + Price always visible; 13-chip Motif row collapsed into <details>
+       per 2026-06-23 3-agent audit (心理学 Hick's law / design chip-jungle / mobile 360px chrome). -->
   <div class="catalog-filterbar" role="group" aria-label="Filter pieces">
-    <div class="catalog-filter-row">
-      <span class="catalog-filter-label" id="catalog-motif-label"></span>
-      <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-motif-filters" aria-label="Motif"></div>
-    </div>
     <div class="catalog-filter-row">
       <span class="catalog-filter-label" id="catalog-form-label"></span>
       <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-cat-filters" aria-label="Form"></div>
@@ -6386,6 +6475,13 @@
       <span class="catalog-filter-label" id="catalog-price-label"></span>
       <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-price-filters" aria-label="Price"></div>
     </div>
+    <details class="catalog-motif-details">
+      <summary class="catalog-motif-summary">
+        <span class="catalog-filter-label" id="catalog-motif-label"></span>
+        <span class="catalog-motif-toggle" aria-hidden="true">＋</span>
+      </summary>
+      <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-motif-filters" aria-label="Motif"></div>
+    </details>
   </div>
   <!-- Off-DOM host kept so renderEnamelWayfinder() doesn't crash if invoked; UI removed. -->
   <div id="enamel-wayfinder" hidden></div>
@@ -6775,15 +6871,15 @@
       <form class="reserve-form" onsubmit="event.preventDefault(); reserveSubmit();">
         <label class="reserve-field">
           <span class="rv-label" id="rv-l-name"></span>
-          <input type="text" id="rv-input-name" required />
+          <input type="text" id="rv-input-name" autocomplete="name" autocapitalize="words" required />
         </label>
         <label class="reserve-field">
           <span class="rv-label" id="rv-l-contact"></span>
-          <input type="text" id="rv-input-contact" required />
+          <input type="email" inputmode="email" id="rv-input-contact" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false" required />
         </label>
         <label class="reserve-field">
           <span class="rv-label" id="rv-l-when"></span>
-          <input type="text" id="rv-input-when" />
+          <input type="text" id="rv-input-when" autocomplete="off" />
         </label>
         <!-- v3.1: Privacy consent checkbox (PIPL Art.14 compliance) -->
         <label class="reserve-consent">
@@ -6797,13 +6893,19 @@
       </form>
     </div>
 
-    <div class="reserve-step" data-step="4" hidden>
-      <div class="reserve-overline" id="rv-step4-overline"></div>
-      <h3 class="reserve-h" id="rv-step4-h"></h3>
-      <div class="reserve-ref" id="rv-ref"></div>
-      <p class="reserve-p" id="rv-step4-p"></p>
-      <div class="reserve-actions">
-        <button class="btn btn-primary" onclick="closeReserveModal()" id="rv-btn-done"></button>
+    <div class="reserve-step reserve-step-done" data-step="4" hidden>
+      <figure class="reserve-done-figure">
+        <img src="images/maker-huyan-bench-2023.jpg" alt="Hu Yan at her workbench" loading="lazy" />
+      </figure>
+      <div class="reserve-done-body">
+        <div class="reserve-overline" id="rv-step4-overline"></div>
+        <h3 class="reserve-h" id="rv-step4-h"></h3>
+        <div class="reserve-ref" id="rv-ref"></div>
+        <p class="reserve-p" id="rv-step4-p"></p>
+        <ol class="reserve-next-steps" id="rv-next-steps"></ol>
+        <div class="reserve-actions">
+          <button class="btn btn-primary" onclick="closeReserveModal()" id="rv-btn-done"></button>
+        </div>
       </div>
     </div>
   </div>
@@ -6903,7 +7005,7 @@ const COPY = {
     },
     // Time-based drop messaging — plain DTC convention (evidence-led; no antiquarian Edition framing)
     nextDropOverline: '本批 · 现货',
-    nextDropText: '本批 12 件中,4 件已售出 · 看中的件已售或想要相近设计,写信至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,工坊一对一回复 · 也可订阅,下批新作上架第一时间通知。',
+    nextDropText: '看中的件已售或想要相近设计,写信至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,工坊一对一回复 · 也可订阅,下批新作上架第一时间通知。',
     // Customer Letters keys deleted 2026-06-19 (T6 audit) · render + DOM cut 06-08, this was dead data with fabricated names — brand-integrity hazard
     honoursOverline: '媒体与展览',
     honours: ['2023 · 第八届海南国际文博会 · 三亚']
@@ -6975,9 +7077,14 @@ const COPY = {
       lWhen: '希望收到的时间(可选)',
       consentText: '我已阅读并同意 <a href="#legal" onclick="event.stopPropagation();showLegal()">《隐私政策》</a> 和 <a href="#legal" onclick="event.stopPropagation();showLegal()">《服务条款》</a>',
       btnSubmit: '提交预订申请 →',
-      step4Overline: '请发送',
+      step4Overline: '已为您留位',
       step4H: '请发送预订邮件 · 工坊 24 小时内回信',
-      step4P: '我们已在您的邮箱中准备好这封预订申请。<strong>请点击发送</strong>,工坊会在 <strong>24 小时内</strong>与您回信,确认尺寸、宝石与刻字,并附<strong>安全支付链接</strong>(微信支付 / 支付宝 / 国际信用卡)。<br/><br/><strong>确认后再收款。</strong>邮件没自动打开?写至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,引用上方编号即可。',
+      step4P: '我们已在您的邮箱中准备好这封预订申请。<strong>请点击发送</strong>。邮件没自动打开?写至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,引用上方编号即可。',
+      nextSteps: [
+        '<strong>24 小时内</strong>,工坊会从云南直接回信,确认尺寸 · 颜色 · 刻字。',
+        '确认后,我们会附上<strong>安全支付链接</strong>(微信支付 / 支付宝 / 国际信用卡) — 确认后再收款。',
+        '付款后,这件作品进入<strong>烧制工序</strong>,完工寄出。每一步都会有照片或短信告知。'
+      ],
       btnDone: '好的'
     },
     // Product detail
@@ -7464,7 +7571,7 @@ const COPY = {
       customOrder: 'Custom · 6–8 weeks'
     },
     nextDropOverline: 'In stock now',
-    nextDropText: '12 pieces in this batch, 4 already taken · Write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> for similar work or next-batch enquiries — the studio replies directly · Or subscribe to be first notified.',
+    nextDropText: 'For similar work or next-batch enquiries, write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> — the studio replies directly · Or subscribe to be first notified.',
     // Customer Letters keys deleted 2026-06-19 (T6 audit) · render + DOM cut 06-08, this was dead data with fabricated names — brand-integrity hazard
     honoursOverline: 'Press & Exhibitions',
     honours: ['2023 · 8th Hainan International Cultural Industry Fair · Sanya']
@@ -7534,9 +7641,14 @@ const COPY = {
       lWhen: 'Preferred delivery window (optional)',
       consentText: 'I have read and agree to the <a href="#legal" onclick="event.stopPropagation();showLegal()">Privacy Policy</a> and <a href="#legal" onclick="event.stopPropagation();showLegal()">Terms of Service</a>',
       btnSubmit: 'Submit Reservation Request →',
-      step4Overline: 'Please send',
+      step4Overline: 'A place is held for you',
       step4H: 'Send the email to confirm · we reply within 24h',
-      step4P: 'We\'ve prepared this reservation request in your mail client. <strong>Please press send.</strong> The atelier will reply within <strong>24 hours</strong> to confirm size, gemstones, and any engraving — together with a <strong>secure payment link</strong> (Stripe / international cards / WeChat Pay).<br/><br/><strong>No charge yet.</strong> If the email did not open automatically, write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> and quote the reference above.',
+      step4P: 'We\'ve prepared this reservation request in your mail client. <strong>Please press send.</strong> If the email did not open automatically, write to <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a> and quote the reference above.',
+      nextSteps: [
+        'Within <strong>24 hours</strong>, the atelier replies directly from Yunnan to confirm size, colour and engraving.',
+        'Once confirmed, you\'ll receive a <strong>secure payment link</strong> (Stripe / international cards / WeChat Pay) — <strong>no charge until then</strong>.',
+        'After payment, the piece enters <strong>firing</strong>. Each step is documented with photos before it ships.'
+      ],
       btnDone: 'Continue browsing'
     },
     pdAttrLabels: { form: 'Form', maker: 'Maker', atelier: 'Workshop', material: 'Material', size: 'Size / Weight', lead: 'Lead Time' },
@@ -8414,7 +8526,7 @@ const PRODUCTS = [
     priceCN: 1080,
     cn: { name: '十字花 · 项链 · 蓝', material: '925 银 · 掐丝烧珐琅', desc: '十字花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Quatrefoil Necklace · Blue', material: '925 sterling silver · cloisonné enamel', desc: 'Quatrefoil Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },,
+  },
   {
     id: 'YA-2026-0047', series: 'butterfly', img: 'images/p47-multifloral-butterfly-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
     priceCN: 1080,
@@ -9358,6 +9470,17 @@ function openConsultBooking() {
   }
 })();
 
+// WeChat in-app browser detection (2026-06-23 · CN mobile is mostly in-WeChat).
+// Sets body.is-wechat for CSS overrides (X5 kernel can't render backdrop-filter cleanly)
+// and exposes window.IS_WECHAT for JS guards (mailto: silently fails inside MicroMessenger).
+window.IS_WECHAT = typeof navigator !== 'undefined' && /MicroMessenger/i.test(navigator.userAgent || '');
+if (window.IS_WECHAT) {
+  document.documentElement.classList.add('is-wechat');
+  document.body && document.body.classList.add('is-wechat');
+  // Also flip a body class once DOM is ready in case body isn't there yet.
+  document.addEventListener('DOMContentLoaded', () => document.body.classList.add('is-wechat'), { once: true });
+}
+
 (function initPliqueGlow() {
   if (!window.matchMedia) return;
   if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
@@ -9628,15 +9751,19 @@ function applyCopy() {
   // Wishlist initialization (after applyCopy because filter chip needs label)
   if (typeof updateWishUI === 'function') updateWishUI();
 
-  // D1 · dual-door ribbon — counted from PRODUCTS, decoupled from H title (rule D3a)
+  // D1 · dual-door ribbon — only "Ready to wear" door, so count strictly status='available'
+  // (made-to-order belongs to the right Bespoke door; sold/reserved excluded)
   try {
-    const total = PRODUCTS.length;
-    const sold = PRODUCTS.filter(p => p.status === 'sold').length;
+    const avail = PRODUCTS.filter(p => p.status === 'available').length;
+    const sold  = PRODUCTS.filter(p => p.status === 'sold').length;
     const ribbonEn = document.getElementById('door-ribbon-stock-en');
     const ribbonCn = document.getElementById('door-ribbon-stock-cn');
-    const avail = total - sold;
-    if (ribbonEn) ribbonEn.textContent = `${avail} available · ${total} made`;
-    if (ribbonCn) ribbonCn.textContent = `还剩 ${avail} 件 · 共 ${total} 件`;
+    if (ribbonEn) ribbonEn.textContent = sold > 0
+      ? `${avail} in stock · ${sold} already taken`
+      : `${avail} in stock now`;
+    if (ribbonCn) ribbonCn.textContent = sold > 0
+      ? `${avail} 件现货 · ${sold} 件已售出`
+      : `${avail} 件现货`;
   } catch (e) { /* ribbon is decorative · fail-quiet */ }
 
   // 注: c.series 数组仍是 catalog/PDP/溯源页的 id→名称查表,不能删
@@ -10136,10 +10263,16 @@ function productCardHtml(p) {
   const tagsHtml = tags.length ? '<div class="product-tags">' + tags.join('') + '</div>' : '';
   // v3.1: keyboard support + lazy loading
   const ariaLabel = MARKET === 'cn' ? `查看 ${data.name} 详情` : `View ${data.name} details`;
+  // AI-disclosure: made-to-order SKUs only have AI-rendered preview images (no real photo yet).
+  // Buyer must see this BEFORE click, not after (2026-06-23 audit — commerce + design 2 votes).
+  const aiBadge = status === 'made-to-order'
+    ? `<span class="product-ai-badge" aria-label="${MARKET === 'cn' ? 'AI 辅助渲染' : 'AI-assisted render'}">${MARKET === 'cn' ? 'AI 渲染' : 'AI render'}</span>`
+    : '';
   return `
     <div class="product-card product-card--${status}" tabindex="0" role="button" aria-label="${ariaLabel}" onclick="openProduct('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProduct('${p.id}')}">
       <div class="product-img">
         ${tagsHtml}
+        ${aiBadge}
         <img src="${p.img}" alt="${data.name}" loading="lazy" decoding="async" />
         ${img2 ? `<img class="product-img-hover" src="${img2}" alt="" loading="lazy" decoding="async" />` : ''}
       </div>
@@ -10566,6 +10699,15 @@ function openProduct(id, keepView) {
         })()}
         <div class="pd-price-block">
           <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
+          ${(() => {
+            const mat = (p.cn && p.cn.material) || '';
+            const matEn = (p.global && p.global.material) || '';
+            const isPlique = /空窗|plique/i.test(mat + matEn);
+            if (!isPlique) return '';
+            return MARKET === 'cn'
+              ? `<div class="pd-price-anchor">高级珠宝品牌的空窗珐琅作品 通常自 <strong>¥35,000</strong> 起 · 此处直接出自工坊, 无品牌溢价。</div>`
+              : `<div class="pd-price-anchor">Plique-à-jour at high-jewelry maisons typically starts at <strong>$5,000+</strong> · This comes directly from the bench, no maison markup.</div>`;
+          })()}
           <!-- v3.2 Klarna installment block REMOVED from DOM 2026-06-22 per SBB + Stripe FE audit:
                (a) brand: pink Klarna #FFB3C7 broke quiet-luxury register (line 1675 of this file
                    says: Hermes/Loewe never show payment-method logos);
@@ -10749,9 +10891,11 @@ function openProduct(id, keepView) {
       },
       "hasMerchantReturnPolicy": {
         "@type": "MerchantReturnPolicy",
-        "applicableCountry": "CN",
+        "applicableCountry": ["CN", "US", "GB", "JP", "HK"],
         "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-        "merchantReturnDays": 14
+        "merchantReturnDays": 14,
+        "returnMethod": "https://schema.org/ReturnByMail",
+        "returnFees": "https://schema.org/ReturnShippingFees"
       }
     }
   };
@@ -10937,12 +11081,23 @@ function reserveSubmit() {
       ];
   // Append configurator selections if present (non-bespoke pieces can carry small customizations)
   const configTail = (_pdConfig.productId === p.id && !_reserveState.isBespoke) ? pdConfigForMailto() : '';
+  const fullBody = bodyLines.join('\n') + configTail;
   const mailto = 'mailto:hello@yan-atelier.com'
     + '?subject=' + encodeURIComponent(subject)
-    + '&body=' + encodeURIComponent(bodyLines.join('\n') + configTail);
-  // Open in same tab — mail client handles it; user lands back on success step
-  window.location.href = mailto;
-  setTimeout(() => { if (window.showMailFallbackToast) showMailFallbackToast(); }, 600);
+    + '&body=' + encodeURIComponent(fullBody);
+  // WeChat in-app browser silently drops mailto: — copy structured payload to clipboard
+  // and show a clearer toast asking the user to open in Safari/Chrome (CN audit fix).
+  if (window.IS_WECHAT) {
+    try {
+      const payload = 'To: hello@yan-atelier.com\nSubject: ' + subject + '\n\n' + fullBody;
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(payload);
+    } catch (e) { /* clipboard may be blocked — fallback toast still helps */ }
+    setTimeout(() => { if (window.showMailFallbackToast) showMailFallbackToast(); }, 200);
+  } else {
+    // Open in same tab — mail client handles it; user lands back on success step
+    window.location.href = mailto;
+    setTimeout(() => { if (window.showMailFallbackToast) showMailFallbackToast(); }, 600);
+  }
 
   // Mark as submitted so closeReserveModal() won't capture this as abandoned (task C/G)
   _reserveState.submitted = true;
@@ -10986,6 +11141,10 @@ function applyReserveCopy() {
   set('rv-step4-h', r.step4H);
   set('rv-step4-p', r.step4P);
   set('rv-btn-done', r.btnDone);
+  const nextStepsEl = document.getElementById('rv-next-steps');
+  if (nextStepsEl && Array.isArray(r.nextSteps)) {
+    nextStepsEl.innerHTML = r.nextSteps.map(s => `<li>${s}</li>`).join('');
+  }
 }
 
 // ============================================================
