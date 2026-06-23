@@ -10075,11 +10075,13 @@ function openProduct(id, keepView) {
         <div class="pd-price-block">
           <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
           <!-- v3.2 Klarna installment block REMOVED from DOM 2026-06-22 per SBB + Stripe FE audit:
-               (a) brand: pink Klarna #FFB3C7 broke quiet-luxury register (this file line 1675
-                   says "Hermès/Loewe never show payment-method logos");
-               (b) legal: hand-rolled SVG `<text>Klarna</text>` was a trademark hazard even when
-                   CSS-hidden because it remained in view-source / Stripe partner review.
-               When Klarna comes back, use official stripe.com/files/brand assets + restraint. -->
+               (a) brand: pink Klarna #FFB3C7 broke quiet-luxury register (line 1675 of this file
+                   says: Hermes/Loewe never show payment-method logos);
+               (b) legal: hand-rolled SVG with inline text "Klarna" was a trademark hazard even
+                   when CSS-hidden because it remained in view-source / Stripe partner review.
+               When Klarna comes back, use official stripe.com/files/brand assets + restraint.
+               NOTE: do NOT use backticks in this comment — it lives inside a JS template literal
+               and backticks terminate the literal early, breaking the entire script block. -->
           ${''}
           <div class="pd-shipby">${shipByFor(p, c)}</div>
           <div class="pd-terms-plain">${c.pdTerms || ''}</div>
