@@ -94,8 +94,68 @@ The "promo bar must carry shipping copy" assumption is a Shopify default, not a 
 
 ---
 
+## R4 · Two product lines · Atelier signature vs Essentials sub-line (2026-06-23)
+
+YÀN runs two product lines under one brand. **Treat them as distinct on the SKU + page level, never as competing brands.**
+
+### Line A · YÀN Atelier (signature, the moat)
+
+- **Craft**: plique-à-jour (空窗珐琅) · cloisonné enamel (掐丝烧珐琅)
+- **Price**: ¥1,080–¥5,180 entry → mid → apex (¥3,800 plique necklace · ¥5,180 iris bangle)
+- **Story**: Hu Yan · Yunnan workshop · 800°C · single-bench. Full atelier narrative on PDP, Maker page, Craft page.
+- **Filter taxonomy**: `Plique-à-jour` / `Cloisonné`
+- **Role**: the brand's claim to attention. Mejuri/Catbird can't make these. This is why YÀN exists.
+
+### Line B · YÀN Essentials (sub-line, the funnel)
+
+- **Craft**: 925 silver · freshwater + cultured pearl. **No enamel.**
+- **Price**: ¥380–¥880 entry hook tier
+- **Story**: silent. PDP describes the silver / pearl in plain product terms. **Do not name Hu Yan on Essentials PDP. Do not invoke the Yunnan workshop story per piece.** Brand halo is carried by the site-wide hero / Maker / Craft pages that visitors have already passed.
+- **Filter taxonomy**: `Silver` / `Pearl`
+- **Role**: lower the entry bar (YVMIN entry ¥442 / HEFANG silver necklace ¥1,090 / Mejuri demi-fine $150). Pull cold visitors into the brand, where the Atelier line is the upsell. **Never the home hero. Never the curated 6.**
+
+### Why the split (evidence)
+
+- 3-agent pricing audit 2026-06-23 found YÀN's entry ¥1,080-¥1,280 was 2× the CN indie entry sweet spot. ¥600-¥1,500 is YVMIN's 80%-of-sales band.
+- Western indie peers (Pippa cord pieces, Mejuri Demi-Fine, FARIS NAIL) all carry non-signature entry tiers under the same brand name.
+- Hu Yan production capability confirmed by user 2026-06-23: "便宜的能做，而且可以加珍珠款、纯银款，不一定只有耳钉，项链、手镯其实也OK。不做珐琅就行。"
+
+### How to apply
+
+**Site placement**:
+- Essentials pieces show in catalog with `Silver` or `Pearl` craft chip. Never on home hero. Never in the home Featured 6 (those stay Atelier-only). Curated "Start here" band can include 1 Essentials piece for funnel only after at least 8 Essentials SKUs exist.
+- Essentials gets its own dedicated catalog section view (or a filter pre-set "YÀN Essentials") when ≥5 Essentials SKUs exist. Until then, render in standard catalog tagged by craft chip.
+
+**Copy register**:
+- Atelier PDP: full atelier voice. Hu Yan, Yunnan, 800°C, Renaissance lineage, plique-à-jour story all available.
+- Essentials PDP: **product-noun voice only**. "Sterling silver, freshwater pearl, ~5g, 14k gold-plated chain." No "fired at Yunnan Studio." No "by Hu Yan." Schema.org `brand: YÀN Atelier` is enough.
+- Maker / Craft / Atelier pages stay enamel-focused. Essentials does **not** appear in those narratives.
+
+**Pricing rule**:
+- Essentials ceiling ¥880. Anything above ¥880 must be enamel-based (Line A).
+- If a piece sits ¥600-¥880 AND has enamel, it stays Line A (Atelier, cloisonné lowest tier).
+- Atelier floor not lowered below ¥1,080. The two lines must not collide.
+
+### Banned phrasings (permanent)
+
+- "YÀN's everyday line" — too soft, sounds like dilution
+- "YÀN by Hu Yan Essentials" — collapses the firewall
+- "Made by the same hands as plique" — invokes Maker on Essentials, breaks the silent rule
+- Any Essentials catalog title that says "Atelier" or "工坊"
+
+### The split test
+
+If a visitor reads "YÀN Atelier" as the maker of the plique butterfly necklace, and "YÀN Essentials" as a silver hoop earring, do they read them as: (a) one brand serving two needs (✓ pass), or (b) the same brand watering down (✗ fail)? Run the test on every Essentials PDP, every catalog placement.
+
+### Open exception
+
+If Hu Yan later trains an apprentice / academy partnership materializes ([[project-strategic-path-b-academy-2026-06-03]]), Essentials may be repositioned as "by the apprentice line" with its own named maker. Do not do this preemptively.
+
+---
+
 ## Dated log
 
 - **2026-06-19** — R1 (section-title rule) and R2 (commerce voice contract) committed after grilling cycle. Trigger: dual-door H "12 in this batch, 4 sold" was enumeration disguised as naming; EN nav "Shop / Gift" was already commerce voice while CN was holding atelier register inconsistently.
 - **2026-06-19 (revised same day)** — R2 reframed from PAGE-location to ZONE-by-buyer-investment after the original PAGE rule was found too restrictive for a luxury craft brand. SBB / Anna Hu / Alighieri benchmarks all run atelier register below home fold; descending to commerce voice on warm-zone sections would strip YÀN's differentiator. Cold-zone strictness retained because of the 3-second parse test.
 - **2026-06-19 (late)** — R3 (PDP trust pattern) committed after evidence-led research on 7 indie fine-jewelry PDPs. Trigger: G3 audit hid promo bar on PDP mobile to reclaim 28px viewport. Initial concern was loss of trust info, but research showed WWAKE / Catbird / Mejuri / FARIS all keep trust inline near CTA, not in top bar — and YÀN's site already renders 2 inline trust strips on PDP. Rule formalizes the pattern.
+- **2026-06-23** — R4 (Atelier vs Essentials two-line split) committed after 3-agent pricing research confirmed YÀN entry tier was 2× too high vs CN sweet spot AND user confirmed Hu Yan can produce non-enamel silver+pearl pieces. Strategic move: keep enamel as moat, open Essentials as funnel-only sub-line at ¥380-880. Silent-brand PDP rule on Essentials side to preserve Atelier mystique while still capturing entry-tier conversion. No SKUs shipped yet — rule precedes product.
