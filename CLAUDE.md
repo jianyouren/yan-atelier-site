@@ -138,6 +138,38 @@ curl --noproxy '*' -X POST http://127.0.0.1:8765/api/generate/image \
 - If 502 from API: check `D:\YAN_AutoEdit` logs — usually aidraw365 channel flake. Retry is automatic (3 attempts, 5s/15s backoff) but a 3rd failure means upstream is down. Wait 2 min and retry, OR tell user to try again later.
 - If `gpt-image-2` channel down explicitly (503 "no available channel"): config switches to `aidraw365_nanobanana_pro` will work for SKU-only (no style_ref) — but tell user "降级到 nano-banana, 不能用 style_ref" if you do that swap.
 
+## Jewelry wearing position rules (CRITICAL for image gen)
+
+**手链/手镯 (Bracelet/Bangle)** — MUST encircle the wrist:
+- ✅ Correct: bracelet worn AROUND the wrist, forming a closed loop encircling the wrist bone
+- ❌ Wrong: bracelet laid flat on top of hand, displayed as a flat chain (NOT worn)
+- Modifier to add: `bracelet worn around the wrist in closed circular position, encircling wrist bone, NOT laid flat on hand`
+- 中文 modifier: `手链环绕手腕佩戴，围绕手腕骨形成闭环，不是平铺展示`
+
+**项链 (Necklace)** — MUST hang around the neck:
+- ✅ Correct: necklace draped around neck, pendant resting on chest/collarbone area
+- ❌ Wrong: necklace laid flat on surface or held in hand
+- Modifier to add: `necklace worn around neck, pendant hanging naturally on chest`
+
+**胸针 (Brooch)** — MUST be pinned to clothing:
+- ✅ Correct: brooch pinned to lapel, collar, scarf, or clothing fabric
+- ❌ Wrong: brooch held in hand or placed on flat surface
+- Modifier to add: `brooch pinned to clothing fabric, worn on lapel or collar`
+
+**发饰/发簪 (Hair accessory/Hair pin)** — MUST be inserted in hair:
+- ✅ Correct: hair pin inserted through hair bun or styled hair
+- ❌ Wrong: hair pin held in hand or placed on surface
+- Modifier to add: `hair pin inserted in styled hair or bun`
+
+**吊坠 (Pendant)** — same as necklace, must hang on chain around neck.
+
+**戒指 (Ring)** — MUST encircle finger:
+- ✅ Correct: ring worn on finger, encircling the finger
+- ❌ Wrong: ring held or placed on palm
+- Modifier to add: `ring worn on finger, encircling the finger`
+
+**ALWAYS add the appropriate wearing position modifier when generating 佩戴特写 (worn close-up) images.**
+
 ## Legacy: vision-analyze for "make similar to this ref" (when no SKU library match)
 
 If user sends a ref image but no SKU/platform/type:
