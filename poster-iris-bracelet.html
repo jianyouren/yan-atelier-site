@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Bracelet · Brand Poster · YÀN Atelier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            background: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .poster {
+            width: 100%;
+            max-width: 800px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+        }
+
+        /* ===== TOP SECTION: Flower Background ===== */
+        .top-section {
+            position: relative;
+            background: linear-gradient(135deg,
+                #2d1f3d 0%,
+                #4a3366 25%,
+                #6b4d8a 50%,
+                #8b6aad 75%,
+                #a987c4 100%
+            );
+            padding: 60px 50px;
+            min-height: 420px;
+            overflow: hidden;
+        }
+
+        /* Iris flower illustration overlay */
+        .top-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><linearGradient id="petalGrad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%239b7bb8;stop-opacity:0.6"/><stop offset="100%25" style="stop-color:%236b4d8a;stop-opacity:0.3"/></linearGradient></defs><g fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M200,50 Q250,100 200,200 Q150,100 200,50" fill="url(%23petalGrad)"/><path d="M200,50 Q300,80 280,180 Q240,120 200,50" fill="url(%23petalGrad)"/><path d="M200,50 Q100,80 120,180 Q160,120 200,50" fill="url(%23petalGrad)"/><path d="M280,180 Q320,250 250,300 Q280,230 280,180" fill="url(%23petalGrad)"/><path d="M120,180 Q80,250 150,300 Q120,230 120,180" fill="url(%23petalGrad)"/><ellipse cx="200" cy="180" rx="15" ry="25" fill="rgba(255,215,0,0.4)"/></g></svg>');
+            background-size: 350px;
+            background-position: right -50px top -20px;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Second iris, softer, left side */
+        .top-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><g fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"><path d="M200,80 Q240,120 200,200 Q160,120 200,80" fill="rgba(180,150,200,0.2)"/><path d="M200,80 Q280,100 260,180 Q230,130 200,80" fill="rgba(180,150,200,0.15)"/><path d="M200,80 Q120,100 140,180 Q170,130 200,80" fill="rgba(180,150,200,0.15)"/></g></svg>');
+            background-size: 280px;
+            background-position: left -80px bottom -40px;
+            background-repeat: no-repeat;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .top-content {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+        }
+
+        .flower-name {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .flower-name-cn {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.5em;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .symbolism {
+            font-size: 1.1rem;
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: 0.1em;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .symbolism span {
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        /* Color Palette */
+        .color-palette {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 2.5rem;
+        }
+
+        .color-swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .color-swatch:nth-child(1) { background: #6b4d8a; }
+        .color-swatch:nth-child(2) { background: #9b7bb8; }
+        .color-swatch:nth-child(3) { background: #c9a962; }
+        .color-swatch:nth-child(4) { background: #e8ddd0; }
+        .color-swatch:nth-child(5) { background: #3d2a4d; }
+
+        /* Design Inspiration Text */
+        .design-inspiration {
+            max-width: 500px;
+        }
+
+        .design-inspiration h3 {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .design-inspiration p {
+            font-size: 1rem;
+            font-style: italic;
+            font-weight: 300;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        /* ===== BOTTOM SECTION: Jewelry Display ===== */
+        .bottom-section {
+            display: flex;
+            background: #f9f7f4;
+            min-height: 380px;
+        }
+
+        .jewelry-image-area {
+            flex: 1.2;
+            position: relative;
+            background: linear-gradient(145deg, #f5f2ed 0%, #ebe6de 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .jewelry-image-area img {
+            max-width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 40px rgba(0,0,0,0.15));
+        }
+
+        .inspiration-text-area {
+            flex: 1;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            background: #fff;
+        }
+
+        /* Line art iris decorations */
+        .line-art-iris {
+            position: absolute;
+            width: 120px;
+            height: 180px;
+            opacity: 0.12;
+            pointer-events: none;
+        }
+
+        .line-art-iris.top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        .line-art-iris.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            transform: rotate(180deg);
+        }
+
+        .inspiration-title {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #8b6aad;
+            margin-bottom: 1.5rem;
+        }
+
+        .inspiration-quote {
+            font-size: 1.5rem;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.6;
+            color: #2d2d2d;
+            margin-bottom: 1.5rem;
+        }
+
+        .inspiration-quote-cn {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .brand-signature {
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        /* Footer branding */
+        .poster-footer {
+            background: #2d1f3d;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+        }
+
+        .poster-footer .brand {
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 0.3em;
+        }
+
+        .poster-footer .tagline {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 700px) {
+            .top-section {
+                padding: 40px 30px;
+                min-height: 350px;
+            }
+            .flower-name {
+                font-size: 2.5rem;
+            }
+            .bottom-section {
+                flex-direction: column;
+            }
+            .jewelry-image-area {
+                min-height: 280px;
+            }
+            .inspiration-text-area {
+                padding: 35px 30px;
+            }
+            .inspiration-quote {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <!-- TOP: Flower Background with Design Info -->
+        <div class="top-section">
+            <div class="top-content">
+                <h1 class="flower-name">Iris</h1>
+                <p class="flower-name-cn">鸢 尾</p>
+
+                <p class="symbolism">
+                    <span>Symbolise:</span> wisdom, hope, and the courage to bloom in adversity
+                </p>
+
+                <div class="color-palette">
+                    <div class="color-swatch" title="Royal Purple"></div>
+                    <div class="color-swatch" title="Lavender Mist"></div>
+                    <div class="color-swatch" title="Antique Gold"></div>
+                    <div class="color-swatch" title="Pearl Cream"></div>
+                    <div class="color-swatch" title="Deep Violet"></div>
+                </div>
+
+                <div class="design-inspiration">
+                    <h3>Design Inspiration</h3>
+                    <p>
+                        The iris unfolds its petals like stained glass catching light —
+                        each translucent layer a meditation on resilience and grace.
+                        In ancient courts, it was the messenger's flower,
+                        carrying words across impossible distances.
+                        We capture this luminous spirit in plique-à-jour enamel,
+                        where light passes through color as it does through the petal itself.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM: Jewelry Display + Inspiration Text -->
+        <div class="bottom-section">
+            <div class="jewelry-image-area">
+                <img src="images/p05-bracelet-purple.jpg" alt="Iris Bracelet by YÀN Atelier">
+            </div>
+
+            <div class="inspiration-text-area">
+                <!-- Line art decorations -->
+                <svg class="line-art-iris top-right" viewBox="0 0 100 150">
+                    <path d="M50,10 Q70,30 50,80 Q30,30 50,10" fill="none" stroke="#8b6aad" stroke-width="0.8"/>
+                    <path d="M50,10 Q85,25 75,70 Q60,40 50,10" fill="none" stroke="#8b6aad" stroke-width="0.8"/>
+                    <path d="M50,10 Q15,25 25,70 Q40,40 50,10" fill="none" stroke="#8b6aad" stroke-width="0.8"/>
+                    <path d="M75,70 Q90,100 60,120 Q75,90 75,70" fill="none" stroke="#8b6aad" stroke-width="0.5"/>
+                    <path d="M25,70 Q10,100 40,120 Q25,90 25,70" fill="none" stroke="#8b6aad" stroke-width="0.5"/>
+                    <ellipse cx="50" cy="65" rx="6" ry="10" fill="none" stroke="#c9a962" stroke-width="0.6"/>
+                    <line x1="50" y1="80" x2="50" y2="140" stroke="#8b6aad" stroke-width="0.5"/>
+                </svg>
+
+                <svg class="line-art-iris bottom-left" viewBox="0 0 100 150">
+                    <path d="M50,10 Q70,30 50,80 Q30,30 50,10" fill="none" stroke="#8b6aad" stroke-width="0.8"/>
+                    <path d="M50,10 Q85,25 75,70 Q60,40 50,10" fill="none" stroke="#8b6aad" stroke-width="0.8"/>
+                    <path d="M50,10 Q15,25 25,70 Q40,40 50,10" fill="none" stroke="#8b6aad" stroke-width="0.8"/>
+                    <ellipse cx="50" cy="65" rx="6" ry="10" fill="none" stroke="#c9a962" stroke-width="0.6"/>
+                </svg>
+
+                <p class="inspiration-title">Inspiration</p>
+
+                <p class="inspiration-quote">
+                    "Like light through cathedral glass,
+                    each petal holds a thousand years
+                    of whispered prayers and silent grace."
+                </p>
+
+                <p class="inspiration-quote-cn">
+                    如教堂彩窗透出的光，
+                    每一片花瓣都承载着千年的低语与静谧。
+                </p>
+
+                <p class="brand-signature">YÀN Atelier · 滇韵珐琅</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="poster-footer">
+            <span class="brand">YÀN ATELIER</span>
+            <span class="tagline">Plique-à-jour Enamel · Handcrafted in Yunnan</span>
+        </div>
+    </div>
+</body>
+</html>
