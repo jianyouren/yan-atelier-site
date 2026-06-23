@@ -56,10 +56,15 @@ images/00 (*).png
 # ─── Video assets (too large for git history) ─────────────────────────
 # .mp4 files routinely 1-13MB. Use external storage (Cloudflare R2 /
 # Google Drive / dedicated CDN) or commit only with explicit decision.
+# Exception: images/video-*-loop.mp4 are ffmpeg-trimmed 10s autoplay
+# loops (≤2MB each, web-optimized for PDP). Source mp4s with Chinese
+# names stay ignored — only ASCII -loop variants get committed.
 video/*.mp4
 video/*.mov
 video/*.webm
 video/*.MOV
+images/video-*.mp4
+!images/video-*-loop.mp4
 
 # ─── Local-only test artifacts ────────────────────────────────────────
 test_output.txt
