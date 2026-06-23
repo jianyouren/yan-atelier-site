@@ -65,3 +65,6 @@ video/*.MOV
 test_output.txt
 *.log
 *.tmp
+
+# ─── Photo staging (用户拖入, Claude 处理完挪到 images/ 后此目录可清空) ─
+photos-incoming/

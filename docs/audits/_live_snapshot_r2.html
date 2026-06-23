@@ -4179,10 +4179,6 @@
   @media (max-width: 600px) {
     .ai-disclosure-badge { font-size: 9px; padding: 3px 6px; bottom: 8px; right: 8px; }
   }
-  /* i18n: match .door-overline-en/-cn pattern — show right language per market */
-  .ai-disclosure-badge-cn { display: none; }
-  body[data-market="cn"] .ai-disclosure-badge-en { display: none; }
-  body[data-market="cn"] .ai-disclosure-badge-cn { display: inline-block; }
   .pdp-v2-worn-text {
     padding: 0 clamp(2rem, 5vw, 5rem);
   }
@@ -6123,8 +6119,7 @@
     <div class="dual-door-inner">
       <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
         <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" data-ai-generated="true" />
-        <span class="ai-disclosure-badge ai-disclosure-badge-en" aria-label="AI-assisted render">AI assisted render</span>
-        <span class="ai-disclosure-badge ai-disclosure-badge-cn" aria-label="AI 辅助渲染">AI 辅助渲染</span>
+        <span class="ai-disclosure-badge" aria-label="AI 辅助生成图像">AI 辅助</span>
         <div class="door-content">
           <div class="door-overline door-overline-en">Ready to wear</div>
           <div class="door-overline door-overline-cn">立刻能戴</div>
@@ -6161,9 +6156,9 @@
       <div class="value-card">
         <div class="value-icon">✦</div>
         <div class="value-title value-title-en">925 Sterling Silver</div>
-        <div class="value-title value-title-cn">925 银</div>
-        <div class="value-desc value-desc-en">92.5% silver alloy. Patina develops naturally — mail back any time for complimentary polishing.</div>
-        <div class="value-desc value-desc-cn">92.5% 银含量。氧化是材料的自然过程, 寄回工坊可免费打磨复原。</div>
+        <div class="value-title value-title-cn">925纯银</div>
+        <div class="value-desc value-desc-en">Hypoallergenic, tarnish-resistant. Lasts generations.</div>
+        <div class="value-desc value-desc-cn">不过敏、不氧化，传代之物。</div>
       </div>
       <div class="value-card">
         <div class="value-icon">◈</div>
@@ -8174,211 +8169,7 @@ const PRODUCTS = [
       material: '925 silver · mineral enamel · braided silk',
       desc: 'A blue enamel tube painted with two narcissi, braided at each end with silk. Adjustable — fitted from young girls to mothers. It has become, perhaps for that reason, the piece most often passed between three generations.'
     }
-  },
-  {
-    id: 'YA-2026-0013', series: 'bloom', img: 'images/p13-triangle-pendant.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '三角 · 吊坠', material: '925 银 · 掐丝烧珐琅', desc: '三角 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Triangle Pendant', material: '925 sterling silver · cloisonné enamel', desc: 'Triangle Pendant motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0014', series: 'bloom', img: 'images/p14-triangle-lotus-pendant.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '三角莲花 · 吊坠', material: '925 银 · 掐丝烧珐琅', desc: '三角莲花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Triangle Lotus Pendant', material: '925 sterling silver · cloisonné enamel', desc: 'Triangle Lotus Pendant motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0015', series: 'craft', img: 'images/p15-bougainvillea-studs-pink.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
-    cn: { name: '三角梅 · 耳饰 · 粉', material: '925 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Bougainvillea Studs · Pink', material: '925 sterling silver · cloisonné enamel', desc: 'Bougainvillea Studs motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0016', series: 'craft', img: 'images/p16-bougainvillea-studs.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
-    cn: { name: '三角梅 · 耳饰', material: '925 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Bougainvillea Studs', material: '925 sterling silver · cloisonné enamel', desc: 'Bougainvillea Studs motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0017', series: 'bloom', img: 'images/p17-bougainvillea-necklace-gold.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '三角梅 · 项链 · 金', material: '925 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Bougainvillea Necklace · Gold', material: '925 sterling silver · cloisonné enamel', desc: 'Bougainvillea Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0018', series: 'bloom', img: 'images/p18-twotone-lotus-pendant.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '双色莲花 · 吊坠', material: '925 银 · 掐丝烧珐琅', desc: '双色莲花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Two-Tone Lotus Pendant', material: '925 sterling silver · cloisonné enamel', desc: 'Two-Tone Lotus Pendant motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0019', series: 'bloom', img: 'images/p19-twin-butterfly-necklace.jfif', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '双蝴蝶 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '双蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Twin Butterfly Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Twin Butterfly Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0020', series: 'craft', img: 'images/p20-heritage-butterfly-drops.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 680,
-    cn: { name: '国风蝴蝶 · 耳坠', material: '925 银 · 掐丝烧珐琅', desc: '国风蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Heritage Butterfly Drops', material: '925 sterling silver · cloisonné enamel', desc: 'Heritage Butterfly Drops motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0021', series: 'craft', img: 'images/p21-heritage-iris-drops.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 680,
-    cn: { name: '国风鸢尾 · 耳坠', material: '925 银 · 掐丝烧珐琅', desc: '国风鸢尾 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Heritage Iris Drops', material: '925 sterling silver · cloisonné enamel', desc: 'Heritage Iris Drops motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0022', series: 'bloom', img: 'images/p22-round-stud-drop.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '圆形 · 耳钉吊坠', material: '925 银 · 掐丝烧珐琅', desc: '圆形 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Round Stud Drop', material: '925 sterling silver · cloisonné enamel', desc: 'Round Stud Drop motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0023', series: 'bloom', img: 'images/p23-bougainvillea-long-necklace.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1580,
-    cn: { name: '三角梅 · 长项链', material: '925 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Bougainvillea Long Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Bougainvillea Long Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0024', series: 'bloom', img: 'images/p24-grand-blue-lotus-necklace.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1280,
-    cn: { name: '大蓝莲 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '大蓝莲 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Grand Blue Lotus Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Grand Blue Lotus Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0025', series: 'craft', img: 'images/p25-squareround-studs.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
-    cn: { name: '方圆 · 耳饰', material: '925 银 · 掐丝烧珐琅', desc: '方圆 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Square-Round Studs', material: '925 sterling silver · cloisonné enamel', desc: 'Square-Round Studs motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0026', series: 'bloom', img: 'images/p26-heart-pendant-bohemian.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '心形 · 吊坠 · 波西米亚', material: '925 银 · 掐丝烧珐琅', desc: '心形 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Heart Pendant · Bohemian', material: '925 sterling silver · cloisonné enamel', desc: 'Heart Pendant motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0027', series: 'bloom', img: 'images/p27-red-bloom-necklace.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '红花 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '红花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Red Bloom Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Red Bloom Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0028', series: 'bloom', img: 'images/p28-petal-cluster-bracelet.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 880,
-    cn: { name: '碎花 · 手链', material: '925 银 · 掐丝烧珐琅', desc: '碎花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Petal Cluster Bracelet', material: '925 sterling silver · cloisonné enamel', desc: 'Petal Cluster Bracelet motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0029', series: 'bloom', img: 'images/p29-sculpted-lotus-pendant.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1580,
-    cn: { name: '立体大莲 · 吊坠', material: '925 银 · 掐丝烧珐琅', desc: '立体大莲 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Sculpted Lotus Pendant', material: '925 sterling silver · cloisonné enamel', desc: 'Sculpted Lotus Pendant motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0030', series: 'bloom', img: 'images/p30-sculpted-butterfly-necklace.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1380,
-    cn: { name: '立体小蝴蝶 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '立体小蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Sculpted Butterfly Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Sculpted Butterfly Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0031', series: 'bloom', img: 'images/p31-bougainvillea-necklace-goldplated.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1480,
-    cn: { name: '三角梅 · 项链 · 镀金', material: '925 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Bougainvillea Necklace · Gold-Plated', material: '925 sterling silver · cloisonné enamel', desc: 'Bougainvillea Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0032', series: 'bloom', img: 'images/p32-feather-necklace.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '羽毛 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '羽毛 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Feather Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Feather Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0033', series: 'bloom', img: 'images/p33-willow-leaf-necklace.jfif', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '柳叶 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '柳叶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Willow Leaf Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Willow Leaf Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0034', series: 'bloom', img: 'images/p34-auspicious-cloud-pendant.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '祥云 · 吊坠', material: '925 银 · 掐丝烧珐琅', desc: '祥云 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Auspicious Cloud Pendant', material: '925 sterling silver · cloisonné enamel', desc: 'Auspicious Cloud Pendant motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0035', series: 'bloom', img: 'images/p35-aster-carnelian-long-necklace.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1380,
-    cn: { name: '蓝菊红玛瑙 · 长项链', material: '925 银 · 掐丝烧珐琅', desc: '蓝菊红玛瑙 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Aster + Carnelian Long Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Aster + Carnelian Long Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0036', series: 'craft', img: 'images/p36-aster-studs-blue.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 680,
-    cn: { name: '蓝菊 · 耳钉', material: '925 银 · 掐丝烧珐琅', desc: '蓝菊 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Aster Studs · Blue', material: '925 sterling silver · cloisonné enamel', desc: 'Aster Studs motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0037', series: 'bloom', img: 'images/p37-aster-necklace-studs-set.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1480,
-    cn: { name: '蓝菊 · 项链+耳钉 组合', material: '925 银 · 掐丝烧珐琅', desc: '蓝菊 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Aster Necklace & Studs Set', material: '925 sterling silver · cloisonné enamel', desc: 'Aster Necklace & Studs Set motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0038', series: 'craft', img: 'images/p38-butterfly-drops-blue.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
-    cn: { name: '蓝蝴蝶 · 耳坠', material: '925 银 · 掐丝烧珐琅', desc: '蓝蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Butterfly Drops · Blue', material: '925 sterling silver · cloisonné enamel', desc: 'Butterfly Drops motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0039', series: 'bloom', img: 'images/p39-wreath-necklace-yellow.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '花环 · 项链 · 黄', material: '925 银 · 掐丝烧珐琅', desc: '花环 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Wreath Necklace · Yellow', material: '925 sterling silver · cloisonné enamel', desc: 'Wreath Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0040', series: 'bloom', img: 'images/p40-butterfly-pearl-bracelet.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 880,
-    cn: { name: '蝴蝶珍珠 · 手链', material: '925 银 · 掐丝烧珐琅', desc: '蝴蝶珍珠 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Butterfly + Pearl Bracelet', material: '925 sterling silver · cloisonné enamel', desc: 'Butterfly + Pearl Bracelet motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0041', series: 'bloom', img: 'images/p41-clover-necklace.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '四叶草 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '四叶草 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Clover Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Clover Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0042', series: 'bloom', img: 'images/p42-pliqueajour-butterfly-necklace-green.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 2880,
-    cn: { name: '空窗蝴蝶 · 项链 · 绿', material: '925 银 · 空窗珐琅', desc: '空窗蝴蝶 主纹 · 925 银 + 空窗珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Plique-a-Jour Butterfly Necklace · Green', material: '925 sterling silver · plique-à-jour enamel', desc: 'Plique-a-Jour Butterfly Necklace motif · 925 sterling silver + plique-à-jour enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0043', series: 'bloom', img: 'images/p43-butterfly-necklace-blue.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '蓝蝴蝶 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '蓝蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Butterfly Necklace · Blue', material: '925 sterling silver · cloisonné enamel', desc: 'Butterfly Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0044', series: 'craft', img: 'images/p44-cherry-blossom-studs.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
-    cn: { name: '樱花 · 耳钉', material: '925 银 · 掐丝烧珐琅', desc: '樱花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Cherry Blossom Studs', material: '925 sterling silver · cloisonné enamel', desc: 'Cherry Blossom Studs motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0045', series: 'bloom', img: 'images/p45-gradient-butterfly-necklace.png', badge_cn: '订制', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '渐变蝴蝶 · 项链', material: '925 银 · 掐丝烧珐琅', desc: '渐变蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Gradient Butterfly Necklace', material: '925 sterling silver · cloisonné enamel', desc: 'Gradient Butterfly Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
-  {
-    id: 'YA-2026-0046', series: 'bloom', img: 'images/p46-quatrefoil-necklace-blue.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '十字花 · 项链 · 蓝', material: '925 银 · 掐丝烧珐琅', desc: '十字花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Quatrefoil Necklace · Blue', material: '925 sterling silver · cloisonné enamel', desc: 'Quatrefoil Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
-  },
+  }
 ];
 
 // ============================================================
@@ -8619,41 +8410,7 @@ const PRODUCT_META = {
       engraving: { label_cn: '釉管刻字(短)', label_en: 'Bead Engraving (short)', type: 'text', max_length: 4, delta_if_used: 250,
         placeholder_cn: '1–4 字 / 缩写', placeholder_en: '1–4 chars / initials' }
     }
-  },
-  'YA-2026-0013': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0014': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0015': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0016': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0017': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0018': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0019': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0020': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0021': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0022': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0023': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0024': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0025': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0026': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0027': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0028': { formKey: 'bracelet', form_cn: '手链', form_en: 'Bracelet', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0029': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0030': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0031': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0032': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0033': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0034': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0035': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0036': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0037': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0038': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0039': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0040': { formKey: 'bracelet', form_cn: '手链', form_en: 'Bracelet', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0041': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0042': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0043': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0044': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0045': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0046': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+  }
 };
 
 // ============================================================
@@ -10272,8 +10029,8 @@ function openProduct(id, keepView) {
           <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}"
                data-ai-generated="${/\/p\d{2}-worn-/.test(defaultWornImg) ? 'true' : 'false'}" />
           <span class="ai-disclosure-badge" id="pdp-worn-ai-badge"
-                aria-label="${isCn ? 'AI 辅助渲染' : 'AI-assisted render'}"
-                style="${/\/p\d{2}-worn-/.test(defaultWornImg) ? '' : 'display:none;'}">${isCn ? 'AI 辅助渲染' : 'AI assisted render'}</span>
+                aria-label="AI 辅助生成图像"
+                style="${/\/p\d{2}-worn-/.test(defaultWornImg) ? '' : 'display:none;'}">${isCn ? 'AI 辅助' : 'AI assisted'}</span>
         </div>
         <div class="pdp-v2-worn-text">
           <div class="pdp-v2-section-overline">${isCn ? '戴法' : 'How to Wear'}</div>
@@ -10312,15 +10069,21 @@ function openProduct(id, keepView) {
         })()}
         <div class="pd-price-block">
           <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
-          <!-- v3.2 Klarna installment block REMOVED from DOM 2026-06-22 per SBB + Stripe FE audit:
-               (a) brand: pink Klarna #FFB3C7 broke quiet-luxury register (line 1675 of this file
-                   says: Hermes/Loewe never show payment-method logos);
-               (b) legal: hand-rolled SVG with inline text "Klarna" was a trademark hazard even
-                   when CSS-hidden because it remained in view-source / Stripe partner review.
-               When Klarna comes back, use official stripe.com/files/brand assets + restraint.
-               NOTE: do NOT use backticks in this comment — it lives inside a JS template literal
-               and backticks terminate the literal early, breaking the entire script block. -->
-          ${''}
+          <!-- v3.2: Installment payment option (Klarna/Afterpay - Global only) -->
+          ${(() => {
+            if (MARKET === 'cn' || !c.pdInstallmentText) return '';
+            const priceNum = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
+            const rounded = Math.ceil(priceNum / 10) * 10 - 1;
+            const installment = Math.ceil(rounded / 4);
+            const text = c.pdInstallmentText.replace('$XX', '$' + installment);
+            return `<div class="pd-installment">
+              <span class="pd-installment-text">${text}</span>
+              <svg class="pd-installment-logo" viewBox="0 0 70 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="70" height="26" rx="4" fill="#FFB3C7"/>
+                <text x="35" y="17" text-anchor="middle" fill="#17120F" font-size="11" font-weight="600">Klarna</text>
+              </svg>
+            </div>`;
+          })()}
           <div class="pd-shipby">${shipByFor(p, c)}</div>
           <div class="pd-terms-plain">${c.pdTerms || ''}</div>
           <!-- Packaging illustration removed 2026-06-18 — user feedback: inline image inside
@@ -10335,7 +10098,7 @@ function openProduct(id, keepView) {
           const skuTxt = p.id;
           const materialTxt = data.material || (isCn ? '纯银 · 掐丝珐琅' : 'Sterling silver · plique-à-jour enamel');
           const dimTxt = dimVal || '—';
-          const completedTxt = isCn ? '2025–2026 · YÀN · 滇韵工坊' : '2025–2026 · YÀN · Yunnan Studio';
+          const completedTxt = isCn ? '2026 · YÀN · 滇韵工坊' : '2026 · YÀN · Yunnan Studio';
           const L = isCn
             ? { plate: '编号', mat: '材质', dim: '尺寸', done: '完成于' }
             : { plate: 'Piece', mat: 'Material', dim: 'Dimension', done: 'Completed' };
