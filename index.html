@@ -8222,7 +8222,7 @@ function openStripeCheckout(productId) {
 // Plique-à-jour shown first as the brand's craft signature; iris bangle anchors price ceiling;
 // brooch + bracelet lower the entry bar so cold visitor doesn't bounce on 73-SKU paralysis.
 const CURATED_SKUS = [
-  'YA-2026-0042', // 空窗蝴蝶 · 项链 · 绿 (plique, ¥2,880 — craft signature)
+  'YA-2026-0042', // 空窗蝴蝶 · 项链 · 绿 (plique, ¥3,800 — craft signature, repriced 2026-06-23)
   'YA-2026-0005', // 鸢尾 · 镯 (¥5,180 — price ceiling anchor)
   'YA-2026-0008', // 莲鱼 · 吊坠 (¥3,180 — iconic motif)
   'YA-2026-0010', // 蝴蝶 · 项链 (¥2,380 — mid-tier accessible)
@@ -8578,7 +8578,7 @@ const PRODUCTS = [
   },
   {
     id: 'YA-2026-0042', series: 'butterfly', img: 'images/p42-pliqueajour-butterfly-necklace-green.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 2880,
+    priceCN: 3800,
     cn: { name: '空窗蝴蝶 · 项链 · 绿', material: '925 银 · 空窗珐琅', desc: '空窗蝴蝶 主纹 · 925 银 + 空窗珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Plique-a-Jour Butterfly Necklace · Green', material: '925 sterling silver · plique-à-jour enamel', desc: 'Plique-a-Jour Butterfly Necklace motif · 925 sterling silver + plique-à-jour enamel · fired at Yunnan Studio.' }
   },
@@ -8740,7 +8740,7 @@ const PRODUCTS = [
   },
   {
     id: 'YA-2026-0069', series: 'butterfly', img: 'images/p69-pliqueajour-butterfly-pendant-blue.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 2880,
+    priceCN: 3800,
     cn: { name: '空窗蝴蝶 · 吊坠 · 蓝', material: '925 银 · 空窗珐琅', desc: '空窗蝴蝶 主纹 · 925 银 + 空窗珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Plique-a-Jour Butterfly Pendant · Blue', material: '925 sterling silver · plique-à-jour enamel', desc: 'Plique-a-Jour Butterfly Pendant motif · 925 sterling silver + plique-à-jour enamel · fired at Yunnan Studio.' }
   },
@@ -10805,9 +10805,11 @@ function openProduct(id, keepView) {
             const matEn = (p.global && p.global.material) || '';
             const isPlique = /空窗|plique/i.test(mat + matEn);
             if (!isPlique) return '';
+            // Anchor cited from real 2023-2024 auction hammer prices (Bonhams / Doyle / Rago)
+            // — 广告法 safe, evidence in docs/plique_pricing_evidence_2026-06-23.md
             return MARKET === 'cn'
-              ? `<div class="pd-price-anchor">高级珠宝品牌的空窗珐琅作品 通常自 <strong>¥35,000</strong> 起 · 此处直接出自工坊, 无品牌溢价。</div>`
-              : `<div class="pd-price-anchor">Plique-à-jour at high-jewelry maisons typically starts at <strong>$5,000+</strong> · This comes directly from the bench, no maison markup.</div>`;
+              ? `<div class="pd-price-anchor">高级珠宝品牌的空窗珐琅古董作品 近三年在拍卖中以 <strong>$57,600–$239,400</strong> 成交 (Bonhams 2023 · Doyle 2024 · Rago 2024) · 此处直接出自工坊, 无品牌溢价, 无拍卖手续费。</div>`
+              : `<div class="pd-price-anchor">Plique-à-jour pieces from high-jewelry maisons recently sold at auction for <strong>$57,600–$239,400</strong> (Bonhams 2023 · Doyle 2024 · Rago 2024) · Here, direct from the bench — no maison markup, no auction premium.</div>`;
           })()}
           <!-- v3.2 Klarna installment block REMOVED from DOM 2026-06-22 per SBB + Stripe FE audit:
                (a) brand: pink Klarna #FFB3C7 broke quiet-luxury register (line 1675 of this file
