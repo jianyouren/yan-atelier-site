@@ -1837,6 +1837,54 @@
     .catalog-filter-row { grid-template-columns: 1fr; gap: 0; padding: var(--space-2xs) 0 var(--space-xs); }
     .catalog-filter-label { padding-top: 0; padding-bottom: 0.35rem; }
   }
+  /* Curated "Start here" band (2026-06-23) — surfaces 6 anchor SKUs above the 73-grid
+     on unfiltered catalog view. Hides when any filter active. */
+  .catalog-curated {
+    max-width: var(--container);
+    margin: 0 auto var(--space-md);
+    padding: 0 var(--pad-x);
+  }
+  .catalog-curated[hidden] { display: none; }
+  .catalog-curated-header {
+    text-align: center;
+    margin-bottom: var(--space-md);
+  }
+  .catalog-curated-overline {
+    font-family: var(--sans-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--hush);
+    margin-bottom: 0.6rem;
+  }
+  body[data-market="cn"] .catalog-curated-overline {
+    font-family: var(--serif);
+    letter-spacing: 0.16em;
+    text-transform: none;
+    font-size: 0.78rem;
+  }
+  .catalog-curated-h {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 3.2vw, 1.85rem);
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.3;
+    margin: 0;
+  }
+  body[data-market="global"] .catalog-curated-h {
+    font-family: var(--serif-en);
+    font-style: italic;
+  }
+  .catalog-curated-divider {
+    margin: var(--space-md) auto var(--space-xs);
+    text-align: center;
+  }
+  .catalog-curated-divider .sd-line {
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: var(--line);
+  }
   /* Motif collapsible (2026-06-23 · 13 chips were chip-jungle) */
   .catalog-motif-details {
     border-bottom: 1px solid var(--line);
@@ -6494,6 +6542,16 @@
       <option value="price-desc" id="catalog-sort-price-desc"></option>
     </select>
   </div>
+  <!-- Curated "Start here" band — 6 hand-picked SKUs surfacing above the 73-grid (Bea Bongiasca /
+       Catbird pattern · 2026-06-23 commerce audit). JS hides this when any filter is active. -->
+  <section class="catalog-curated" id="catalog-curated" hidden>
+    <div class="catalog-curated-header">
+      <div class="catalog-curated-overline" id="catalog-curated-overline"></div>
+      <h2 class="catalog-curated-h" id="catalog-curated-h"></h2>
+    </div>
+    <div class="product-grid catalog-curated-grid" id="catalog-curated-grid"></div>
+    <div class="catalog-curated-divider"><span class="sd-line"></span></div>
+  </section>
   <div class="catalog-grid" id="catalog-grid"></div>
 </div>
 
@@ -7012,6 +7070,8 @@ const COPY = {
 ,
     catalogEmpty: '暂无符合条件的作品。下面是其他几件。',
     catalogMoreFromOthers: '其他作品',
+    catalogCuratedOverline: '工坊精选 · 从这 6 件开始',
+    catalogCuratedH: '不知道挑哪件? 从这里开始。',
     // Motif (2026-06-23 — added back as catalog grew to 73 SKUs)
     catalogMotifLabel: '主题',
     catalogMotifFilters: [
@@ -7578,6 +7638,8 @@ const COPY = {
 ,
     catalogEmpty: 'No pieces match this view. A few others below.',
     catalogMoreFromOthers: 'Other pieces',
+    catalogCuratedOverline: 'Atelier\'s pick · start with these six',
+    catalogCuratedH: 'Not sure where to begin? Start here.',
     catalogMotifLabel: 'Motif',
     catalogMotifFilters: [
       ['all', 'All motifs'],
@@ -8150,6 +8212,23 @@ function openStripeCheckout(productId) {
   // Open Stripe Payment Link in new tab (so user can return to site)
   window.open(link, '_blank', 'noopener');
 }
+
+// ============================================================
+// Curated "Start here" — 2026-06-23, 4-agent panel feedback (commerce #5 + psych anchoring)
+// Hand-picked 6 SKUs balanced across:
+//   · 5 forms (项链 / 手镯 / 吊坠 / 胸针 / 编绳)
+//   · 5 motifs (蝴蝶 plique + 鸢尾 + 莲鱼 + 雏菊 + 青莲)
+//   · 4 price tiers (¥1,280 entry → ¥5,180 apex)
+// Plique-à-jour shown first as the brand's craft signature; iris bangle anchors price ceiling;
+// brooch + bracelet lower the entry bar so cold visitor doesn't bounce on 73-SKU paralysis.
+const CURATED_SKUS = [
+  'YA-2026-0042', // 空窗蝴蝶 · 项链 · 绿 (plique, ¥2,880 — craft signature)
+  'YA-2026-0005', // 鸢尾 · 镯 (¥5,180 — price ceiling anchor)
+  'YA-2026-0008', // 莲鱼 · 吊坠 (¥3,180 — iconic motif)
+  'YA-2026-0010', // 蝴蝶 · 项链 (¥2,380 — mid-tier accessible)
+  'YA-2026-0001', // 雏菊 · 胸针 (¥1,280 — form-diverse entry)
+  'YA-2026-0012'  // 青莲 · 编绳 (¥1,280 — bracelet entry)
+];
 
 // ============================================================
 // 产品库:中英双套
@@ -9771,8 +9850,9 @@ function applyCopy() {
   // 精选 header
   document.getElementById('featured-title').textContent = c.featuredTitle;
   document.getElementById('featured-link').textContent = c.featuredLink;
-  // 精选作品
-  const featured = [PRODUCTS[1], PRODUCTS[7], PRODUCTS[3], PRODUCTS[5], PRODUCTS[8], PRODUCTS[0]];
+  // 精选作品 — curated 2026-06-23 across 5 forms / 5 motifs / 4 price tiers (¥1,280–¥5,180)
+  // anchored by the plique-à-jour signature + iris bangle apex, balanced with accessible brooch + bracelet
+  const featured = CURATED_SKUS.map(id => PRODUCTS.find(p => p && p.id === id)).filter(Boolean);
   document.getElementById('featured-products').innerHTML = featured.map(p => productCardHtml(p)).join('');
 
   // Maker
@@ -10427,6 +10507,27 @@ function _statusRank(s) {
 function renderCatalog(filter) {
   _catalogFilter = filter;
   const c = COPY[MARKET];
+
+  // Curated "Start here" band — visible only on unfiltered catalog (Bea Bongiasca pattern)
+  const curatedEl = document.getElementById('catalog-curated');
+  if (curatedEl) {
+    const isUnfiltered = filter === 'all'
+      && _catalogCat === 'all' && _catalogPrice === 'all'
+      && _catalogMotif === 'all' && !_catalogEnamel && _catalogStatus !== 'in-stock';
+    if (isUnfiltered) {
+      const items = CURATED_SKUS.map(id => PRODUCTS.find(p => p && p.id === id)).filter(Boolean);
+      const overlineEl = document.getElementById('catalog-curated-overline');
+      const hEl = document.getElementById('catalog-curated-h');
+      const gridEl = document.getElementById('catalog-curated-grid');
+      if (overlineEl) overlineEl.textContent = c.catalogCuratedOverline || '';
+      if (hEl) hEl.textContent = c.catalogCuratedH || '';
+      if (gridEl) gridEl.innerHTML = items.map(p => productCardHtml(p)).join('');
+      curatedEl.hidden = false;
+    } else {
+      curatedEl.hidden = true;
+    }
+  }
+
   let list;
   if (filter === 'wishlist') {
     const wl = getWishlist();
