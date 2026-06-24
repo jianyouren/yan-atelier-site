@@ -9348,8 +9348,25 @@ async function detectMarketByIP() {
 
 let MARKET = detectDefaultMarket();     // 当前市场 — auto-detected on first load
 let currentView = 'home';
-const FX_RATE = 7.0;   // ¥ → $ 汇率
-const PRICE_MULT = 2.0; // 海外溢价倍率
+// ============================================================
+// 海外价格策略 (2026-06-24 documented + priceGlobal override added)
+//
+//   USD 海外价 = (¥ × PRICE_MULT / FX_RATE) → ceil/10*10-1 (即 $169 / $309 / $1479 这种)
+//
+//   PRICE_MULT = 2.0 是关键: ¥1,080 → $309 而不是 $151。这个 100% 溢价是用来:
+//   (a) 吸 DDP 关税(我们承担,约客户付款 10-15%)
+//   (b) 吸国际 DHL 包邮(~$50-60/单)
+//   (c) 吸 Airwallex Global 3.4% 收款费 + 0.5% 汇兑
+//   (d) Western indie 同行业基准溢价 (Mejuri / Catbird 美国制造系列同等公式)
+//
+//   FX_RATE = 7.0 是近似值,不需要精确(每周漂 ±0.05 不影响 $9 结尾的圆整)
+//
+//   per-SKU 海外定价 override: PRODUCTS 数组 entry 加 `priceGlobal: 数字`,
+//   priceFor() 自动用这个 USD 整数(不再走公式). 留给战略级 SKU 用(如鸢尾镯
+//   keystone 想锁 $1,479 不漂),或想做不同市场弹性测试时。
+// ============================================================
+const FX_RATE = 7.0;   // ¥ → $ 汇率 (近似)
+const PRICE_MULT = 2.0; // 海外溢价倍率 (吸 DDP + intl shipping + 收款费)
 const FIRST_VISIT_KEY = 'yan_visited_v3';
 
 // ============================================================
@@ -9367,11 +9384,21 @@ const FIRST_VISIT_KEY = 'yan_visited_v3';
 const ACUITY_BOOKING_URL = ''; // e.g. 'https://yanatelier.as.me/' or 'https://cal.com/yan-atelier/15min'
 
 // 价格换算:¥ → 全球售价 USD = (¥价 × 倍率) ÷ 汇率,取整到 9 结尾
+// per-SKU override via `priceGlobal` field (USD 整数);见上方海外价格策略注释。
 function priceFor(p) {
   if (MARKET === 'cn') return '¥' + p.priceCN.toLocaleString();
+  if (typeof p.priceGlobal === 'number') return '$' + p.priceGlobal.toLocaleString();
   const usd = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
   const rounded = Math.ceil(usd / 10) * 10 - 1; // $179, $369 这种
   return '$' + rounded.toLocaleString();
+}
+
+// priceNumFor(p, market) — 返回纯数字(无货币符号),给 Schema.org / structured-data 用
+function priceNumFor(p, market) {
+  if (market === 'cn') return p.priceCN;
+  if (typeof p.priceGlobal === 'number') return p.priceGlobal;
+  const usd = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
+  return Math.ceil(usd / 10) * 10 - 1;
 }
 
 // Evidence-led ship-by line — Mejuri/Aurate/Foundrae/Stone&Strand all use literal lead-time
@@ -11074,14 +11101,8 @@ function openProduct(id, keepView) {
   const availMap = { available: 'InStock', sold: 'SoldOut', reserved: 'PreOrder' };
   // Schema.org price MUST match the on-page price (priceFor()) — Google Merchant
   // Center rejects feeds where structured-data price ≠ visible price.
-  // priceFor logic: CN uses raw priceCN; Global uses Math.round((priceCN * 2) / 7), rounded to ...9.
-  let priceNum;
-  if (MARKET === 'cn') {
-    priceNum = p.priceCN;
-  } else {
-    const usd = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
-    priceNum = Math.ceil(usd / 10) * 10 - 1;   // $179, $369 ... ending in 9
-  }
+  // Both code paths centralised in priceNumFor() — keeps formula in one place.
+  const priceNum = priceNumFor(p, MARKET);
   const currencyCode = MARKET === 'cn' ? 'CNY' : 'USD';
   const productSchema = {
     "@context": "https://schema.org",
