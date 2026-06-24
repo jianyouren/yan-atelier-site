@@ -8237,6 +8237,41 @@ const PAYMENT_LINKS = {
   // 填入后删除前面的 //; URL 一到就 5 分钟 ship live
 };
 
+// ============================================================
+// SHOPIFY_VARIANTS — Path C migration scaffold (Storefront API + current SPA)
+// See docs/SHOPIFY_ROADMAP.md for triggers + implementation plan.
+// Triggers: 月单 ≥ 10 OR customer accounts needed OR Klaviyo abandon recovery wanted.
+// When populated, openCheckout() switches to Shopify cartCreate + redirect.
+// ============================================================
+const SHOPIFY_VARIANTS = {
+  // 'YA-2026-0001': 'gid://shopify/ProductVariant/XXXXXXXXXXXX',
+  // ...
+};
+
+// shopifyProductFor(p) — derives Shopify-compatible fields from existing PRODUCTS entry.
+// Saves having to bloat the 73-SKU array with new fields. Use when syncing to Shopify.
+function shopifyProductFor(p) {
+  if (!p) return null;
+  const meta = (typeof PRODUCT_META !== 'undefined' && PRODUCT_META[p.id]) || {};
+  const enName = (p.global && p.global.name) || p.id;
+  return {
+    handle: enName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
+    title: enName,
+    vendor: 'YÀN Atelier',
+    productType: meta.form_en || meta.formKey || 'Jewelry',
+    tags: [
+      p.series,
+      p.status,
+      (typeof lineFor === 'function' ? lineFor(p) : null),
+      meta.formKey
+    ].filter(Boolean),
+    priceCN: p.priceCN,
+    img: p.img,
+    descCN: (p.cn && p.cn.desc) || '',
+    descEN: (p.global && p.global.desc) || ''
+  };
+}
+
 // Checkout 跳转 (provider-agnostic, 当前 Airwallex Global)
 function openCheckout(productId) {
   const link = PAYMENT_LINKS[productId];
