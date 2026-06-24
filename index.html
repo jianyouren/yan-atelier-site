@@ -8846,15 +8846,15 @@ const PRODUCTS = [
 // `formKey` is the canonical English category used by catalog category filter
 // ============================================================
 const PRODUCT_META = {
-  'YA-2026-0001': { formKey: 'brooch',   form_cn: '胸针',                  form_en: 'Brooch',                        dim_cn: '约 4.8 × 4.8 cm · 12 g',  dim_en: 'Approx. 4.8 × 4.8 cm · 12 g',  imgs: [],
+  'YA-2026-0001': { formKey: 'brooch',   form_cn: '胸针',                  form_en: 'Brooch',                        dim_cn: '约 4.8 × 4.8 cm · 12 g',  dim_en: 'Approx. 4.8 × 4.8 cm · 12 g',  imgs: ['images/p01-detail.jpg','images/p01-side.jpg','images/p01-blue.jpg','images/p01-red.jpg','images/p01-worn.jpg'],
     wearerProfile_cn: '别在毛呢外套上, 一天能被人问三次"这是什么花"。',
     wearerProfile_en: 'Pinned to a wool coat — you\'ll get asked "what is that flower" three times in a day.',
     details_cn: '十六瓣花, 釉色从透绿渐至柔黄。中心一颗淡水珍珠。云南工坊手工烧成。',
     details_en: 'Sixteen petals, enamel shading from translucent green to soft yellow. A freshwater pearl at the centre. Fired by hand at a Yunnan workshop.',
     colorVariants: [
-      { id: 'green',  cn: '原色 · 透绿渐黄',  en: 'Original · green to yellow',  hex: '#9DB66A', wornImg: 'images/p01-daisy-green.jpg' },
-      { id: 'azure',  cn: '青空蓝',           en: 'Azure',                       hex: '#6792B5', wornImg: 'images/p01-daisy-green.jpg' },
-      { id: 'violet', cn: '幽紫',             en: 'Violet',                      hex: '#7A5A99', wornImg: 'images/p01-daisy-green.jpg' }
+      { id: 'green',  cn: '原色 · 透绿渐黄',  en: 'Original · green to yellow',  hex: '#9DB66A', wornImg: 'images/p01-worn.jpg' },
+      { id: 'azure',  cn: '青空蓝',           en: 'Azure',                       hex: '#6792B5', wornImg: 'images/p01-blue.jpg' },
+      { id: 'violet', cn: '幽紫',             en: 'Violet',                      hex: '#7A5A99', wornImg: 'images/p01-red.jpg' }
     ],
     stylingTips_cn: [
       '穿素白棉麻或米色羊绒的时候，这个颜色最亮',
@@ -8932,7 +8932,7 @@ const PRODUCT_META = {
         placeholder_cn: '名字、日期、字(选填)', placeholder_en: 'Name, date, or character (optional)' }
     }
   },
-  'YA-2026-0004': { formKey: 'hairpin',  form_cn: '发饰 · 一对',           form_en: 'Hair pin · pair',               dim_cn: '长约 14 cm · 单支 8 g',         dim_en: 'Length approx. 14 cm · 8 g each', imgs: [],
+  'YA-2026-0004': { formKey: 'hairpin',  form_cn: '发饰 · 一对',           form_en: 'Hair pin · pair',               dim_cn: '长约 14 cm · 单支 8 g',         dim_en: 'Length approx. 14 cm · 8 g each', imgs: ['images/p04-2.jpg'],
     options: {
       combo: { label_cn: '色彩组合', label_en: 'Colour Pairing', choices: [
         { id: 'blue-green', label_cn: '原色 · 一蓝一绿', label_en: 'Original · one blue, one green', delta: 0 },
@@ -9000,7 +9000,7 @@ const PRODUCT_META = {
         placeholder_cn: '名字、纪念日(选填)', placeholder_en: 'Name or date (optional)' }
     }
   },
-  'YA-2026-0008': { formKey: 'lock',     form_cn: '吊坠',                 form_en: 'Pendant',                       dim_cn: '主体约 4.5 cm · 绳长 50–60 cm · 18 g', dim_en: 'Body approx. 4.5 cm · cord 50–60 cm · 18 g', imgs: [],
+  'YA-2026-0008': { formKey: 'lock',     form_cn: '吊坠',                 form_en: 'Pendant',                       dim_cn: '主体约 4.5 cm · 绳长 50–60 cm · 18 g', dim_en: 'Body approx. 4.5 cm · cord 50–60 cm · 18 g', imgs: ['images/p08-2.jpg','images/p08-3.jpg'],
     options: {
       character: { label_cn: '中央汉字', label_en: 'Centre Character', choices: [
         { id: 'fu', label_cn: '福 · 原配', label_en: '福 (fortune) · original', delta: 0 },
@@ -9018,7 +9018,7 @@ const PRODUCT_META = {
         placeholder_cn: '姓名、日期、字句(选填)', placeholder_en: 'Name, date, or characters (optional)' }
     }
   },
-  'YA-2026-0009': { formKey: 'bracelet', form_cn: '手镯',                  form_en: 'Bangle',                        dim_cn: '内径 58 mm · 32 g',            dim_en: 'Inner ⌀ 58 mm · 32 g',          imgs: [],
+  'YA-2026-0009': { formKey: 'bracelet', form_cn: '手镯',                  form_en: 'Bangle',                        dim_cn: '内径 58 mm · 32 g',            dim_en: 'Inner ⌀ 58 mm · 32 g',          imgs: ['images/p09-2.jpg','images/p09-3.jpg','images/p09-4.jpg'],
     options: {
       character: { label_cn: '中央汉字', label_en: 'Centre Character', choices: [
         { id: 'fu', label_cn: '福 · 原配', label_en: '福 (fortune) · original', delta: 0 },
@@ -9035,7 +9035,7 @@ const PRODUCT_META = {
         placeholder_cn: '寿辰、年份(选填)', placeholder_en: 'Date or year (optional)' }
     }
   },
-  'YA-2026-0010': { formKey: 'necklace', form_cn: '项链 · 锁骨链',        form_en: 'Necklace · collarbone chain',   dim_cn: '链长 42 cm · 蝶身约 3.6 cm · 11 g', dim_en: 'Chain 42 cm · butterfly approx. 3.6 cm · 11 g', imgs: [],
+  'YA-2026-0010': { formKey: 'necklace', form_cn: '项链 · 锁骨链',        form_en: 'Necklace · collarbone chain',   dim_cn: '链长 42 cm · 蝶身约 3.6 cm · 11 g', dim_en: 'Chain 42 cm · butterfly approx. 3.6 cm · 11 g', imgs: ['images/p10-2.jpg','images/p10-3.jpg','images/p10-4.jpg','images/p10-5.jpg','images/p10-6.jpg'],
     options: {
       enamel: { label_cn: '翼面釉色', label_en: 'Wing Enamel', choices: [
         { id: 'indigo', label_cn: '原色 · 靛蓝渐变', label_en: 'Original · indigo gradient', delta: 0 },
@@ -9063,7 +9063,7 @@ const PRODUCT_META = {
         placeholder_cn: '名字、字句(选填)', placeholder_en: 'Name or phrase (optional)' }
     }
   },
-  'YA-2026-0012': { formKey: 'bracelet', form_cn: '手链 · 可调节',        form_en: 'Bracelet · adjustable',         dim_cn: '可调 15–19 cm · 6 g',          dim_en: 'Adjustable 15–19 cm · 6 g',     imgs: [],
+  'YA-2026-0012': { formKey: 'bracelet', form_cn: '手链 · 可调节',        form_en: 'Bracelet · adjustable',         dim_cn: '可调 15–19 cm · 6 g',          dim_en: 'Adjustable 15–19 cm · 6 g',     imgs: ['images/p12-2.jpg','images/p12-3.jpg','images/p12-4.jpg','images/p12-5.jpg'],
     options: {
       enamel: { label_cn: '釉管釉色', label_en: 'Bead Enamel', choices: [
         { id: 'blue', label_cn: '原色 · 青底水仙', label_en: 'Original · blue with narcissi', delta: 0 },
