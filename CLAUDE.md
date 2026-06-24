@@ -2,6 +2,33 @@
 
 Project-level instructions Claude reads automatically before acting.
 
+## Session continuity protocol (READ FIRST)
+
+This project's memory is shared via directory junctions across 4 CWDs: `D:\YAN_Atelier 品牌`, `D:\YAN_Atelier_Site`, `D:\wechat-claude`, `D:\YAN_AutoEdit`. All four resolve to the same `MEMORY.md` + `project_session_state_*` files. Anything you write to memory in one CWD is visible from the others.
+
+**On session start** (first user message in this project):
+1. The auto-memory MEMORY.md is already in your context. Scan for the LATEST `project_session_state_YYYY-MM-DD*` entry — that file is the canonical resume anchor.
+2. If user's first message is `继续 YÀN` / `继续上次` / `接 X` / `恢复` / `restart` / `where were we`: read that latest session_state file in full BEFORE replying. Summarize in ≤3 lines: (a) last commit + state, (b) what was in progress, (c) any pending user actions / blockers. Then ask "继续 X 还是新任务?"
+3. If user's first message is a fresh task: do NOT volunteer resume context — just work. Only surface a 1-line `(resuming from: <state-file-name>)` hint if the new task touches the same lane as the last session_state.
+
+**Mid-session snapshot triggers** — write/update today's `project_session_state_YYYY-MM-DD.md` memory file when ANY of these fire:
+- User says 收工 / 明天继续 / 我先去X / 拜 / bye / 睡了 / 先停一下
+- You're about to ship a load-bearing change (commit + push) involving 3+ files OR Hero/H1/pricing/section-structure
+- A multi-agent review (CEO/Investor/persona panel) just completed
+- User explicitly says 存一下 / 记一下 / save state
+- Heap risk: this session has run > ~6 hours of dialog (Claude Code Bun heap caps at ~1.4GB → OOM. See [[user-yan-atelier]] crash 2026-06-23)
+
+**Snapshot format** — body structure: 3 short paragraphs in this order:
+1. **Last commit** (SHA + 1-line) + **live URL state** (deployed yes/no)
+2. **What was just done** this session (3-6 bullets, factual)
+3. **Pending** (user-action items + Claude-action items, separated)
+
+Title slug: `project_session_state_YYYY-MM-DD[_eod|_late|_early].md`. Always add a `MEMORY.md` index line. If today's state file already exists, EDIT it (don't create _v2 / _2 / etc — overwrite the body).
+
+**Stale state supersession** — when a new session_state supersedes an older one (e.g., morning anchor → EOD anchor), add `**SUPERSEDED BY** [[new-slug]]` at the top of the old file's body. Don't delete.
+
+**Daily restart hygiene** — Claude Code's Bun runtime OOMs around 1.4GB heap. Long sessions accumulate transcript in RAM. Tell the user once per restart cycle: "建议每天滚一次 claude.exe; 重开用 `claude --continue --dangerously-skip-permissions` 接上一段对话(用户标准开机口令,见 [[user-daily-boot-command]]); 长上下文用 [[project-session-state-YYYY-MM-DD]] 恢复战略上下文."
+
 ## Live URLs
 
 - **Production (LIVE)**: `https://yan-atelier-site.pages.dev/`
@@ -229,9 +256,9 @@ If user sends a ref image but no SKU/platform/type:
 | YA-2026-0006 | Iris Bracelet · Azure | `D:/YAN_Atelier_Site/images/p06-bracelet-blue.jpg` | bracelet ✓ |
 | YA-2026-0007 | Iris Bracelet · Dusk | `D:/YAN_Atelier_Site/images/p07-bracelet-purple2.jpg` | bracelet ✓ |
 | YA-2026-0008 | Fish & Lotus Pendant | `D:/YAN_Atelier_Site/images/p08-lock.jpg` | pendant ✓ |
-| YA-2026-0009 | Cloud Bangle · 福 | `D:/YAN_Atelier_Site/images/p09-bangle-fu.jpg` | bangle ✓ |
-| YA-2026-0010 | Butterfly Necklace | `D:/YAN_Atelier_Site/images/p10-butterfly-tassel.jpg` | necklace ✓ |
-| YA-2026-0011 | Cloud Bangle · Plain | `D:/YAN_Atelier_Site/images/p11-bangle-cloud.jpg` | bangle ✓ |
+| YA-2026-0009 | Cloud Bangle · 福 | `D:/YAN_Atelier_Site/images/p09-bangle-fu.jpg` | bangle (verify · suspected 0009↔0011 secondary swap pending 2026-06-23) |
+| YA-2026-0010 | Butterfly Necklace | `D:/YAN_Atelier_Site/images/p10-butterfly-tassel.jpg` | butterfly necklace ✓ (corrected 2026-06-23: file was content-swapped with p09; restored to match name) |
+| YA-2026-0011 | Cloud Bangle · Plain | `D:/YAN_Atelier_Site/images/p11-bangle-cloud.jpg` | bangle (verify · suspected 0009↔0011 secondary swap pending 2026-06-23) |
 | YA-2026-0012 | Lotus Cord Bracelet | `D:/YAN_Atelier_Site/images/p12-bracelet-cord.jpg` | cord bracelet ✓ |
 
 **Implication for generation**: when user says 「蝴蝶」 or 「雏菊」, the only available photos show **necklace forms**. Don't promise a "brooch" generation — output will look like necklace. If user explicitly wants brooch generation for these motifs, tell them: "需先有胸针款实物照才能保形生成 — 现在只有项链款照片" (real brooch photo needed first — only necklace photos exist currently).

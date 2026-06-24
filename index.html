@@ -1816,6 +1816,17 @@
     border-bottom: 1px solid var(--line);
   }
   .catalog-filter-row:last-child { border-bottom: 0; }
+  /* Line row — brand pivot above utility filters (BRAND.md R4) */
+  .catalog-filter-row--line .catalog-filter-label {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .catalog-filter-row--line .subfilter-chip {
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    padding: 0.45rem 0.95rem;
+  }
+  body[data-market="cn"] .catalog-filter-row--line .subfilter-chip { letter-spacing: 0.02em; }
   .catalog-filter-label {
     font-family: var(--sans-en);
     font-size: 0.7rem;
@@ -4294,26 +4305,27 @@
   .pdp-v2-worn-img.is-switching { opacity: 0.25; }
 
   /* AI-generated-content disclosure badge (Etsy 2026 + Meta + 中国 2026 四部门
-     AI 标识办法 要求). Subtle but legible bottom-right corner overlay. */
+     AI 标识办法 要求). Quieted 2026-06-23 — same size band that keeps "显著标识"
+     compliant, but visual weight dropped via opacity + no-uppercase + softer blur.
+     Reads as a footnote rather than a label. */
   .ai-disclosure-badge {
     position: absolute;
     bottom: 12px;
     right: 12px;
     z-index: 5;
-    padding: 4px 8px;
-    background: rgba(20, 20, 20, 0.65);
-    color: rgba(255, 255, 255, 0.95);
+    padding: 3px 7px;
+    background: rgba(20, 20, 20, 0.30);
+    color: rgba(255, 255, 255, 0.78);
     font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 10px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    font-size: 9.5px;
+    letter-spacing: 0.03em;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     border-radius: 2px;
     pointer-events: none;
   }
   @media (max-width: 600px) {
-    .ai-disclosure-badge { font-size: 9px; padding: 3px 6px; bottom: 8px; right: 8px; }
+    .ai-disclosure-badge { font-size: 8.5px; padding: 2.5px 6px; bottom: 8px; right: 8px; }
   }
   /* i18n: match .door-overline-en/-cn pattern — show right language per market */
   .ai-disclosure-badge-cn { display: none; }
@@ -4330,23 +4342,22 @@
   }
   body.is-wechat .nav { background: var(--paper); }
   body.is-wechat .reserve-backdrop { background: rgba(22, 19, 16, 0.55); }
-  /* Catalog-card variant — quieter than the hero badge, but still visible BEFORE click. */
+  /* Catalog-card variant — footnote register, quieted 2026-06-23. */
   .product-ai-badge {
     position: absolute;
     top: 10px; left: 10px;
     z-index: 4;
-    padding: 3px 7px;
-    background: rgba(22, 19, 16, 0.78);
-    color: rgba(251, 247, 238, 0.95);
+    padding: 2.5px 6px;
+    background: rgba(22, 19, 16, 0.32);
+    color: rgba(251, 247, 238, 0.80);
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     font-size: 9px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
     border-radius: 2px;
     pointer-events: none;
   }
   @media (max-width: 600px) {
-    .product-ai-badge { font-size: 8.5px; padding: 2.5px 5px; top: 6px; left: 6px; }
+    .product-ai-badge { font-size: 8px; padding: 2px 5px; top: 6px; left: 6px; }
   }
   .pdp-v2-worn-text {
     padding: 0 clamp(2rem, 5vw, 5rem);
@@ -6512,9 +6523,14 @@
     <span class="catalog-help-arrow" aria-hidden="true">→</span>
   </a>
   <div class="catalog-filters" id="catalog-filters"></div>
-  <!-- Grouped filter bar — Form + Price always visible; 13-chip Motif row collapsed into <details>
-       per 2026-06-23 3-agent audit (心理学 Hick's law / design chip-jungle / mobile 360px chrome). -->
+  <!-- Grouped filter bar — Line (primary brand pivot) + Form + Price; 13-chip Motif row collapsed.
+       Line row added 2026-06-23 EOD per BRAND.md R4 revised: Atelier signature line vs Daily
+       (everyday + gifting). User wanted plique + bangles as Atelier, small cloisonné as Daily. -->
   <div class="catalog-filterbar" role="group" aria-label="Filter pieces">
+    <div class="catalog-filter-row catalog-filter-row--line">
+      <span class="catalog-filter-label" id="catalog-line-label"></span>
+      <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-line-filters" aria-label="Line"></div>
+    </div>
     <div class="catalog-filter-row">
       <span class="catalog-filter-label" id="catalog-form-label"></span>
       <div class="catalog-filter-chips catalog-subfilter-group" id="catalog-cat-filters" aria-label="Form"></div>
@@ -7072,6 +7088,13 @@ const COPY = {
     catalogMoreFromOthers: '其他作品',
     catalogCuratedOverline: '工坊精选 · 从这 6 件开始',
     catalogCuratedH: '不知道挑哪件? 从这里开始。',
+    // Line — Atelier signature vs Daily (BRAND.md R4, 2026-06-23 EOD)
+    catalogLineLabel: '系列',
+    catalogLineFilters: [
+      ['all', '全部'],
+      ['atelier', 'Atelier · 高端'],
+      ['daily', 'Daily · 日常']
+    ],
     // Motif (2026-06-23 — added back as catalog grew to 73 SKUs)
     catalogMotifLabel: '主题',
     catalogMotifFilters: [
@@ -7640,6 +7663,12 @@ const COPY = {
     catalogMoreFromOthers: 'Other pieces',
     catalogCuratedOverline: 'Atelier\'s pick · start with these six',
     catalogCuratedH: 'Not sure where to begin? Start here.',
+    catalogLineLabel: 'Line',
+    catalogLineFilters: [
+      ['all', 'All'],
+      ['atelier', 'Atelier'],
+      ['daily', 'Daily']
+    ],
     catalogMotifLabel: 'Motif',
     catalogMotifFilters: [
       ['all', 'All motifs'],
@@ -9931,6 +9960,23 @@ function applyCopy() {
   const nextDropEl = document.getElementById('catalog-next-drop');
   if (nextDropEl) nextDropEl.innerHTML = c.nextDropText || '';
   // catalogFilters Series row removed 2026-06-11 · Strategy A finalized · form (catalogCatFilters) is now the primary taxonomy
+  // Line chip row — BRAND.md R4 brand pivot (Atelier vs Daily), added 2026-06-23 EOD
+  const lineLabel = document.getElementById('catalog-line-label');
+  if (lineLabel && c.catalogLineLabel) lineLabel.textContent = c.catalogLineLabel;
+  const lineGroup = document.getElementById('catalog-line-filters');
+  if (lineGroup && c.catalogLineFilters) {
+    lineGroup.innerHTML = c.catalogLineFilters.map(([k, l]) =>
+      `<button class="subfilter-chip${k === _catalogLine ? ' active' : ''}" data-line="${k}">${l}</button>`
+    ).join('');
+    lineGroup.querySelectorAll('.subfilter-chip').forEach(chip => {
+      chip.addEventListener('click', e => {
+        _catalogLine = e.target.dataset.line;
+        lineGroup.querySelectorAll('.subfilter-chip').forEach(x => x.classList.remove('active'));
+        e.target.classList.add('active');
+        renderCatalog(_catalogFilter);
+      });
+    });
+  }
   // Motif sub-filter (re-added 2026-06-23 as catalog grew to 73 SKUs)
   const motifLabel = document.getElementById('catalog-motif-label');
   if (motifLabel && c.catalogMotifLabel) motifLabel.textContent = c.catalogMotifLabel;
@@ -10343,9 +10389,13 @@ function productCardHtml(p) {
   const tagsHtml = tags.length ? '<div class="product-tags">' + tags.join('') + '</div>' : '';
   // v3.1: keyboard support + lazy loading
   const ariaLabel = MARKET === 'cn' ? `查看 ${data.name} 详情` : `View ${data.name} details`;
-  // AI-disclosure: made-to-order SKUs only have AI-rendered preview images (no real photo yet).
-  // Buyer must see this BEFORE click, not after (2026-06-23 audit — commerce + design 2 votes).
-  const aiBadge = status === 'made-to-order'
+  // AI-disclosure (compliance — 中国 2026 AI 标识办法 + Etsy 2026 + Meta).
+  // Gate on image file extension: AI-rendered SKUs use .png/.jfif, real photos are .jpg.
+  // Explicit override via `aiRendered: false/true` in PRODUCTS entry if heuristic is wrong.
+  // 2026-06-23: changed from `status === 'made-to-order'` (wrong — that gated on commerce
+  // status, not image origin; future real-photo made-to-order SKUs would have been mis-flagged).
+  const isAiImg = (p.aiRendered === true) || (p.aiRendered !== false && /\.(png|jfif)$/i.test(p.img || ''));
+  const aiBadge = isAiImg
     ? `<span class="product-ai-badge" aria-label="${MARKET === 'cn' ? 'AI 辅助渲染' : 'AI-assisted render'}">${MARKET === 'cn' ? 'AI 渲染' : 'AI render'}</span>`
     : '';
   return `
@@ -10387,6 +10437,7 @@ function navigate(view, filter, reset, lens, cat) {
   // EXTERNAL-entry reset of sub-filters · cat override (footer form-link entry) · lens carries status (e.g. 'in-stock' from self-door, A6 audit 2026-06-19)
   if (reset && view === 'catalog') {
     _catalogCat = cat || 'all';
+    _catalogLine = 'all';
     _catalogMotif = 'all';
     _catalogPrice = 'all';
     _catalogEnamel = null;
@@ -10410,6 +10461,8 @@ function navigate(view, filter, reset, lens, cat) {
         if (priceGroup) priceGroup.querySelectorAll('.subfilter-chip').forEach(x => x.classList.toggle('active', x.dataset.price === 'all'));
         const motifGroup = document.getElementById('catalog-motif-filters');
         if (motifGroup) motifGroup.querySelectorAll('.subfilter-chip').forEach(x => x.classList.toggle('active', x.dataset.motif === 'all'));
+        const lineGroup = document.getElementById('catalog-line-filters');
+        if (lineGroup) lineGroup.querySelectorAll('.subfilter-chip').forEach(x => x.classList.toggle('active', x.dataset.line === 'all'));
       }
       renderEnamelWayfinder();
       renderCatalog(filter || 'all');
@@ -10440,6 +10493,7 @@ function navigate(view, filter, reset, lens, cat) {
 // ============================================================
 let _catalogSort = 'featured';
 let _catalogFilter = 'all';
+let _catalogLine = 'all';      // Line sub-filter (atelier/daily/all) — BRAND.md R4, added 2026-06-23 EOD
 let _catalogCat = 'all';       // category (form) sub-filter
 let _catalogMotif = 'all';     // motif sub-filter (蝴蝶/莲花/...) re-added 2026-06-23
 let _catalogPrice = 'all';     // price-band sub-filter
@@ -10459,6 +10513,25 @@ const ENAMEL_COLORS = [
 // Find which enamel bucket a SKU lives in. Used for per-card color display.
 function enamelForSku(skuId) {
   return ENAMEL_COLORS.find(c => c.skus.includes(skuId)) || null;
+}
+
+// Atelier vs Daily line classification (BRAND.md R4, revised 2026-06-23) —
+//   Atelier (signature) = plique-à-jour · bangles · explicit statement overrides
+//   Daily (everyday + gifting) = small cloisonné · earrings · pendants · brooches · future silver/pearl
+// Atelier overrides (statement pieces user explicitly tagged 2026-06-23):
+//   0004 银杏发饰一对 — large hairpin pair, statement scale like bangle
+//   0008 莲鱼吊坠 — heirloom-class amulet, lotus + carp, locked at ¥3,180
+const ATELIER_OVERRIDES = new Set(['YA-2026-0004', 'YA-2026-0008']);
+function lineFor(p) {
+  if (!p) return 'daily';
+  if (ATELIER_OVERRIDES.has(p.id)) return 'atelier';
+  const mat = (p.cn && p.cn.material) || '';
+  const matEn = (p.global && p.global.material) || '';
+  if (/空窗|plique/i.test(mat + matEn)) return 'atelier';
+  const meta = (typeof PRODUCT_META !== 'undefined' && PRODUCT_META[p.id]) || {};
+  if (meta.formKey === 'bangle') return 'atelier';
+  if (/镯/.test(meta.form_cn || '')) return 'atelier';
+  return 'daily';
 }
 function renderEnamelWayfinder() {
   const host = document.getElementById('enamel-wayfinder');
@@ -10513,7 +10586,8 @@ function renderCatalog(filter) {
   if (curatedEl) {
     const isUnfiltered = filter === 'all'
       && _catalogCat === 'all' && _catalogPrice === 'all'
-      && _catalogMotif === 'all' && !_catalogEnamel && _catalogStatus !== 'in-stock';
+      && _catalogMotif === 'all' && _catalogLine === 'all'
+      && !_catalogEnamel && _catalogStatus !== 'in-stock';
     if (isUnfiltered) {
       const items = CURATED_SKUS.map(id => PRODUCTS.find(p => p && p.id === id)).filter(Boolean);
       const overlineEl = document.getElementById('catalog-curated-overline');
@@ -10538,6 +10612,10 @@ function renderCatalog(filter) {
     list = PRODUCTS.filter(p => p.series === filter);
   }
 
+  // Sub-filter: Line (Atelier signature vs Daily) — BRAND.md R4, 2026-06-23 EOD
+  if (_catalogLine && _catalogLine !== 'all') {
+    list = list.filter(p => lineFor(p) === _catalogLine);
+  }
   // Sub-filter: motif (蝴蝶/莲花/...) — re-added 2026-06-23
   if (_catalogMotif && _catalogMotif !== 'all') {
     list = list.filter(p => p.series === _catalogMotif);
@@ -10590,7 +10668,7 @@ function renderCatalog(filter) {
   // Dead-end: either empty result OR every result is sold/reserved.
   // Show plain commerce CTA → 私约 (consult) — fixes 簪钗-style filter dead-end.
   const hasAvailable = list.some(p => (p.status || 'available') === 'available');
-  const filterIsNarrowed = _catalogCat !== 'all' || _catalogPrice !== 'all' || _catalogMotif !== 'all' || (filter !== 'all' && filter !== 'wishlist');
+  const filterIsNarrowed = _catalogCat !== 'all' || _catalogPrice !== 'all' || _catalogMotif !== 'all' || _catalogLine !== 'all' || (filter !== 'all' && filter !== 'wishlist');
 
   if (list.length === 0 || (!hasAvailable && filterIsNarrowed)) {
     const others = PRODUCTS.filter(p => !list.some(l => l.id === p.id)).slice(0, 4);
