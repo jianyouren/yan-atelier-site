@@ -1084,10 +1084,6 @@
     background: #8B6914;
     color: var(--ivory);
   }
-  .product-tag--sold {
-    background: var(--hush);
-    color: var(--ivory);
-  }
   body[data-market="cn"] .product-tag {
     font-family: var(--serif);
     letter-spacing: 0.08em;
@@ -2327,11 +2323,6 @@
     color: #8a6914;
     border: 1px solid rgba(180, 140, 80, 0.2);
   }
-  .pd-stock-badge--sold {
-    background: rgba(22, 19, 16, 0.04);
-    color: var(--hush);
-    border: 1px solid var(--line);
-  }
   .pd-stock-badge::before {
     content: '';
     width: 8px;
@@ -2341,7 +2332,6 @@
   }
   .pd-stock-badge--in-stock::before { background: #4c8c4a; }
   .pd-stock-badge--made-to-order::before { background: #b48c50; }
-  .pd-stock-badge--sold::before { background: var(--hush-soft); }
   body[data-market="cn"] .pd-stock-badge { font-family: var(--serif); letter-spacing: 0.12em; }
 
   /* ============ v3.2: Payment Icons Strip (Foundrae / Sophie BB pattern) ============ */
@@ -4164,8 +4154,6 @@
     font-weight: 500;
   }
   body[data-market="cn"] .pdp-v2-buy-status { letter-spacing: 0.14em; text-transform: none; font-size: 0.78rem; }
-  .pdp-v2-buy-status--sold,
-  .pdp-v2-buy-status--reserved { color: var(--hush-soft); }
   .pdp-v2-cta {
     width: 100%;
     justify-content: center;
@@ -5021,28 +5009,6 @@
     letter-spacing: 0.04em;
   }
   body[data-market="global"] .pd-included-items { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.02em; }
-
-  /* Sold/Reserved converted from frosted overlay sticker to in-caption text (2026-06-17).
-     Editorial convention: dim the photograph (.product-card--sold rule), name status in caption.
-     Replaces auction-house theatre / Shopify "Sold Out" app look. */
-  .product-sold {
-    display: block;
-    font-family: var(--sans-en);
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    color: var(--ink-soft);
-    text-transform: uppercase;
-    font-weight: 500;
-    margin-top: 0.4rem;
-  }
-  body[data-market="cn"] .product-sold { letter-spacing: 0.18em; text-transform: none; }
-  .product-reserved { color: var(--hush); }
-  .product-card--sold .product-img img,
-  .product-card--sold .product-name,
-  .product-card--sold .product-price { opacity: 0.62; }
-  .product-card--sold:hover .product-img img,
-  .product-card--sold:hover .product-name,
-  .product-card--sold:hover .product-price { opacity: 0.85; }
 
   /* ============================================================
      At Your Service · 私约 — Pippa Small concierge model
@@ -7068,8 +7034,6 @@ const COPY = {
     catalogEdition: '本批 · 现货',
     catalogSub: '每一件,8 至 10 次入炉,800°C 烧成。出工坊之后,工坊照看一辈子。',
     // Plain status labels (no plate framing, no scarcity countdown — evidence-led)
-    plateReserved: '已预订',
-    plateSold: '已售出',
     // PDP: plain ship-by + 1-line terms + included
     pdShipBy: '订制制作 · 14–21 个工作日内发出',
     pdShipByEngraved: '含刻字 / 定制 · 21–30 个工作日内发出',
@@ -7086,7 +7050,7 @@ const COPY = {
     },
     // Time-based drop messaging — plain DTC convention (evidence-led; no antiquarian Edition framing)
     nextDropOverline: '本批 · 现货',
-    nextDropText: '看中的件已售或想要相近设计,写信至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,工坊一对一回复 · 也可订阅,下批新作上架第一时间通知。',
+    nextDropText: '想要相近设计或自己的定制方向,写信至 <a href="mailto:hello@yan-atelier.com">hello@yan-atelier.com</a>,工坊一对一回复 · 也可订阅,下批新作上架第一时间通知。',
     // Customer Letters keys deleted 2026-06-19 (T6 audit) · render + DOM cut 06-08, this was dead data with fabricated names — brand-integrity hazard
     honoursOverline: '媒体与展览',
     honours: ['2023 · 第八届海南国际文博会 · 三亚']
@@ -7190,8 +7154,6 @@ const COPY = {
     pdConfigOptional: '选填',
     pdConfigSummaryLabel: '你的版本',
     pdConfigDefault: '本作配色 · 不调整',
-    pdCtaSold: '已售 · 询问类似作品',
-    pdCtaReserved: '已预订 · 询问类似作品',
     pdCtaMicrocopy: '24 小时内回信 · 确认后再收款 · 可全程邮件沟通',
     pdRelatedOverline: '',
     pdRelatedTitle: '顺手看看这几件',
@@ -7208,9 +7170,7 @@ const COPY = {
     pdNote: '每件都有一张传家卡 —— 编号、谁做的、以后怎么找我们修, 全在上面。卡跟着谁, 服务跟着谁。',
     // v3.2: Stock badge labels
     pdStockInStock: '现货 · 48 小时内发出',
-    pdStockMadeToOrder: '订制 · 14–21 个工作日',
-    pdStockSold: '已售出',
-    pdStockReserved: '已预订',
+    pdStockMadeToOrder: '现做 · 14–30 个工作日',
     // v3.2: Installment payment (hidden for CN)
     pdInstallmentText: '',
     // v3.2: Payment icons label
@@ -7650,8 +7610,6 @@ const COPY = {
     catalogEdition: 'In stock now',
     catalogSub: 'Each piece, 8–10 firings at 800°C. Once made, kept for life.',
     // Plain status labels
-    plateReserved: 'Reserved',
-    plateSold: 'Sold',
     // PDP plain commerce stack
     pdShipBy: 'Ships in 14–21 business days after order',
     pdShipByEngraved: 'Engraved / custom · ships in 21–30 business days',
@@ -7766,8 +7724,6 @@ const COPY = {
     pdConfigOptional: 'optional',
     pdConfigSummaryLabel: 'Your version',
     pdConfigDefault: 'As fired · no changes',
-    pdCtaSold: 'Sold · Inquire About a Similar Piece',
-    pdCtaReserved: 'Reserved · Inquire About a Similar Piece',
     pdCtaMicrocopy: 'Response within 24 hours · No charge yet · Email-only if you prefer',
     pdRelatedOverline: '',
     pdRelatedTitle: 'You may also like',
@@ -7784,9 +7740,7 @@ const COPY = {
     pdNote: 'Each piece arrives with a Lifetime Care Passport, recording its ID, the maker\'s name, and our lifelong service. Whether you are its first holder — or its fifth — the promise remains the same.',
     // v3.2: Stock badge labels
     pdStockInStock: 'In stock · ships in 48 hours',
-    pdStockMadeToOrder: 'Made to order · 14–21 days',
-    pdStockSold: 'Sold',
-    pdStockReserved: 'Reserved',
+    pdStockMadeToOrder: 'Made to order · 14–30 days',
     // v3.2: Installment payment
     pdInstallmentText: 'Or 4 interest-free payments of <strong>$XX</strong> with',
     // v3.2: Payment icons label
@@ -9419,9 +9373,6 @@ function priceNumFor(p, market) {
 
 // Evidence-led ship-by line — Mejuri/Aurate/Foundrae/Stone&Strand all use literal lead-time
 function shipByFor(p, c) {
-  const status = p.status || 'available';
-  if (status === 'sold') return c.plateSold || 'Sold';
-  if (status === 'reserved') return c.plateReserved || 'Reserved';
   // Engraved/custom pieces (hairpin set, lock, etc.) get longer window
   const isCustom = ['hairpin', 'heirloom'].includes(p.series);
   return isCustom ? (c.pdShipByEngraved || c.pdShipBy) : (c.pdShipBy || 'Made to order');
@@ -9943,19 +9894,14 @@ function applyCopy() {
   // Wishlist initialization (after applyCopy because filter chip needs label)
   if (typeof updateWishUI === 'function') updateWishUI();
 
-  // D1 · dual-door ribbon — only "Ready to wear" door, so count strictly status='available'
-  // (made-to-order belongs to the right Bespoke door; sold/reserved excluded)
+  // D1 · dual-door ribbon — "Ready to wear" door counts strictly status='available'
+  // (made-to-order belongs to the right "现做现卖" door · 2 states total)
   try {
     const avail = PRODUCTS.filter(p => p.status === 'available').length;
-    const sold  = PRODUCTS.filter(p => p.status === 'sold').length;
     const ribbonEn = document.getElementById('door-ribbon-stock-en');
     const ribbonCn = document.getElementById('door-ribbon-stock-cn');
-    if (ribbonEn) ribbonEn.textContent = sold > 0
-      ? `${avail} in stock · ${sold} already taken`
-      : `${avail} in stock now`;
-    if (ribbonCn) ribbonCn.textContent = sold > 0
-      ? `${avail} 件现货 · ${sold} 件已售出`
-      : `${avail} 件现货`;
+    if (ribbonEn) ribbonEn.textContent = `${avail} in stock now`;
+    if (ribbonCn) ribbonCn.textContent = `${avail} 件现货`;
   } catch (e) { /* ribbon is decorative · fail-quiet */ }
 
   // 注: c.series 数组仍是 catalog/PDP/溯源页的 id→名称查表,不能删
@@ -10456,12 +10402,6 @@ function productCardHtml(p) {
   const meta = (typeof PRODUCT_META !== 'undefined' && PRODUCT_META[p.id]) || {};
   const pieceType = MARKET === 'cn' ? meta.form_cn : meta.form_en;
   // Evidence-led: 0/8 brands use Plate No. display on cards. Card shows name + price + piece type.
-  // Sold gets a quiet badge (YVMIN model). Reserved appears in-flow as plain text.
-  const statusBadge = status === 'sold'
-    ? `<div class="product-sold">${c.plateSold || (MARKET === 'cn' ? '已售出' : 'Sold')}</div>`
-    : (status === 'reserved'
-      ? `<div class="product-sold product-reserved">${c.plateReserved || (MARKET === 'cn' ? '已预订' : 'Reserved')}</div>`
-      : '');
   // img2: fall back through meta.imgs[1] (gallery shot 2) or p.img2 (explicit override)
   const img2 = (Array.isArray(meta.imgs) && meta.imgs.length > 1) ? meta.imgs[1] : (p.img2 || null);
   // Product overlay tags (Aurum Brothers style)
@@ -10469,7 +10409,6 @@ function productCardHtml(p) {
   if (p.limited) tags.push('<span class="product-tag product-tag--limited">' + (MARKET === 'cn' ? '限量 ' + p.limited + '件' : 'Limited ' + p.limited) + '</span>');
   if (p.isNew) tags.push('<span class="product-tag product-tag--new">' + (MARKET === 'cn' ? '新品' : 'New') + '</span>');
   if (p.unique) tags.push('<span class="product-tag product-tag--unique">' + (MARKET === 'cn' ? '孤品' : 'One of a Kind') + '</span>');
-  if (status === 'sold') tags.push('<span class="product-tag product-tag--sold">' + (MARKET === 'cn' ? '已售' : 'Sold') + '</span>');
   const tagsHtml = tags.length ? '<div class="product-tags">' + tags.join('') + '</div>' : '';
   // v3.1: keyboard support + lazy loading
   const ariaLabel = MARKET === 'cn' ? `查看 ${data.name} 详情` : `View ${data.name} details`;
@@ -10501,7 +10440,6 @@ function productCardHtml(p) {
         })()}
         <span class="product-price">${priceFor(p)}</span>
       </div>
-      ${statusBadge}
     </div>
   `;
 }
@@ -10653,12 +10591,9 @@ function _inPriceBand(p, band) {
   return true;
 }
 
-// Status rank for sort tiebreak (lower = first)
+// Status rank for sort tiebreak (lower = first). 2-state machine: available > made-to-order.
 function _statusRank(s) {
-  if (s === 'available') return 0;
-  if (s === 'reserved')  return 1;
-  if (s === 'sold')      return 2;
-  return 3;
+  return s === 'available' ? 0 : 1;
 }
 
 function renderCatalog(filter) {
@@ -10729,7 +10664,7 @@ function renderCatalog(filter) {
   if (_catalogSort === 'newest') {
     list.sort((a, b) => b.id.localeCompare(a.id));
   } else if (_catalogSort === 'price-asc') {
-    // Tiebreak: status (available → reserved → sold) then id ascending
+    // Tiebreak: status (available → made-to-order) then id ascending
     list.sort((a, b) => (a.priceCN || 0) - (b.priceCN || 0)
       || _statusRank(a.status) - _statusRank(b.status)
       || a.id.localeCompare(b.id));
@@ -10739,7 +10674,7 @@ function renderCatalog(filter) {
       || a.id.localeCompare(b.id));
   } else {
     // featured (default · 2026-06-23): available first, then preserve original PRODUCTS order
-    // — surfaces real-stock pieces ahead of made-to-order/sold/reserved
+    // — surfaces real-stock pieces ahead of made-to-order
     list.sort((a, b) => _statusRank(a.status) - _statusRank(b.status));
   }
 
@@ -10749,14 +10684,13 @@ function renderCatalog(filter) {
     countEl.textContent = c.catalogCountFmt.replace('{n}', list.length);
   }
 
-  // Dead-end: either empty result OR every result is sold/reserved.
-  // Show plain commerce CTA → 私约 (consult) — fixes 簪钗-style filter dead-end.
+  // Dead-end: empty result. Show plain commerce CTA → 私约 (consult) — fixes 簪钗-style filter dead-end.
   const hasAvailable = list.some(p => (p.status || 'available') === 'available');
   const filterIsNarrowed = _catalogCat !== 'all' || _catalogPrice !== 'all' || _catalogMotif !== 'all' || _catalogLine !== 'all' || (filter !== 'all' && filter !== 'wishlist');
 
   if (list.length === 0 || (!hasAvailable && filterIsNarrowed)) {
     const others = PRODUCTS.filter(p => !list.some(l => l.id === p.id)).slice(0, 4);
-    // Render existing matches first (sold/reserved with badges), THEN the deadend ribbon as next-step.
+    // Render existing matches first, THEN the deadend ribbon as next-step.
     grid.innerHTML = `
       ${list.map(p => productCardHtml(p)).join('')}
       ${list.length === 0 ? others.map(p => productCardHtml(p)).join('') : ''}
@@ -10854,15 +10788,13 @@ function openProduct(id, keepView) {
       : (isCn ? '800°C 烧成的矿石釉色, 不褪色, 不变形。戴三十年还是第一天的颜色。' : 'Mineral enamel fired at 800°C — colour that holds, day-one through year thirty.'));
   // Hero CTA (added 2026-06-18 — buy in first viewport, not at the bottom)
   // Built as helper so same logic powers both hero CTA and sticky-bottom CTA
-  const buildCta = (extraClass) => (p.status === 'sold' || p.status === 'reserved')
-    ? `<button class="btn btn-primary ${extraClass}" onclick="navigate('consult')">${p.status === 'sold' ? c.pdCtaSold : c.pdCtaReserved}</button>`
-    : (PAYMENT_LINKS[p.id]
-        ? `<button class="btn btn-primary ${extraClass}" onclick="openCheckout('${p.id}')">${c.pdCtaBuyNow || c.pdCta1}</button>`
-        : `<button class="btn btn-primary ${extraClass}" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>`);
+  const buildCta = (extraClass) => PAYMENT_LINKS[p.id]
+    ? `<button class="btn btn-primary ${extraClass}" onclick="openCheckout('${p.id}')">${c.pdCtaBuyNow || c.pdCta1}</button>`
+    : `<button class="btn btn-primary ${extraClass}" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>`;
   const heroCta = buildCta('pdp-v2-cta');
   const stickyCta = buildCta('pdp-v2-sticky-cta');
-  const heroStatus = p.status === 'sold' ? (isCn ? '已售' : 'Sold')
-    : p.status === 'reserved' ? (isCn ? '已预订' : 'Reserved')
+  const heroStatus = p.status === 'made-to-order'
+    ? (isCn ? '现做 · ' + (c.pdLead || '14–30 天') : 'Made to order · ' + (c.pdLead || '14–30 days'))
     : (isCn ? '现货 · ' + (c.pdLead || '14–30 天') : 'In stock · ' + (c.pdLead || '14–30 days'));
   const currentVariantName = currentVariant ? (isCn ? currentVariant.cn : currentVariant.en) : '';
   const stylingOverline = isCn ? '搭配心得' : 'Styling Notes';
@@ -10948,18 +10880,10 @@ function openProduct(id, keepView) {
       <!-- Section 4 · Commerce (existing stack, wrapped) -->
       <section class="pdp-v2-commerce" id="pdp-v2-details">
         <div class="pd-craft-anchor">${craftAnchorText}</div>
-        <!-- v3.2: Stock availability badge (Stone & Strand pattern) -->
-        ${(() => {
-          const status = p.status || 'available';
-          if (status === 'sold') {
-            return `<div class="pd-stock-badge pd-stock-badge--sold">${c.pdStockSold || (isCn ? '已售出' : 'Sold')}</div>`;
-          } else if (status === 'reserved') {
-            return `<div class="pd-stock-badge pd-stock-badge--sold">${c.pdStockReserved || (isCn ? '已预订' : 'Reserved')}</div>`;
-          } else {
-            // Check if we have stock (simplified: available = in stock for now)
-            return `<div class="pd-stock-badge pd-stock-badge--in-stock">${c.pdStockInStock || (isCn ? '现货 · 48 小时内发出' : 'In stock · ships in 48 hours')}</div>`;
-          }
-        })()}
+        <!-- v3.2: Stock availability badge (Stone & Strand pattern) — 2-state: in-stock vs made-to-order -->
+        ${p.status === 'made-to-order'
+          ? `<div class="pd-stock-badge pd-stock-badge--made-to-order">${c.pdStockMadeToOrder || (isCn ? '现做 · 14-30 天发出' : 'Made to order · 14-30 days')}</div>`
+          : `<div class="pd-stock-badge pd-stock-badge--in-stock">${c.pdStockInStock || (isCn ? '现货 · 48 小时内发出' : 'In stock · ships in 48 hours')}</div>`}
         <div class="pd-price-block">
           <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
           ${(() => {
@@ -11051,14 +10975,11 @@ function openProduct(id, keepView) {
           </div>
         </details>
         <div class="pd-cta">
-          ${(p.status === 'sold' || p.status === 'reserved')
-            ? `<button class="btn btn-primary" onclick="navigate('consult')">${p.status === 'sold' ? c.pdCtaSold : c.pdCtaReserved}</button>
+          ${PAYMENT_LINKS[p.id]
+            ? `<button class="btn btn-primary" onclick="openCheckout('${p.id}')">${c.pdCtaBuyNow || c.pdCta1}</button>
                <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`
-            : (PAYMENT_LINKS[p.id]
-                ? `<button class="btn btn-primary" onclick="openCheckout('${p.id}')">${c.pdCtaBuyNow || c.pdCta1}</button>
-                   <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`
-                : `<button class="btn btn-primary" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>
-                   <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`)}
+            : `<button class="btn btn-primary" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>
+               <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`}
         </div>
         <div class="pd-cta-microcopy">${c.pdCtaMicrocopy || ''}</div>
         <!-- v3.2: Payment method icons (Foundrae / Sophie BB pattern) -->
@@ -11114,7 +11035,7 @@ function openProduct(id, keepView) {
     productSchemaEl.id = 'product-schema-jsonld';
     document.head.appendChild(productSchemaEl);
   }
-  const availMap = { available: 'InStock', sold: 'SoldOut', reserved: 'PreOrder' };
+  const availMap = { available: 'InStock', 'made-to-order': 'MadeToOrder' };
   // Schema.org price MUST match the on-page price (priceFor()) — Google Merchant
   // Center rejects feeds where structured-data price ≠ visible price.
   // Both code paths centralised in priceNumFor() — keeps formula in one place.
@@ -11456,7 +11377,7 @@ function showResult() {
   if (vibe === 'bold') picks = [PRODUCTS[1], PRODUCTS[3], PRODUCTS[9]];
   if (vibe === 'classic') picks = [PRODUCTS[8], PRODUCTS[7], PRODUCTS[4]];
 
-  // Filter out sold/reserved — Gift Finder must only surface buyable pieces · backfill from available pool
+  // Gift Finder surfaces in-stock only (gift use case is time-sensitive · made-to-order via Bespoke door) · backfill from available pool
   picks = picks.filter(p => p && p.status === 'available');
   if (picks.length < 3) {
     const pool = PRODUCTS.filter(p => p.status === 'available' && picks.indexOf(p) === -1);
