@@ -4296,33 +4296,10 @@
   }
   .pdp-v2-worn-img.is-switching { opacity: 0.25; }
 
-  /* AI-generated-content disclosure badge (Etsy 2026 + Meta + 中国 2026 四部门
-     AI 标识办法 要求). Quieted 2026-06-23 — same size band that keeps "显著标识"
-     compliant, but visual weight dropped via opacity + no-uppercase + softer blur.
-     Reads as a footnote rather than a label. */
-  .ai-disclosure-badge {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    z-index: 5;
-    padding: 3px 7px;
-    background: rgba(20, 20, 20, 0.30);
-    color: rgba(255, 255, 255, 0.78);
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 9.5px;
-    letter-spacing: 0.03em;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    border-radius: 2px;
-    pointer-events: none;
-  }
-  @media (max-width: 600px) {
-    .ai-disclosure-badge { font-size: 8.5px; padding: 2.5px 6px; bottom: 8px; right: 8px; }
-  }
-  /* i18n: match .door-overline-en/-cn pattern — show right language per market */
-  .ai-disclosure-badge-cn { display: none; }
-  body[data-market="cn"] .ai-disclosure-badge-en { display: none; }
-  body[data-market="cn"] .ai-disclosure-badge-cn { display: inline-block; }
+  /* Visible AI-disclosure badge CSS removed 2026-06-28 per brand-owner decision.
+     Machine-readable disclosure stays via data-ai-generated="true" attribute on AI imgs.
+     Refund policy + pre-ship real-photo/video communication cover any discrepancy risk.
+     Restore from git history if regulator requires visible badge (EU AI Act Art. 50 / 中国 AIGC 标识办法). */
   /* WeChat in-app browser overrides (2026-06-23) — X5 kernel renders backdrop-filter as
      solid blocks, breaking the translucent atelier register. Swap to opaque ivory. */
   body.is-wechat .nav,
@@ -4334,23 +4311,7 @@
   }
   body.is-wechat .nav { background: var(--paper); }
   body.is-wechat .reserve-backdrop { background: rgba(22, 19, 16, 0.55); }
-  /* Catalog-card variant — footnote register, quieted 2026-06-23. */
-  .product-ai-badge {
-    position: absolute;
-    top: 10px; left: 10px;
-    z-index: 4;
-    padding: 2.5px 6px;
-    background: rgba(22, 19, 16, 0.32);
-    color: rgba(251, 247, 238, 0.80);
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 9px;
-    letter-spacing: 0.04em;
-    border-radius: 2px;
-    pointer-events: none;
-  }
-  @media (max-width: 600px) {
-    .product-ai-badge { font-size: 8px; padding: 2px 5px; top: 6px; left: 6px; }
-  }
+  /* Catalog-card AI badge CSS removed 2026-06-28 — see note above on .ai-disclosure-badge removal. */
   .pdp-v2-worn-text {
     padding: 0 clamp(2rem, 5vw, 5rem);
   }
@@ -6323,9 +6284,8 @@
   <section class="dual-door-band">
     <div class="dual-door-inner">
       <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
+        <!-- Machine-readable AI disclosure via data-ai-generated attribute (visible badge hidden 2026-06-28 per brand-owner decision; refund policy + pre-ship real photo/video communication cover discrepancy risk; replace src with real photography to remove this comment). -->
         <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" data-ai-generated="true" />
-        <span class="ai-disclosure-badge ai-disclosure-badge-en" aria-label="AI-assisted render">AI assisted render</span>
-        <span class="ai-disclosure-badge ai-disclosure-badge-cn" aria-label="AI 辅助渲染">AI 辅助渲染</span>
         <div class="door-content">
           <div class="door-overline door-overline-en">Ready to wear</div>
           <div class="door-overline door-overline-cn">立刻能戴</div>
@@ -10439,9 +10399,8 @@ function productCardHtml(p) {
   // 2026-06-23: changed from `status === 'made-to-order'` (wrong — that gated on commerce
   // status, not image origin; future real-photo made-to-order SKUs would have been mis-flagged).
   const isAiImg = (p.aiRendered === true) || (p.aiRendered !== false && /\.(png|jfif)$/i.test(p.img || ''));
-  const aiBadge = isAiImg
-    ? `<span class="product-ai-badge" aria-label="${MARKET === 'cn' ? 'AI 辅助渲染' : 'AI-assisted render'}">${MARKET === 'cn' ? 'AI 渲染' : 'AI render'}</span>`
-    : '';
+  // Visible aiBadge suppressed 2026-06-28 per brand-owner decision; machine-readable disclosure remains via data-ai-generated attribute on the img below.
+  const aiBadge = '';
   return `
     <div class="product-card product-card--${status}" tabindex="0" role="button" aria-label="${ariaLabel}" onclick="openProduct('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProduct('${p.id}')}">
       <div class="product-img">
@@ -10870,13 +10829,11 @@ function openProduct(id, keepView) {
       </section>
 
       <!-- Section 2 · Worn (color-swap image) -->
+      <!-- Visible AI badge removed 2026-06-28; machine-readable disclosure via data-ai-generated attribute on the img stays. -->
       <section class="pdp-v2-worn">
         <div class="pdp-v2-worn-img-wrap">
           <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}"
                data-ai-generated="${/\/p\d{2}-worn-/.test(defaultWornImg) ? 'true' : 'false'}" />
-          <span class="ai-disclosure-badge" id="pdp-worn-ai-badge"
-                aria-label="${isCn ? 'AI 辅助渲染' : 'AI-assisted render'}"
-                style="${/\/p\d{2}-worn-/.test(defaultWornImg) ? '' : 'display:none;'}">${isCn ? 'AI 辅助渲染' : 'AI assisted render'}</span>
         </div>
         <div class="pdp-v2-worn-text">
           <div class="pdp-v2-section-overline">${isCn ? '戴法' : 'How to Wear'}</div>
