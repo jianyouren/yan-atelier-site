@@ -2677,6 +2677,45 @@
     line-height: 1.7;
   }
   body[data-market="global"] .about-hero-sub { font-family: var(--serif-en); font-style: italic; font-size: 1.3rem; }
+
+  /* About portrait + workshop figures (2026-06-28 overseas panel — surface real photos in About) */
+  .about-portrait,
+  .about-workshop {
+    max-width: 520px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+  }
+  .about-portrait img,
+  .about-workshop img {
+    width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+  .about-portrait figcaption,
+  .about-workshop figcaption {
+    margin-top: 0.85rem;
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.85rem;
+    text-align: center;
+    color: var(--hush);
+    letter-spacing: 0.04em;
+    text-wrap: pretty;
+  }
+  body[data-market="cn"] .about-portrait figcaption,
+  body[data-market="cn"] .about-workshop figcaption {
+    font-family: var(--serif);
+    font-style: normal;
+    letter-spacing: 0.08em;
+    font-size: 0.88rem;
+  }
+  .about-portrait figcaption:empty,
+  .about-workshop figcaption:empty { display: none; }
+  @media (max-width: 600px) {
+    .about-portrait, .about-workshop { margin: 2rem auto; padding: 0 1.5rem; }
+  }
+
   .about-story {
     max-width: 720px;
     margin: 4rem auto 6rem;
@@ -6519,8 +6558,10 @@
   </section>
 
   <!-- ============ v3.2: Press & Media Section ============ -->
-  <!-- HIDDEN until real press coverage available — remove style="display:none" when ready -->
-  <section class="press-section" id="press-section" style="display:none;">
+  <!-- Unhidden 2026-06-28 (overseas panel · zero-press = weakest signal). Currently 2 real notes
+       (Hainan Daily 2023 · Sanya Cultural Fair 2023). Replace with international press
+       (Wallpaper / Apollo / Le Figaro Madame) when those land. -->
+  <section class="press-section" id="press-section">
     <div class="press-header">
       <div class="press-overline" id="press-overline"></div>
       <h2 class="press-title" id="press-title"></h2>
@@ -6840,7 +6881,17 @@
     <h1 id="about-h1"></h1>
     <p class="about-hero-sub" id="about-sub"></p>
   </section>
+  <!-- Real portrait surfaced 2026-06-28 (overseas panel: Hu Yan visibility above-fold of biography section). -->
+  <figure class="about-portrait">
+    <img src="images/maker-huyan.jpg" alt="Hu Yan, founder and enameller of YÀN · Yunnan Studio" loading="lazy" />
+    <figcaption id="about-portrait-caption"></figcaption>
+  </figure>
   <article class="about-story" id="about-story"></article>
+  <!-- Real workshop scene before credits — anchors the CV-style list in a real place. -->
+  <figure class="about-workshop">
+    <img src="images/atelier-bench.jpg" alt="The Yunnan workshop — pieces and tools resting at the bench" loading="lazy" />
+    <figcaption id="about-workshop-caption"></figcaption>
+  </figure>
   <section class="about-credits">
     <h2 id="about-credits-h2"></h2>
     <div class="about-credits-grid" id="about-credits-grid"></div>
@@ -7254,8 +7305,8 @@ const COPY = {
       { quote: '本来想买大牌, 看到这个觉得更有故事。戴出去朋友都问在哪买的。', name: '陈小姐', piece: '雏菊 · 胸针', initials: '陈' }
     ],
     // v3.2: Press section
-    pressOverline: '媒体报道',
-    pressTitle: '关于我们',
+    pressOverline: '媒体提及',
+    pressTitle: '早期两则。',
     pressQuotes: [
       { text: '一间藏在云南的珐琅工坊, 把文艺复兴时期的空窗技法带回了东方。', source: '海南日报 · 2023' },
       { text: '母女两代人守着一门快要失传的手艺, 一件一件地烧。', source: '三亚文博会特刊 · 2023' }
@@ -7541,6 +7592,8 @@ const COPY = {
     hpNotFoundHint: '试试这些真实编号:<strong>{ids}</strong>',
     // About
     aboutH1: '一双手的来处',
+    aboutPortraitCaption: '胡艳 · 云南工坊',
+    aboutWorkshopCaption: '未成的器物 · 工作台一隅',
     aboutSub: '一座工坊。一炉火。一句愿意守一辈子的承诺。',
     aboutStory: [
       '海棠湾,二十来岁的某个清晨。我母亲胡艳第一次拿起银丝、第一次点燃珐琅炉。那之后,她没再放下过。',
@@ -7656,9 +7709,9 @@ const COPY = {
     featuredLink: 'View All →',
     makerTitle: 'One piece at a time.<br/>At the bench.',
     makerP: [
-      'This house begins at one bench.',
-      'My mother, Hu Yan, took up silver wire and enamel when she was very young, and has not put them down since. She had no teacher. Her teachers were the firings that failed, and the late hours at her bench.',
-      'Most days, she is simply at the bench — working a single wing, firing the kiln, watching the colour come up until it is right.'
+      'The house begins at one bench.',
+      'Hu Yan picked up silver wire and enamel young, and has not put them down since. She had no master. The kiln taught her — every firing that failed, every late hour.',
+      'Most days she is at the bench, working a single wing. Wire bent to the line of a motif, kiln set to 800°C, colour watched until it is right.'
     ],
     makerSigText: 'Founder · Enameller<br/>YÀN · Yunnan Studio',
     makerCta: 'Read the full story →',
@@ -7825,8 +7878,8 @@ const COPY = {
       { quote: 'I was going to buy from a big house. This has more story. Everyone asks where I found it.', name: 'M. Liu', piece: 'Daisy Brooch', initials: 'ML' }
     ],
     // v3.2: Press section
-    pressOverline: 'In the press',
-    pressTitle: 'About us',
+    pressOverline: 'Notes from the press',
+    pressTitle: 'Two early mentions.',
     pressQuotes: [
       { text: 'A hidden enamel studio in Yunnan, bringing Renaissance-era plique-à-jour back to the East.', source: 'Hainan Daily · 2023' },
       { text: 'Two generations, mother and daughter, guarding a craft that was nearly lost — one firing at a time.', source: 'Sanya Cultural Fair · 2023' }
@@ -8110,6 +8163,8 @@ const COPY = {
     hpNotFoundHint: 'You may try one of these real IDs: <strong>{ids}</strong>',
     aboutH1: 'Where the <em>bench</em> began.',
     aboutSub: 'An atelier. A kiln. A promise we intend to keep.',
+    aboutPortraitCaption: 'Hu Yan · at the Yunnan studio',
+    aboutWorkshopCaption: 'Unfinished pieces · the workbench, midweek',
     aboutStory: [
       'It started at Hai Tang Wan, on a morning sometime in her early twenties. My mother — Hu Yan — picked up her first thread of silver, lit her first kiln of enamel, and never set them down.',
       'She had no teacher, belonged to no school. Her instructors were ten thousand failed firings and the late hours at her workbench. Wire-inlay, enamel-laying, kiln-firing, polishing — a single piece passes through many quiet stages.',
@@ -10230,6 +10285,10 @@ function applyCopy() {
 
   // About
   document.getElementById('about-h1').innerHTML = c.aboutH1;
+  const portraitCap = document.getElementById('about-portrait-caption');
+  if (portraitCap) portraitCap.textContent = c.aboutPortraitCaption || '';
+  const workshopCap = document.getElementById('about-workshop-caption');
+  if (workshopCap) workshopCap.textContent = c.aboutWorkshopCaption || '';
   document.getElementById('about-sub').textContent = c.aboutSub;
   document.getElementById('about-story').innerHTML =
     c.aboutStory.map(p => `<p>${p}</p>`).join('') +
