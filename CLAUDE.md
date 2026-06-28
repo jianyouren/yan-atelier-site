@@ -103,6 +103,8 @@ Gap-analyzed against `D:/YAN_AutoEdit/config/gen_presets.yaml` (18 existing pres
 
 ## Image-gen flow (AutoEdit v2 · platform-led · 2026-06-22)
 
+> **PROTOCOL · READ FIRST when user asks to generate / 出图 / 出套图 / sends product photo + edit request**: `D:/YAN_AutoEdit/config/prompts/image_gen_intent.md` — 9-section 5-step gate (intent → assets → mid-clarify → summary → execute). Refuses to POST `/api/generate/image` until step-4 summary is confirmed by user (`1`=ship, `2`=edit, `3`=drop). Handles 7 modes (single / 风格转移 / 场景植入 / 配件合成 / B1 库匹配 / B2 新设计 / 套图战略). The reference data below (curl format / keyword map / SKU table / wearing rules) is for use AFTER the protocol gate confirms. **Direct curl without running the 5-step gate is a hard-law violation** (§ 0.1) — every gen call costs ¥0.x.
+
 **Endpoint**: `POST http://127.0.0.1:8765/api/generate/image` (multipart form)
 
 **Flow**: user sends a request via WeChat → Claude parses platform / image_type / SKU → POSTs → waits 60-120s → response includes `public_url` (auto-CDN-deployed) → Claude sends URL text to user → WeChat renders preview.
@@ -275,7 +277,7 @@ If user sends a ref image but no SKU/platform/type:
 
 **Notes / caveats** (updated 2026-06-22):
 - API server is on `127.0.0.1:8765` (Vite dev :5173 proxies /api to it). If down, kill any orphan + relaunch via `start_api.bat` (env keys `YAN_GEN_API_KEY` + `SILICONFLOW_API_KEY` come from User-scope env vars; bridge bash must source them).
-- **Active image provider** (config/gen.yaml): `aidraw365_gpt_image_2` for v2 single-SKU + multi-image swap. Each call ~$0.04. Fallback model `nanobanana-pro` works for single-image only (no style_ref).
+- **Active image provider** (config/gen.yaml): `apinebula_gpt_image_2` — same `gpt-image-2` model, swapped from aidraw365 on 2026-06-28 after upstream 502s on aidraw365's auto-channel. Each call ~$0.04. Fallbacks preserved in gen.yaml: `aidraw365_gpt_image_2` / `_pro` / `_nanobanana_pro` (last one is single-image only — no style_ref) plus `siliconflow_qwen_edit` / `siliconflow_kolors`. To fall back: edit `image.active` in `D:/YAN_AutoEdit/config/gen.yaml` AND verify `YAN_GEN_API_KEY` (aidraw365) or `SILICONFLOW_API_KEY` (SF) matches the provider's key.
 - **Generation takes 60-120s** for gpt-image-2 (longer than Kolors). +15-30s for CDN deploy when `auto_publish=true`.
 - Output saved to `D:\YAN_AutoEdit\assets\generated\<date>\<job-id>_0.png` (LEGACY: `D:\YAN_AutoEdit\out\<date>\` is the OLD path, no longer used).
 - CDN copy lands in `D:\yan-gen-cdn\images\<job-id>_0.png` then wrangler-deploys.
