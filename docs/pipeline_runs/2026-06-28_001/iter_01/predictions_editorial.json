@@ -1,0 +1,22 @@
+{
+  "archetype": "editorial",
+  "iter_id": "2026-06-28_001/iter_01",
+  "panel_avg_prediction": 6.7,
+  "panel_avg_tolerance": 0.3,
+  "persona_predictions": {
+    "Lauren": 7.0,
+    "Sophie": 6.8,
+    "Camille": 6.2,
+    "Megan": 7.1,
+    "Giulia": 6.4
+  },
+  "persona_tolerance": 0.4,
+  "predicted_failures": [
+    "Camille will say Cormorant at hero reads as 'one tier above Italiana' and name the Etsy/Pinterest wedding-stationery exposure specifically — verbatim something like 'I have seen this exact serif on six bridal moodboards this month'; she will demand either Fraunces or a paid foundry before raising her score above 6.5",
+    "Giulia (or whichever T Magazine-adjacent persona scores) will flag accent collision on 'plique-à-jour' or 'Hu Yán' at one breakpoint we didn't audit (most likely 1024px tablet or mobile 390px) and call it 'amateur typesetting' — even if line-height: 1.05 is set, the à's tall diacritic in Cormorant will clip on at least one PDP or hero state we missed",
+    "Sophie will flag that the system still reads single-register because Cormorant Italic is deployed in 0-1 places — she will say the swap looks like a font-file replacement not a typographic system and ask 'where is the italic doing work'; she will also note that the CN side (Noto Serif SC) was not bumped to weight 500 at H1 if we ship P0 without the P1 CN-side bump"
+  ],
+  "predicted_failures_hit_rate_target": 0.5,
+  "confidence": "medium",
+  "notes": "Panel has not seen the new portrait photos yet (user has not shipped photography). This caps the upside ceiling — even a perfect typography swap will be re-anchored to Unsplash photos and score will not exceed ~7.0 panel-avg until real Hu Yan photos ship. Predictions assume P0 ships fully (including italic deployment, SC overlines, tracking discipline, accent-collision audit) but NOT P1. If P1 items also ship (Fraunces A/B presented + CN weight bump), shift panel_avg +0.3 to 7.0 and Camille +0.5 to 6.7. Camille's prediction is the volatile one — she could land anywhere 5.5-7.0 depending on whether she reads Cormorant as a deliberate editorial choice or as a Pinterest-moodboard cargo-cult. Predicted_failures are written to be falsifiable — Phase 6 should check exact wording 'wedding/bridal/Etsy/Pinterest/moodboard' for failure 1, exact string 'plique-à-jour' or 'à' clipping for failure 2, exact concept 'italic doing work' or 'single register' for failure 3."
+}

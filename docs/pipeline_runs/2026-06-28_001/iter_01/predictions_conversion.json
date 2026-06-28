@@ -1,0 +1,99 @@
+{
+  "archetype": "conversion_ceo",
+  "iter": "iter_01",
+  "date": "2026-06-28",
+  "iteration_goal_stated": "Replace Italiana with editorial-tier display font (Cormorant parent recommended)",
+  "iteration_goal_my_position": "PAUSE / REJECT until Stripe checkout and iPhone photo sprints are unblocked. Editorial-only move with near-zero conversion lift at current order volume. Recommend repurposing slot to Stripe button copy, mobile PDP <60s audit, or hero CTA A/B harness.",
+
+  "p0_list": [
+    "P0-1: Token + cascade swap only — adopt Doc 3 recipe verbatim (Cormorant parent at 500 for display, Cormorant Garamond 400 at body, Noto Serif SC unchanged). One commit, one token. No Fraunces, no Newsreader, no axis experiments this iter.",
+    "P0-2: Preload + font-display: swap discipline, self-hosted not Google CDN. Mandatory before any paid traffic on Stripe lands. Prevents FOIT/CLS hero bounce.",
+    "P0-3: Hard-test plique-à-jour and all accented strings in H1. line-height: 1.05 minimum. Skipping = visible accent-clip on launch.",
+    "P0-4: Lighthouse / Web Vitals diff before and after. Hard gate: if LCP regresses >100ms or CLS >0.05 on mobile 3G, roll back to Italiana. A font change that costs conversion is not editorial-only, it is negative."
+  ],
+
+  "p1_list": [
+    "P1-1: Cormorant SC for EDITION / PLATE NO. / overlines — defer to iter after Stripe + photos land.",
+    "P1-2: :lang(zh) weight bump cascade (body 500, h1/h2 500). Bundle with P1-1.",
+    "P1-3: A/B Fraunces or Newsreader (variable opsz) — defer until 50+ orders shipped and an actual customer signal exists."
+  ],
+
+  "p2_list": [
+    "P2-1: Paid foundry buy (Mrs Eaves / Semplicita Pro ~$200-500/yr) — revisit at first Series-Seed conversation, not now.",
+    "P2-2: Commission custom-named sans (Chesnais Charlotte / Foundrae A-Gothic pattern) — 12-month horizon per Strategic Path B.",
+    "P2-3: Cormorant Upright for one ornament accent — backlog."
+  ],
+
+  "rejects": [
+    "REJECT-1: The iteration itself, ahead of Stripe + photo work. If Stripe + photos not unblocked by EOW, pause not run.",
+    "REJECT-2: Playfair Display, DM Serif Display, Italiana-as-ornament — all flagged as traps in research, hard reject regardless of timing.",
+    "REJECT-3: Italiana → Cormorant Garamond at H1 (the brief-as-written). Use parent Cormorant per Doc 3 correction.",
+    "REJECT-4: Touching the wordmark / logo as part of this iter. Out of scope, separate decision."
+  ],
+
+  "predictions": {
+    "panel_avg_score_after_iter": 6.0,
+    "panel_avg_score_now_baseline": 5.7,
+    "panel_avg_score_delta": "+0.3",
+    "panel_avg_score_confidence": "low",
+    "panel_avg_score_reasoning": "Editorial panels (Pentagram type / Wallpaper voice / T Mag visual etc.) will respond positively to killing Italiana — Doc 1 confirms 0/10 peers use it, and Cormorant lands closer to Pippa Small / Natalie Marie / Cormorant-using editorial cluster. But conversion-relevant panels (Stripe UX, Stripe eng) will be unmoved because the actual commerce wound (no checkout) is untouched. Net: small positive editorial delta, zero commerce delta, weighted average ~+0.3.",
+
+    "conversion_kpi_deltas": {
+      "add_to_cart_rate": "0% (no cart exists)",
+      "pdp_bounce_rate": "-0% to -2% (best case, likely unmeasurable at current traffic volume)",
+      "mobile_lcp_ms": "+50 to +150ms regression risk if P0-2 + P0-4 gates skipped, 0ms if respected",
+      "cls_delta": "+0.0 to +0.05 risk during font-swap window; 0 if font-display: swap + preload correctly applied",
+      "first_click_friction": "no change (font does not move first-click)",
+      "checkout_completion_60s_mobile": "no change (no checkout)"
+    },
+
+    "investor_perception_delta": "+1 to +2 points on a 100-point investor demo readiness scorecard. Real but small. Investor's stated deal-killers (Stripe + photos + Bespoke proof) are untouched.",
+
+    "regression_risks_likelihood": {
+      "accent_collision_plique_a_jour": 0.2,
+      "lcp_regression_3g_china": 0.15,
+      "cascade_collision_existing_weights": 0.1,
+      "owner_attention_displaces_stripe_sprint": 0.1,
+      "regression_on_locked_brand_md_rules": 0.05,
+      "nothing_breaks_nothing_moves": 0.4
+    },
+
+    "confidence_in_overall_position": "high",
+    "would_change_position_if": [
+      "User confirms Stripe is 2+ weeks out and Claude capacity is genuinely free",
+      "User confirms a typography-literate investor visit is imminent and Italiana is a visible artifact",
+      "Owner explicitly says retail conversion is parked and brand-perception is the only KPI this sprint"
+    ]
+  },
+
+  "opportunity_cost_table": {
+    "stripe_checkout_sprint": {
+      "user_action_minutes": 30,
+      "claude_hours": 3,
+      "conversion_lift": "+infinity (0 -> any cart)",
+      "confidence": "very_high"
+    },
+    "iphone_photo_sprint": {
+      "user_action_minutes": 60,
+      "claude_hours": 1,
+      "conversion_lift": "+15-40% pdp_to_cart per industry benchmark",
+      "confidence": "high"
+    },
+    "cormorant_font_swap_this_iter": {
+      "user_action_minutes": 5,
+      "claude_hours": 2,
+      "multi_agent_loop_hours": 3,
+      "conversion_lift": "0% to +2% bounce-rate, unmeasurable",
+      "confidence": "low"
+    }
+  },
+
+  "preferred_alternative_iterations": [
+    "PDP buy-bar audit + Stripe checkout button copy prep across USD/GBP/EUR/AUD",
+    "Mobile PDP <60s checkout audit + friction list for owner photo sprint",
+    "Hero CTA + first-fold trust-strip A/B harness ready for Stripe launch day"
+  ],
+
+  "explicit_conflict_with_editorial_ceo": true,
+  "conflict_summary": "Editorial CEO will likely accept the iteration goal and prioritize the Cormorant swap. Conversion CEO recommends pausing this iteration entirely until Stripe + photos unblock. If forced to run, both archetypes converge on the same P0 list (Doc 3 recipe with preload + accent test + LCP gate) — disagreement is about whether to run at all, not how to execute. Surface this to user as an explicit run / pause decision."
+}

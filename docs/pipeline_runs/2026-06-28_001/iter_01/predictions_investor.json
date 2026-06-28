@@ -1,0 +1,118 @@
+{
+  "archetype": "investor",
+  "iter": 1,
+  "iteration_subject": "italiana_to_cormorant_font_swap",
+  "verdict_one_line": "Cheap and mildly accretive on brand-moat axis but does not move technical / geo / unit-econ moats. Ranks 5th of 5 candidate P0s. Reject as headline iteration; approve as parallel side-quest only.",
+  "moat_axes_movement": {
+    "technical_moat": 0,
+    "brand_moat_notches": 1,
+    "geo_moat": 0,
+    "six_month_copy_difficulty": 0,
+    "unit_econ_at_10x": 0
+  },
+  "p0_ranking_this_week": [
+    {
+      "rank": 1,
+      "item": "stripe_payment_links_4_plique_skus",
+      "moat_notches_estimate": 10,
+      "reason": "converts today's reprice from hypothesis to revenue; without checkout the multi-currency + plique pricing work is theoretical"
+    },
+    {
+      "rank": 2,
+      "item": "real_hu_yan_at_bench_photo_shoot",
+      "moat_notches_estimate": 8,
+      "reason": "the only artifact a competitor literally cannot clone; moves brand + geo moats simultaneously"
+    },
+    {
+      "rank": 3,
+      "item": "guoli_institutional_placement_disclosure_or_removal",
+      "moat_notches_estimate": 5,
+      "reason": "third-party proof structurally moves brand moat; current ambiguity is a credibility tax"
+    },
+    {
+      "rank": 4,
+      "item": "plique_pricing_anchor_copy_with_real_auction_comparables",
+      "moat_notches_estimate": 4,
+      "reason": "Bonhams Doyle Rago Masriera lots defend the $1,599-$1,799 anchor; without this the reprice reads as markup"
+    },
+    {
+      "rank": 5,
+      "item": "italiana_to_cormorant_font_swap",
+      "moat_notches_estimate": 1,
+      "reason": "moves brand-moat axis +1 notch by closing one editorial-register gap; trivially copyable; orthogonal to all other moat work"
+    }
+  ],
+  "iteration_verdict": "REJECT_AS_HEADLINE_APPROVE_AS_SIDEQUEST",
+  "iteration_premise_scores": {
+    "strategic_timing": 3,
+    "implementation_feasibility": 9,
+    "moat_movement": 2,
+    "reversibility_if_wrong": 10,
+    "opportunity_cost": 2,
+    "cargo_cult_risk": 5,
+    "average_out_of_10": 5.2
+  },
+  "panel_avg_prediction": {
+    "baseline_current_avg": 6.10,
+    "predicted_avg_after_ship": 6.30,
+    "delta": 0.20,
+    "confidence": "medium",
+    "rationale": "Editorial register sub-score moves +1.5 to +2.5 for 闻献 / SBB persona; VC docks -0.2 for misallocation while Stripe is dark; Emma cold-visitor 0; net thin positive."
+  },
+  "per_persona_score_deltas_predicted": {
+    "wenxian": "+1.0",
+    "sophie_bille_brahe": "+0.7",
+    "wallpaper_editor_or_TMag": "+0.5",
+    "vc_partner_self": "-0.2",
+    "emma_cold_visitor": "0.0"
+  },
+  "conversion_impact": "0 measurable - no checkout exists",
+  "stripe_readiness_impact": "0 - orthogonal",
+  "first_revenue_impact": "0 - orthogonal",
+  "pre_mortem_top_risks": [
+    {
+      "risk": "plique-a-jour accent collision in H1 if line-height < 1.05",
+      "probability": 0.30,
+      "impact": "high",
+      "mitigation": "explicit line-height: 1.05 minimum on display H1; hard-test plique-a-jour string in H1 before merge"
+    },
+    {
+      "risk": "Cormorant becomes the next template-tier serif within 12-18 months",
+      "probability": 0.40,
+      "impact": "medium",
+      "mitigation": "use parent Cormorant not Garamond at display; deliberate tracking + scale; re-evaluate in 2027"
+    },
+    {
+      "risk": "Brand-loop oxygen consumed by chrome at wrong stage - Stripe / photos / 国礼 stay at zero",
+      "probability": 0.70,
+      "impact": "high",
+      "mitigation": "loop should refuse chrome iterations while deal-blocker P0s are open or explicitly parked"
+    },
+    {
+      "risk": "Executor implements Cormorant Garamond at H1 instead of parent Cormorant",
+      "probability": 0.35,
+      "impact": "medium",
+      "mitigation": "code review checklist: confirm @font-face loads Cormorant-Medium and Cormorant-SemiBold parent files, not Cormorant-Garamond variants, for the display tier"
+    },
+    {
+      "risk": "Panel scores +2 on chrome, owner reads loop as working, optimizes for more chrome iters - meta-process drift",
+      "probability": 0.40,
+      "impact": "high",
+      "mitigation": "prepend P0 status panel to every triage doc so chrome work is visibly framed as opportunity cost"
+    }
+  ],
+  "conditions_to_approve_as_headline": [
+    "Stripe Payment Links live for at least 2 of 4 plique SKUs",
+    "6 real Hu Yan at-bench photos staged for upload",
+    "OR explicit owner decision to park P0s with a specific reason"
+  ],
+  "if_executed_anyway_minimum_bar": [
+    "Use parent Cormorant (not Cormorant Garamond) for H1 and H2",
+    "Cormorant Garamond stays at body 400-500",
+    "Line-height >= 1.05 on display H1 - mandatory for plique-a-jour accent clearance",
+    "Test plique-a-jour and a-votre-service in H1 before merge",
+    "CN body weight bump to 500 for Noto Serif SC to match Cormorant 500 EN",
+    "Self-host all woff2 - no Google Fonts CDN (China firewall + privacy)",
+    "Bundle as parallel side-quest with whichever P0 ships next; do not run a standalone panel cycle on it"
+  ]
+}
