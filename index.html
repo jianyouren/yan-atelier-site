@@ -122,13 +122,7 @@
     src: url('fonts/cormorant-garamond-v21-latin-italic.woff2') format('woff2');
   }
   /* Noto Serif SC (Chinese) */
-  @font-face {
-    font-family: 'Noto Serif SC';
-    font-style: normal;
-    font-weight: 300;
-    font-display: swap;
-    src: url('fonts/noto-serif-sc-v35-chinese-simplified-300.woff2') format('woff2');
-  }
+  /* Noto Serif SC weights 300 + 700 dropped 2026-06-28 (perf · 3MB saved · unused outside @font-face declarations) */
   @font-face {
     font-family: 'Noto Serif SC';
     font-style: normal;
@@ -149,13 +143,6 @@
     font-weight: 600;
     font-display: swap;
     src: url('fonts/noto-serif-sc-v35-chinese-simplified-600.woff2') format('woff2');
-  }
-  @font-face {
-    font-family: 'Noto Serif SC';
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url('fonts/noto-serif-sc-v35-chinese-simplified-700.woff2') format('woff2');
   }
   :root {
     /* Editorial atelier palette — warmer cream, deeper ink, measured by hand */
@@ -550,7 +537,7 @@
   /* Editorial atelier: image takes 58%, text 42%, vertical CN ornament on far left */
   .hero {
     position: relative;
-    min-height: calc(100vh - 80px);
+    min-height: calc(85dvh - 80px);  /* 2026-06-28 user-reported overflow on desktop; was calc(100vh - 80px). dvh handles iOS Safari chrome */
     display: grid;
     grid-template-columns: var(--ratio-editorial-flip);
     gap: 0;
@@ -826,7 +813,7 @@
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: brightness(0.62) contrast(1.08) saturate(0.95);
+    filter: brightness(0.78) contrast(1.06) saturate(0.95);  /* 2026-06-28 user-reported "black screen" — was 0.62 too dim per 4-lens P1 */
     transform: scale(1.06);
     animation: atelierZoom 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
@@ -4703,12 +4690,12 @@
     object-position: center;
     z-index: 0;
     transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    filter: brightness(0.85) saturate(0.95);
+    filter: brightness(0.92) saturate(0.95);  /* 2026-06-28 user-reported "黑屏" — was 0.85 too dark */
   }
   .door::after {
     content: '';
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(22, 19, 16, 0.35) 0%, rgba(22, 19, 16, 0.55) 100%);
+    background: linear-gradient(180deg, rgba(22, 19, 16, 0.25) 0%, rgba(22, 19, 16, 0.42) 100%);  /* 2026-06-28: was 0.35→0.55 too heavy scrim */
     z-index: 1;
     transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -6384,8 +6371,7 @@
       <h1 class="hero-h1-en">Wear it.<br/>People will ask <em>where you found it</em>.</h1>
       <h1 class="hero-h1-cn">戴出去,<br/>别人会问你<em>哪儿淘的</em>。</h1>
       <p class="hero-sub" id="hero-sub"></p>
-      <!-- hero-plique-fact bridge removed 2026-06-19 (T3 audit) · scarcity boast lives in plique-section below; cold-zone needs fewer registers -->
-      <p class="hero-plique-fact" id="hero-plique-fact" hidden></p>
+      <!-- hero-plique-fact bridge removed 2026-06-19 (T3 audit) · scarcity boast lives in plique-section below. DOM element deleted entirely 2026-06-28 (taste-skill hero-stack cap). -->
       <div class="hero-cta">
         <button class="btn btn-primary" id="hero-cta1" onclick="if(window.plausible)plausible('Hero CTA Collection'); navigate('catalog', null, true)"></button>
         <button class="btn btn-ghost" id="hero-cta2" onclick="if(window.plausible)plausible('Hero CTA Gift Finder'); navigate('gift')"></button>
@@ -6484,11 +6470,13 @@
   <!-- ============ Atelier(新增) ============ -->
   <section class="atelier-section">
     <div class="atelier-img">
-      <video autoplay muted loop playsinline preload="metadata"
+      <!-- 2026-06-28 perf: preload="none" + data-src + IntersectionObserver lazy-load (was preload="metadata" pulling 1.7MB on initial load) -->
+      <video muted loop playsinline preload="none"
+             id="atelier-video"
              poster="images/atelier-bench-pieces.jpg"
              width="1280" height="720"
              aria-label="Enamel being applied at the workbench, YÀN · Yunnan Studio">
-        <source src="images/video-craft-loop.mp4" type="video/mp4" />
+        <source data-src="images/video-craft-loop.mp4" type="video/mp4" />
         <img src="images/atelier-bench-pieces.jpg" width="1600" height="1366" alt="Unfinished silver pieces resting on the workbench at YÀN · Yunnan Studio" />
       </video>
     </div>
@@ -11767,6 +11755,31 @@ setTimeout(() => { detectMarketByIP(); }, 2000); // Delay 2s to prioritize initi
   if (prefersReduced) return;
   const hero = document.querySelector('.hero-img');
   if (hero) hero.classList.add('is-fading-in');
+})();
+
+// Atelier video lazy-autoplay (2026-06-28 perf · saves 1.7MB on initial load)
+(function lazyAtelierVideo() {
+  const v = document.getElementById('atelier-video');
+  if (!v || !('IntersectionObserver' in window)) {
+    // Fallback: load immediately
+    const s = v && v.querySelector('source[data-src]');
+    if (s && s.dataset.src) { s.src = s.dataset.src; v.load(); }
+    return;
+  }
+  const source = v.querySelector('source[data-src]');
+  if (!source) return;
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        obs.disconnect();
+        source.src = source.dataset.src;
+        v.load();
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!prefersReduced) v.play().catch(() => { /* autoplay blocked; poster stays */ });
+      }
+    });
+  }, { rootMargin: '300px 0px' });
+  io.observe(v);
 })();
 
 // ─── Cursor-as-light · main WOW Layer 2 (2026-06-17) ────────────────────
