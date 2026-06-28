@@ -208,6 +208,13 @@
     --dur-fast: 180ms;
     --dur-base: 360ms;
     --dur-slow: 600ms;
+    /* Shadow-ring tokens (skill #3 · shadow over border on depth elements) — pure black 0,0,0 per #11 rule */
+    --shadow-ring: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    --shadow-ring-strong: 0 0 0 1px rgba(0, 0, 0, 0.18);
+    --shadow-ring-hover: 0 0 0 1px var(--ink);
+    /* Hit-area tokens (skill #16 · ≥40px interactive elements) */
+    --touch-target: 40px;
+    --touch-target-strict: 44px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; overflow-x: hidden; }
@@ -382,6 +389,10 @@
     transition: color 0.3s var(--ease-out), border-bottom-color 0.3s var(--ease-out);
     background: none; border: none;
     font-weight: 400;
+    /* skill #16 · 40px hit area without visual change (flex centers within the 40px box) */
+    min-height: var(--touch-target);
+    display: inline-flex;
+    align-items: center;
   }
   body[data-market="cn"] .nav-link { font-family: var(--serif); font-style: normal; font-size: 0.78rem; letter-spacing: 0.15em; }
   .nav-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
@@ -391,18 +402,19 @@
   .market-selector {
     position: relative;
     display: flex; align-items: center; gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--line);
+    padding: 0.65rem 1rem;       /* skill #16 · 40px hit area (was 0.5rem ≈ 32px) */
+    min-height: var(--touch-target);
+    box-shadow: var(--shadow-ring); /* skill #3 · shadow over border for depth */
     cursor: pointer;
     font-family: var(--serif);
     font-size: 0.78rem;
     letter-spacing: 0.1em;
     background: transparent;
     color: var(--ink-soft);
-    transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out), scale 0.15s var(--ease-out);
+    transition: box-shadow 0.3s var(--ease-out), color 0.3s var(--ease-out), scale 0.15s var(--ease-out);
   }
   body[data-market="global"] .market-selector { font-family: var(--serif-en); }
-  .market-selector:hover { border-color: var(--ink); color: var(--ink); }
+  .market-selector:hover { box-shadow: var(--shadow-ring-hover); color: var(--ink); }
   .market-selector .globe {
     width: 12px; height: 12px;
     border: 1px solid currentColor;
@@ -429,7 +441,7 @@
     top: calc(100% + 0.5rem);
     right: 0;
     background: var(--ivory);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);   /* skill #3 · shadow over border */
     min-width: 240px;
     padding: 0.5rem 0;
     display: none;
@@ -655,9 +667,9 @@
   .btn-ghost {
     background: transparent;
     color: var(--ink);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);   /* skill #3 · shadow over border */
   }
-  .btn-ghost:hover { border-color: var(--ink); }
+  .btn-ghost:hover { box-shadow: var(--shadow-ring-hover); }
 
   .hero-img {
     position: relative;
@@ -1113,7 +1125,7 @@
   .product-tag--new {
     background: var(--ivory);
     color: var(--ink);
-    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-ring-strong);  /* skill #3 · shadow over border */
   }
   .product-tag--unique {
     /* brass #8B6914 removed 2026-06-28 (taste-skill P2 + stitch single-accent rule) — ink ground with hairline */
@@ -1925,9 +1937,10 @@
     font-family: var(--serif);
     font-size: 0.72rem;
     letter-spacing: 0.18em;
-    padding: 0.55rem 1.05rem;
+    padding: 0.6rem 1.05rem;       /* skill #16 · 40px hit area (was 0.55rem ≈ 36px) */
+    min-height: var(--touch-target);
     color: var(--hush);
-    transition: color 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: color 0.28s var(--ease-out);
     text-transform: uppercase;
   }
   body[data-market="cn"] .subfilter-chip { font-weight: 500; letter-spacing: 0.14em; text-transform: none; font-size: 0.8rem; }
@@ -2137,25 +2150,24 @@
   .pd-option-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .pd-chip {
     background: transparent;
-    border: 1px solid var(--line-strong);
-    padding: 0.55rem 0.95rem;
+    padding: 0.6rem 0.95rem;            /* skill #16 · 40px hit area (was 0.55rem) */
+    min-height: var(--touch-target);
+    box-shadow: var(--shadow-ring-strong); /* skill #3 · shadow over border, matches old line-strong 0.18 */
     font-family: var(--serif);
     font-size: 0.85rem;
     color: var(--ink-soft);
     cursor: pointer;
     letter-spacing: 0.04em;
-    transition: border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), scale 0.15s var(--ease-out);
+    transition: box-shadow 0.2s var(--ease-out), color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), scale 0.15s var(--ease-out);
     line-height: 1.4;
   }
   body[data-market="global"] .pd-chip { font-family: var(--serif-en); }
-  .pd-chip:hover { border-color: var(--ink); color: var(--ink); }
-  /* Selected state: outline + underline tick (2026-06-17 Tier 3). Filled black pill =
-     Shopify product-options pattern; Loewe/Anna Hu Bespoke mark selection with a thicker
-     outline + underline at the same ink, paper stays paper. */
+  .pd-chip:hover { box-shadow: var(--shadow-ring-hover); color: var(--ink); }
+  /* Selected state: outline ring + underline tick (2026-06-17 Tier 3 · Loewe/Anna Hu Bespoke pattern).
+     Outer ring (skill #3 shadow) + inset underline tick layered via box-shadow. */
   .pd-chip.is-selected {
-    border-color: var(--ink);
     color: var(--ink);
-    box-shadow: inset 0 -2px 0 0 var(--ink);
+    box-shadow: var(--shadow-ring-hover), inset 0 -2px 0 0 var(--ink);
   }
   .pd-chip em {
     font-family: var(--serif-en);
@@ -2284,7 +2296,7 @@
   }
   body[data-market="cn"] .pd-payment-note { font-family: var(--serif); font-style: normal; }
   .pd-payment-chip {
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
     padding: 0.3rem 0.7rem;
     font-size: 0.75rem;
     letter-spacing: 0.05em;
@@ -2696,7 +2708,7 @@
   body[data-market="global"] .gf-header p { font-family: var(--serif-en); font-style: italic; }
   .gf-card {
     background: rgba(255, 255, 255, 0.5);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
     padding: var(--space-xl) var(--pad-x);
     backdrop-filter: blur(10px);
   }
@@ -2740,19 +2752,19 @@
   }
   .gf-option {
     padding: 1.3rem 1.5rem;
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
     background: rgba(255, 255, 255, 0.4);
     font-family: var(--serif);
     font-size: 0.95rem;
     letter-spacing: 0.05em;
     cursor: pointer;
-    transition: border-color 0.3s var(--ease-out), background-color 0.3s var(--ease-out), color 0.3s var(--ease-out), scale 0.15s var(--ease-out);
+    transition: box-shadow 0.3s var(--ease-out), background-color 0.3s var(--ease-out), color 0.3s var(--ease-out), scale 0.15s var(--ease-out);
     text-align: left;
     color: var(--ink);
   }
   body[data-market="global"] .gf-option { font-family: var(--serif-en); font-size: 1rem; }
   .gf-option:hover, .gf-option.selected {
-    border-color: var(--ink);
+    box-shadow: var(--shadow-ring-hover);
     background: var(--ink);
     color: var(--ivory);
   }
@@ -2797,12 +2809,12 @@
     grid-template-columns: 200px 1fr;
     gap: 2rem;
     background: rgba(255, 255, 255, 0.5);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);   /* skill #3 · shadow over border */
     padding: 1.5rem;
     cursor: pointer;
-    transition: border-color 0.3s var(--ease-out), scale 0.15s var(--ease-out);
+    transition: box-shadow 0.3s var(--ease-out), scale 0.15s var(--ease-out);
   }
-  .gf-pick:hover { border-color: var(--ink); }
+  .gf-pick:hover { box-shadow: var(--shadow-ring-hover); }
   .gf-pick-img {
     background: #000;
     aspect-ratio: 4/5;
@@ -3203,8 +3215,8 @@
     width: min(560px, calc(100% - 2rem));
     background: var(--paper, #f4efe6);
     color: var(--ink, #1a1814);
-    border: 1px solid var(--line);
-    /* Drop-shadow removed 2026-06-17 Tier 3 — hairline border replaces floating-card lift */
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
+    /* Top accent stripe stays as a border (divider, not depth) */
     border-top: 1px solid var(--line-strong);
     padding: 1.25rem 1.5rem 1.25rem 1.75rem;
     transition: transform 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -3362,7 +3374,7 @@
     max-height: 90vh;
     overflow-y: auto;
     padding: 3rem 2.5rem;
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
     animation: rvSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   @keyframes rvSlideUp {
@@ -3435,7 +3447,7 @@
     background: white;
     padding: 1rem 1.2rem;
     margin-bottom: 1.5rem;
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
   }
   .reserve-product img {
     width: 80px; height: 100px;
@@ -3551,7 +3563,7 @@
     background: white;
     padding: 1rem 1.2rem;
     margin-bottom: 1.5rem;
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
     text-align: center;
   }
   /* Peak-end step 4 (2026-06-23) — was just a mailto-handoff receipt; now a brand peak with
@@ -4071,14 +4083,14 @@
     /* P1 fix: 44pt touch target (iOS HIG) wrapping a 30px visual fill */
     width: 44px; height: 44px;
     background: transparent;
-    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-ring-strong);  /* skill #3 · shadow over border */
     cursor: pointer;
     padding: 0;
     position: relative;
-    transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: box-shadow 0.2s var(--ease-out), scale 0.15s var(--ease-out);
     display: inline-flex; align-items: center; justify-content: center;
   }
-  .pdp-v2-swatch:hover { border-color: var(--ink); }
+  .pdp-v2-swatch:hover { box-shadow: var(--shadow-ring-hover); }
   .pdp-v2-swatch:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .pdp-v2-swatch-fill {
     /* Inner 30×30 visual fill inside the 44×44 touch target */
@@ -4086,10 +4098,9 @@
     display: block;
     pointer-events: none;
   }
-  /* P0-8: removed outer drop shadow on active swatch (Tier 3 anti-AI-default) — inset ring only */
+  /* P0-8: removed outer drop shadow on active swatch (Tier 3 anti-AI-default) — inset + outer ring only */
   .pdp-v2-swatch.is-active {
-    border-color: var(--ink);
-    box-shadow: inset 0 0 0 1px var(--ink);
+    box-shadow: var(--shadow-ring-hover), inset 0 0 0 1px var(--ink);
   }
   .pdp-v2-inspiration-label {
     font-family: var(--sans-en);
@@ -4998,7 +5009,7 @@
     margin-bottom: 1.5rem;
     padding: 0.75rem 1rem;
     background: var(--paper);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
   }
   body[data-market="global"] .pd-shipby { font-family: var(--serif-en); font-style: italic; letter-spacing: 0.02em; font-size: 0.95rem; }
   /* Plain 1-line terms (replaces roman numerals) */
@@ -5131,7 +5142,7 @@
     align-items: baseline;
     gap: 0.875rem;
     padding: 1.125rem 1.875rem;
-    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-ring-strong);  /* skill #3 · shadow over border */
     background: var(--ivory);
   }
   .consult-response-num {
@@ -5331,7 +5342,7 @@
     width: 46px; height: 46px;
     display: flex; align-items: center; justify-content: center;
     background: var(--ivory);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
     border-radius: 50%;
     font-family: var(--serif-en);
     font-style: italic;
@@ -5499,7 +5510,7 @@
   /* Table of contents — printed-monograph convention */
   .craft-toc {
     background: var(--paper);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
     padding: 1.875rem 2.125rem;
     margin-bottom: 4.75rem;
   }
@@ -5784,7 +5795,7 @@
     margin-top: 5rem;
     padding: 4.25rem 2rem;
     background: var(--ivory-2);
-    border: 1px solid var(--line);
+    box-shadow: var(--shadow-ring);  /* skill #3 · shadow over border */
   }
   .craft-cta h3 {
     font-family: var(--display);
