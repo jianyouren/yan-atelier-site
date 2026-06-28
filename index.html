@@ -447,6 +447,61 @@
     display: none;
     z-index: 150;
   }
+
+  /* Currency selector (2026-06-28 P0-2 from overseas panel) — tight chip + dropdown next to market */
+  .currency-wrap { position: relative; }
+  .currency-selector {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0.55rem 0.85rem;
+    min-height: var(--touch-target);
+    box-shadow: var(--shadow-ring);
+    cursor: pointer;
+    font-family: var(--serif-en);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    background: transparent;
+    color: var(--ink-soft);
+    transition: box-shadow 0.3s var(--ease-out), color 0.3s var(--ease-out), scale 0.15s var(--ease-out);
+    font-variant-numeric: tabular-nums;
+    border: 0;
+  }
+  body[data-market="cn"] .currency-selector { font-family: var(--serif); }
+  .currency-selector:hover { box-shadow: var(--shadow-ring-hover); color: var(--ink); }
+  .currency-selector:active { scale: 0.96; }
+  .currency-chev { font-size: 0.7rem; opacity: 0.5; }
+  .currency-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background: var(--ivory);
+    box-shadow: var(--shadow-ring);
+    min-width: 160px;
+    padding: 0.4rem 0;
+    display: none;
+    z-index: 150;
+  }
+  .currency-dropdown.open { display: block; }
+  .currency-option {
+    display: block;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--serif-en);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    transition: background-color 0.2s var(--ease-out), color 0.2s var(--ease-out);
+  }
+  .currency-option:hover { background: var(--ivory-2); color: var(--ink); }
+  .currency-option.current { color: var(--ink); font-weight: 500; }
+  @media (max-width: 600px) {
+    .currency-selector { padding: 0.55rem 0.7rem; font-size: 0.72rem; }
+    .currency-dropdown { right: 0; min-width: 140px; }
+  }
   .market-dropdown.open { display: block; }
   .market-option {
     padding: 0.9rem 1.2rem;
@@ -1766,6 +1821,23 @@
     letter-spacing: 0.28em;
     text-transform: none;
   }
+  /* DDP trust note under catalog header — 2026-06-28 P0-2 surfaced from Terms */
+  .catalog-shipping-note {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--hush);
+    letter-spacing: 0.02em;
+    margin-top: 0.4rem;
+    text-wrap: pretty;
+  }
+  body[data-market="cn"] .catalog-shipping-note {
+    font-family: var(--serif);
+    font-style: normal;
+    font-size: 0.92rem;
+    letter-spacing: 0.06em;
+  }
+  .catalog-shipping-note:empty { display: none; }
   .catalog-header p {
     color: var(--hush);
     font-size: 0.95rem;                       /* compressed 2026-06-17 */
@@ -6216,6 +6288,19 @@
   </div>
   <div class="nav-links" id="nav-links"></div>
   <div class="nav-right">
+    <!-- Currency selector — multi-currency 2026-06-28 P0-2, hidden when MARKET='cn' (CNY forced) -->
+    <div class="currency-wrap" id="currency-wrap" style="display:none">
+      <button class="currency-selector" id="currency-selector-btn" onclick="toggleCurrencyDropdown(event)" aria-haspopup="listbox" aria-label="Currency">
+        <span id="currency-current">USD</span>
+        <span class="currency-chev" aria-hidden="true">▾</span>
+      </button>
+      <div class="currency-dropdown" id="currency-dropdown" role="listbox">
+        <button class="currency-option" role="option" data-currency="USD" onclick="switchCurrency('USD')">USD&nbsp;·&nbsp;$</button>
+        <button class="currency-option" role="option" data-currency="GBP" onclick="switchCurrency('GBP')">GBP&nbsp;·&nbsp;£</button>
+        <button class="currency-option" role="option" data-currency="EUR" onclick="switchCurrency('EUR')">EUR&nbsp;·&nbsp;€</button>
+        <button class="currency-option" role="option" data-currency="AUD" onclick="switchCurrency('AUD')">AUD&nbsp;·&nbsp;A$</button>
+      </div>
+    </div>
     <button class="market-selector" id="market-selector-btn" onclick="toggleMarketDropdown(event)">
       <span class="globe"></span>
       <span id="market-current">中国 · ¥</span>
@@ -6466,6 +6551,8 @@
     <h1 id="catalog-h1"></h1>
     <p class="catalog-edition" id="catalog-edition"></p>
     <p id="catalog-sub"></p>
+    <!-- DDP trust line — surfaced 2026-06-28 P0-2 from overseas panel (Megan AU: DDP was buried in Terms) -->
+    <p class="catalog-shipping-note" id="catalog-shipping-note"></p>
     <p class="catalog-next-drop" id="catalog-next-drop"></p>
   </div>
   <!-- Gift Finder entry on catalog (added 2026-06-17 — discoverability fix).
@@ -7013,6 +7100,7 @@ const COPY = {
     // Catalog
     catalogH1: '作品集',
     catalogEdition: '本批 · 现货',
+    catalogShippingNote: '全球包邮 · 含关税 · DHL 直送(7–14 天)',
     catalogSub: '每一件,8 至 10 次入炉,800°C 烧成。出工坊之后,工坊照看一辈子。',
     // Plain status labels (no plate framing, no scarcity countdown — evidence-led)
     // PDP: plain ship-by + 1-line terms + included
@@ -7589,6 +7677,7 @@ const COPY = {
     giftCtaBtn: 'Find a Gift →',
     catalogH1: 'The Collection',
     catalogEdition: 'In stock now',
+    catalogShippingNote: 'Duties paid · Free DHL shipping worldwide (7–14 days)',
     catalogSub: 'Each piece, 8–10 firings at 800°C. Once made, kept for life.',
     // Plain status labels
     // PDP plain commerce stack
@@ -9318,6 +9407,37 @@ let currentView = 'home';
 // ============================================================
 const FX_RATE = 7.0;   // ¥ → $ 汇率 (近似)
 const PRICE_MULT = 2.0; // 海外溢价倍率 (吸 DDP + intl shipping + 收款费)
+
+// ============================================================
+// 多币种 (2026-06-28 P0-2 from overseas panel) — USD baseline, GBP/EUR/AUD derived.
+// Locked snapshot rates — re-verify quarterly against Wise/XE retail mid-rates.
+// All currencies show the same VALUE the customer actually pays at checkout
+// (DDP, no surprise duties). Rounding: ceil/10*10-1 to match the $179/$369 register.
+// CNY is forced when MARKET='cn' — currency switcher is hidden in CN market.
+// ============================================================
+const FX_FROM_USD = {
+  USD: { rate: 1.0,  symbol: '$',   code: 'USD', label: 'USD · $'  },
+  GBP: { rate: 0.79, symbol: '£',   code: 'GBP', label: 'GBP · £'  },
+  EUR: { rate: 0.93, symbol: '€',   code: 'EUR', label: 'EUR · €'  },
+  AUD: { rate: 1.52, symbol: 'A$',  code: 'AUD', label: 'AUD · A$' },
+};
+const CURRENCY_OPTIONS = ['USD', 'GBP', 'EUR', 'AUD'];
+
+// Default currency detection — navigator.language → currency map (only for MARKET='global')
+function detectDefaultCurrency() {
+  try {
+    const saved = localStorage.getItem('yan-currency');
+    if (saved && FX_FROM_USD[saved]) return saved;
+  } catch (e) {}
+  const lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  if (lang.startsWith('en-gb') || lang === 'en-uk') return 'GBP';
+  if (lang.startsWith('en-au') || lang.startsWith('en-nz')) return 'AUD';
+  // Common eurozone + EU non-euro (ECB-style basket — close enough for default)
+  if (/^(de|fr|it|es|nl|pt|pl|cs|hu|sv|da|fi|ro|sk|sl|hr|el|et|lv|lt|bg|ga|mt|is|no)\b/.test(lang)) return 'EUR';
+  if (lang.startsWith('en-ie') || lang.startsWith('en-mt')) return 'EUR';
+  return 'USD'; // safe fallback
+}
+let CURRENCY = detectDefaultCurrency();
 const FIRST_VISIT_KEY = 'yan_visited_v3';
 
 // ============================================================
@@ -9334,22 +9454,33 @@ const FIRST_VISIT_KEY = 'yan_visited_v3';
 //   open the calendar instead of mailto when this is set.
 const ACUITY_BOOKING_URL = ''; // e.g. 'https://yanatelier.as.me/' or 'https://cal.com/yan-atelier/15min'
 
-// 价格换算:¥ → 全球售价 USD = (¥价 × 倍率) ÷ 汇率,取整到 9 结尾
-// per-SKU override via `priceGlobal` field (USD 整数);见上方海外价格策略注释。
+// USD baseline price (raw int) — single source. Other currencies derive via FX_FROM_USD.
+function priceUSD(p) {
+  if (typeof p.priceGlobal === 'number') return p.priceGlobal;
+  const usd = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
+  return Math.ceil(usd / 10) * 10 - 1; // $179, $369 这种
+}
+
+// 价格换算:¥ → 全球售价。multi-currency 2026-06-28 — USD baseline × FX rate × round.
 function priceFor(p) {
   if (MARKET === 'cn') return '¥' + p.priceCN.toLocaleString();
-  if (typeof p.priceGlobal === 'number') return '$' + p.priceGlobal.toLocaleString();
-  const usd = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
-  const rounded = Math.ceil(usd / 10) * 10 - 1; // $179, $369 这种
-  return '$' + rounded.toLocaleString();
+  const usd = priceUSD(p);
+  const cur = FX_FROM_USD[CURRENCY] || FX_FROM_USD.USD;
+  if (cur.code === 'USD') return '$' + usd.toLocaleString();
+  // Apply FX → round to 9-ending (same register as USD: $X29, £X39, etc.)
+  const raw = Math.round(usd * cur.rate);
+  const rounded = Math.ceil(raw / 10) * 10 - 1;
+  return cur.symbol + rounded.toLocaleString();
 }
 
 // priceNumFor(p, market) — 返回纯数字(无货币符号),给 Schema.org / structured-data 用
 function priceNumFor(p, market) {
   if (market === 'cn') return p.priceCN;
-  if (typeof p.priceGlobal === 'number') return p.priceGlobal;
-  const usd = Math.round((p.priceCN * PRICE_MULT) / FX_RATE);
-  return Math.ceil(usd / 10) * 10 - 1;
+  const usd = priceUSD(p);
+  const cur = FX_FROM_USD[CURRENCY] || FX_FROM_USD.USD;
+  if (cur.code === 'USD') return usd;
+  const raw = Math.round(usd * cur.rate);
+  return Math.ceil(raw / 10) * 10 - 1;
 }
 
 // Evidence-led ship-by line — Mejuri/Aurate/Foundrae/Stone&Strand all use literal lead-time
@@ -9372,12 +9503,50 @@ function switchMarket(market) {
     b.classList.toggle('current', b.dataset.market === market);
   });
   document.getElementById('market-dropdown').classList.remove('open');
+  // Currency selector visibility — hidden in CN market (CNY forced)
+  syncCurrencyUI();
   // 重新写入文案
   applyCopy();
   // 重渲染当前视图
   rerenderCurrentView();
   // 关闭横幅
   closeGeoBanner();
+}
+
+// Multi-currency switcher (2026-06-28 P0-2)
+function switchCurrency(code) {
+  if (!FX_FROM_USD[code]) return;
+  CURRENCY = code;
+  try { localStorage.setItem('yan-currency', code); } catch (e) {}
+  syncCurrencyUI();
+  const dd = document.getElementById('currency-dropdown');
+  if (dd) dd.classList.remove('open');
+  // Re-render visible prices — applyCopy refreshes featured grid + promise + hero text;
+  // rerenderCurrentView handles catalog/PDP grids.
+  applyCopy();
+  rerenderCurrentView();
+}
+
+function syncCurrencyUI() {
+  const wrap = document.getElementById('currency-wrap');
+  if (!wrap) return;
+  // Hide in CN market (CNY forced) — show only when MARKET='global'
+  wrap.style.display = (MARKET === 'cn') ? 'none' : 'flex';
+  const current = document.getElementById('currency-current');
+  if (current) current.textContent = (FX_FROM_USD[CURRENCY] || FX_FROM_USD.USD).code;
+  document.querySelectorAll('.currency-option').forEach(b => {
+    b.classList.toggle('current', b.dataset.currency === CURRENCY);
+  });
+}
+
+function toggleCurrencyDropdown(e) {
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  const dd = document.getElementById('currency-dropdown');
+  if (!dd) return;
+  // Close market dropdown if open
+  const mkt = document.getElementById('market-dropdown');
+  if (mkt) mkt.classList.remove('open');
+  dd.classList.toggle('open');
 }
 
 function toggleMarketDropdown(e) {
@@ -9629,6 +9798,8 @@ if (window.IS_WECHAT) {
 
 document.addEventListener('click', () => {
   document.getElementById('market-dropdown').classList.remove('open');
+  const cd = document.getElementById('currency-dropdown');
+  if (cd) cd.classList.remove('open');
 });
 
 // ============================================================
@@ -9967,6 +10138,9 @@ function applyCopy() {
   const editionEl = document.getElementById('catalog-edition');
   if (editionEl && c.catalogEdition) editionEl.textContent = c.catalogEdition;
   document.getElementById('catalog-sub').textContent = c.catalogSub;
+  // DDP trust line — 2026-06-28 P0-2 surfaced from Terms (Megan AU panel)
+  const shippingNoteEl = document.getElementById('catalog-shipping-note');
+  if (shippingNoteEl) shippingNoteEl.textContent = c.catalogShippingNote || '';
   // Time-based drop note (replaces Edition closure framing)
   const nextDropEl = document.getElementById('catalog-next-drop');
   if (nextDropEl) nextDropEl.innerHTML = c.nextDropText || '';
@@ -10366,6 +10540,10 @@ function rerenderCurrentView() {
   // 单品页要重渲染
   if (currentView === 'product' && window._lastProductId) {
     openProduct(window._lastProductId, true);
+  }
+  // 价格相关 view 重渲染 (multi-currency 2026-06-28) — catalog grid 需要随币种刷新
+  if (currentView === 'catalog' && typeof renderCatalog === 'function') {
+    try { renderCatalog((typeof _catalogFilter !== 'undefined' && _catalogFilter) || 'all'); } catch (e) {}
   }
 }
 
@@ -11018,7 +11196,7 @@ function openProduct(id, keepView) {
   // Center rejects feeds where structured-data price ≠ visible price.
   // Both code paths centralised in priceNumFor() — keeps formula in one place.
   const priceNum = priceNumFor(p, MARKET);
-  const currencyCode = MARKET === 'cn' ? 'CNY' : 'USD';
+  const currencyCode = MARKET === 'cn' ? 'CNY' : (FX_FROM_USD[CURRENCY]?.code || 'USD');
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -11517,6 +11695,7 @@ window.addEventListener('scroll', () => {
 // 初始化
 // ============================================================
 applyCopy();
+syncCurrencyUI();   // multi-currency · show/hide selector based on MARKET, mark current option
 showGeoBanner();
 
 // v3.2: Async IP-based market detection (runs after initial render, non-blocking)
