@@ -4407,10 +4407,10 @@
   }
   .pdp-v2-worn-img.is-switching { opacity: 0.25; }
 
-  /* Visible AI-disclosure badge CSS removed 2026-06-28 per brand-owner decision.
-     Machine-readable disclosure stays via data-ai-generated="true" attribute on AI imgs.
-     Refund policy + pre-ship real-photo/video communication cover any discrepancy risk.
-     Restore from git history if regulator requires visible badge (EU AI Act Art. 50 / 中国 AIGC 标识办法). */
+  /* AI-disclosure system fully removed 2026-06-28 — both visible badge (initial 06-28 decision)
+     and machine-readable data-ai-generated attribute (06-28 late update, brand-owner decision).
+     Refund policy + pre-ship real-photo/video communication cover discrepancy risk.
+     Restore from git history if regulator requires disclosure (EU AI Act Art. 50 / 中国 AIGC 标识办法). */
   /* WeChat in-app browser overrides (2026-06-23) — X5 kernel renders backdrop-filter as
      solid blocks, breaking the translucent atelier register. Swap to opaque ivory. */
   body.is-wechat .nav,
@@ -6408,8 +6408,8 @@
   <section class="dual-door-band">
     <div class="dual-door-inner">
       <a class="door door--self" onclick="navigate('catalog', null, true, 'in-stock')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')navigate('catalog', null, true, 'in-stock')">
-        <!-- Machine-readable AI disclosure via data-ai-generated attribute (visible badge hidden 2026-06-28 per brand-owner decision; refund policy + pre-ship real photo/video communication cover discrepancy risk; replace src with real photography to remove this comment). -->
-        <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" data-ai-generated="true" />
+        <!-- 2026-06-28 (late): AI disclosure removed sitewide per brand-owner decision — refund policy + pre-ship real-photo/video communication cover discrepancy risk. Replace src with real photography when shoot lands. -->
+        <img class="door-bg" src="images/p05-worn-purple.jpg" alt="" />
         <div class="door-content">
           <div class="door-overline door-overline-en">Ready to wear</div>
           <div class="door-overline door-overline-cn">立刻能戴</div>
@@ -10635,8 +10635,9 @@ function productCardHtml(p) {
   // Explicit override via `aiRendered: false/true` in PRODUCTS entry if heuristic is wrong.
   // 2026-06-23: changed from `status === 'made-to-order'` (wrong — that gated on commerce
   // status, not image origin; future real-photo made-to-order SKUs would have been mis-flagged).
-  const isAiImg = (p.aiRendered === true) || (p.aiRendered !== false && /\.(png|jfif)$/i.test(p.img || ''));
-  // Visible aiBadge suppressed 2026-06-28 per brand-owner decision; machine-readable disclosure remains via data-ai-generated attribute on the img below.
+  // 2026-06-28 (late): all AI disclosure removed per brand-owner decision. isAiImg + aiBadge retained as
+  // no-ops in case of future regulatory shift; product card no longer emits data-ai-generated.
+  const isAiImg = false;
   const aiBadge = '';
   return `
     <div class="product-card product-card--${status}" tabindex="0" role="button" aria-label="${ariaLabel}" onclick="openProduct('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProduct('${p.id}')}">
@@ -11066,11 +11067,10 @@ function openProduct(id, keepView) {
       </section>
 
       <!-- Section 2 · Worn (color-swap image) -->
-      <!-- Visible AI badge removed 2026-06-28; machine-readable disclosure via data-ai-generated attribute on the img stays. -->
+      <!-- 2026-06-28 (late): all AI disclosure removed per brand-owner decision (see feedback_ai_disclosure_invisible_only / late update). -->
       <section class="pdp-v2-worn">
         <div class="pdp-v2-worn-img-wrap">
-          <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}"
-               data-ai-generated="${/\/p\d{2}-worn-/.test(defaultWornImg) ? 'true' : 'false'}" />
+          <img id="pdp-v2-worn-img" class="pdp-v2-worn-img" src="${defaultWornImg}" alt="${data.name}" />
         </div>
         <div class="pdp-v2-worn-text">
           <div class="pdp-v2-section-overline">${isCn ? '戴法' : 'How to Wear'}</div>
