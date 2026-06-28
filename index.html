@@ -8378,7 +8378,7 @@ function openCheckout(productId) {
 // Plique-à-jour shown first as the brand's craft signature; iris bangle anchors price ceiling;
 // brooch + bracelet lower the entry bar so cold visitor doesn't bounce on 73-SKU paralysis.
 const CURATED_SKUS = [
-  'YA-2026-0042', // 空窗蝴蝶 · 项链 · 绿 (plique, ¥3,800 — craft signature, repriced 2026-06-23)
+  'YA-2026-0042', // 空窗蝴蝶 · 项链 · 绿 (plique, ¥6,300 — craft signature, plique tier repricing 2026-06-28 from ¥3,800)
   'YA-2026-0005', // 鸢尾 · 镯 (¥5,180 — price ceiling anchor)
   'YA-2026-0008', // 莲鱼 · 吊坠 (¥3,180 — iconic motif)
   'YA-2026-0010', // 蝴蝶 · 项链 (¥2,380 — mid-tier accessible)
@@ -8406,7 +8406,7 @@ const PRODUCTS = [
   },
   {
     id: 'YA-2026-0002', series: 'butterfly', img: 'images/p02-butterfly-blue.jpg', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'made-to-order',
-    priceCN: 3800,
+    priceCN: 6300,  // 2026-06-28: plique repricing (research: Masriera entry $5,690 → YÀN top was 26% of peer; raised to $1,799 = 31% of peer, restores plique > cloisonné hierarchy)
     cn: {
       name: '蝴蝶 · 胸针',
       material: '990 银 · 空窗珐琅',
@@ -8733,8 +8733,8 @@ const PRODUCTS = [
     global: { name: 'Clover Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Clover Necklace motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
   },
   {
-    id: 'YA-2026-0042', series: 'butterfly', img: 'images/p42-pliqueajour-butterfly-necklace-green.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 3800,
+    id: 'YA-2026-0042', series: 'butterfly', img: 'images/p42-pliqueajour-butterfly-necklace-green.png', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'available',
+    priceCN: 6300,  // 2026-06-28 plique repricing — same logic as 0002, badge corrected (was "Stock" but material is plique)
     cn: { name: '空窗蝴蝶 · 项链 · 绿', material: '990 银 · 空窗珐琅', desc: '空窗蝴蝶 主纹 · 925 银 + 空窗珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Plique-a-Jour Butterfly Necklace · Green', material: '990 fine silver · plique-à-jour enamel', desc: 'Plique-a-Jour Butterfly Necklace motif · 925 sterling silver + plique-à-jour enamel · fired at Yunnan Studio.' }
   },
@@ -8895,8 +8895,8 @@ const PRODUCTS = [
     global: { name: 'Blue Floral Butterfly Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Blue Floral Butterfly Pendant motif · 925 sterling silver + cloisonné enamel · fired at Yunnan Studio.' }
   },
   {
-    id: 'YA-2026-0069', series: 'butterfly', img: 'images/p69-pliqueajour-butterfly-pendant-blue.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 3800,
+    id: 'YA-2026-0069', series: 'butterfly', img: 'images/p69-pliqueajour-butterfly-pendant-blue.jpg', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'available',
+    priceCN: 6300,  // 2026-06-28 plique repricing — same logic as 0002, badge corrected (was "Stock" but material is plique)
     cn: { name: '空窗蝴蝶 · 吊坠 · 蓝', material: '990 银 · 空窗珐琅', desc: '空窗蝴蝶 主纹 · 925 银 + 空窗珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Plique-a-Jour Butterfly Pendant · Blue', material: '990 fine silver · plique-à-jour enamel', desc: 'Plique-a-Jour Butterfly Pendant motif · 925 sterling silver + plique-à-jour enamel · fired at Yunnan Studio.' }
   },
@@ -8928,7 +8928,7 @@ const PRODUCTS = [
     // NEW SKU 2026-06-25 — T2 单翼 plique (蝶翼 4 阶梯里, T1 整蝶 plique ¥3,800 与 T3 整蝶 cloisonné ¥2,380 之间)。
     // 价位 ¥3,180 暂定, 等母亲核。3 张实拍: 暗台面主图 + 2 张实景 gallery。
     id: 'YA-2026-0074', series: 'butterfly', img: 'images/p74-wing-bluegreen.jpg', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'available',
-    priceCN: 3180,
+    priceCN: 5580,  // 2026-06-28: plique entry SKU (single wing, simpler than butterfly form), raised from TENTATIVE ¥3,180 to ¥5,580 = $1,599 retail. Sits below butterfly plique ($1,799) as plique entry tier.
     cn: { name: '空窗蝶翼 · 吊坠 · 蓝绿', material: '990 银 · 空窗珐琅 · 淡水珍珠', desc: '单翼形, 空窗珐琅, 由深蓝渐绿至嫩黄, 翼上无金属衬底 —— 光从背面穿过, 颜色才显出来。链尾配淡水珍珠一颗。' },
     global: { name: 'Plique Wing Pendant · Blue-Green', material: '990 fine silver · plique-à-jour enamel · freshwater pearl', desc: 'A single wing in plique-à-jour: enamel shading from deep blue through green to soft yellow, held only by silver wires with no backing. The colour is held against the light, not the wing. A freshwater pearl finishes the chain.' }
   },
