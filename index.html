@@ -202,6 +202,12 @@
     --ratio-editorial: 7fr 5fr;        /* canonical 2-col (first child wider) */
     --ratio-editorial-flip: 5fr 7fr;   /* flipped variant (second child wider) */
     --chrome-h: 80px;             /* nav-only offset (promo bar adds via JS) */
+    /* Motion tokens — single timing fingerprint (overdamped quint) + 3 durations */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 180ms;
+    --dur-base: 360ms;
+    --dur-slow: 600ms;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; overflow-x: hidden; }
@@ -209,13 +215,13 @@
     background: var(--ivory);
     color: var(--ink);
     font-family: var(--serif-en);
-    font-weight: 400;
-    line-height: 1.7;
+    font-weight: 500;
+    line-height: 1.6;
     letter-spacing: 0.005em;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "tnum" 0;
   }
   /* CN market reverts to CN-primary serif stack + 0 letter-spacing (positive tracking is a Western-type tell on Noto Serif SC) */
   body[data-market="cn"] { font-family: var(--serif); letter-spacing: 0; }
@@ -231,6 +237,19 @@
   .pd-gallery,
   .product-img {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30'><circle cx='15' cy='15' r='7.5' fill='none' stroke='%23161310' stroke-width='1.4' opacity='0.4'/><circle cx='15' cy='15' r='6.5' fill='none' stroke='%23FBF7EE' stroke-width='1' opacity='0.92'/></svg>") 15 15, pointer;
+  }
+
+  /* Window-mat hairline 2026-06-28 (soft-skill audit · print-monograph signal) — single 1px inset on photo surfaces */
+  .hero-img,
+  .maker-img,
+  .plique-img,
+  .pd-gallery,
+  .product-img {
+    box-shadow: inset 0 0 0 1px rgba(22, 19, 16, 0.06);
+  }
+  .atelier-section,
+  .door-bg {
+    box-shadow: inset 0 0 0 1px rgba(251, 247, 238, 0.06);
   }
 
   /* Editorial scrollbar — fine ink thumb on faint ivory track */
@@ -277,7 +296,7 @@
     cursor: pointer;
     border-bottom: 1px solid var(--line-strong);
     padding-bottom: 1px;
-    transition: border-bottom-color 0.25s ease, color 0.25s ease;
+    transition: border-bottom-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .geo-banner button:hover { color: var(--ink); border-bottom-color: var(--ink); }
   .geo-banner-close {
@@ -306,7 +325,7 @@
     backdrop-filter: blur(22px) saturate(1.1);
     -webkit-backdrop-filter: blur(22px) saturate(1.1);
     border-bottom: 1px solid var(--line);
-    transition: all 0.4s ease, top 0.5s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1), top 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   /* Nav offset: geo-banner (top slim bar) shifts nav down via body.has-geo-banner — see line ~170 */
   .nav-brand {
@@ -335,7 +354,7 @@
     cursor: pointer;
     padding-bottom: 4px;
     border-bottom: 1px solid transparent;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     background: none; border: none;
     font-weight: 400;
   }
@@ -355,7 +374,7 @@
     letter-spacing: 0.1em;
     background: transparent;
     color: var(--ink-soft);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="global"] .market-selector { font-family: var(--serif-en); }
   .market-selector:hover { border-color: var(--ink); color: var(--ink); }
@@ -395,7 +414,7 @@
   .market-option {
     padding: 0.9rem 1.2rem;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     display: grid;
     grid-template-columns: 28px 1fr auto;
     gap: 0.7rem;
@@ -566,7 +585,7 @@
     text-decoration: underline;
     text-decoration-thickness: 0.5px;
     text-underline-offset: 3px;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .hero-plique-cite:hover { opacity: 1; }
   body[data-market="global"] .hero-plique-fact {
@@ -633,17 +652,7 @@
     opacity: 0;
     animation: heroImg 1.1s ease 0.15s forwards;
   }
-  /* M2 · vignette + bottom-pull gradient · locks the eye centre + hides corner stock-photo tells */
-  .hero-img::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      linear-gradient(180deg, rgba(22,19,16,0) 0%, rgba(22,19,16,0) 58%, rgba(22,19,16,0.35) 100%),
-      radial-gradient(125% 90% at 50% 38%, transparent 52%, rgba(22,19,16,0.32) 100%);
-    z-index: 1;
-  }
+  /* hero vignette + bottom-pull stack removed 2026-06-28 (4-lens audit · chrome compensating for under-image was real "太简陋" trigger; photo carries itself) */
   @keyframes heroImg {
     from { opacity: 0; transform: scale(1.08); }
     to { opacity: 1; transform: scale(1); }
@@ -713,10 +722,10 @@
   /* ============ Atelier(新增) ============ */
   .atelier-section {
     position: relative;
-    height: 100vh;
+    height: 100dvh;            /* iOS Safari fix (was 100vh, jumps with chrome bars) — stitch audit */
     min-height: 600px;
     overflow: hidden;
-    background: #0a0a0a;
+    background: var(--ink);    /* unified ink token — kills 3-dark-block roulette (was #0a0a0a, only here) */
   }
   .atelier-img { position: absolute; inset: 0; }
   /* Signature motion: one slow settle on enter — 1.6s, not 18s loop */
@@ -885,7 +894,7 @@
     border-bottom: 1px solid var(--ink);
     padding-bottom: 4px;
     cursor: pointer;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     font-weight: 500;
   }
   body[data-market="global"] .plique-link { font-family: var(--serif-en); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; }
@@ -904,7 +913,7 @@
     border-bottom: 1px solid rgba(251, 247, 238, 0.55);
     padding-bottom: 4px;
     cursor: pointer;
-    transition: opacity 0.3s ease, border-bottom-color 0.3s ease;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-bottom-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     font-weight: 500;
     text-decoration: none;
   }
@@ -1033,7 +1042,7 @@
     position: absolute;
     inset: 0;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
   }
   .product-card:hover .product-img-hover { opacity: 1; }
@@ -1082,8 +1091,10 @@
     border: 1px solid var(--line-strong);
   }
   .product-tag--unique {
-    background: #8B6914;
+    /* brass #8B6914 removed 2026-06-28 (taste-skill P2 + stitch single-accent rule) — ink ground with hairline */
+    background: var(--ink);
     color: var(--ivory);
+    box-shadow: inset 0 0 0 1px rgba(251, 247, 238, 0.18);
   }
   body[data-market="cn"] .product-tag {
     font-family: var(--serif);
@@ -1091,58 +1102,18 @@
     font-size: 0.65rem;
   }
 
-  /* ============ Value Proposition Cards (Alana Maria style) ============ */
-  .value-section {
-    overflow-x: hidden;
-    padding: var(--space-xl) var(--pad-x);
-    background: var(--paper);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+  /* Value-section CSS removed 2026-06-28 — markup deleted (4-lens convergent P0 #1, Alana Maria dingbat row).
+     If detail-band photo lands later, give it a one-rule full-bleed band, no icons, no triplet. */
+  .detail-band {
+    margin: 0;
+    padding: 0;
+    background: var(--ivory);
   }
-  .value-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--gap);
-    max-width: var(--container);
-    margin: 0 auto;
-    text-align: center;
-  }
-  .value-card {
-    padding: var(--space-md) var(--space-sm);
-  }
-  .value-icon {
-    font-size: 1.8rem;
-    margin-bottom: var(--space-xs);
-    opacity: 0.85;
-  }
-  .value-title {
-    font-family: var(--serif-en);
-    font-style: italic;
-    font-size: 1.1rem;
-    color: var(--ink);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.02em;
-  }
-  body[data-market="cn"] .value-title {
-    font-family: var(--serif);
-    font-style: normal;
-    font-size: 1rem;
-    letter-spacing: 0.08em;
-  }
-  .value-desc {
-    font-family: var(--serif-en);
-    font-size: 0.85rem;
-    color: var(--hush);
-    line-height: 1.6;
-  }
-  body[data-market="cn"] .value-desc {
-    font-family: var(--serif);
-    font-size: 0.82rem;
-    letter-spacing: 0.04em;
-  }
-  @media (max-width: 700px) {
-    .value-grid { grid-template-columns: 1fr; gap: var(--space-sm); }
-    .value-card { padding: var(--space-sm); }
+  .detail-band img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
 
   /* ============ Testimonial Section (Alana Maria style) ============ */
@@ -1192,7 +1163,8 @@
   }
   .testimonial-card {
     background: var(--paper);
-    border: 1px solid var(--line);
+    /* border + Bootstrap-shadow stack removed 2026-06-28 (soft-skill audit) — ambient lift only */
+    box-shadow: inset 0 0 0 1px rgba(22, 19, 16, 0.06);
     padding: var(--space-lg) var(--space-md);
     display: flex;
     flex-direction: column;
@@ -1439,25 +1411,25 @@
     cursor: pointer;
     padding-bottom: 0.4rem;
     border-bottom: 1px solid var(--line-strong);
-    transition: border-color 0.3s ease, transform 0.3s ease;
+    transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="cn"] .about-craft-cta { font-family: var(--serif); font-style: normal; letter-spacing: 0.12em; }
   .about-craft-cta:hover { border-color: var(--ink); transform: translateX(4px); }
 
   /* ============ Promise ============ */
+  /* 2026-06-28 lifted off dark ground (4-lens convergent P0 #6 · Squarespace inverted-band tell) — ivory now matches surrounding sections */
   .promise-section {
     padding: var(--pad-section) var(--pad-x);
     text-align: center;
-    background: var(--ink);
-    color: var(--ivory);
+    background: var(--ivory);
+    color: var(--ink);
     position: relative;
     overflow: hidden;
   }
-  /* promise-section gold radial removed — trust the ink ground */
   .promise-section > * { position: relative; z-index: 1; }
   .promise-overline {
     font-family: var(--sans-en);
-    color: var(--paper-mute);
+    color: var(--hush);
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -1473,14 +1445,14 @@
     letter-spacing: -0.005em;
     max-width: 880px;
     margin: 0 auto 1.625rem;
-    color: var(--ivory);
+    color: var(--ink);
   }
   body[data-market="cn"] .promise-section h2 { font-family: var(--serif); font-weight: 500; font-size: clamp(1.7rem, 3vw, 2.5rem); letter-spacing: 0.025em; line-height: 1.3; }
   .promise-section .promise-sub {
     font-family: var(--serif-en);
     font-style: italic;
     font-size: 1.2rem;
-    color: rgba(244, 239, 230, 0.7);
+    color: var(--hush);
     max-width: 700px;
     margin: 0 auto 4rem;
     line-height: 1.7;
@@ -1488,7 +1460,7 @@
   body[data-market="cn"] .promise-section .promise-sub {
     font-family: var(--serif);
     font-style: normal;
-    color: rgba(244, 239, 230, 0.72);
+    color: var(--hush);
     font-size: 1.05rem;
     letter-spacing: 0.05em;
   }
@@ -1515,31 +1487,31 @@
   }
   .promise-item {
     display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 2rem;
+    grid-template-columns: 28px 1fr;
+    gap: 1.4rem;
     align-items: baseline;
     padding: 1.4rem 0;
-    border-top: 1px solid rgba(244, 239, 230, 0.15);
+    border-top: 1px solid var(--line);
   }
-  .promise-item:last-child { border-bottom: 1px solid rgba(244, 239, 230, 0.15); }
-  .promise-item-num {
+  .promise-item:last-child { border-bottom: 1px solid var(--line); }
+  /* 01-05 numerals replaced 2026-06-28 with em-dash mark (4-lens · Squarespace template tell) */
+  .promise-item-mark {
     font-family: var(--serif-en);
-    font-style: italic;
-    color: rgba(251, 247, 238, 0.45);
-    font-size: 0.98rem;
-    letter-spacing: 0.22em;
-    font-variant-numeric: tabular-nums;
+    color: var(--hush);
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: left;
   }
   .promise-item-title {
     font-family: var(--serif);
     font-size: 1rem;
     letter-spacing: 0.025em;
     line-height: 1.7;
-    color: rgba(251, 247, 238, 0.92);
-    font-weight: 400;
+    color: var(--ink);
+    font-weight: 500;
   }
   body[data-market="cn"] .promise-item-title { font-weight: 500; }
-  body[data-market="global"] .promise-item-title { font-family: var(--serif-en); }
+  body[data-market="global"] .promise-item-title { font-family: var(--serif-en); font-weight: 500; }
 
   /* ============ Gift section ============ */
   .gift-section {
@@ -1652,7 +1624,7 @@
   .footer-col li {
     margin-bottom: 0.8rem;
     font-size: 0.85rem;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="global"] .footer-col li { font-family: var(--serif-en); }
   .footer-col .footer-link {
@@ -1662,7 +1634,7 @@
     display: inline-block;
     border-bottom: 1px solid transparent;
     padding-bottom: 1px;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .footer-col .footer-link:hover {
     color: rgba(244, 239, 230, 1);
@@ -1706,7 +1678,7 @@
     color: rgba(251, 247, 238, 0.55);
     cursor: pointer;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .footer-legal-link:hover { color: rgba(251, 247, 238, 0.95); }
   .footer-legal-sep { color: rgba(251, 247, 238, 0.25); }
@@ -1916,7 +1888,7 @@
     font-family: var(--sans-en);
     font-size: 1rem;
     color: var(--hush);
-    transition: transform 0.2s ease;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .catalog-motif-details[open] .catalog-motif-toggle { transform: rotate(45deg); }
   .catalog-motif-details[open] #catalog-motif-filters { margin-top: var(--space-xs); }
@@ -1930,7 +1902,7 @@
     letter-spacing: 0.18em;
     padding: 0.55rem 1.05rem;
     color: var(--hush);
-    transition: color 0.28s ease;
+    transition: color 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     text-transform: uppercase;
   }
   body[data-market="cn"] .subfilter-chip { font-weight: 500; letter-spacing: 0.14em; text-transform: none; font-size: 0.8rem; }
@@ -2147,7 +2119,7 @@
     color: var(--ink-soft);
     cursor: pointer;
     letter-spacing: 0.04em;
-    transition: all 0.2s ease;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     line-height: 1.4;
   }
   body[data-market="global"] .pd-chip { font-family: var(--serif-en); }
@@ -2177,7 +2149,7 @@
     color: var(--ink);
     outline: none;
     letter-spacing: 0.04em;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .pd-option-input:focus { border-color: var(--ink); }
   .pd-customize-summary {
@@ -2239,7 +2211,7 @@
     font-size: 0.82rem;
     color: var(--hush);
     flex: 0 0 auto;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="cn"] .pd-spec-toggle { font-family: var(--serif); font-style: normal; letter-spacing: 0.1em; }
   details[open] .pd-spec-toggle { transform: rotate(90deg); }
@@ -2357,7 +2329,7 @@
     height: 22px;
     width: auto;
     opacity: 0.7;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .pd-payment-icon:hover { opacity: 1; }
   /* SVG icon containers */
@@ -2433,8 +2405,8 @@
   .ugc-card {
     background: var(--paper);
     padding: 1.5rem;
-    border-radius: 2px;
-    box-shadow: 0 2px 12px rgba(22, 19, 16, 0.04);
+    /* border-radius + Material-lite shadow removed 2026-06-28 (soft-skill audit) — paper-mat inset only */
+    box-shadow: inset 0 0 0 1px rgba(22, 19, 16, 0.06);
   }
   .ugc-quote {
     font-family: var(--serif-en);
@@ -2541,7 +2513,7 @@
     height: 28px;
     width: auto;
     filter: grayscale(100%);
-    transition: filter 0.3s ease, opacity 0.3s ease;
+    transition: filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .press-logo:hover {
     filter: grayscale(0%);
@@ -2749,7 +2721,7 @@
     font-size: 0.95rem;
     letter-spacing: 0.05em;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     text-align: left;
     color: var(--ink);
   }
@@ -2769,7 +2741,7 @@
     background: none; border: none;
     color: var(--hush);
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 0.5rem 0;
   }
   body[data-market="global"] .gf-nav button { font-family: var(--serif-en); }
@@ -2803,7 +2775,7 @@
     border: 1px solid var(--line);
     padding: 1.5rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .gf-pick:hover { border-color: var(--ink); }
   .gf-pick-img {
@@ -2892,7 +2864,7 @@
     padding: 0 1rem;
     cursor: pointer;
     color: var(--ink);
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     font-size: 1.5rem;
   }
   .heritage-submit:hover { color: var(--ink); }
@@ -3038,7 +3010,7 @@
     height: 1.5px;
     background: var(--ink);
     display: block;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
   .nav-toggle.open span:nth-child(2) { opacity: 0; }
@@ -3108,7 +3080,7 @@
     letter-spacing: 0.04em;
     border-bottom: 1px solid var(--line);
     padding-bottom: 0.25rem;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="cn"] .legal-nav a { font-family: var(--serif); font-style: normal; letter-spacing: 0.16em; }
   .legal-nav a:hover { color: var(--ink); border-color: var(--ink); }
@@ -3280,7 +3252,7 @@
     font-size: 0.85rem;
     letter-spacing: 0.04em;
     z-index: 9500;
-    transition: transform 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     border: 1px solid rgba(244, 239, 230, 0.18);
     max-width: 92vw;
   }
@@ -3305,7 +3277,7 @@
     font-family: var(--serif-en);
     font-style: italic;
     letter-spacing: 0.04em;
-    transition: background 0.15s ease;
+    transition: background 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="cn"] .mft-copy { font-family: var(--serif); font-style: normal; letter-spacing: 0.18em; }
   .mft-copy:hover { background: rgba(244, 239, 230, 0.1); }
@@ -3315,7 +3287,7 @@
     font-size: 0.78rem;
     color: rgba(244, 239, 230, 0.75);
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="cn"] .mft-status { font-family: var(--serif); font-style: normal; }
   .mft-status.show { opacity: 1; }
@@ -3382,7 +3354,7 @@
     opacity: 0.5;
     line-height: 1;
     padding: 8px;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .reserve-close:hover { opacity: 1; }
   .reserve-progress {
@@ -3394,7 +3366,7 @@
   .rp-dot {
     width: 28px; height: 2px;
     background: var(--line);
-    transition: background 0.3s ease;
+    transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .rp-dot.active { background: var(--ink); }
   .rp-dot.done { background: var(--ink); }
@@ -3504,7 +3476,7 @@
     font-family: var(--serif);
     font-size: 16px; /* ≥16px prevents iOS zoom-on-focus (Baymard, Apple HIG) */
     color: var(--ink);
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     min-height: 44px;
   }
   .reserve-field input:focus {
@@ -3677,7 +3649,7 @@
     line-height: 1; cursor: pointer;
     padding: 0;
     display: flex; align-items: center; justify-content: center;
-    transition: color 0.25s ease;
+    transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     font-family: var(--serif-en);
   }
   .promo-bar-close:hover { color: rgba(251, 247, 238, 0.95); }
@@ -3705,7 +3677,7 @@
     color: var(--ink);
     cursor: pointer;
     display: flex; justify-content: space-between; align-items: center;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="global"] .faq-q { font-family: var(--serif-en); font-size: 1.1rem; letter-spacing: 0.02em; }
   .faq-q:hover { color: var(--ink); }
@@ -3715,7 +3687,7 @@
     font-size: 1.5rem;
     color: var(--hush);
     font-weight: 300;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     margin-left: 1rem;
   }
   .faq-item.open .faq-q::after { content: '−'; }
@@ -3725,7 +3697,7 @@
     font-size: 0.95rem;
     line-height: 1.85;
     color: var(--ink-soft);
-    transition: max-height 0.5s ease, padding 0.4s ease;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 0 0.2rem;
   }
   body[data-market="cn"] .faq-a { font-family: var(--serif); }
@@ -3766,13 +3738,7 @@
   /* .product-chip removed 2026-06-17 — frosted dark capsule was a Shopify "label app" tell.
      Made-to-order communicated via caption text in .product-type if needed. */
 
-  /* Section dividers reduced to a single hairline — diamond ornament removed */
-  .section-divider {
-    padding: 4rem 0;
-    text-align: center;
-  }
-  .section-divider .sd-line { display: inline-block; width: 1px; height: 36px; background: var(--line); }
-  .section-divider .sd-dot { display: none; }
+  /* .section-divider CSS removed 2026-06-28 — markup deleted (4-lens audit) */
 
   /* 6. Footer newsletter + social + address */
   .footer-newsletter {
@@ -3830,7 +3796,7 @@
     padding: 0.55rem 0.8rem;
     font-size: 0.82rem;
     text-transform: uppercase;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .footer-newsletter button:hover { color: var(--ivory); }
   .footer-newsletter .newsletter-thanks {
@@ -3851,7 +3817,7 @@
     font-size: 0.78rem;
     letter-spacing: 0.18em;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     text-transform: uppercase;
   }
   body[data-market="cn"] .footer-social a { font-family: var(--serif); font-style: normal; letter-spacing: 0.22em; text-transform: none; }
@@ -3908,7 +3874,7 @@
     z-index: 999;
     text-decoration: none;
     font-size: 0.85rem;
-    transition: top 0.25s ease;
+    transition: top 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .skip-link:focus { top: 0; }
 
@@ -4084,7 +4050,7 @@
     cursor: pointer;
     padding: 0;
     position: relative;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     display: inline-flex; align-items: center; justify-content: center;
   }
   .pdp-v2-swatch:hover { border-color: var(--ink); }
@@ -4183,7 +4149,7 @@
     text-underline-offset: 0.4em;
     padding: 0.6rem 0;
     min-height: 36px;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1), text-decoration-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="cn"] .pdp-v2-see-details { font-family: var(--serif); font-style: normal; letter-spacing: 0.04em; }
   .pdp-v2-see-details:hover { color: var(--ink); text-decoration-color: var(--ink); }
@@ -4204,7 +4170,7 @@
     gap: var(--space-md);
     padding: 0 var(--pad-x);
     padding-bottom: env(safe-area-inset-bottom, 0);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .pdp-v2-sticky-info {
     flex: 1; min-width: 0;
@@ -4290,7 +4256,7 @@
   .pdp-v2-worn-img {
     width: 100%; height: 100%;
     object-fit: cover;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .pdp-v2-worn-img.is-switching { opacity: 0.25; }
 
@@ -4552,7 +4518,7 @@
     letter-spacing: 0.2em;
     font-size: 0.78rem;
     position: relative;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .hero-cta .btn-ghost::after {
     content: '';
@@ -4627,7 +4593,7 @@
     object-fit: cover;
     object-position: center;
     z-index: 0;
-    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     filter: brightness(0.85) saturate(0.95);
   }
   .door::after {
@@ -4635,7 +4601,7 @@
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(22, 19, 16, 0.35) 0%, rgba(22, 19, 16, 0.55) 100%);
     z-index: 1;
-    transition: background 0.5s ease;
+    transition: background 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .door-content {
     position: relative; z-index: 2;
@@ -4673,7 +4639,7 @@
   .door-arrow {
     display: inline-block;
     color: rgba(251, 247, 238, 0.85);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   /* D1 · door ribbon — inventory/lead-time fact strip, decoupled from H */
   .door-ribbon {
@@ -4700,6 +4666,44 @@
   .door:hover .door-arrow { transform: translateX(8px); color: var(--ivory); }
   /* Subtle divider between the two doors (only on desktop) */
   .door + .door { border-left: 1px solid rgba(251, 247, 238, 0.15); }
+
+  /* Dual-door asymmetric register 2026-06-28 (4-lens P0 #8) — Self stays sans/display sharp · Bespoke leans serif-italic handwritten */
+  /* Self side (left): pin ribbon as tabular price-chip — commerce decisive */
+  .door--self .door-ribbon {
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--ivory);
+    border-color: rgba(251, 247, 238, 0.35);
+  }
+  /* Bespoke side (right): drop one eyebrow, route H to serif-italic, ribbon to handwritten-note voice */
+  .door--bespoke .door-overline { display: none; }
+  body[data-market="cn"] .door--bespoke .door-overline { display: none; }
+  body[data-market="global"] .door--bespoke .door-h {
+    font-family: var(--serif-en);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.28;
+  }
+  body[data-market="cn"] .door--bespoke .door-h {
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+  }
+  .door--bespoke .door-ribbon {
+    border: 0;
+    padding: 0;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: rgba(251, 247, 238, 0.62);
+    font-family: var(--serif-en);
+    font-style: italic;
+  }
+  body[data-market="cn"] .door--bespoke .door-ribbon {
+    font-family: var(--serif);
+    font-style: normal;
+    letter-spacing: 0.04em;
+    color: rgba(251, 247, 238, 0.62);
+  }
   @media (max-width: 880px) {
     .dual-door-inner {
       grid-template-columns: 1fr;
@@ -4860,7 +4864,7 @@
     font-size: 0.78rem;
     letter-spacing: 0.16em;
     color: var(--hush);
-    transition: color 0.2s ease;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     text-transform: uppercase;
   }
   body[data-market="cn"] .enamel-chip { font-weight: 500; letter-spacing: 0.14em; text-transform: none; font-size: 0.85rem; }
@@ -4894,7 +4898,7 @@
     color: var(--ink-soft);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
-    transition: background 0.25s ease, color 0.25s ease;
+    transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .catalog-help-banner:hover { background: var(--paper); color: var(--ink); }
   .catalog-help-overline {
@@ -4920,7 +4924,7 @@
     font-family: var(--sans-en);
     font-size: 1.05rem;
     color: var(--hush);
-    transition: transform 0.25s ease;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .catalog-help-banner:hover .catalog-help-arrow { transform: translateX(4px); color: var(--ink); }
   @media (max-width: 600px) {
@@ -5238,7 +5242,7 @@
     text-decoration: none;
     border-bottom: 1px solid var(--ink);
     padding-bottom: 1px;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .consult-channel-handle a:hover { opacity: 0.6; }
   .consult-book-btn {
@@ -5251,7 +5255,7 @@
     border: 1px solid var(--ink);
     cursor: pointer;
     font-weight: 500;
-    transition: background 0.4s ease, border-color 0.4s ease;
+    transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   body[data-market="global"] .consult-book-btn { font-family: var(--serif-en); letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; }
   .consult-book-btn:hover { background: var(--ink-soft); border-color: var(--ink-soft); }
@@ -5330,7 +5334,7 @@
     border-bottom: 1px solid var(--hush-soft);
     padding-bottom: 1px;
     cursor: pointer;
-    transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     font-style: italic;
   }
   body[data-market="cn"] .craft-inline-link { font-style: normal; }
@@ -5340,7 +5344,7 @@
   .craft-museums-list a {
     color: inherit;
     text-decoration: none;
-    transition: color 0.25s ease;
+    transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     display: block;
   }
   .craft-museums-list a:hover { color: var(--ink); }
@@ -5514,7 +5518,7 @@
   .craft-toc-list a {
     color: inherit;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .craft-toc-list a:hover { color: var(--ink); }
 
@@ -5567,7 +5571,7 @@
     color: var(--ink);
     border-bottom: 1px solid var(--line-strong);
     text-decoration: none;
-    transition: border-bottom-color 0.3s ease;
+    transition: border-bottom-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .craft-section-body a:hover { border-bottom-color: var(--ink); }
   .craft-section-body blockquote {
@@ -6315,32 +6319,11 @@
   </section>
 
 
-  <!-- Value Proposition Cards (Alana Maria style) -->
-  <section class="value-section">
-    <div class="value-grid">
-      <div class="value-card">
-        <div class="value-icon">✦</div>
-        <div class="value-title value-title-en">990 Body + 925 Chain</div>
-        <div class="value-title value-title-cn">990 主体 · 925 项链</div>
-        <div class="value-desc value-desc-en">Pendants, brooches, bangles, earrings: 99% fine silver — required for enamel adhesion. Necklace chains: 92.5% sterling, stronger against everyday wear. Both patina with time — mail back any time for complimentary polishing.</div>
-        <div class="value-desc value-desc-cn">主体(吊坠 / 胸针 / 镯 / 耳饰) 99% 足银, 烧珐琅必需的纯度。项链单独用 92.5% 银, 更耐拉伸不变形。两种银都会自然氧化, 寄回工坊可免费打磨复原。</div>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">◈</div>
-        <div class="value-title value-title-en">800°C Fired Enamel</div>
-        <div class="value-title value-title-cn">800°C 高温珐琅</div>
-        <div class="value-desc value-desc-en">Mineral enamel, 5–10 firings per piece. Colour that never fades.</div>
-        <div class="value-desc value-desc-cn">矿物质珐琅，每件烧制5-10次。颜色永不褪。</div>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">⚒</div>
-        <div class="value-title value-title-en">Yunnan Handcraft</div>
-        <div class="value-title value-title-cn">云南手工坊</div>
-        <div class="value-desc value-desc-en">Each piece shaped by hand at the Yunnan atelier. No two identical.</div>
-        <div class="value-desc value-desc-cn">滇韵工坊手作，每件都是孤品。</div>
-      </div>
-    </div>
-  </section>
+  <!-- Value-section dingbat row deleted 2026-06-28 (4-lens convergent P0 #1) — replaced by detail-photo slot.
+       990/800°C/Yunnan facts now carried by atelier-section + plique-section + PDP material strip.
+       When workbench detail photo lands, drop it in as <section class="detail-band"><img …/></section>. -->
+  <!-- <section class="detail-band"></section> -->
+
 
   <!-- Featured section · moved here 2026-06-19 (architecture audit, was slot 8) — commerce visible by slot 3 -->
   <section class="featured-section">
@@ -6359,7 +6342,7 @@
        the same reason). Re-enable only with real WeChat/Email screenshots +
        buyer permission. UGC section (display:none) already follows this rule. -->
 
-  <div class="section-divider"><span class="sd-line"></span></div>
+  <!-- section-divider removed 2026-06-28 (4-lens audit · 1px-line × 36px-tall divider was an AI-portfolio tell) -->
 
   <section class="maker-section">
     <div class="maker-img">
@@ -6410,7 +6393,7 @@
       <img src="images/plique-butterfly-backlit.jpg" width="1280" height="1707" alt="A blue plique-à-jour butterfly held to the light — translucent enamel, made at the atelier" />
     </div>
     <div class="plique-text">
-      <div class="plique-overline">Plique-à-jour · 空窗珐琅 · 对光见色</div>
+      <div class="plique-overline">Plique-à-jour · 空窗珐琅</div>
       <h2 class="plique-cn">举到光里。<br/><em>文艺复兴金匠也这么验。</em></h2>
       <h2 class="plique-en"><em>Hold it to the light.</em><br/>Renaissance goldsmiths did.</h2>
       <p class="plique-fact plique-fact-cn">一种 14 世纪欧洲匠人留下的釉窗工艺。<strong>20 世纪末才回到中国 —— 当代能稳定烧成者全球寥寥。</strong></p>
@@ -6422,7 +6405,7 @@
     </div>
   </section>
 
-  <div class="section-divider"><span class="sd-line"></span></div>
+  <!-- section-divider removed 2026-06-28 (4-lens audit · 1px-line × 36px-tall divider was an AI-portfolio tell) -->
 
   <!-- Series section removed 2026-06-10 · Strategy A (drop series taxonomy) per 18-brand naming research -->
 
@@ -9925,9 +9908,9 @@ function applyCopy() {
   document.getElementById('promise-overline').textContent = c.promiseOverline || '';
   document.getElementById('promise-title').innerHTML = c.promiseTitle;
   document.getElementById('promise-sub').textContent = c.promiseSub || '';
-  document.getElementById('promise-list').innerHTML = c.promiseList.map(([n, t]) => `
+  document.getElementById('promise-list').innerHTML = c.promiseList.map(([, t]) => `
     <li class="promise-item">
-      <div class="promise-item-num">${n}</div>
+      <div class="promise-item-mark">—</div>
       <div class="promise-item-title">${t}</div>
     </li>
   `).join('');

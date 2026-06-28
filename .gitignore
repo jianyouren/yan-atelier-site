@@ -73,3 +73,9 @@ test_output.txt
 
 # ─── Photo staging (用户拖入, Claude 处理完挪到 images/ 后此目录可清空) ─
 photos-incoming/
+
+# ─── Archive dir (moved sibling 2026-06-28 after 06-25 rollback incident) ──
+# Old broken-file backups, vendor zips, etc. live at D:\YAN_Atelier_archive\
+# now. If anyone re-creates a nested _archive/ inside the site dir, this
+# rule keeps it out of git and out of build globs.
+_archive/
