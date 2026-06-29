@@ -1962,6 +1962,43 @@
     width: 40px; height: 1px;
     background: var(--line);
   }
+  /* Quick chip strip (2026-06-29 · Pandora pattern #3 — horizontal scroll shortcuts above filterbar) */
+  .catalog-quick-chips {
+    display: flex;
+    gap: 0.55rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.15rem var(--space-md) 0.6rem;
+    margin: 0 auto var(--space-sm);
+    max-width: var(--container, 1280px);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+  .catalog-quick-chips::-webkit-scrollbar { display: none; }
+  .catalog-quick-chip {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--rule, rgba(20, 20, 20, 0.18));
+    border-radius: 999px;
+    padding: 0.5rem 1.05rem;
+    font-family: var(--serif);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--hush);
+    cursor: pointer;
+    transition: background-color 0.18s var(--ease-out), color 0.18s var(--ease-out), border-color 0.18s var(--ease-out);
+    white-space: nowrap;
+    min-height: 36px;
+    scroll-snap-align: start;
+  }
+  body[data-market="cn"] .catalog-quick-chip { font-weight: 500; letter-spacing: 0.02em; font-size: 0.82rem; }
+  body[data-market="global"] .catalog-quick-chip { font-family: var(--serif-en); font-size: 0.84rem; }
+  .catalog-quick-chip:hover { color: var(--ink); border-color: var(--ink); }
+  .catalog-quick-chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  @media (max-width: 600px) {
+    .catalog-quick-chips { padding-left: var(--space-sm); padding-right: var(--space-sm); }
+  }
   /* Motif collapsible (2026-06-23 · 13 chips were chip-jungle) */
   .catalog-motif-details {
     border-bottom: 1px solid var(--line);
@@ -2331,8 +2368,50 @@
     text-transform: uppercase;
   }
   .pd-attr-value { color: var(--ink); letter-spacing: 0.05em; }
-  .pd-cta { display: flex; gap: 1rem; margin-bottom: 0.75rem; }
-  .pd-cta .btn { flex: 1; }
+  /* Pandora pattern #10 · single full-width primary, bespoke demoted to text link (2026-06-29) */
+  .pd-cta { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 0.5rem; }
+  .pd-cta .btn { width: 100%; }
+  .pd-cta-secondary { text-align: center; margin-bottom: 0.8rem; }
+  /* Pandora pattern #7 · 3-stack trust cards under CTA (2026-06-29) */
+  .pd-trust-stack { display: flex; flex-direction: column; gap: 0.4rem; margin: 0 0 1.4rem; }
+  .pd-trust-card {
+    background: rgba(20, 20, 20, 0.035);
+    padding: 0.85rem 1rem;
+    border-radius: 3px;
+    font-family: var(--serif);
+  }
+  .pd-trust-card-title {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .pd-trust-card-text {
+    font-size: 0.76rem;
+    color: var(--hush);
+    line-height: 1.5;
+  }
+  body[data-market="cn"] .pd-trust-card-title { letter-spacing: 0.01em; font-size: 0.84rem; }
+  body[data-market="cn"] .pd-trust-card-text { font-size: 0.8rem; line-height: 1.6; }
+  body[data-market="global"] .pd-trust-card { font-family: var(--serif-en); }
+  body[data-market="global"] .pd-trust-card-title { font-size: 0.84rem; letter-spacing: 0.06em; }
+  body[data-market="global"] .pd-trust-card-text { font-size: 0.82rem; }
+  .pd-cta-link {
+    background: none; border: none; cursor: pointer;
+    font-family: var(--serif);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: var(--hush);
+    padding: 0.45rem 1rem;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-color: rgba(20,20,20,0.22);
+    transition: text-decoration-color 0.22s var(--ease-out), color 0.22s var(--ease-out);
+  }
+  .pd-cta-link:hover { text-decoration-color: var(--ink); color: var(--ink); }
+  body[data-market="cn"] .pd-cta-link { font-weight: 500; letter-spacing: 0.02em; font-size: 0.82rem; }
+  body[data-market="global"] .pd-cta-link { font-family: var(--serif-en); font-size: 0.84rem; }
   .pd-cta-microcopy {
     font-family: var(--serif-en);
     font-style: italic;
@@ -6592,6 +6671,8 @@
     <span class="catalog-help-text" id="catalog-help-text"></span>
     <span class="catalog-help-arrow" aria-hidden="true">→</span>
   </a>
+  <!-- Quick chip strip — 2026-06-29 Pandora pattern #3 (horizontal scroll shortcuts) -->
+  <div class="catalog-quick-chips" id="catalog-quick-chips" role="group" aria-label="Quick filters"></div>
   <div class="catalog-filters" id="catalog-filters"></div>
   <!-- Grouped filter bar — Line (primary brand pivot) + Form + Price; 13-chip Motif row collapsed.
        Line row added 2026-06-23 EOD per BRAND.md R4 revised: Atelier signature line vs Daily
@@ -7270,6 +7351,13 @@ const COPY = {
     pdTrustReturns: '14 天可退',
     pdTrustShipping: '全球包邮 · 关税我们承担',
     pdTrustCare: '终身保养',
+    // PDP under-CTA stacked trust cards (Pandora pattern #7, 2026-06-29)
+    pdTrustCardShippingTitle: '全球包邮 · 关税我承担',
+    pdTrustCardShippingText:  'DHL 直送 7-14 天 · DDP 完税交货 · 客户签收无任何额外费用',
+    pdTrustCardReturnsTitle:  '14 天可退',
+    pdTrustCardReturnsText:   '未佩戴的标准件可在签收后 14 天内无理由退回 · 退货运费您承担 · 7-14 个工作日退还全款',
+    pdTrustCardAtelierTitle:  '海棠湾手工坊烧制',
+    pdTrustCardAtelierText:   '现货 5-7 天发出 · 定制款 4-6 周 · 釉一炉一炉烧 · 提供终身保养',
     pdCraftAnchor: '同样的 plique-à-jour 高温珐琅工艺 · 不含一个世纪的品牌税',
     pdCraftAnchorAlt: '同样的高温珐琅工艺 · 不含一个世纪的品牌税',
     pdEtaLabel: '预计到货 · ',
@@ -7636,7 +7724,7 @@ const COPY = {
     geoBtnSwitch: '前往 Global 站 →',
     geoBtnStay: '留在当前',
     // Completeness Pass(新增)
-    promoText: '¥1,280 起 · 本批 7 件现货 · 14 天可退',
+    promoText: '全球包邮 · 关税我承担(DDP) · 14 天可退',
     mailFallbackText: '邮件未自动打开?复制工坊邮箱',
     mailFallbackCopyBtn: '复制 →',
     mailFallbackCopied: '已复制',
@@ -7843,6 +7931,13 @@ const COPY = {
     pdTrustReturns: '14-day returns',
     pdTrustShipping: 'Free shipping worldwide · duties included',
     pdTrustCare: 'Lifetime care',
+    // PDP under-CTA stacked trust cards (Pandora pattern #7, 2026-06-29)
+    pdTrustCardShippingTitle: 'Free DHL worldwide · DDP',
+    pdTrustCardShippingText:  '7-14 days to most countries · Duties paid · No surprise fees on delivery',
+    pdTrustCardReturnsTitle:  '14-day returns',
+    pdTrustCardReturnsText:   'Unworn standard pieces returnable within 14 days · Return shipping at your cost · Refund in 7-14 business days',
+    pdTrustCardAtelierTitle:  'Made at Hai Tang Wan workshop',
+    pdTrustCardAtelierText:   'In-stock pieces ship in 5-7 days · Custom 4-6 weeks · Each piece fired in our kiln · Lifetime care included',
     pdCraftAnchor: 'The same plique-à-jour high-fire enamel. Without a century of brand markup.',
     pdCraftAnchorAlt: 'The same high-fire enamel craft. Without a century of brand markup.',
     pdEtaLabel: 'Estimated arrival · ',
@@ -8203,7 +8298,7 @@ const COPY = {
     geoBtnSwitch: 'Go to Chinese Site →',
     geoBtnStay: 'Stay Here',
     // Completeness Pass
-    promoText: 'From $369 · 7 in stock this batch · 14-day return',
+    promoText: 'Free DHL worldwide · Duties paid (DDP) · 14-day returns',
     mailFallbackText: 'Email didn\'t open? Copy our atelier address',
     mailFallbackCopyBtn: 'Copy →',
     mailFallbackCopied: 'Copied',
@@ -10222,6 +10317,56 @@ function applyCopy() {
       });
     });
   }
+  // Quick chip strip (2026-06-29 · Pandora pattern #3 — top-of-catalog shortcuts)
+  const quickHost = document.getElementById('catalog-quick-chips');
+  if (quickHost && c.catalogMotifFilters && c.catalogLineFilters && c.catalogPriceFilters) {
+    const motifMap = Object.fromEntries(c.catalogMotifFilters);
+    const lineMap = Object.fromEntries(c.catalogLineFilters);
+    const priceMap = Object.fromEntries(c.catalogPriceFilters);
+    const QUICK = [
+      { type: 'all',   key: 'all',       label: motifMap['all'] || 'All' },
+      { type: 'line',  key: 'atelier',   label: lineMap['atelier']  },
+      { type: 'motif', key: 'iris',      label: motifMap['iris']    },
+      { type: 'motif', key: 'butterfly', label: motifMap['butterfly'] },
+      { type: 'motif', key: 'aster',     label: motifMap['aster']   },
+      { type: 'motif', key: 'daisy',     label: motifMap['daisy']   },
+      { type: 'price', key: 'low',       label: priceMap['low']     }
+    ].filter(item => item.label);
+    quickHost.innerHTML = QUICK.map((q, i) =>
+      `<button class="catalog-quick-chip${i === 0 ? ' active' : ''}" data-qtype="${q.type}" data-qkey="${q.key}" type="button">${q.label}</button>`
+    ).join('');
+    quickHost.querySelectorAll('.catalog-quick-chip').forEach(chip => {
+      chip.addEventListener('click', e => {
+        const t = e.currentTarget;
+        const type = t.dataset.qtype;
+        const key = t.dataset.qkey;
+        // Reset all dims via simulated 'all' click in each underlying chip group
+        ['line', 'motif', 'cat', 'price'].forEach(dim => {
+          const allChip = document.querySelector(`#catalog-${dim}-filters .subfilter-chip[data-${dim}="all"]`);
+          if (allChip && !allChip.classList.contains('active')) allChip.click();
+        });
+        // Apply targeted filter
+        if (type !== 'all') {
+          const targetSel = type === 'line'  ? `#catalog-line-filters .subfilter-chip[data-line="${key}"]`  :
+                            type === 'motif' ? `#catalog-motif-filters .subfilter-chip[data-motif="${key}"]` :
+                            type === 'price' ? `#catalog-price-filters .subfilter-chip[data-price="${key}"]` :
+                            null;
+          if (targetSel) {
+            const targetChip = document.querySelector(targetSel);
+            if (targetChip) targetChip.click();
+            // Open motif details if motif filter applied (so user sees what's active)
+            if (type === 'motif') {
+              const det = document.querySelector('.catalog-motif-details');
+              if (det) det.setAttribute('open', '');
+            }
+          }
+        }
+        // Visual active state on quick strip
+        quickHost.querySelectorAll('.catalog-quick-chip').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
+  }
   // Sub-filters: category (form) + price band
   const catGroup = document.getElementById('catalog-cat-filters');
   if (catGroup && c.catalogCatFilters) {
@@ -10608,8 +10753,16 @@ function productCardHtml(p) {
   const meta = (typeof PRODUCT_META !== 'undefined' && PRODUCT_META[p.id]) || {};
   const pieceType = MARKET === 'cn' ? meta.form_cn : meta.form_en;
   // Evidence-led: 0/8 brands use Plate No. display on cards. Card shows name + price + piece type.
-  // img2: fall back through meta.imgs[1] (gallery shot 2) or p.img2 (explicit override)
-  const img2 = (Array.isArray(meta.imgs) && meta.imgs.length > 1) ? meta.imgs[1] : (p.img2 || null);
+  // img2 (hover swap · Pandora pattern #4 + Loren Stewart precedent 2026-06-17):
+  // Prefer a lifestyle/worn shot anywhere in the gallery (filename hints: -worn / -hand / -on / -lifestyle / -model).
+  // Falls back to meta.imgs[1] (next gallery angle), then p.img2 (explicit override), else nothing.
+  // 2026-06-29: AutoEdit will fill remaining SKUs' lifestyle slots; framework loads them automatically.
+  const _lifeRe = /-(worn|hand|on|lifestyle|model)\.[a-z]+$/i;
+  const _lifeShot = Array.isArray(meta.imgs) ? meta.imgs.find(s => _lifeRe.test(s)) : null;
+  const img2 = _lifeShot
+    || ((Array.isArray(meta.imgs) && meta.imgs.length > 1) ? meta.imgs[1] : null)
+    || p.img2
+    || null;
   // Product overlay tags (Aurum Brothers style)
   const tags = [];
   if (p.limited) tags.push('<span class="product-tag product-tag--limited">' + (MARKET === 'cn' ? '限量 ' + p.limited + '件' : 'Limited ' + p.limited) + '</span>');
@@ -11179,10 +11332,25 @@ function openProduct(id, keepView) {
         </details>
         <div class="pd-cta">
           ${PAYMENT_LINKS[p.id]
-            ? `<button class="btn btn-primary" onclick="openCheckout('${p.id}')">${c.pdCtaBuyNow || c.pdCta1}</button>
-               <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`
-            : `<button class="btn btn-primary" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>
-               <button class="btn btn-ghost" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>`}
+            ? `<button class="btn btn-primary" onclick="openCheckout('${p.id}')">${c.pdCtaBuyNow || c.pdCta1}</button>`
+            : `<button class="btn btn-primary" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>`}
+        </div>
+        <div class="pd-cta-secondary">
+          <button class="pd-cta-link" onclick="openReserveModal('${p.id}', true)">${c.pdCta2}</button>
+        </div>
+        <div class="pd-trust-stack">
+          <div class="pd-trust-card">
+            <div class="pd-trust-card-title">${c.pdTrustCardShippingTitle || ''}</div>
+            <div class="pd-trust-card-text">${c.pdTrustCardShippingText || ''}</div>
+          </div>
+          <div class="pd-trust-card">
+            <div class="pd-trust-card-title">${c.pdTrustCardReturnsTitle || ''}</div>
+            <div class="pd-trust-card-text">${c.pdTrustCardReturnsText || ''}</div>
+          </div>
+          <div class="pd-trust-card">
+            <div class="pd-trust-card-title">${c.pdTrustCardAtelierTitle || ''}</div>
+            <div class="pd-trust-card-text">${c.pdTrustCardAtelierText || ''}</div>
+          </div>
         </div>
         <div class="pd-cta-microcopy">${c.pdCtaMicrocopy || ''}</div>
         <!-- v3.2: Payment method icons (Foundrae / Sophie BB pattern) -->
