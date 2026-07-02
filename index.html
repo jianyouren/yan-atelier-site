@@ -7555,7 +7555,7 @@ const COPY = {
       body: `
         <p><strong>关于我们。</strong>YÀN Atelier 由胡艳创立、运营,旗下两座工坊:滇韵珐琅手工坊(云南昆明高原,主要供给国内订单)、京海蓝手工坊(海南三亚海棠湾,海南自贸港免税政策内,主要供给海外订单)。本站点 yan-atelier.com 为工坊唯一官方销售渠道。</p>
         <p><strong>作品性质。</strong>所有作品均为手工制作,标准件交期 14–30 个工作日,大件与定制件 4–8 周。釉色、丝路、抛光细节皆为手作痕迹,非工业瑕疵。预订即视为认同手作工艺的细微差异。</p>
-        <p><strong>付款方式。</strong>现货作品全款付清即发货;预售作品全款付清后开工,做完直接发货,签收即完成。海外订单通过 Airwallex 收款,接受 Visa / Mastercard / American Express / PayPal,以 USD 结算。大陆订单的付款方式将在订单确认时告知。</p>
+        <p><strong>付款方式。</strong>现货作品全款付清即发货;预售作品全款付清后开工,做完直接发货,签收即完成。海外订单通过 PayPal 收款(支持 PayPal 余额,或以访客身份使用 Visa / Mastercard / American Express 付款),以 USD 结算。大陆订单的付款方式将在订单确认时告知。</p>
         <p><strong>物流与关税。</strong>大陆地区由顺丰直送,通常 2–3 个工作日抵达。海外发货采用国际快递(DHL / FedEx 等),典型时长 7–14 天,跟踪号在发货时一并告知。<strong>全球包邮,关税与进口税由工坊承担(DDP 完税交货)</strong> —— 客户签收时不需要额外付任何费用。</p>
         <p><strong>知识产权。</strong>站点全部图文、视频、设计、文案与匠人署名,版权归 YÀN Atelier 与胡艳所有。未经书面授权,不得用于商业转载、二次创作或仿制生产。</p>
         <p><strong>责任限制。</strong>无论何种法理基础,工坊对任一笔订单的赔偿责任以该笔订单的实际支付金额为上限。工坊不对间接损失、利润损失、商业机会损失、数据损失或类似后果性损失承担责任。本条不限制不可被法律放弃的消费者权益。</p>
@@ -8134,7 +8134,7 @@ const COPY = {
       body: `
         <p><strong>Who we are.</strong>YÀN Atelier, founded and run by Hu Yan. Two workshops: Diān-yùn (滇韵珐琅手工坊) in Kunming, Yunnan — serves our China orders; Jīng Hǎi Lán (京海蓝手工坊) in Hai Tang Wan, Sanya, Hainan — within the Hainan Free Trade Port, serves our overseas orders. yan-atelier.com is the studio's only official direct sales channel.</p>
         <p><strong>Nature of the work.</strong>Every piece is handmade. Standard works ship in 14–30 business days; statement pieces and bespoke commissions take 4–8 weeks. Slight variation in enamel hue, wire path, and polish is the signature of handwork — not a defect. Reserving a piece means accepting that handwork carries handwork's marks.</p>
-        <p><strong>Payment.</strong>Full payment is required upfront for all orders. In-stock pieces ship immediately upon payment; made-to-order pieces begin production once paid and ship directly when finished — no balance to settle. International orders are processed through Airwallex (Visa, Mastercard, American Express, PayPal accepted), settled in USD. Mainland China payment methods are confirmed in your reservation message.</p>
+        <p><strong>Payment.</strong>Full payment is required upfront for all orders. In-stock pieces ship immediately upon payment; made-to-order pieces begin production once paid and ship directly when finished — no balance to settle. International orders are processed through PayPal — pay with your PayPal balance or as a guest with Visa, Mastercard or American Express — settled in USD. Mainland China payment methods are confirmed in your reservation message.</p>
         <p><strong>Shipping & customs.</strong>Mainland China ships via SF Express, typically 2–3 business days. International orders ship via international courier (DHL, FedEx, etc.), typically 7–14 days, with tracking provided at dispatch. <strong>Shipping is free worldwide, and customs duties and import taxes are covered by the atelier (DDP — Delivered Duty Paid)</strong> — no additional charge upon receipt.</p>
         <p><strong>Intellectual property.</strong>All site imagery, video, copy, designs, and the maker's name are the copyright of YÀN Atelier and Hu Yan. No commercial reproduction, derivative work, or duplication without written permission.</p>
         <p><strong>Limitation of liability.</strong>Regardless of the legal theory, the atelier's total liability for any order is capped at the actual amount you paid for that order. The atelier is not liable for indirect, consequential, lost-profit, lost-opportunity, or data-loss damages. This clause does not limit any consumer right that cannot be waived under the law that applies to you.</p>
@@ -8439,7 +8439,7 @@ function shopifyProductFor(p) {
   };
 }
 
-// Checkout 跳转 (provider-agnostic, 当前 Airwallex Global)
+// Checkout 跳转 (provider-agnostic, 当前 PayPal 京海蓝)
 function openCheckout(productId) {
   const link = PAYMENT_LINKS[productId];
   if (!link) {
