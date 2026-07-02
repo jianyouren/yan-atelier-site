@@ -7333,7 +7333,7 @@ const COPY = {
     // Product detail
     pdAttrLabels: { form: '形制', maker: '匠人', atelier: '工坊', material: '材质', size: '尺寸 / 重量', lead: '交期' },
     pdLead: '手作 14–30 天',
-    pdPriceNote: '手作 14–30 天 · 釉一炉一炉烧完真的要这么久',
+    pdPriceNote: '14–30 天后, 才到你手 · 釉一炉一炉烧, 不催',
     pdCta1: '拿下这一件',
     pdCta2: '聊聊定制',
     pdSpecToggle: '完整规格 →',
@@ -7913,7 +7913,7 @@ const COPY = {
     },
     pdAttrLabels: { form: 'Form', maker: 'Maker', atelier: 'Workshop', material: 'Material', size: 'Size / Weight', lead: 'Lead Time' },
     pdLead: 'Made to order · 14–30 days',
-    pdPriceNote: 'Made over 14–30 days at the bench · This is the time the kiln takes, not a marketing line',
+    pdPriceNote: '14–30 days at the bench, before it reaches you · The kiln keeps its own time',
     pdCta1: 'Get this piece',
     pdCta2: 'Bespoke Order',
     pdSpecToggle: 'Full specifications →',
@@ -8391,15 +8391,14 @@ const COLOR_FAMILIES = {
 };
 
 // ============================================================
-// Payment Links — provider-agnostic (Airwallex Global 当前; Stripe / PayPal 可同样填)
-// 2026-06-24: 用户选 Airwallex Global Account, A-i 包邮 / B-iii 关税我们承担 (DDP)
-//   → 所以下方价格 = 客户应付,无运费/关税附加
-// Phase 1: Payment Links (账户审核完后 dashboard 建,填 URL,5 分钟 flip 上线)
-// Phase 2 触发条件: 3 单确认 + 月单量 >10 → 迁 Drop-in / API 做 in-site checkout
-// 文档: https://www.airwallex.com/docs/payments  (亦兼容 stripe.com/docs/payment-links)
+// Payment Links — provider-agnostic (PayPal 京海蓝 当前; Stripe / Airwallex 可同样填)
+// 2026-07-02: Airwallex 收单被拒(珠宝高风险品类,终审)→ 切 PayPal 商家无代码链接
+//   价格 = 客户应付,无运费/关税附加 (A-i 包邮 / B-iii DDP 关税我们承担, 2026-06-24 决策不变)
+// PayPal 链接页只显示 名称+金额+数量 (无图/描述), 已验收 2026-07-02: 买家从 PDP 过来, 可接受
+// Phase 2 触发条件: 3 单确认 + 月单量 >10 → PayPal Orders API + CF Pages Function 做 in-site checkout
 // ============================================================
 const PAYMENT_LINKS = {
-  // 'YA-2026-0001': 'https://...', // Daisy Brooch — ¥1,280 ≈ $179 ≈ £142 — DDP, 包邮
+  'YA-2026-0001': 'https://www.paypal.com/ncp/payment/5P8DG3V8G5SF6', // Daisy Brooch — $179 — DDP, 包邮 (live 2026-07-02)
   // 'YA-2026-0005': 'https://...', // Iris Bracelet · Iris — ¥5,180 ≈ $729 ≈ £575 — DDP, 包邮
   // 'YA-2026-0006': 'https://...', // Iris Bracelet · Azure — ¥5,180 ≈ $729 ≈ £575 — DDP, 包邮
   // 'YA-2026-0007': 'https://...', // Iris Bracelet · Dusk — ¥5,180 ≈ $729 ≈ £575 — DDP, 包邮
