@@ -4473,6 +4473,23 @@
   }
   .pdp-v2-worn-img.is-switching { opacity: 0.25; }
 
+  /* PDP image gallery — compact, editorial, and thumb-led */
+  .pdp-v2-gallery { padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 5vw, 5rem); background: var(--paper); }
+  .pdp-v2-gallery-inner { max-width: 1120px; margin: 0 auto; }
+  .pdp-v2-gallery-heading { margin: 0 0 1.25rem; font: 400 clamp(1.5rem, 2.5vw, 2.2rem)/1.2 var(--display); }
+  body[data-market="cn"] .pdp-v2-gallery-heading { font-family: var(--serif); }
+  .pdp-v2-gallery-main { aspect-ratio: 4 / 3; max-height: min(72vh, 760px); margin: 0 auto; overflow: hidden; background: var(--ivory-2); display: grid; place-items: center; }
+  .pdp-v2-gallery-main img { width: 100%; height: 100%; object-fit: contain; }
+  .pdp-v2-gallery-thumbs { display: flex; gap: 0.55rem; overflow-x: auto; padding: 0.8rem 0 0.25rem; scrollbar-width: thin; }
+  .pdp-v2-gallery-thumb { flex: 0 0 clamp(56px, 8vw, 88px); aspect-ratio: 1; padding: 0; border: 1px solid transparent; background: var(--ivory-2); cursor: pointer; overflow: hidden; }
+  .pdp-v2-gallery-thumb[aria-pressed="true"] { border-color: var(--ink); }
+  .pdp-v2-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-width: 600px) {
+    .pdp-v2-gallery { padding: 2rem 0.9rem; }
+    .pdp-v2-gallery-main { aspect-ratio: 1 / 1; max-height: none; }
+    .pdp-v2-gallery-thumb { flex-basis: 64px; }
+  }
+
   /* AI-disclosure system fully removed 2026-06-28 — both visible badge (initial 06-28 decision)
      and machine-readable data-ai-generated attribute (06-28 late update, brand-owner decision).
      Refund policy + pre-ship real-photo/video communication cover discrepancy risk.
@@ -11186,6 +11203,22 @@ function openProduct(id, keepView) {
         </div>
       </section>
 
+      ${galleryImgs.length > 1 ? `
+      <section class="pdp-v2-gallery" aria-label="${isCn ? '商品图片' : 'Product images'}">
+        <div class="pdp-v2-gallery-inner">
+          <h2 class="pdp-v2-gallery-heading">${isCn ? '细看这件作品' : 'A closer look'}</h2>
+          <div class="pdp-v2-gallery-main">
+            <img id="pdp-v2-gallery-main-img" src="${galleryImgs[0]}" alt="${data.name}" loading="lazy" />
+          </div>
+          <div class="pdp-v2-gallery-thumbs" role="group" aria-label="${isCn ? '选择商品图片' : 'Choose a product image'}">
+            ${galleryImgs.map((src, i) => `
+              <button class="pdp-v2-gallery-thumb" type="button" data-gallery-src="${src}" aria-label="${isCn ? '查看图片' : 'View image'} ${i + 1}" aria-pressed="${i === 0 ? 'true' : 'false'}" onclick="pdpSelectGalleryImage(this)">
+                <img src="${src}" alt="" loading="lazy" />
+              </button>`).join('')}
+          </div>
+        </div>
+      </section>` : ''}
+
       <!-- Section 2 · Worn (color-swap image) -->
       <!-- 2026-06-28 (late): all AI disclosure removed per brand-owner decision (see feedback_ai_disclosure_invisible_only / late update). -->
       <section class="pdp-v2-worn">
@@ -11463,6 +11496,15 @@ function pdpSwitchVariant(btn) {
       customizerChip.click();
     }
   }
+}
+
+function pdpSelectGalleryImage(btn) {
+  const main = document.getElementById('pdp-v2-gallery-main-img');
+  if (!main || !btn.dataset.gallerySrc) return;
+  main.src = btn.dataset.gallerySrc;
+  document.querySelectorAll('.pdp-v2-gallery-thumb').forEach((thumb) => {
+    thumb.setAttribute('aria-pressed', thumb === btn ? 'true' : 'false');
+  });
 }
 
 // ============================================================
