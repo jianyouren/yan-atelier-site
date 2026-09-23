@@ -11133,7 +11133,11 @@ function openProduct(id, keepView) {
     || (isCn ? meta.stylingTips_cn : meta.stylingTips_en) || [];
   const defaultWornImg = (currentVariant && currentVariant.wornImg) || p.img;
   // Per-variant bgImg → Hero background switches on color click (was a single family.heroBgImg, broken)
-  const bgImg = (currentVariant && currentVariant.bgImg) || (currentVariant && currentVariant.wornImg) || ms('heroBgImg') || p.img;
+  const bgImg = (currentVariant && currentVariant.bgImg)
+    || (p.id === 'YA-2026-0001' ? galleryImgs[0] : null)
+    || (currentVariant && currentVariant.wornImg)
+    || ms('heroBgImg')
+    || p.img;
   // Worn-section instruction: family/SKU override → generic fallback
   const wornH = ms(isCn ? 'wornInstructionH_cn' : 'wornInstructionH_en')
     || (isCn ? '戴上, 找一束光。' : 'Wear it. Find some light.');
