@@ -11165,7 +11165,7 @@ function openProduct(id, keepView) {
 
       <!-- Section 1 · Hero (mood bg + product info) -->
       <section class="pdp-v2-hero">
-        <div class="pdp-v2-bg"><img src="${bgImg}" alt="" loading="eager" fetchpriority="high" /></div>
+        <div class="pdp-v2-bg"><img src="${bgImg}" alt="" loading="eager" fetchpriority="high" style="${p.id === 'YA-2026-0001' ? 'object-fit: contain; object-position: right center;' : ''}" /></div>
         <div class="pdp-v2-content">
           <nav class="pdp-v2-breadcrumb" aria-label="breadcrumb">
             <a onclick="navigate('catalog', null, true)">${shopLabel}</a> · <a onclick="navigate('catalog','${p.series}', true)">${seriesName}</a> · No. ${p.id.slice(-2)}
