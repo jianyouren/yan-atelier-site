@@ -11439,7 +11439,13 @@ function routeFromHash() {
   const match = raw.match(/^#product=([^&]+)/i);
   if (match) {
     const id = decodeURIComponent(match[1]);
-    if (PRODUCTS.some(p => p.id === id)) { openProduct(id, true); return; }
+    if (PRODUCTS.some(p => p.id === id)) {
+      openProduct(id, true);
+      // `keepView` preserves the current view for swatch changes; a direct
+      // deep link must still activate the product view after a cold reload.
+      navigate('product');
+      return;
+    }
   }
   if (raw === '#catalog' || raw === '#shop') navigate('catalog', 'all', true);
 }
