@@ -344,8 +344,9 @@
     backdrop-filter: blur(22px) saturate(1.1);
     -webkit-backdrop-filter: blur(22px) saturate(1.1);
     border-bottom: 1px solid var(--line);
-    transition: background-color 0.4s var(--ease-out), border-bottom-color 0.4s var(--ease-out), top 0.5s var(--ease-out);
+    transition: background-color 0.4s var(--ease-out), border-bottom-color 0.4s var(--ease-out), top 0.5s var(--ease-out), padding 0.45s var(--ease-out);
   }
+  .nav.is-scrolled { padding-top: 0.85rem; padding-bottom: 0.85rem; background: rgba(251, 247, 238, 0.94); }
   /* Nav offset: geo-banner (top slim bar) shifts nav down via body.has-geo-banner — see line ~170 */
   .nav-brand {
     font-family: var(--display);
@@ -1102,7 +1103,12 @@
     .product-grid > :nth-child(3n+2) { margin-top: 0; }
   }
   /* Product cards: no hover motion — trust the photograph */
-  .product-card { cursor: pointer; }
+  .product-card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
   .product-img {
     aspect-ratio: 4 / 5;
     background: #000;
@@ -2453,23 +2459,25 @@
   .pd-stock-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 2px;
+    gap: 0.55rem;
+    padding: 0.45rem 0 0.45rem 0.85rem;
+    border-radius: 0;
     font-size: 0.78rem;
     letter-spacing: 0.08em;
     font-weight: 500;
     margin-bottom: 1rem;
+    background: transparent;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
   }
   .pd-stock-badge--in-stock {
-    background: rgba(76, 140, 74, 0.08);
     color: #2d5a2c;
-    border: 1px solid rgba(76, 140, 74, 0.2);
+    border-left: 2px solid rgba(76, 140, 74, 0.62);
   }
   .pd-stock-badge--made-to-order {
-    background: rgba(180, 140, 80, 0.08);
     color: #8a6914;
-    border: 1px solid rgba(180, 140, 80, 0.2);
+    border-left: 2px solid rgba(180, 140, 80, 0.68);
   }
   .pd-stock-badge::before {
     content: '';
@@ -4479,7 +4487,8 @@
   .pdp-v2-gallery-heading { margin: 0 0 1.25rem; font: 400 clamp(1.5rem, 2.5vw, 2.2rem)/1.2 var(--display); }
   body[data-market="cn"] .pdp-v2-gallery-heading { font-family: var(--serif); }
   .pdp-v2-gallery-main { aspect-ratio: 4 / 3; max-height: min(72vh, 760px); margin: 0 auto; overflow: hidden; background: var(--ivory-2); display: grid; place-items: center; }
-  .pdp-v2-gallery-main img { width: 100%; height: 100%; object-fit: contain; }
+  .pdp-v2-gallery-main { outline: 1px solid rgba(20, 20, 20, 0.08); outline-offset: -1px; }
+  .pdp-v2-gallery-main img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .pdp-v2-gallery-thumbs { display: flex; gap: 0.55rem; overflow-x: auto; padding: 0.8rem 0 0.25rem; scrollbar-width: thin; }
   .pdp-v2-gallery-thumb { flex: 0 0 clamp(56px, 8vw, 88px); aspect-ratio: 1; padding: 0; border: 1px solid transparent; background: var(--ivory-2); cursor: pointer; overflow: hidden; }
   .pdp-v2-gallery-thumb[aria-pressed="true"] { border-color: var(--ink); }
@@ -4640,6 +4649,11 @@
       height: 32vh;
       min-height: 180px;
       max-height: 240px;
+    }
+    /* Keep the piece optically present on small screens without enlarging the file itself. */
+    .pdp-v2-bg img[style*="object-fit: contain"] {
+      object-fit: cover !important;
+      object-position: center 58% !important;
     }
     .pdp-v2-content {
       background: var(--ivory);
@@ -6261,6 +6275,7 @@
   /* 响应式 */
   @media (max-width: 1024px) {
     .nav { padding: 1rem 1.5rem; }
+    .nav.is-scrolled { padding-top: 0.7rem; padding-bottom: 0.7rem; }
     .nav-toggle { display: flex; }
     .nav-links {
       display: flex !important;
@@ -6692,8 +6707,8 @@
   <div class="catalog-quick-chips" id="catalog-quick-chips" role="group" aria-label="Quick filters"></div>
   <div class="catalog-filters" id="catalog-filters"></div>
   <!-- Grouped filter bar — Line (primary brand pivot) + Form + Price; 13-chip Motif row collapsed.
-       Line row added 2026-06-23 EOD per BRAND.md R4 revised: Atelier signature line vs Daily
-       (everyday + gifting). User wanted plique + bangles as Atelier, small cloisonné as Daily. -->
+       Line row added 2026-06-23 EOD per BRAND.md R4 revised: Atelier signature line vs Essentials
+       (entry + gifting). User wanted plique + bangles as Atelier, small cloisonné as Essentials. -->
   <div class="catalog-filterbar" role="group" aria-label="Filter pieces">
     <div class="catalog-filter-row catalog-filter-row--line">
       <span class="catalog-filter-label" id="catalog-line-label"></span>
@@ -7197,8 +7212,8 @@ const COPY = {
     marketOpt: { cn: '中国大陆', global: 'Global', hk: '香港', jp: '日本' },
     marketCurrent: '中国 · ¥',
     // Hero
-    heroOverline: '云南 · 一炉一炉烧出来的透光',
-    heroSub: '烧 5–10 炉, 每一炉颜色都有点不一样 ——<br/>反正撞不到。',
+    heroOverline: '手工珐琅珠宝 · 现货与定制',
+    heroSub: '空窗珐琅与掐丝珐琅, 800°C 入炉烧成。<br/>可直接购买现货, 也可为一个人定制。',
     // hero-plique-fact bridge retired 2026-06-19 (T3) · scarcity boast moved down to plique-section
     heroPliqueFact: '',
     heroCta1: '查看全部作品',
@@ -7241,7 +7256,8 @@ const COPY = {
     catalogSub: '每一件,8 至 10 次入炉,800°C 烧成。出工坊之后,工坊照看一辈子。',
     // Plain status labels (no plate framing, no scarcity countdown — evidence-led)
     // PDP: plain ship-by + 1-line terms + included
-    pdShipBy: '订制制作 · 14–21 个工作日内发出',
+    pdShipBy: '现做制作 · 14–30 个工作日内发出',
+    pdShipByInStock: '可直接预订 · 发货时间将在 24 小时内确认',
     pdShipByEngraved: '含刻字 / 定制 · 21–30 个工作日内发出',
     pdTerms: '全款付清 · 做完发货 · 签收后 14 天无理由退',
     pdIncludedLabel: '每件含',
@@ -7249,8 +7265,8 @@ const COPY = {
     pdIncludedAlt: '丝绒礼盒,内附传家护照 — YÀN Atelier',
     // 4-tier inventory taxonomy (Stone & Strand model)
     stockTypes: {
-      inStock: '现货 · 48 小时内发出',
-      madeToOrder: '订制 · 14–21 个工作日',
+      inStock: '可直接预订 · 发货时间 24 小时内确认',
+      madeToOrder: '现做 · 14–30 个工作日',
       specialOrder: '特别定制 · 4 周',
       customOrder: '私人定制 · 6–8 周'
     },
@@ -7265,12 +7281,12 @@ const COPY = {
     catalogMoreFromOthers: '其他作品',
     catalogCuratedOverline: '工坊精选 · 从这 6 件开始',
     catalogCuratedH: '不知道挑哪件? 从这里开始。',
-    // Line — Atelier signature vs Daily (BRAND.md R4, 2026-06-23 EOD)
+    // Line — Atelier signature vs Essentials (BRAND.md R4, 2026-06-23 EOD)
     catalogLineLabel: '系列',
     catalogLineFilters: [
       ['all', '全部'],
       ['atelier', 'Atelier · 高端'],
-      ['daily', 'Daily · 日常']
+      ['daily', 'Essentials · 入门']
     ],
     // Motif (2026-06-23 — added back as catalog grew to 73 SKUs)
     catalogMotifLabel: '主题',
@@ -7349,12 +7365,12 @@ const COPY = {
     },
     // Product detail
     pdAttrLabels: { form: '形制', maker: '匠人', atelier: '工坊', material: '材质', size: '尺寸 / 重量', lead: '交期' },
-    pdLead: '手作 14–30 天',
+    pdLead: '现做 · 14–30 天',
     pdPriceNote: '14–30 天后, 才到你手 · 釉一炉一炉烧, 不催',
-    pdCta1: '拿下这一件',
+    pdCta1: '预订这一件',
     pdCta2: '聊聊定制',
     pdSpecToggle: '完整规格 →',
-    pdCtaBuyNow: '购买这一件 →',
+    pdCtaBuyNow: '立即购买 →',
     pdConfigOverline: '选你的版本 · Pick your version',
     pdConfigNote: '不用走定制流程也能微调这几样',
     pdConfigOptional: '选填',
@@ -7365,16 +7381,16 @@ const COPY = {
     pdRelatedTitle: '顺手看看这几件',
     pdFaqLabel: '常见问题 · 交期 / 退货 / 保养',
     savedFilterLabel: '已收藏',
-    pdTrustReturns: '14 天可退',
-    pdTrustShipping: '全球包邮 · 关税我们承担',
-    pdTrustCare: '终身保养',
+    pdTrustReturns: '14 天鉴赏期',
+    pdTrustShipping: '全球完税配送',
+    pdTrustCare: '终身工坊养护',
     // PDP under-CTA stacked trust cards (Pandora pattern #7, 2026-06-29)
-    pdTrustCardShippingTitle: '全球包邮 · 关税我承担',
-    pdTrustCardShippingText:  'DHL 直送 7-14 天 · DDP 完税交货 · 客户签收无任何额外费用',
-    pdTrustCardReturnsTitle:  '14 天可退',
-    pdTrustCardReturnsText:   '未佩戴的标准件可在签收后 14 天内无理由退回 · 退货运费您承担 · 7-14 个工作日退还全款',
-    pdTrustCardAtelierTitle:  '海棠湾手工坊烧制',
-    pdTrustCardAtelierText:   '现货 5-7 天发出 · 定制款 4-6 周 · 釉一炉一炉烧 · 提供终身保养',
+    pdTrustCardShippingTitle: '全球保价配送 · 关税已含',
+    pdTrustCardShippingText:  '根据目的地选择 DHL / FedEx 等可追踪服务 · 税费预付 · 签收时无需额外支付',
+    pdTrustCardReturnsTitle:  '14 天鉴赏期',
+    pdTrustCardReturnsText:   '未佩戴标准件可在签收后 14 天内邮件申请退回 · 刻字与定制款除质量问题外不退换',
+    pdTrustCardAtelierTitle:  'YÀN Atelier 制作与确认',
+    pdTrustCardAtelierText:   '发货前以照片或视频确认成品 · 标准件按确认的 14–30 个工作日制作 · 终身工坊养护',
     pdCraftAnchor: '同样的 plique-à-jour 高温珐琅工艺 · 不含一个世纪的品牌税',
     pdCraftAnchorAlt: '同样的高温珐琅工艺 · 不含一个世纪的品牌税',
     pdEtaLabel: '预计到货 · ',
@@ -7382,7 +7398,7 @@ const COPY = {
     pdPaymentChips: ['Visa', 'Mastercard', 'Amex', 'PayPal'],
     pdNote: '每件都有一张传家卡 —— 编号、谁做的、以后怎么找我们修, 全在上面。卡跟着谁, 服务跟着谁。',
     // v3.2: Stock badge labels
-    pdStockInStock: '现货 · 48 小时内发出',
+    pdStockInStock: '可直接预订 · 发货时间 24 小时内确认',
     pdStockMadeToOrder: '现做 · 14–30 个工作日',
     // v3.2: Installment payment (hidden for CN)
     pdInstallmentText: '',
@@ -7741,7 +7757,7 @@ const COPY = {
     geoBtnSwitch: '前往 Global 站 →',
     geoBtnStay: '留在当前',
     // Completeness Pass(新增)
-    promoText: '全球包邮 · 关税我承担(DDP) · 14 天可退',
+    promoText: '现货与定制开放中 · 发货前照片或视频确认',
     mailFallbackText: '邮件未自动打开?复制工坊邮箱',
     mailFallbackCopyBtn: '复制 →',
     mailFallbackCopied: '已复制',
@@ -7789,8 +7805,8 @@ const COPY = {
     nav: ['Home', 'Shop', 'Gift', 'Craft', 'Bespoke', 'About'],
     marketOpt: { cn: 'Mainland China', global: 'Global', hk: 'Hong Kong', jp: 'Japan' },
     marketCurrent: 'Global · $',
-    heroOverline: 'Translucent enamel jewellery · fired in Yunnan & Hai Tang Wan',
-    heroSub: 'Five to ten firings, every one slightly different —<br/>no one else will be wearing the same piece.',
+    heroOverline: 'Handmade enamel jewellery · in stock & bespoke',
+    heroSub: 'Plique-à-jour and cloisonné enamel, kiln-fired at 800°C.<br/>Shop available pieces or commission one for someone specific.',
     // Hero plique fact — promoted from plique-section per evidence-led memo
     heroPliqueFact: '',
     heroCta1: 'View the Collection',
@@ -7827,15 +7843,16 @@ const COPY = {
     catalogSub: 'Each piece, 8–10 firings at 800°C. Once made, kept for life.',
     // Plain status labels
     // PDP plain commerce stack
-    pdShipBy: 'Ships in 14–21 business days after order',
+    pdShipBy: 'Made to order · ships in 14–30 business days',
+    pdShipByInStock: 'Available to reserve · dispatch timing confirmed within 24 hours',
     pdShipByEngraved: 'Engraved / custom · ships in 21–30 business days',
     pdTerms: 'Full payment upfront · Ships when ready · 14-day return on standard pieces',
     pdIncludedLabel: 'Each piece arrives with',
     pdIncludedItems: 'Provenance card signed by the maker, silk box, lifetime care.',
     pdIncludedAlt: 'Velvet box with heritage passport tucked inside — YÀN Atelier',
     stockTypes: {
-      inStock: 'In stock · ships in 48 hours',
-      madeToOrder: 'Made to order · 14–21 business days',
+      inStock: 'Available to reserve · timing confirmed within 24 hours',
+      madeToOrder: 'Made to order · 14–30 business days',
       specialOrder: 'Special order · 4 weeks',
       customOrder: 'Custom · 6–8 weeks'
     },
@@ -7853,7 +7870,7 @@ const COPY = {
     catalogLineFilters: [
       ['all', 'All'],
       ['atelier', 'Atelier'],
-      ['daily', 'Daily']
+      ['daily', 'Essentials']
     ],
     catalogMotifLabel: 'Motif',
     catalogMotifFilters: [
@@ -7896,7 +7913,7 @@ const COPY = {
     catalogDeadEndCta: 'Go to At Your Service →',
     reserve: {
       step1Overline: 'Step 1 of 4',
-      step1H: 'Get this piece',
+      step1H: 'Reserve this piece',
       step1P: 'Reservations are handled at the atelier. After you submit, we write back within <strong>24 hours</strong> confirming materials, timing, and delivery, with the secure payment link attached. <strong>No charge yet.</strong>',
       btnNext1: 'Continue →',
       step2Overline: 'Step 2 of 4',
@@ -7931,10 +7948,10 @@ const COPY = {
     pdAttrLabels: { form: 'Form', maker: 'Maker', atelier: 'Workshop', material: 'Material', size: 'Size / Weight', lead: 'Lead Time' },
     pdLead: 'Made to order · 14–30 days',
     pdPriceNote: '14–30 days at the bench, before it reaches you · The kiln keeps its own time',
-    pdCta1: 'Get this piece',
+    pdCta1: 'Reserve this piece',
     pdCta2: 'Bespoke Order',
     pdSpecToggle: 'Full specifications →',
-    pdCtaBuyNow: 'Purchase this piece →',
+    pdCtaBuyNow: 'Buy now →',
     pdConfigOverline: 'Pick your version',
     pdConfigNote: 'A few choices the studio can adjust without a full commission.',
     pdConfigOptional: 'optional',
@@ -7945,16 +7962,16 @@ const COPY = {
     pdRelatedTitle: 'You may also like',
     pdFaqLabel: 'Common questions · delivery / returns / care',
     savedFilterLabel: 'Saved',
-    pdTrustReturns: '14-day returns',
-    pdTrustShipping: 'Free shipping worldwide · duties included',
-    pdTrustCare: 'Lifetime care',
+    pdTrustReturns: '14-day approval window',
+    pdTrustShipping: 'Duties-paid global delivery',
+    pdTrustCare: 'Lifetime atelier care',
     // PDP under-CTA stacked trust cards (Pandora pattern #7, 2026-06-29)
-    pdTrustCardShippingTitle: 'Free DHL worldwide · DDP',
-    pdTrustCardShippingText:  '7-14 days to most countries · Duties paid · No surprise fees on delivery',
-    pdTrustCardReturnsTitle:  '14-day returns',
-    pdTrustCardReturnsText:   'Unworn standard pieces returnable within 14 days · Return shipping at your cost · Refund in 7-14 business days',
-    pdTrustCardAtelierTitle:  'Made at Hai Tang Wan workshop',
-    pdTrustCardAtelierText:   'In-stock pieces ship in 5-7 days · Custom 4-6 weeks · Each piece fired in our kiln · Lifetime care included',
+    pdTrustCardShippingTitle: 'Insured global delivery, duties paid',
+    pdTrustCardShippingText:  'Tracked DHL / FedEx where available · Duties and taxes prepaid · Signature required on delivery',
+    pdTrustCardReturnsTitle:  '14-day approval period',
+    pdTrustCardReturnsText:   'Unworn standard pieces may be returned within 14 days of delivery after email authorization · Custom or engraved pieces are final sale unless faulty',
+    pdTrustCardAtelierTitle:  'Made and checked by YÀN Atelier',
+    pdTrustCardAtelierText:   'Before dispatch, we confirm the finished piece by photo or video · Standard pieces follow the confirmed 14–30 day making window · Lifetime atelier care included',
     pdCraftAnchor: 'The same plique-à-jour high-fire enamel. Without a century of brand markup.',
     pdCraftAnchorAlt: 'The same high-fire enamel craft. Without a century of brand markup.',
     pdEtaLabel: 'Estimated arrival · ',
@@ -7962,7 +7979,7 @@ const COPY = {
     pdPaymentChips: ['Visa', 'Mastercard', 'Amex', 'PayPal'],
     pdNote: 'Each piece arrives with a Lifetime Care Passport, recording its ID, the maker\'s name, and our lifelong service. Whether you are its first holder — or its fifth — the promise remains the same.',
     // v3.2: Stock badge labels
-    pdStockInStock: 'In stock · ships in 48 hours',
+    pdStockInStock: 'Available to reserve · timing confirmed within 24 hours',
     pdStockMadeToOrder: 'Made to order · 14–30 days',
     // v3.2: Installment payment
     pdInstallmentText: 'Or 4 interest-free payments of <strong>$XX</strong> with',
@@ -8315,7 +8332,7 @@ const COPY = {
     geoBtnSwitch: 'Go to Chinese Site →',
     geoBtnStay: 'Stay Here',
     // Completeness Pass
-    promoText: 'Free DHL worldwide · Duties paid (DDP) · 14-day returns',
+    promoText: 'In-stock pieces and commissions open · Photo or video confirmed before dispatch',
     mailFallbackText: 'Email didn\'t open? Copy our atelier address',
     mailFallbackCopyBtn: 'Copy →',
     mailFallbackCopied: 'Copied',
@@ -8490,7 +8507,7 @@ const CURATED_SKUS = [
 const PRODUCTS = [
   {
     id: 'YA-2026-0001', series: 'daisy', img: 'images/p01-daisy-green.jpg', badge_cn: '新作', badge_en: 'New', status: 'available', isNew: true, limited: 8,
-    priceCN: 1280,
+    priceCN: 680,
     cn: {
       name: '雏菊 · 项链',
       material: '990 银 · 矿石珐琅 · 天然珍珠',
@@ -8504,7 +8521,7 @@ const PRODUCTS = [
   },
   {
     id: 'YA-2026-0002', series: 'butterfly', img: 'images/p69-pliqueajour-butterfly-pendant-blue.jpg', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'available', limited: 4,
-    priceCN: 6300,  // 2026-06-28: plique repricing (research: Masriera entry $5,690 → YÀN top was 26% of peer; raised to $1,799 = 31% of peer, restores plique > cloisonné hierarchy)
+    priceCN: 1280,  // 2026-06-28: plique repricing (research: Masriera entry $5,690 → YÀN top was 26% of peer; raised to $1,799 = 31% of peer, restores plique > cloisonné hierarchy)
     cn: {
       name: '空窗蝴蝶 · 项链 · 蓝',
       material: '990 银 · 空窗珐琅',
@@ -8518,20 +8535,20 @@ const PRODUCTS = [
   },
   {
     id: 'YA-2026-0003', series: 'ginkgo', img: 'images/p57-ring-ginkgo-brooch.jpg', status: 'available', unique: true,
-    priceCN: 1380,
+    priceCN: 1140,
     cn: {
-      name: '银杏环 · 两用胸针',
+      name: '银杏环胸针',
       material: '990 银 · 矿石珐琅',
-      desc: '八片银杏叶以银枝相连,围成一环,叶脉掐丝勾勒,绿釉由叶尖至叶柄渐深。可作胸针,也可作项链 —— 同款设计,两种穿戴。'
+      desc: '八片银杏叶以银枝相连,围成一环,叶脉掐丝勾勒,绿釉由叶尖至叶柄渐深。'
     },
     global: {
-      name: 'Ginkgo Wreath · Convertible Brooch',
+      name: 'Ginkgo Leaf Chest Pin',
       material: '990 fine silver · mineral enamel',
-      desc: 'Eight ginkgo leaves joined stem to tip in a silver wreath, veined with wire-inlay; the green deepens from tip to stem. Wearable as brooch or necklace — same design, two ways.'
+      desc: 'Eight ginkgo leaves joined stem to tip in a silver wreath, veined with wire-inlay; the green deepens from tip to stem.'
     }
   },
   {
-    id: 'YA-2026-0004', series: 'ginkgo', img: 'images/p04-ginkgo-hairpin.jpg', status: 'made-to-order',
+    id: 'YA-2026-0004', series: 'ginkgo', img: 'images/p04-ginkgo-hairpin.jpg', status: 'archived',
     priceCN: 4180,
     cn: {
       name: '银杏 · 发簪',
@@ -8545,8 +8562,8 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0005', series: 'iris', img: 'images/p05-bracelet-purple.jpg', status: 'available', limited: 6,
-    priceCN: 5180,
+    id: 'YA-2026-0005', series: 'iris', img: 'images/p05-bracelet-purple.jpg', status: 'archived', limited: 6,
+    priceCN: 1140,
     cn: {
       name: '鸢尾 · 手链',
       material: '990 银 · 矿石珐琅 · 红石榴石 · 天然珍珠',
@@ -8559,7 +8576,7 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0006', series: 'iris', img: 'images/p06-bracelet-blue.jpg', status: 'available',
+    id: 'YA-2026-0006', series: 'iris', img: 'images/p06-bracelet-blue.jpg', status: 'archived',
     priceCN: 5180,
     cn: {
       name: '鸢尾 · 手链 · 青空',
@@ -8573,7 +8590,7 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0007', series: 'iris', img: 'images/p07-bracelet-purple2.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
+    id: 'YA-2026-0007', series: 'iris', img: 'images/p07-bracelet-purple2.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
     priceCN: 5180,
     cn: {
       name: '鸢尾 · 手链 · 幽暮',
@@ -8587,8 +8604,8 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0008', series: 'lotus', img: 'images/p08-lock.jpg', badge_cn: '传家', badge_en: 'Heirloom', status: 'available',
-    priceCN: 3180,
+    id: 'YA-2026-0008', series: 'lotus', img: 'images/p08-lock.jpg', badge_cn: '传家', badge_en: 'Heirloom', status: 'archived',
+    priceCN: 0,
     cn: {
       name: '莲鱼 · 吊坠',
       material: '990 银 · 矿石珐琅 · 真丝结绳',
@@ -8601,8 +8618,8 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0009', series: 'blessing', img: 'images/p11-bangle-cloud.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 4180,
+    id: 'YA-2026-0009', series: 'blessing', img: 'images/p11-bangle-cloud.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 0,
     cn: {
       name: '福云 · 银镯',
       material: '990 银 · 矿石珐琅 · 满工掐丝',
@@ -8615,8 +8632,8 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0010', series: 'butterfly', img: 'images/p72-blue-butterfly-necklace-product.jpg', status: 'available',
-    priceCN: 2380,
+    id: 'YA-2026-0010', series: 'butterfly', img: 'images/p72-blue-butterfly-necklace-product.jpg', status: 'made-to-order',
+    priceCN: 420,
     cn: {
       name: '蝴蝶 · 项链',
       material: '990 银 · 矿石珐琅 · 流苏银坠',
@@ -8629,8 +8646,8 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0011', series: 'cloud', img: 'images/p09-bangle-fu.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 3780,
+    id: 'YA-2026-0011', series: 'cloud', img: 'images/p09-bangle-fu.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 0,
     cn: {
       name: '云纹 · 银镯',
       material: '990 银 · 矿石珐琅 · 满工掐丝',
@@ -8643,8 +8660,8 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0012', series: 'lotus', img: 'images/p12-bracelet-cord.jpg', badge_cn: '可调节', badge_en: 'Adjustable', status: 'available',
-    priceCN: 1280,
+    id: 'YA-2026-0012', series: 'lotus', img: 'images/p12-bracelet-cord.jpg', badge_cn: '可调节', badge_en: 'Adjustable', status: 'made-to-order',
+    priceCN: 0,
     cn: {
       name: '青莲 · 编绳',
       material: '990 银 · 矿石珐琅 · 手编绳',
@@ -8657,152 +8674,97 @@ const PRODUCTS = [
     }
   },
   {
-    id: 'YA-2026-0013', series: 'triangle', img: 'images/p13-triangle-pendant.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
+    id: 'YA-2026-0013', series: 'triangle', img: 'images/p13-triangle-pendant.png', badge_cn: '现货', badge_en: 'Stock', status: 'archived',
+    priceCN: 9999,
     cn: { name: '三角 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '三角 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Triangle Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Triangle Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0014', series: 'lotus', img: 'images/p14-triangle-lotus-pendant.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
+    id: 'YA-2026-0014', series: 'lotus', img: 'images/p14-triangle-lotus-pendant.png', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 9999,
     cn: { name: '三角莲花 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '三角莲花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Triangle Lotus Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Triangle Lotus Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0015', series: 'bougainvillea', img: 'images/p15-bougainvillea-studs-pink.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
+    id: 'YA-2026-0015', series: 'bougainvillea', img: 'images/p15-bougainvillea-studs-pink.png', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 9999,
     cn: { name: '三角梅 · 耳饰 · 粉', material: '990 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Bougainvillea Studs · Pink', material: '990 fine silver · cloisonné enamel', desc: 'Bougainvillea Studs motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0016', series: 'bougainvillea', img: 'images/p16-bougainvillea-studs.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
+    id: 'YA-2026-0016', series: 'bougainvillea', img: 'images/p16-bougainvillea-studs.png', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 9999,
     cn: { name: '三角梅 · 耳饰', material: '990 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Bougainvillea Studs', material: '990 fine silver · cloisonné enamel', desc: 'Bougainvillea Studs motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0017', series: 'bougainvillea', img: 'images/p17-bougainvillea-necklace-gold.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
+    id: 'YA-2026-0017', series: 'bougainvillea', img: 'images/p17-bougainvillea-necklace-gold.png', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 9999,
     cn: { name: '三角梅 · 项链 · 金', material: '990 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Bougainvillea Necklace · Gold', material: '990 fine silver · cloisonné enamel', desc: 'Bougainvillea Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0018', series: 'lotus', img: 'images/p18-twotone-lotus-pendant.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
+    id: 'YA-2026-0018', series: 'lotus', img: 'images/p18-twotone-lotus-pendant.png', badge_cn: '现货', badge_en: 'Stock', status: 'archived',
+    priceCN: 9999,
     cn: { name: '双色莲花 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '双色莲花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Two-Tone Lotus Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Two-Tone Lotus Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
     id: 'YA-2026-0019', series: 'butterfly', img: 'images/p19-twin-butterfly-necklace.jfif', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '双蝴蝶 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '双蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
+    priceCN: 490,
+    cn: { name: '双蝴蝶 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '双蝴蝶 主纹 · 925 银 + 掐丝烧珐琅手工坊烧制.' },
     global: { name: 'Twin Butterfly Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Twin Butterfly Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
 
   {
-    id: 'YA-2026-0021', series: 'iris', img: 'images/p21-real.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 680,
+    id: 'YA-2026-0021', series: 'iris', img: 'images/p21-real.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'archived',
+    priceCN: 9999,
     cn: { name: '国风鸢尾 · 耳坠', material: '990 银 · 掐丝烧珐琅', desc: '国风鸢尾 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Heritage Iris Drops', material: '990 fine silver · cloisonné enamel', desc: 'Heritage Iris Drops motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0022', series: 'round', img: 'images/p22-round-stud-drop.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
+    id: 'YA-2026-0022', series: 'round', img: 'images/p22-round-stud-drop.png', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 9999,
     cn: { name: '圆形 · 耳钉吊坠', material: '990 银 · 掐丝烧珐琅', desc: '圆形 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Round Stud Drop', material: '990 fine silver · cloisonné enamel', desc: 'Round Stud Drop motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0023', series: 'bougainvillea', img: 'images/p23-bougainvillea-long-necklace.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1580,
+    id: 'YA-2026-0023', series: 'bougainvillea', img: 'images/p23-bougainvillea-long-necklace.png', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 9999,
     cn: { name: '三角梅 · 长项链', material: '990 银 · 掐丝烧珐琅', desc: '三角梅 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Bougainvillea Long Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Bougainvillea Long Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
-  {
-    id: 'YA-2026-0024', series: 'lotus', img: 'images/p24-real.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1280,
-    cn: { name: '大蓝莲 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '大蓝莲 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Grand Blue Lotus Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Grand Blue Lotus Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
-  {
-    id: 'YA-2026-0025', series: 'square', img: 'images/p25-squareround-studs.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
-    cn: { name: '方圆 · 耳饰', material: '990 银 · 掐丝烧珐琅', desc: '方圆 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Square-Round Studs', material: '990 fine silver · cloisonné enamel', desc: 'Square-Round Studs motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
-  {
-    id: 'YA-2026-0026', series: 'bloomheart', img: 'images/p26-heart-pendant-bohemian.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '心形 · 吊坠 · 波西米亚', material: '990 银 · 掐丝烧珐琅', desc: '心形 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Heart Pendant · Bohemian', material: '990 fine silver · cloisonné enamel', desc: 'Heart Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
-  {
-    id: 'YA-2026-0027', series: 'petal', img: 'images/p27-red-bloom-necklace.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '红花 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '红花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Red Bloom Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Red Bloom Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
-  {
-    id: 'YA-2026-0028', series: 'petal', img: 'images/p28-petal-cluster-bracelet.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 880,
-    cn: { name: '碎花 · 手链', material: '990 银 · 掐丝烧珐琅', desc: '碎花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Petal Cluster Bracelet', material: '990 fine silver · cloisonné enamel', desc: 'Petal Cluster Bracelet motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
 
-  {
-    id: 'YA-2026-0030', series: 'butterfly', img: 'images/p30-sculpted-butterfly-necklace.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1380,
-    cn: { name: '立体小蝴蝶 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '立体小蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Sculpted Butterfly Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Sculpted Butterfly Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
 
-  {
-    id: 'YA-2026-0032', series: 'feather', img: 'images/p32-feather-necklace.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '羽毛 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '羽毛 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Feather Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Feather Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
-  {
-    id: 'YA-2026-0033', series: 'willow', img: 'images/p33-willow-leaf-necklace.jfif', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '柳叶 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '柳叶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Willow Leaf Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Willow Leaf Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
-  {
-    id: 'YA-2026-0034', series: 'cloud', img: 'images/p34-real.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '祥云 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '祥云 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Auspicious Cloud Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Auspicious Cloud Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
+
+
+
+
+
+
+
+
+
   {
     id: 'YA-2026-0035', series: 'aster', img: 'images/p35-aster-carnelian-long-necklace.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1380,
+    priceCN: 680,
     cn: { name: '蓝菊红玛瑙 · 长项链', material: '990 银 · 掐丝烧珐琅', desc: '蓝菊红玛瑙 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Aster + Carnelian Long Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Aster + Carnelian Long Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
     id: 'YA-2026-0036', series: 'aster', img: 'images/p36-real.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 680,
+    priceCN: 1140,
     cn: { name: '蓝菊 · 耳钉', material: '990 银 · 掐丝烧珐琅', desc: '蓝菊 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Aster Studs · Blue', material: '990 fine silver · cloisonné enamel', desc: 'Aster Studs motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
     id: 'YA-2026-0037', series: 'aster', img: 'images/p37-aster-necklace-studs-set.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1480,
+    priceCN: 1680,
     cn: { name: '蓝菊 · 项链+耳钉 组合', material: '990 银 · 掐丝烧珐琅', desc: '蓝菊 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Aster Necklace & Studs Set', material: '990 fine silver · cloisonné enamel', desc: 'Aster Necklace & Studs Set motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
-  {
-    id: 'YA-2026-0038', series: 'butterfly', img: 'images/p38-real.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
-    cn: { name: '蓝蝴蝶 · 耳坠', material: '990 银 · 掐丝烧珐琅', desc: '蓝蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Butterfly Drops · Blue', material: '990 fine silver · cloisonné enamel', desc: 'Butterfly Drops motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
-  {
-    id: 'YA-2026-0039', series: 'wreath', img: 'images/p39-wreath-necklace-yellow.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '花环 · 项链 · 黄', material: '990 银 · 掐丝烧珐琅', desc: '花环 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Wreath Necklace · Yellow', material: '990 fine silver · cloisonné enamel', desc: 'Wreath Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
+
+
   {
     id: 'YA-2026-0040', series: 'butterfly', img: 'images/p40-butterfly-pearl-bracelet.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
     priceCN: 880,
@@ -8810,51 +8772,41 @@ const PRODUCTS = [
     global: { name: 'Butterfly + Pearl Bracelet', material: '990 fine silver · cloisonné enamel', desc: 'Butterfly + Pearl Bracelet motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0041', series: 'clover', img: 'images/p41-clover-necklace.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
+    id: 'YA-2026-0041', series: 'clover', img: 'images/p41-clover-necklace.png', badge_cn: '现做', badge_en: 'Made to order', status: 'archived',
+    priceCN: 99999,
     cn: { name: '四叶草 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '四叶草 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Clover Necklace', material: '990 fine silver · cloisonné enamel', desc: 'Clover Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0042', series: 'butterfly', img: 'images/p42-pliqueajour-butterfly-necklace-green.png', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'available',
-    priceCN: 6300,  // 2026-06-28 plique repricing — same logic as 0002, badge corrected (was "Stock" but material is plique)
-    cn: { name: '空窗蝴蝶 · 项链 · 绿', material: '990 银 · 空窗珐琅', desc: '空窗蝴蝶 主纹 · 925 银 + 空窗珐琅 · 滇韵手工坊烧制.' },
+    id: 'YA-2026-0042', series: 'butterfly', img: 'images/p42-pliqueajour-butterfly-necklace-green-black.png', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'archived',
+    priceCN: 99999,  // 2026-06-28 plique repricing — same logic as 0002, badge corrected (was "Stock" but material is plique)
+    cn: { name: '小蝴蝶 · 项链 · 绿', material: '990 银 · 空窗珐琅', desc: '空窗蝴蝶 主纹 · 925 银 + 空窗珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Plique-a-Jour Butterfly Necklace · Green', material: '990 fine silver · plique-à-jour enamel', desc: 'Plique-a-Jour Butterfly Necklace motif · 925 sterling silver + plique-à-jour enamel · fired by hand at our workshop.' }
   },
-  {
-    id: 'YA-2026-0043', series: 'butterfly', img: 'images/p43-butterfly-necklace-blue.png', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 1080,
-    cn: { name: '蓝蝴蝶 · 项链', material: '990 银 · 掐丝烧珐琅', desc: '蓝蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Butterfly Necklace · Blue', material: '990 fine silver · cloisonné enamel', desc: 'Butterfly Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
+
   {
     id: 'YA-2026-0044', series: 'cherry', img: 'images/p44-real.jpg', badge_cn: '现做', badge_en: 'Made to order', status: 'made-to-order',
-    priceCN: 680,
+    priceCN: 280,
     cn: { name: '樱花 · 耳钉', material: '990 银 · 掐丝烧珐琅', desc: '樱花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Cherry Blossom Studs', material: '990 fine silver · cloisonné enamel', desc: 'Cherry Blossom Studs motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
 
-  {
-    id: 'YA-2026-0046', series: 'quatrefoil', img: 'images/p46-quatrefoil-necklace-blue.png', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '十字花 · 项链 · 蓝', material: '990 银 · 掐丝烧珐琅', desc: '十字花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Quatrefoil Necklace · Blue', material: '990 fine silver · cloisonné enamel', desc: 'Quatrefoil Necklace motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
+
   {
     id: 'YA-2026-0047', series: 'butterfly', img: 'images/p47-multifloral-butterfly-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
     priceCN: 1080,
-    cn: { name: '多色花蝴蝶 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '多色花蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Multi-Floral Butterfly Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Multi-Floral Butterfly Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
+    cn: { name: '多色花蝴蝶 · 吊坠胸针两用', material: '990 银 · 掐丝烧珐琅', desc: '多色花蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
+    global: { name: 'Multicolored Butterfly · Pendant Brooch for Two Purposes', material: '990 fine silver · cloisonné enamel', desc: 'Multi-Floral Butterfly Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0048', series: 'lotus', img: 'images/p48-multitone-lotus-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
+    id: 'YA-2026-0048', series: 'lotus', img: 'images/p48-multitone-lotus-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'made-to-order',
+    priceCN: 680,
     cn: { name: '多色莲 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '四瓣海棠形银牌,正面蓝莲曼陀罗与如意云,反面满工掐丝网嵌红色篆印 —— 两面都能戴。925 银 + 掐丝烧珐琅,滇韵手工坊烧制。' },
     global: { name: 'Multi-Tone Lotus Pendant', material: '990 fine silver · cloisonné enamel', desc: 'A quatrefoil silver plaque, wearable on both faces: blue lotus mandala with ruyi clouds on the front, filigree mesh with a red seal-script square on the reverse. 925 silver, cloisonné enamel, fired at our workshop.' }
   },
   {
     id: 'YA-2026-0049', series: 'blessing', img: 'images/p49-peace-lock-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
+    priceCN: 680,
     cn: { name: '平安锁 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '平安锁 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Peace Lock Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Peace Lock Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
@@ -8903,47 +8855,42 @@ const PRODUCTS = [
 
 
   {
-    id: 'YA-2026-0059', series: 'lotus', img: 'images/p59-lavender-lotus-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
+    id: 'YA-2026-0059', series: 'lotus', img: 'images/p59-lavender-lotus-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'made-to-order',
+    priceCN: 1140,
     cn: { name: '粉紫莲 · 耳坠', material: '990 银 · 掐丝烧珐琅', desc: '粉紫莲 主纹 · 925 银 + 掐丝烧珐琅 · 一对 · 滇韵手工坊烧制.' },
     global: { name: 'Lavender Lotus Drops', material: '990 fine silver · cloisonné enamel', desc: 'Lavender Lotus Drops motif · 925 sterling silver + cloisonné enamel · pair · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0060', series: 'firework', img: 'images/p60-red-firework-set.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
+    id: 'YA-2026-0060', series: 'firework', img: 'images/p60-red-firework-set.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'made-to-order',
     priceCN: 1480,
     cn: { name: '红烟花 · 项链+耳饰 组合', material: '990 银 · 掐丝烧珐琅', desc: '红烟花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Red Firework Set', material: '990 fine silver · cloisonné enamel', desc: 'Red Firework Set motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0061', series: 'blessing', img: 'images/p61-blessing-tablet-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
+    id: 'YA-2026-0061', series: 'blessing', img: 'images/p61-blessing-tablet-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'made-to-order',
     priceCN: 1080,
     cn: { name: '纳福 · 令牌', material: '990 银 · 掐丝烧珐琅', desc: '纳福 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Blessing Tablet Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Blessing Tablet Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
     id: 'YA-2026-0062', series: 'blessing', img: 'images/p62-blessing-bloom-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
-    cn: { name: '纳福花 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '纳福花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Blessing Bloom Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Blessing Bloom Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
+    priceCN: 420,
+    cn: { name: '双面纳福花 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '纳福花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
+    global: { name: 'Double-sided Nafu Flower · Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Blessing Bloom Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0063', series: 'other', img: 'images/p63-green-gradient-hair-pin.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
+    id: 'YA-2026-0063', series: 'other', img: 'images/p63-green-gradient-hair-pin.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'archived',
     priceCN: 980,
     cn: { name: '绿渐变 · 发簪', material: '990 银 · 掐丝烧珐琅', desc: '绿渐变 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Green Gradient Hair Pin', material: '990 fine silver · cloisonné enamel', desc: 'Green Gradient Hair Pin motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
     id: 'YA-2026-0064', series: 'butterfly', img: 'images/p64-green-floral-butterfly-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
+    priceCN: 1140,
     cn: { name: '绿花蝴蝶 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '绿花蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Green Floral Butterfly Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Green Floral Butterfly Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
-  {
-    id: 'YA-2026-0065', series: 'bloom', img: 'images/p65-bloom-necklace-studs-set.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1480,
-    cn: { name: '花 · 项链+耳钉 套装', material: '990 银 · 掐丝烧珐琅', desc: '花 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
-    global: { name: 'Bloom Necklace & Studs Set', material: '990 fine silver · cloisonné enamel', desc: 'Bloom Necklace & Studs Set motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
-  },
+
   {
     id: 'YA-2026-0066', series: 'gourd', img: 'images/p66-spinning-gourd-pendant-blue-gradient.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
     priceCN: 1380,
@@ -8951,33 +8898,33 @@ const PRODUCTS = [
     global: { name: 'Spinning Gourd Pendant · Blue Gradient', material: '990 fine silver · cloisonné enamel', desc: 'Spinning Gourd Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0067', series: 'other', img: 'images/p67-blue-gradient-drops.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 680,
+    id: 'YA-2026-0067', series: 'other', img: 'images/p67-blue-gradient-drops.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'made-to-order',
+    priceCN: 420,
     cn: { name: '蓝渐变 · 耳坠', material: '990 银 · 掐丝烧珐琅', desc: '蓝渐变 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Blue Gradient Drops', material: '990 fine silver · cloisonné enamel', desc: 'Blue Gradient Drops motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
-    id: 'YA-2026-0068', series: 'butterfly', img: 'images/p68-blue-floral-butterfly-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
+    id: 'YA-2026-0068', series: 'butterfly', img: 'images/p68-blue-floral-butterfly-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'archived',
     priceCN: 1080,
     cn: { name: '蓝花蝴蝶 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '蓝花蝴蝶 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Blue Floral Butterfly Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Blue Floral Butterfly Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
 
   {
-    id: 'YA-2026-0070', series: 'bamboo', img: 'images/p70-blue-bamboo-pearl-studs.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
+    id: 'YA-2026-0070', series: 'bamboo', img: 'images/p70-blue-bamboo-pearl-studs.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'archived',
     priceCN: 680,
     cn: { name: '蓝竹叶珍珠 · 耳钉', material: '990 银 · 掐丝烧珐琅', desc: '蓝竹叶珍珠 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Blue Bamboo + Pearl Studs', material: '990 fine silver · cloisonné enamel', desc: 'Blue Bamboo + Pearl Studs motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
   {
     id: 'YA-2026-0071', series: 'gourd', img: 'images/p71-blue-gourd-pendant.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
-    priceCN: 1080,
+    priceCN: 980,
     cn: { name: '蓝葫芦 · 吊坠', material: '990 银 · 掐丝烧珐琅', desc: '蓝葫芦 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Blue Gourd Pendant', material: '990 fine silver · cloisonné enamel', desc: 'Blue Gourd Pendant motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
   },
 
   {
-    id: 'YA-2026-0073', series: 'iris', img: 'images/p73-iris-blue-gradient-drops.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'available',
+    id: 'YA-2026-0073', series: 'iris', img: 'images/p73-iris-blue-gradient-drops.jpg', badge_cn: '现货', badge_en: 'Stock', status: 'made-to-order',
     priceCN: 680,
     cn: { name: '鸢尾蓝渐变 · 耳坠', material: '990 银 · 掐丝烧珐琅', desc: '鸢尾蓝渐变 主纹 · 925 银 + 掐丝烧珐琅 · 滇韵手工坊烧制.' },
     global: { name: 'Iris Blue Gradient Drops', material: '990 fine silver · cloisonné enamel', desc: 'Iris Blue Gradient Drops motif · 925 sterling silver + cloisonné enamel · fired by hand at our workshop.' }
@@ -8985,8 +8932,8 @@ const PRODUCTS = [
   {
     // NEW SKU 2026-06-25 — T2 单翼 plique (蝶翼 4 阶梯里, T1 整蝶 plique ¥3,800 与 T3 整蝶 cloisonné ¥2,380 之间)。
     // 价位 ¥3,180 暂定, 等母亲核。3 张实拍: 暗台面主图 + 2 张实景 gallery。
-    id: 'YA-2026-0074', series: 'butterfly', img: 'images/p74-wing-bluegreen.jpg', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'available',
-    priceCN: 5580,  // 2026-06-28: plique entry SKU (single wing, simpler than butterfly form), raised from TENTATIVE ¥3,180 to ¥5,580 = $1,599 retail. Sits below butterfly plique ($1,799) as plique entry tier.
+    id: 'YA-2026-0074', series: 'butterfly', img: 'images/p74-wing-bluegreen.jpg', badge_cn: '空窗', badge_en: 'Plique-à-jour', status: 'made-to-order',
+    priceCN: 780,  // 2026-06-28: plique entry SKU (single wing, simpler than butterfly form), raised from TENTATIVE ¥3,180 to ¥5,580 = $1,599 retail. Sits below butterfly plique ($1,799) as plique entry tier.
     cn: { name: '空窗蝶翼 · 吊坠 · 蓝绿', material: '990 银 · 空窗珐琅 · 淡水珍珠', desc: '单翼形, 空窗珐琅, 由深蓝渐绿至嫩黄, 翼上无金属衬底 —— 光从背面穿过, 颜色才显出来。链尾配淡水珍珠一颗。' },
     global: { name: 'Plique Wing Pendant · Blue-Green', material: '990 fine silver · plique-à-jour enamel · freshwater pearl', desc: 'A single wing in plique-à-jour: enamel shading from deep blue through green to soft yellow, held only by silver wires with no backing. The colour is held against the light, not the wing. A freshwater pearl finishes the chain.' }
   },
@@ -9051,7 +8998,7 @@ const PRODUCT_META = {
         placeholder_cn: '名字、日期、字(选填)', placeholder_en: 'Name, date, or character (optional)' }
     }
   },
-  'YA-2026-0002': { formKey: 'necklace',   form_cn: '项链',                  form_en: 'Necklace',                        dim_cn: '翼展约 5.6 cm · 9 g',          dim_en: 'Wingspan approx. 5.6 cm · 9 g', imgs: [],
+  'YA-2026-0002': { formKey: 'necklace',   form_cn: '项链',                  form_en: 'Necklace',                        dim_cn: '翼展约 2.5 cm · 1.8 cm · 4.2 g',          dim_en: 'Wingspan approx 2.5 cm · 1.8 cm · 4.2 g', imgs: [],
     wearerProfile_cn: '走到窗边, 翼面会突然透出蓝色 —— 别人也看见, 但只有你戴着。',
     wearerProfile_en: 'By a window the wings catch blue light. Others see it too — but only one is wearing it.',
     details_cn: '翼面采用空窗珐琅 (plique-à-jour) 工艺 —— 釉料无金属衬底, 烧成后, 光直接穿过翼面。云南工坊手工烧成。',
@@ -9086,7 +9033,7 @@ const PRODUCT_META = {
         placeholder_cn: '名字、日期(选填)', placeholder_en: 'Name or date (optional)' }
     }
   },
-  'YA-2026-0003': { formKey: 'brooch',   form_cn: '胸针 · 可变项链',     form_en: 'Convertible brooch', dim_cn: '直径约 4.2 cm · 10 g',         dim_en: 'Approx. 4.2 cm diameter · 10 g', imgs: ['images/p03-ginkgo-ring.jpg'],
+  'YA-2026-0003': { formKey: 'brooch',   form_cn: '胸针',     form_en: 'Convertible brooch', dim_cn: '直径约 4 cm · 8.8 g',         dim_en: 'Approx. 4 cm diameter · 8.8 g', imgs: ['images/p03-ginkgo-ring.jpg'],
     options: {
       enamel: { label_cn: '叶面釉色', label_en: 'Leaf Enamel', choices: [
         { id: 'autumn', label_cn: '原色 · 秋绿渐金', label_en: 'Original · autumn green to gold', delta: 0 },
@@ -9118,7 +9065,7 @@ const PRODUCT_META = {
         placeholder_cn: '姓名、日期(选填)', placeholder_en: 'Name or date (optional)' }
     }
   },
-  'YA-2026-0005': { formKey: 'bracelet', form_cn: '手链',                  form_en: 'Bracelet',                      dim_cn: '链长可调 · 待实测',         dim_en: 'Adjustable length · to be measured',       imgs: [],
+  'YA-2026-0005': { formKey: 'bracelet', form_cn: '手链',                  form_en: 'Bracelet',                      dim_cn: '链长可调 16cm（可加长3cm） · 1.4cm  · 6.8g',         dim_en: 'Chain length adjustable: 16cm (can be extended by 3cm) · 1.4cm · 6.8g',       imgs: [],
     // PDP v2 buyer-side content lives in COLOR_FAMILIES['iris-lattice'] — 0005/0006/0007 share.
     colorFamily: 'iris-lattice',
     options: {
@@ -9205,7 +9152,7 @@ const PRODUCT_META = {
         placeholder_cn: '寿辰、年份(选填)', placeholder_en: 'Date or year (optional)' }
     }
   },
-  'YA-2026-0010': { formKey: 'necklace', form_cn: '项链 · 锁骨链',        form_en: 'Necklace · collarbone chain',   dim_cn: '链长 42 cm · 蝶身约 3.6 cm · 11 g', dim_en: 'Chain 42 cm · butterfly approx. 3.6 cm · 11 g', imgs: ['images/p10-2.jpg','images/p10-3.jpg','images/p10-4.jpg','images/p10-5.jpg','images/p10-6.jpg','images/p10-butterfly-tassel.jpg'],
+  'YA-2026-0010': { formKey: 'necklace', form_cn: '项链 · 锁骨链',        form_en: 'Necklace · collarbone chain',   dim_cn: '链长 42 cm · 蝶身约 3.6 cm · 11 g', dim_en: 'Chain 42 cm · butterfly approx. 3.6 cm · 11 g', imgs: ['images/p10-2.jpg','images/p10-3.jpg','images/p10-4.jpg','images/p10-butterfly-tassel.jpg'],
     options: {
       enamel: { label_cn: '翼面釉色', label_en: 'Wing Enamel', choices: [
         { id: 'indigo', label_cn: '原色 · 靛蓝渐变', label_en: 'Original · indigo gradient', delta: 0 },
@@ -9260,54 +9207,54 @@ const PRODUCT_META = {
   'YA-2026-0021': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: ['images/p21-real-2.jpg','images/p20-real.jpg'] },
   'YA-2026-0022': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0023': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0024': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0025': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0026': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0027': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0028': { formKey: 'bracelet', form_cn: '手链', form_en: 'Bracelet', dim_cn: '—', dim_en: '—', imgs: [] },
 
-  'YA-2026-0030': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
 
-  'YA-2026-0032': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0033': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0034': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+
+
+
+
+
+
+
+
+
   'YA-2026-0035': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0036': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0037': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0038': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0039': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+
+
   'YA-2026-0040': { formKey: 'bracelet', form_cn: '手链', form_en: 'Bracelet', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0041': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0042': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0043': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+
   'YA-2026-0044': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
 
-  'YA-2026-0046': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0047': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+
+  'YA-2026-0047': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '2.5 cm  · 3.3 cm  ·  7.7 g', dim_en: '—', imgs: [] },
   'YA-2026-0048': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: ['images/p58-fu-silver-pendant.jpg'] },
-  'YA-2026-0049': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+  'YA-2026-0049': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '2cm  · 1.4cm  ·  5g', dim_en: '2 cm · 1.4 cm · 5g', imgs: [] },
   'YA-2026-0050': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0051': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0052': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0053': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0054': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0055': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+  'YA-2026-0055': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '2.4 cm · 1.9 cm ·  5.5 g', dim_en: '—', imgs: [] },
   'YA-2026-0056': { formKey: 'bracelet', form_cn: '手链', form_en: 'Bracelet', dim_cn: '—', dim_en: '—', imgs: [] },
 
 
   'YA-2026-0059': { formKey: 'earring', form_cn: '耳坠', form_en: 'Drops', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0060': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0061': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0062': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+  'YA-2026-0062': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '1.6 cm  ·  3.9 g', dim_en: '—', imgs: [] },
   'YA-2026-0063': { formKey: 'hairpin', form_cn: '发饰', form_en: 'Hair pin', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0064': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0065': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0066': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+  'YA-2026-0064': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '约3.5 cm · 2.5 cm  ·  6.6g', dim_en: 'Approximately 3.5 cm x 2.5 cm x 6.6g', imgs: [] },
+
+  'YA-2026-0066': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '约  3.7 cm x 2.3 cm x 12g', dim_en: 'Approximately 3.7 cm x 2.3 cm x 12g', imgs: [] },
   'YA-2026-0067': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0068': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
 
   'YA-2026-0070': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
-  'YA-2026-0071': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '—', dim_en: '—', imgs: [] },
+  'YA-2026-0071': { formKey: 'necklace', form_cn: '项链', form_en: 'Necklace', dim_cn: '约 2.6cm  ·  1.5 cm  ·  7g', dim_en: 'Approximately 2.6 cm x 1.5 cm x 7 g', imgs: [] },
 
   'YA-2026-0073': { formKey: 'earring', form_cn: '耳饰', form_en: 'Earrings', dim_cn: '—', dim_en: '—', imgs: [] },
   'YA-2026-0074': { formKey: 'pendant', form_cn: '吊坠', form_en: 'Pendant', dim_cn: '翼长约 4 cm · 8 g', dim_en: 'Wing approx. 4 cm · 8 g', imgs: ['images/p74-2.jpg', 'images/p74-3.jpg'] },
@@ -9557,6 +9504,15 @@ const FX_FROM_USD = {
 };
 const CURRENCY_OPTIONS = ['USD', 'GBP', 'EUR', 'AUD'];
 
+// Fulfilment is deliberately explicit. A product can be available to reserve
+// while still being made after the order; those two states are not synonyms.
+// Keep this small list aligned with the sellable SKU sheet until Shopify stock
+// is the source of truth for every piece.
+const MADE_TO_ORDER_SKUS = new Set(['YA-2026-0001', 'YA-2026-0005', 'YA-2026-0010', 'YA-2026-0012']);
+function isMadeToOrder(p) {
+  return Boolean(p && (p.status === 'made-to-order' || MADE_TO_ORDER_SKUS.has(p.id)));
+}
+
 // Default currency detection — navigator.language → currency map (only for MARKET='global')
 function detectDefaultCurrency() {
   try {
@@ -9621,7 +9577,10 @@ function priceNumFor(p, market) {
 function shipByFor(p, c) {
   // Engraved/custom pieces (hairpin set, lock, etc.) get longer window
   const isCustom = ['hairpin', 'heirloom'].includes(p.series);
-  return isCustom ? (c.pdShipByEngraved || c.pdShipBy) : (c.pdShipBy || 'Made to order');
+  if (isCustom) return c.pdShipByEngraved || c.pdShipBy;
+  return isMadeToOrder(p)
+    ? (c.pdShipBy || 'Made to order')
+    : (c.pdShipByInStock || (MARKET === 'cn' ? '可直接预订 · 发货时间将在 24 小时内确认' : 'Available to reserve · dispatch timing confirmed within 24 hours'));
 }
 
 // ============================================================
@@ -10279,7 +10238,7 @@ function applyCopy() {
   const nextDropEl = document.getElementById('catalog-next-drop');
   if (nextDropEl) nextDropEl.innerHTML = c.nextDropText || '';
   // catalogFilters Series row removed 2026-06-11 · Strategy A finalized · form (catalogCatFilters) is now the primary taxonomy
-  // Line chip row — BRAND.md R4 brand pivot (Atelier vs Daily), added 2026-06-23 EOD
+  // Line chip row — BRAND.md R4 brand pivot (Atelier vs Essentials), added 2026-06-23 EOD
   const lineLabel = document.getElementById('catalog-line-label');
   if (lineLabel && c.catalogLineLabel) lineLabel.textContent = c.catalogLineLabel;
   const lineGroup = document.getElementById('catalog-line-filters');
@@ -10777,7 +10736,7 @@ function productCardHtml(p) {
   const isAiImg = false;
   const aiBadge = '';
   return `
-    <div class="product-card product-card--${status}" tabindex="0" role="button" aria-label="${ariaLabel}" onclick="openProduct('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openProduct('${p.id}')}">
+    <a class="product-card product-card--${status}" href="#product=${p.id}" aria-label="${ariaLabel}" onclick="openProduct('${p.id}'); return false;">
       <div class="product-img">
         ${tagsHtml}
         ${aiBadge}
@@ -10795,7 +10754,7 @@ function productCardHtml(p) {
         })()}
         <span class="product-price">${priceFor(p)}</span>
       </div>
-    </div>
+    </a>
   `;
 }
 
@@ -10892,9 +10851,9 @@ function enamelForSku(skuId) {
   return ENAMEL_COLORS.find(c => c.skus.includes(skuId)) || null;
 }
 
-// Atelier vs Daily line classification (BRAND.md R4, revised 2026-06-23) —
+// Atelier vs Essentials line classification (BRAND.md R4, revised 2026-06-23) —
 //   Atelier (signature) = plique-à-jour · bangles · explicit statement overrides
-//   Daily (everyday + gifting) = small cloisonné · earrings · pendants · brooches · future silver/pearl
+//   Essentials (entry + gifting) = small cloisonné · earrings · pendants · brooches · future silver/pearl
 // Atelier overrides (statement pieces user explicitly tagged 2026-06-23):
 //   0004 银杏发饰一对 — large hairpin pair, statement scale like bangle
 //   0008 莲鱼吊坠 — heirloom-class amulet, lotus + carp, locked at ¥3,180
@@ -10986,7 +10945,7 @@ function renderCatalog(filter) {
     list = PRODUCTS.filter(p => p.series === filter);
   }
 
-  // Sub-filter: Line (Atelier signature vs Daily) — BRAND.md R4, 2026-06-23 EOD
+  // Sub-filter: Line (Atelier signature vs Essentials) — BRAND.md R4, 2026-06-23 EOD
   if (_catalogLine && _catalogLine !== 'all') {
     list = list.filter(p => lineFor(p) === _catalogLine);
   }
@@ -11070,8 +11029,14 @@ function renderCatalog(filter) {
 // ============================================================
 // 单品详情
 // ============================================================
-function getDeliveryEstimate() {
+function getDeliveryEstimate(p) {
   const c = COPY[MARKET];
+  if (!isMadeToOrder(p)) {
+    const readyLabel = MARKET === 'cn'
+      ? '发货时间将在 24 小时内确认 · DHL 配送通常 7–14 天'
+      : 'Dispatch timing confirmed within 24 hours · DHL delivery usually 7–14 days';
+    return '<strong>' + readyLabel + '</strong>';
+  }
   const today = new Date();
   const startMin = new Date(today.getTime() + (14 + 5) * 86400000);
   const startMax = new Date(today.getTime() + (30 + 7) * 86400000);
@@ -11086,6 +11051,10 @@ function getDeliveryEstimate() {
 function openProduct(id, keepView) {
   const p = PRODUCTS.find(x => x.id === id);
   if (!p) return;
+  if (typeof history !== 'undefined' && typeof location !== 'undefined') {
+    const productHash = '#product=' + encodeURIComponent(id);
+    if (location.hash !== productHash) history.pushState({ view: 'product', id }, '', productHash);
+  }
   window._lastProductId = id;
   const c = COPY[MARKET];
   const data = p[MARKET];
@@ -11152,9 +11121,9 @@ function openProduct(id, keepView) {
     : `<button class="btn btn-primary ${extraClass}" onclick="openReserveModal('${p.id}', false)">${c.pdCta1}</button>`;
   const heroCta = buildCta('pdp-v2-cta');
   const stickyCta = buildCta('pdp-v2-sticky-cta');
-  const heroStatus = p.status === 'made-to-order'
-    ? (isCn ? '现做 · ' + (c.pdLead || '14–30 天') : 'Made to order · ' + (c.pdLead || '14–30 days'))
-    : (isCn ? '现货 · ' + (c.pdLead || '14–30 天') : 'In stock · ' + (c.pdLead || '14–30 days'));
+  const heroStatus = isMadeToOrder(p)
+    ? (c.pdLead || (isCn ? '现做 · 14–30 天' : 'Made to order · 14–30 days'))
+    : (isCn ? '可直接预订 · 发货时间 24 小时内确认' : 'Available to reserve · timing confirmed within 24 hours');
   const currentVariantName = currentVariant ? (isCn ? currentVariant.cn : currentVariant.en) : '';
   const stylingOverline = isCn ? '搭配心得' : 'Styling Notes';
   const stylingH = isCn ? '我平时这么戴。' : 'How I wear it.';
@@ -11253,9 +11222,9 @@ function openProduct(id, keepView) {
       <section class="pdp-v2-commerce" id="pdp-v2-details">
         <div class="pd-craft-anchor">${craftAnchorText}</div>
         <!-- v3.2: Stock availability badge (Stone & Strand pattern) — 2-state: in-stock vs made-to-order -->
-        ${p.status === 'made-to-order'
+        ${isMadeToOrder(p)
           ? `<div class="pd-stock-badge pd-stock-badge--made-to-order">${c.pdStockMadeToOrder || (isCn ? '现做 · 14-30 天发出' : 'Made to order · 14-30 days')}</div>`
-          : `<div class="pd-stock-badge pd-stock-badge--in-stock">${c.pdStockInStock || (isCn ? '现货 · 48 小时内发出' : 'In stock · ships in 48 hours')}</div>`}
+          : `<div class="pd-stock-badge pd-stock-badge--in-stock">${c.pdStockInStock || (isCn ? '可直接预订 · 发货时间 24 小时内确认' : 'Available to reserve · timing confirmed within 24 hours')}</div>`}
         <div class="pd-price-block">
           <div class="pd-price-main"><span class="pd-price-value">${priceFor(p)}</span></div>
           ${(() => {
@@ -11309,7 +11278,7 @@ function openProduct(id, keepView) {
           <span class="pd-trust-item"><strong>${c.pdTrustShipping || ''}</strong></span>
           <span class="pd-trust-item"><strong>${c.pdTrustCare || ''}</strong></span>
         </div>
-        <div class="pd-eta">${getDeliveryEstimate()}</div>
+        <div class="pd-eta">${getDeliveryEstimate(p)}</div>
         <details class="pd-spec-details">
           <summary class="pd-spec-summary">
             <span>${(formVal ? formVal + ' · ' : '') + (dimVal ? dimVal + ' · ' : '') + (data.material || '')}</span>
@@ -11338,7 +11307,7 @@ function openProduct(id, keepView) {
             </div>` : ''}
             <div class="pd-attr">
               <div class="pd-attr-label">${labels.lead}</div>
-              <div class="pd-attr-value">${c.pdLead}</div>
+              <div class="pd-attr-value">${shipByFor(p, c)}</div>
             </div>
             <div class="pd-attr pd-attr-payment">
               <div class="pd-attr-label">${c.pdPayment || ''}</div>
@@ -11465,6 +11434,19 @@ function openProduct(id, keepView) {
   productSchemaEl.textContent = JSON.stringify(productSchema, null, 2);
 }
 
+// Progressive enhancement for shareable product/catalog URLs. Product cards keep working
+// with JavaScript, while direct links and crawlers land on the same view when JS is enabled.
+function routeFromHash() {
+  const raw = (typeof location !== 'undefined' && location.hash) || '';
+  const match = raw.match(/^#product=([^&]+)/i);
+  if (match) {
+    const id = decodeURIComponent(match[1]);
+    if (PRODUCTS.some(p => p.id === id)) { openProduct(id, true); return; }
+  }
+  if (raw === '#catalog' || raw === '#shop') navigate('catalog', 'all', true);
+}
+window.addEventListener('hashchange', routeFromHash);
+
 // ── PDP v2 · color swatch click handler (updated 2026-06-18 — supports sibling-SKU switch) ──
 // If the swatch has data-sku-id pointing to a DIFFERENT SKU (color family sibling),
 // reload PDP with that SKU's data (price/status/edition all switch). Otherwise just
@@ -11533,7 +11515,7 @@ function openReserveModal(productId, isBespoke) {
   document.getElementById('rv-name').textContent = data.name;
   document.getElementById('rv-id').textContent = p.id;
   document.getElementById('rv-price').textContent = priceFor(p);
-  document.getElementById('rv-lead').textContent = c.pdLead;
+  document.getElementById('rv-lead').textContent = shipByFor(p, c);
   applyReserveCopy();
   showReserveStep(3);
   // Hide the 4-dot progress (collapsed to 1 actionable step now)
@@ -11925,11 +11907,21 @@ function closeGeoBanner() {
 // ============================================================
 // 滚动效果
 // ============================================================
-window.addEventListener('scroll', () => {
-  const nav = document.querySelector('.nav');
-  if (window.scrollY > 50) nav.style.padding = '1rem 3rem';
-  else nav.style.padding = '1.5rem 3rem';
-});
+// Keep the editorial nav quiet while scrolling without forcing a layout read/write
+// on every scroll event. One frame per gesture is enough for this chrome change.
+(function navScrollState() {
+  let raf = null;
+  const sync = () => {
+    raf = null;
+    const nav = document.querySelector('.nav');
+    if (!nav) return;
+    nav.classList.toggle('is-scrolled', window.scrollY > 50);
+  };
+  window.addEventListener('scroll', () => {
+    if (raf === null) raf = requestAnimationFrame(sync);
+  }, { passive: true });
+  sync();
+})();
 
 // ============================================================
 // 初始化
@@ -11937,6 +11929,7 @@ window.addEventListener('scroll', () => {
 applyCopy();
 syncCurrencyUI();   // multi-currency · show/hide selector based on MARKET, mark current option
 showGeoBanner();
+routeFromHash();
 
 // v3.2: Async IP-based market detection (runs after initial render, non-blocking)
 // This enhances market detection for users who haven't explicitly chosen a market
