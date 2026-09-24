@@ -4650,10 +4650,10 @@
       min-height: 180px;
       max-height: 240px;
     }
-    /* Keep the piece optically present on small screens without enlarging the file itself. */
+    /* Keep the full piece visible on small screens; never crop the jewellery itself. */
     .pdp-v2-bg img[style*="object-fit: contain"] {
-      object-fit: cover !important;
-      object-position: center 58% !important;
+      object-fit: contain !important;
+      object-position: center center !important;
     }
     .pdp-v2-content {
       background: var(--ivory);
