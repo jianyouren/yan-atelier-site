@@ -4650,10 +4650,11 @@
       min-height: 180px;
       max-height: 240px;
     }
-    /* Keep the full piece visible on small screens; never crop the jewellery itself. */
+    /* The macro lead is framed around the pendant; a gentle crop keeps the
+       craft legible while the full-scale gallery image remains below. */
     .pdp-v2-bg img[style*="object-fit: contain"] {
-      object-fit: contain !important;
-      object-position: center center !important;
+      object-fit: cover !important;
+      object-position: center 62% !important;
     }
     .pdp-v2-content {
       background: var(--ivory);
