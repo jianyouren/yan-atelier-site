@@ -11101,7 +11101,7 @@ function openProduct(id, keepView) {
   const defaultWornImg = (currentVariant && currentVariant.wornImg) || p.img;
   // Per-variant bgImg → Hero background switches on color click (was a single family.heroBgImg, broken)
   const bgImg = (currentVariant && currentVariant.bgImg)
-    || (p.id === 'YA-2026-0001' ? galleryImgs[0] : null)
+    || (p.id === 'YA-2026-0001' ? (galleryImgs[1] || galleryImgs[0]) : null)
     || (currentVariant && currentVariant.wornImg)
     || ms('heroBgImg')
     || p.img;
